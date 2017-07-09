@@ -7,7 +7,10 @@ set colorcolumn=+1
 set complete+=kspell
 set diffopt+=vertical
 set expandtab
-set list listchars=tab:»·,trail:·
+set list
+set listchars=nbsp:⦸
+set listchars+=tab:»·
+set listchars+=trail:·
 set nobackup
 set nocompatible
 set nojoinspaces
