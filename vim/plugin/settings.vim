@@ -1,8 +1,6 @@
-color hybrid
 filetype plugin indent on
 
 set autowrite
-set background=dark
 set colorcolumn=+1
 set complete+=kspell
 set diffopt+=vertical
@@ -90,7 +88,6 @@ let g:VtrUseVtrMaps = 1
 
 " lightline
 let g:lightline = {
-      \ 'colorscheme': 'darcula',
       \ 'active': {
       \   'left': [['readonly', 'modified'], ['fugitive']],
       \   'right': [['filename']]
@@ -109,6 +106,43 @@ let g:lightline = {
       \   'right': [['']]
       \ }
       \ }
+
+" lighline functions
+function! LightlineModified()
+  if &filetype == "help"
+    return ""
+  elseif &modified
+    return "*"
+  elseif &modifiable
+    return ""
+  else
+    return ""
+  endif
+endfunction
+
+function! LightlineReadonly()
+  if &filetype == "help"
+    return ""
+  elseif &readonly
+    return ""
+  else
+    return ""
+  endif
+endfunction
+
+function! LightlineFugitive()
+  if exists("*fugitive#head")
+    let branch = fugitive#head()
+    return branch !=# '' ? ''.branch : ''
+  endif
+  return ''
+endfunction
+
+function! LightlineFilename()
+  return ('' != LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
+       \ ('' != expand('%:t') ? expand('%:t') : '[No Name]') .
+       \ ('' != LightlineModified() ? ' ' . LightlineModified() : '')
+endfunction
 
 " vim-javascript
 let g:jsx_ext_required = 0
