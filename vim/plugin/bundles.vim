@@ -2,6 +2,7 @@ call plug#begin('~/.vim/bundle')
 
 Plug 'Raimondi/delimitMate'
 Plug 'avh4/elm-format'
+Plug 'chriskempson/base16-vim'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'christoomey/vim-tmux-runner'
 Plug 'ctrlpvim/ctrlp.vim'
