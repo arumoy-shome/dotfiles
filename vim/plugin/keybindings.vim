@@ -4,7 +4,6 @@ nmap j gj
 nmap k gk
 
 inoremap <S-Tab> <c-n>
-inoremap <Tab> <c-r>=InsertTabWrapper()<cr>
 inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
 nnoremap 0 ^
 nnoremap <C-h> <C-w>h
@@ -24,18 +23,6 @@ nnoremap <silent> <Leader>l :TestLast<CR>
 nnoremap <silent> <Leader>s :TestNearest<CR>
 nnoremap <silent> <Leader>t :TestFile<CR>
 nnoremap <silent> <leader>gt :TestVisit<CR>
-
-" Tab completion
-" will insert tab at beginning of line,
-" will use completion if not at beginning
-function! InsertTabWrapper()
-    let col = col('.') - 1
-    if !col || getline('.')[col - 1] !~ '\k'
-        return "\<tab>"
-    else
-        return "\<c-p>"
-    endif
-endfunction
 
 " auto align for tabular
 function! s:align()
