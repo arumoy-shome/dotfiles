@@ -1,4 +1,5 @@
 filetype plugin indent on
+color summerfruit256
 
 set autowrite
 set colorcolumn=+1
