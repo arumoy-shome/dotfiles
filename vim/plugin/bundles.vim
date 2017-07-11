@@ -1,11 +1,10 @@
 call plug#begin('~/.vim/bundle')
 
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --tern-completer' }
 Plug 'Raimondi/delimitMate'
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --tern-completer' }
 Plug 'avh4/elm-format', { 'for': 'elm' }
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'christoomey/vim-tmux-runner'
-Plug 'ctrlpvim/ctrlp.vim'
 Plug 'digitaltoad/vim-pug', { 'for': 'pug' }
 Plug 'ecomba/vim-ruby-refactoring', { 'for': 'ruby' }
 Plug 'elmcast/elm-vim', { 'for': 'elm' }
@@ -35,7 +34,8 @@ Plug 'tpope/vim-tbone'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
 Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
-Plug 'vim-scripts/summerfruit256.vim'
+Plug 'vim-scripts/summerfruit.vim'
 Plug 'w0ng/vim-hybrid'
+Plug 'wincent/command-t', {  'do': 'cd ruby/command-t/ext/command-t && ruby extconf.rb && make' }
 
 call plug#end()
