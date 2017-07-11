@@ -2,7 +2,6 @@ filetype plugin indent on
 color hybrid
 
 set background=dark
-set noshowmode
 set autowrite
 set colorcolumn=+1
 set complete+=kspell
@@ -33,6 +32,7 @@ set textwidth=80
 set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__
 set wildmode=list:longest,list:full
 set wildmode=list:longest,list:full
+set noshowmode
 
 let mapleader = " "
 
