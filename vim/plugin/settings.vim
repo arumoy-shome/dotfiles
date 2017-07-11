@@ -1,5 +1,5 @@
 filetype plugin indent on
-color summerfruit256
+color summerfruit
 
 set autowrite
 set colorcolumn=+1
@@ -90,14 +90,16 @@ let g:VtrUseVtrMaps = 1
 " lightline
 let g:lightline = {
       \ 'active': {
-      \   'left': [['readonly', 'modified'], ['fugitive']],
+      \   'left': [['status'], ['filename']],
+      \   'right': [['fugitive'], ['filetype']]
+      \ },
+      \ 'inactive': {
+      \   'left': [],
       \   'right': [['filename']]
       \ },
       \ 'component_function': {
+      \   'status': 'LightlineStatus',
       \   'fugitive': 'LightlineFugitive',
-      \   'readonly': 'LightlineReadonly',
-      \   'modified': 'LightlineModified',
-      \   'filename': 'LightlineFilename'
       \ },
       \ 'tab': {
       \   'active': ['filename', 'modified']
@@ -108,24 +110,16 @@ let g:lightline = {
       \ }
       \ }
 
-" lighline functions
-function! LightlineModified()
-  if &filetype == "help"
-    return ""
-  elseif &modified
-    return "*"
-  elseif &modifiable
-    return ""
-  else
-    return ""
-  endif
-endfunction
-
-function! LightlineReadonly()
+" lighline function
+function! LightlineStatus()
   if &filetype == "help"
     return ""
   elseif &readonly
     return ""
+  elseif &modified
+    return "*"
+  elseif &modifiable
+    return ""
   else
     return ""
   endif
@@ -137,12 +131,6 @@ function! LightlineFugitive()
     return branch !=# '' ? ''.branch : ''
   endif
   return ''
-endfunction
-
-function! LightlineFilename()
-  return ('' != LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
-       \ ('' != expand('%:t') ? expand('%:t') : '[No Name]') .
-       \ ('' != LightlineModified() ? ' ' . LightlineModified() : '')
 endfunction
 
 " vim-javascript
