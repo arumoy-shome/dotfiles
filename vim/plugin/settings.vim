@@ -1,6 +1,8 @@
 filetype plugin indent on
-color summerfruit
+color hybrid
 
+set background=dark
+set noshowmode
 set autowrite
 set colorcolumn=+1
 set complete+=kspell
@@ -89,6 +91,7 @@ let g:VtrUseVtrMaps = 1
 
 " lightline
 let g:lightline = {
+      \ 'colorscheme': 'darcula',
       \ 'active': {
       \   'left': [['status'], ['filename']],
       \   'right': [['fugitive'], ['filetype']]
