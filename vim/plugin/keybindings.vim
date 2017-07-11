@@ -1,5 +1,6 @@
 nmap <leader>so :source $MYVIMRC<CR>
 nmap <leader>vr :vsp $MYVIMRC<CR>
+nmap <silent> <Leader>h <Plug>(CommandTHelp)
 nmap j gj
 nmap k gk
 
@@ -20,8 +21,8 @@ nnoremap <leader><leader> <c-^>
 nnoremap <leader>= :wincmd =<CR>
 nnoremap <silent> <Leader>a :TestSuite<CR>
 nnoremap <silent> <Leader>l :TestLast<CR>
-nnoremap <silent> <Leader>s :TestNearest<CR>
-nnoremap <silent> <Leader>t :TestFile<CR>
+nnoremap <silent> <Leader>n :TestNearest<CR>
+nnoremap <silent> <Leader>f :TestFile<CR>
 nnoremap <silent> <leader>gt :TestVisit<CR>
 
 " auto align for tabular
