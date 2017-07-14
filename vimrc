@@ -37,6 +37,7 @@ Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
 Plug 'vim-scripts/summerfruit.vim'
 Plug 'w0ng/vim-hybrid'
 Plug 'wincent/command-t', {  'do': 'cd ruby/command-t/ext/command-t && ruby extconf.rb && make' }
+Plug 'wincent/terminus'
 
 call plug#end()
 
