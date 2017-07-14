@@ -1,7 +1,6 @@
 filetype plugin indent on
 color hybrid
 
-
 set background=dark
 set autowrite
 set colorcolumn=+1
@@ -36,6 +35,8 @@ set wildmode=list:longest,list:full
 set noshowmode
 
 highlight Comment cterm=italic
+highlight clear Spellbad
+highlight Spellbad cterm=underline
 
 let mapleader = " "
 
