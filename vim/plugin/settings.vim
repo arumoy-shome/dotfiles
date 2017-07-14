@@ -1,6 +1,7 @@
 filetype plugin indent on
 color hybrid
 
+
 set background=dark
 set autowrite
 set colorcolumn=+1
@@ -33,6 +34,8 @@ set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__
 set wildmode=list:longest,list:full
 set wildmode=list:longest,list:full
 set noshowmode
+
+highlight Comment cterm=italic
 
 let mapleader = " "
 
@@ -109,9 +112,9 @@ function! LightlineStatus()
   elseif &readonly
     return ""
   elseif &modified
-    return "*"
+    return "•"
   elseif &modifiable
-    return ""
+    return " "
   else
     return ""
   endif
