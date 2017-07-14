@@ -16,7 +16,7 @@ found at [Thoughtbot's dotfiles repo](https://github.com/thoughtbot/dotfiles).
 * [Vim Plug](https://github.com/junegunn/vim-plug/) as your Vim plugin manager.
 * [Zplug](https://github.com/zplug/zplug) as your Zsh plugin manager.
 * [rcm](https://github.com/thoughtbot/rcm) to manage your dotfiles.
-[chruby](https://github.com/postmodern/chruby) to manage your rubies.
+* [chruby](https://github.com/postmodern/chruby) to manage your rubies.
 
 
 ## Credits ##
