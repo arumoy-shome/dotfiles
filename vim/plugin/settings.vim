@@ -103,7 +103,8 @@ let g:lightline = {
       \ 'tabline': {
       \   'left': [['tabs']],
       \   'right': [['']]
-      \ }
+      \ },
+      \ 'subseparator': { 'left': '', 'right': '' }
       \ }
 
 " lighline function
