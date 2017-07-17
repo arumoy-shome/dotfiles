@@ -87,7 +87,7 @@ let g:lightline = {
       \ 'colorscheme': 'darcula',
       \ 'active': {
       \   'left': [['status'], ['filename']],
-      \   'right': [['fugitive'], ['filetype']]
+      \   'right': [['fugitive'], ['percent', 'filetype']]
       \ },
       \ 'inactive': {
       \   'left': [],
