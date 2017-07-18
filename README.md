@@ -2,7 +2,7 @@
 
 A set of files that begin with a dot and are updated quite frequently.
 
-![Vim inside Tmux inside iTerm](~/Desktop/looks.png)
+![Vim inside Tmux inside iTerm](looks.png)
 
 I use [rcm](https://github.com/thoughtbot/rcm) behind the scenes to symlink the
 files into my home directory. Instructions on getting started with rcm can be
