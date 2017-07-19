@@ -65,6 +65,10 @@ The `bin` directory has some handy scripts (taken from [Thoughtbot
 dotfiles](https://github.com/thoughtbot/dotfiles/tree/master/bin)). The `tat` is
 my favourite!
 
+## License ##
+
+This project is open sourced and free to use under the [MIT license](LICENSE.md)].
+
 ## Credits ##
 
 * [Thoughtbot](https://github.com/thoughtbot/dotfiles)
