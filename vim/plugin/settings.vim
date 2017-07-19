@@ -34,9 +34,11 @@ set wildmode=list:longest,list:full
 set wildmode=list:longest,list:full
 set noshowmode
 
+highlight clear SpellBad
+highlight clear SpellCap
 highlight Comment cterm=italic
-highlight clear Spellbad
-highlight Spellbad cterm=underline
+highlight SpellBad cterm=underline ctermfg=red
+highlight SpellCap cterm=underline ctermfg=blue
 
 let mapleader = " "
 
