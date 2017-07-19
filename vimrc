@@ -12,6 +12,7 @@ Plug 'godlygeek/tabular', { 'for': 'markdown' }
 Plug 'honza/vim-snippets'
 Plug 'itchyny/lightline.vim'
 Plug 'janko-m/vim-test'
+Plug 'kien/ctrlp.vim'
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 Plug 'pbrisbin/vim-mkdir'
 Plug 'scrooloose/syntastic'
@@ -36,8 +37,6 @@ Plug 'tpope/vim-vinegar'
 Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
 Plug 'vim-scripts/summerfruit.vim'
 Plug 'w0ng/vim-hybrid'
-Plug 'wincent/command-t', {  'do': 'cd ruby/command-t/ext/command-t && ruby extconf.rb && make' }
-Plug 'wincent/terminus'
 
 call plug#end()
 
