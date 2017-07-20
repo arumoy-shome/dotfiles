@@ -98,8 +98,8 @@ let g:lightline = {
       \   'right': [['filename']]
       \ },
       \ 'component_function': {
-      \   'status': 'LightlineStatus',
-      \   'fugitive': 'LightlineFugitive',
+      \   'status': 'aru#lightline#statusline',
+      \   'fugitive': 'aru#lightline#fugitive',
       \ },
       \ 'tab': {
       \   'active': ['filename', 'modified']
@@ -110,29 +110,6 @@ let g:lightline = {
       \ },
       \ 'subseparator': { 'left': '', 'right': '' }
       \ }
-
-" lighline function
-function! LightlineStatus()
-  if &filetype == "help"
-    return ""
-  elseif &readonly
-    return ""
-  elseif &modified
-    return "•"
-  elseif &modifiable
-    return " "
-  else
-    return ""
-  endif
-endfunction
-
-function! LightlineFugitive()
-  if exists("*fugitive#head")
-    let branch = fugitive#head()
-    return branch !=# '' ? ''.branch : ''
-  endif
-  return ''
-endfunction
 
 " vim-javascript
 let g:jsx_ext_required = 0
