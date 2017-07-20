@@ -1,2 +1,2 @@
-EXCLUDES="README.md LICENSE.md"
+EXCLUDES="README.md LICENSE.md looks.png"
 DOTFILES_DIRS="$HOME/dotfiles"
