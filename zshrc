@@ -6,6 +6,7 @@ zplug "zsh-users/zsh-syntax-highlighting"
 zplug "zsh-users/zsh-completions"
 zplug "zsh-users/zsh-autosuggestions"
 zplug "ggustafsson/Tim", as:command, use:tim
+zplug "thoughtbot/dotfiles", as:command, use:bin/tat
 zplug load
 
 # source /configs
