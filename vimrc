@@ -50,4 +50,5 @@ function! s:SourceConfigFilesIn(directory)
   endfor
 endfunction
 
-call s:SourceConfigFilesIn('plugin')
+" call s:SourceConfigFilesIn('plugin')
+let mapleader = " "
