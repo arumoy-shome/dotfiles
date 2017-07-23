@@ -40,16 +40,6 @@ Plug 'w0ng/vim-hybrid'
 
 call plug#end()
 
-" taken from christoomey/dotfiles
-function! s:SourceConfigFilesIn(directory)
-  let directory_splat = '~/.vim/' . a:directory . '/*'
-  for config_file in split(glob(directory_splat), '\n')
-    if filereadable(config_file)
-      execute 'source' config_file
-    endif
-  endfor
-endfunction
-
 " call s:SourceConfigFilesIn('plugin')
 let mapleader = " "
 
