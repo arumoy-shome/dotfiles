@@ -33,3 +33,4 @@ set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__
 set wildmode=list:longest,list:full
 set wildmode=list:longest,list:full
 set noshowmode
+set clipboard=unnamed
