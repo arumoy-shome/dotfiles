@@ -12,10 +12,10 @@
 ###############################################################################
 
 # Should Tim wait for user input before starting work/break timer again?
-press_return=1
+press_return=0
 
 # The command that executes when the normal countdown mode ends.
-timer_cmd="afplay ~/.zplug/repos/ggustafsson/Tim/audio_files/alarm.wav"
+timer_cmd="terminal-notifier -message 'Timer Ended' -sound Pop"
 # Should the $timer_cmd command loop until termination of Tim?
 timer_repeat_cmd=0
 
@@ -23,15 +23,15 @@ timer_repeat_cmd=0
 interval=15
 
 # The command that executes when the work period starts.
-work_cmd="afplay ~/.zplug/repos/ggustafsson/Tim/audio_files/work.wav"
+work_cmd="terminal-notifier -message 'Work' -sound Morse"
 # The command that executes when the break period starts.
-break_cmd="afplay ~/.zplug/repos/ggustafsson/Tim/audio_files/break.wav"
+break_cmd="terminal-notifier -message 'Break' -sound Pop"
 # The command that executes when the long break period starts. Used instead of
 # pomodoro_cmd under looped pomodoro mode.
-long_break_cmd="afplay ~/.zplug/repos/ggustafsson/Tim/audio_files/break.wav"
+long_break_cmd="terminal-notifier -message 'Long Break' -sound Pop"
 
 # The command that executes when the pomodoro session is completed.
-pomodoro_cmd="afplay ~/.zplug/repos/ggustafsson/Tim/audio_files/alarm.wav"
+pomodoro_cmd="terminal-notifier -message 'Session Completed' -sound Purr"
 # Should the $pomodoro_cmd command loop until termination of Tim?
 pomodoro_repeat_cmd=0
 
