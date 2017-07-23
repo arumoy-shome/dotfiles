@@ -2,7 +2,8 @@
 
 A set of files that begin with a dot and are updated quite frequently.
 
-![Vim inside Tmux inside iTerm](looks.png)
+![Vim inside Tmux inside iTerm](looks.png "I use Fira Code or Fantasque Sans
+Mono as my font")
 
 I use [rcm](https://github.com/thoughtbot/rcm) behind the scenes to symlink the
 files into my home directory.
@@ -18,6 +19,10 @@ files into my home directory.
 * [Zplug](https://github.com/zplug/zplug) as your Zsh plugin manager.
 * [rcm](https://github.com/thoughtbot/rcm) to manage your dotfiles.
 * [chruby](https://github.com/postmodern/chruby) to manage your rubies.
+* [reattach-to-user-namespace](https://github.com/ChrisJohnsen/tmux-MacOSX-pasteboard)
+  if using Tmux version below 2.6 (Tmux bakes this in starting at version 2.6).
+* [terminal-notifier](https://github.com/julienXX/terminal-notifier) for
+  notifications from processes.
 
 ## Getting started ##
 
