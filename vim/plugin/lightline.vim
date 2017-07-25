@@ -5,12 +5,13 @@ let g:lightline = {
       \   'right': [['fugitive'], ['line', 'percent', 'filetype']]
       \ },
       \ 'inactive': {
-      \   'left': [],
+      \   'left': [['inactive_status']],
       \   'right': [['filename']]
       \ },
       \ 'component_function': {
-      \   'status': 'aru#lightline#statusline',
+      \   'status': 'aru#lightline#status',
       \   'fugitive': 'aru#lightline#fugitive',
+      \   'inactive_status': 'aru#lightline#inactive_status'
       \ },
       \ 'tab': {
       \   'active': ['filename', 'modified']

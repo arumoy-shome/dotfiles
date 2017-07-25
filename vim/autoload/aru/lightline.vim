@@ -1,5 +1,5 @@
 " lighline function
-function! aru#lightline#statusline()
+function! aru#lightline#status()
   if &filetype == "help"
     return ""
   elseif &readonly
@@ -20,3 +20,12 @@ function! aru#lightline#fugitive()
   endif
   return ''
 endfunction
+
+function! aru#lightline#inactive_status()
+  if &modified
+    return "•"
+  else
+    return ""
+  endif
+endfunction
+
