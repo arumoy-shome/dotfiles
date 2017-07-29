@@ -13,9 +13,9 @@ nnoremap <Down> :echoe "Use j"<CR>
 nnoremap <Left> :echoe "Use h"<CR>
 nnoremap <Right> :echoe "Use l"<CR>
 nnoremap <Up> :echoe "Use k"<CR>
-nnoremap <leader>- :wincmd _<CR>:wincmd \|<CR>
+nnoremap <leader>= :wincmd _<CR>:wincmd \|<CR>
 nnoremap <leader><leader> <c-^>
-nnoremap <leader>= :wincmd =<CR>
+nnoremap <leader>- :wincmd =<CR>
 nnoremap <silent> <Leader>a :TestSuite<CR>
 nnoremap <silent> <Leader>l :TestLast<CR>
 nnoremap <silent> <Leader>n :TestNearest<CR>
