@@ -14,7 +14,7 @@ let g:lightline = {
       \   'inactive_status': 'aru#lightline#inactive_status'
       \ },
       \ 'tab': {
-      \   'active': ['filename'],
+      \   'active': ['tabnum'],
       \   'inactive': ['tab_modified', 'filename']
       \ },
       \ 'tab_component_function': {
