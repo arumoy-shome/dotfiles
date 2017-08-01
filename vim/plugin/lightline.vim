@@ -1,12 +1,15 @@
 let g:lightline = {
       \ 'colorscheme': 'darcula',
       \ 'active': {
-      \   'left': [['status'], ['filename']],
+      \   'left': [['status', 'paste'], ['filename']],
       \   'right': [['fugitive'], ['line', 'percent', 'filetype']]
       \ },
       \ 'inactive': {
       \   'left': [['inactive_status']],
       \   'right': [['filename']]
+      \ },
+      \ 'component': {
+      \ 'paste': '%{&paste?"§":""}'
       \ },
       \ 'component_function': {
       \   'status': 'aru#lightline#status',
