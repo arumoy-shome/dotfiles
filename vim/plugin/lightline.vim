@@ -14,7 +14,11 @@ let g:lightline = {
       \   'inactive_status': 'aru#lightline#inactive_status'
       \ },
       \ 'tab': {
-      \   'active': ['filename', 'modified']
+      \   'active': ['filename'],
+      \   'inactive': ['tab_modified', 'filename']
+      \ },
+      \ 'tab_component_function': {
+      \ 'tab_modified': 'aru#lightline#tab_modified'
       \ },
       \ 'tabline': {
       \   'left': [['tabs']],

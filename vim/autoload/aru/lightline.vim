@@ -29,3 +29,8 @@ function! aru#lightline#inactive_status()
   endif
 endfunction
 
+function! aru#lightline#tab_modified(n) abort
+  let winnr = tabpagewinnr(a:n)
+  return gettabwinvar(a:n, winnr, '&modified') ? '•' : gettabwinvar(a:n, winnr, '&modifiable') ? '' : '-'
+endfunction
+
