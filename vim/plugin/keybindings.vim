@@ -4,6 +4,7 @@ nmap j gj
 nmap k gk
 
 inoremap <silent> <Bar>   <Bar><Esc>:call aru#tabular#align()<CR>a
+nnoremap <Tab> za
 nnoremap 0 ^
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
