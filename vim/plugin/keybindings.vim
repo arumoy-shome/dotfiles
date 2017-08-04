@@ -2,6 +2,9 @@ nmap <leader>so :source $MYVIMRC<CR>
 nmap <leader>vr :vsp $MYVIMRC<CR>
 nmap j gj
 nmap k gk
+nmap <C-p> :Files<CR>
+nmap <leader>b :Buffers<CR>
+nmap <leader>h :Helptags<CR>
 
 inoremap <silent> <Bar>   <Bar><Esc>:call aru#tabular#align()<CR>a
 nnoremap <Tab> za
