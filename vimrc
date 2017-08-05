@@ -38,6 +38,8 @@ Plug 'vim-scripts/summerfruit.vim'
 Plug 'w0ng/vim-hybrid'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
+Plug 'junegunn/limelight.vim'
+Plug 'junegunn/goyo.vim'
 
 call plug#end()
 
@@ -47,3 +49,7 @@ let mapleader = " "
 " vim-hybrid
 let g:hybrid_custom_term_colors = 1
 let g:hybrid_reduced_contrast = 1
+
+" lightline
+let g:limelight_conceal_ctermfg = 'gray'
+let g:limelight_paragraph_span = 2
