@@ -7,7 +7,7 @@ nmap <leader>b :Buffers<CR>
 nmap <leader>h :Helptags<CR>
 
 noremap <silent> <Bar>   <Bar><Esc>:call aru#tabular#align()<CR>a
-nnoremap \ :Ag<CR>
+nnoremap \ :Ag!<CR>
 nnoremap <Tab> za
 nnoremap 0 ^
 nnoremap <C-h> <C-w>h
