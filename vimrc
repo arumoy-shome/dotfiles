@@ -1,7 +1,6 @@
 call plug#begin('~/.vim/bundle')
 
 Plug 'Raimondi/delimitMate'
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --tern-completer' }
 Plug 'avh4/elm-format', { 'for': 'elm' }
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'christoomey/vim-tmux-runner'
