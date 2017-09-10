@@ -1,5 +1,4 @@
 let g:lightline = {
-      \ 'colorscheme': 'darcula',
       \ 'active': {
       \   'left': [['status', 'paste'], ['filename']],
       \   'right': [['fugitive'], ['line', 'percent', 'filetype']]

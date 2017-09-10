@@ -1,7 +1,5 @@
 filetype plugin indent on
-color hybrid
 
-set background=dark
 set autowrite
 set colorcolumn=+1
 set complete+=kspell

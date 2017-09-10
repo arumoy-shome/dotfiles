@@ -40,12 +40,14 @@ Plug 'junegunn/fzf.vim'
 Plug 'junegunn/limelight.vim'
 Plug 'junegunn/goyo.vim'
 Plug 'ajh17/VimCompletesMe'
+Plug 'chriskempson/base16-vim'
 
 call plug#end()
 
 " call s:SourceConfigFilesIn('plugin')
 let mapleader = " "
 
-" vim-hybrid
-let g:hybrid_custom_term_colors = 1
-let g:hybrid_reduced_contrast = 1
+if filereadable(expand("~/.vimrc_background"))
+  let base16colorspace=256
+  source ~/.vimrc_background
+endif
