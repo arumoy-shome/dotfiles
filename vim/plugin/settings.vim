@@ -35,4 +35,4 @@ set wildmode=list:longest,list:full
 set noshowmode
 set clipboard=unnamed
 set foldmethod=syntax
-set foldlevelstart=1
+set foldlevelstart=2
