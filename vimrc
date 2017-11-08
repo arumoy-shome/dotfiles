@@ -9,7 +9,7 @@ Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 Plug 'pbrisbin/vim-mkdir'
 Plug 'sirver/ultisnips'
 Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-endwise', { 'for': ['ruby', 'vimscript'] } 
+Plug 'tpope/vim-endwise', { 'for': ['ruby', 'vimscript'] }
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rails', { 'for': ['ruby', 'html', 'javascript', 'scss'] }
