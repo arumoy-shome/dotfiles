@@ -6,6 +6,11 @@ nmap <C-p> :Files<CR>
 nmap <leader>b :Buffers<CR>
 nmap <leader>h :Helptags<CR>
 
+imap <c-x><c-k> <plug>(fzf-complete-word)
+imap <c-x><c-f> <plug>(fzf-complete-path)
+imap <c-x><c-j> <plug>(fzf-complete-file-ag)
+imap <c-x><c-l> <plug>(fzf-complete-line)
+
 noremap <silent> <Bar>   <Bar><Esc>:call aru#tabular#align()<CR>a
 nnoremap \ :Ag!<CR>
 nnoremap <Tab> za
