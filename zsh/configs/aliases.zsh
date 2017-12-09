@@ -5,6 +5,9 @@ alias mkdir="mkdir -p"
 alias e="$EDITOR"
 alias v="$VISUAL"
 
+#neovim
+alias vim=nvim
+
 # Bundler
 alias b="bundle"
 
