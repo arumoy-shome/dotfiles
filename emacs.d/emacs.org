@@ -1,0 +1,7 @@
+* General Settings
+** Set root directory
+   Set a variable to =.emacs.d= for easy reference later
+
+   #+BEGIN_SRC emacs-lisp
+     (defconst aru/emacs-directory (concat (getenv "HOME") "/.emacs.d"))
+   #+END_SRC

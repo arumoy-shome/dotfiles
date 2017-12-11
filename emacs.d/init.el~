@@ -1,0 +1,6 @@
+(org-babel-load-file "~/.emacs.d/emacs.org")
+
+;; move spacemacs init files into it's own directory
+;; so that I can start building out my own configuration
+(setq spacemacs-start-directory "~/.emacs.d/spacemacs/")
+(load-file (concat spacemacs-start-directory "init.el"))
