@@ -3,9 +3,9 @@
 ;; installed packages.  Don't delete this line.  If you don't want it,
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
-(package-initialize)
+;; (package-initialize)
 
-(org-babel-load-file "~/.emacs.d/emacs.org")
+;; (org-babel-load-file "~/.emacs.d/emacs.org")
 
 ;; move spacemacs init files into it's own directory
 ;; so that I can start building out my own configuration
