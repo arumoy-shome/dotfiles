@@ -5,6 +5,9 @@ nmap k gk
 nmap <C-p> :Files<CR>
 nmap <leader>b :Buffers<CR>
 nmap <leader>h :Helptags<CR>
+nmap <leader>gg :Gstatus<CR>
+nmap <leader>gc :Commits<CR>
+nmap <leader>gp :Gpush origin master<CR>
 
 imap <c-x><c-k> <plug>(fzf-complete-word)
 imap <c-x><c-f> <plug>(fzf-complete-path)
