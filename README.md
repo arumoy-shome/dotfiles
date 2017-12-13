@@ -2,15 +2,16 @@
 
 A set of files that begin with a dot and are updated quite frequently.
 
-![Vim inside Tmux inside iTerm](looks.png "I use Fira Code or Fantasque Sans
-Mono as my font")
+![Vim inside Tmux inside iTerm](looks.png "I use Fira Code or Source Code Pro as my font")
 
 I use [rcm](https://github.com/thoughtbot/rcm) behind the scenes to symlink the
 files into my home directory.
 
 ## Dependencies ##
 
-* A relatively new Vim version (ideally 7.5 and above).
+* A relatively new Vim version (ideally 7.5 and above) compiled with Python3
+  support. For more info, check this [Github
+  issue](https://github.com/Homebrew/legacy-homebrew/issues/20327)
 * A relatively new Zsh version as your shell.
 * A relatively new Tmux version (ideally 2.1 and above).
 * iTerm as your terminal since the default terminal app does not play nice with
