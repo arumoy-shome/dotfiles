@@ -8,6 +8,7 @@ nmap <leader>h :Helptags<CR>
 nmap <leader>gg :Gstatus<CR>
 nmap <leader>gc :Commits<CR>
 nmap <leader>gp :Gpush origin master<CR>
+nmap <leader>tl :set relativenumber!<CR>
 
 imap <c-x><c-k> <plug>(fzf-complete-word)
 imap <c-x><c-f> <plug>(fzf-complete-path)

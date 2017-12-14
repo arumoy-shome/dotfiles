@@ -13,7 +13,6 @@ set nobackup
 set nocompatible
 set nojoinspaces
 set nonumber
-set relativenumber
 set noswapfile
 set nowritebackup
 set numberwidth=5
