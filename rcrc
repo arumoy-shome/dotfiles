@@ -1,2 +1,2 @@
-EXCLUDES="README.md LICENSE.md looks.png"
+EXCLUDES="README.md LICENSE.md looks.png bootstrap.sh Brewfile"
 DOTFILES_DIRS="$HOME/dotfiles"
