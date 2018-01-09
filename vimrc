@@ -29,7 +29,6 @@ Plug 'Shougo/deoplete.nvim'
 Plug 'roxma/nvim-yarp'
 Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'wincent/terminus'
-Plug 'jceb/vim-orgmode'
 
 call plug#end()
 
