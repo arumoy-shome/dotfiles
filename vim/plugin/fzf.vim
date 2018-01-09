@@ -6,10 +6,6 @@
 "     - CodeRay: http://coderay.rubychan.de/
 "     - Rouge: https://github.com/jneen/rouge
 
-" file preview window
-command! -bang -nargs=? -complete=dir Files
-  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
-
 " Augmenting Ag command using fzf#vim#with_preview function
 "   :Ag  - Start fzf with hidden preview window that can be enabled with "?" key
 "   :Ag! - Start fzf in fullscreen and display the preview window above
