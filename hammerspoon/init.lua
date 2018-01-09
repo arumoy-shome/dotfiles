@@ -28,3 +28,8 @@ hs.hotkey.bind({"cmd", "ctrl"}, "L", function()
   f.h = max.h
   win:setFrame(f)
 end)
+
+-- auto reload config spoon
+hs.loadSpoon("ReloadConfiguration")
+spoon.ReloadConfiguration:start()
+
