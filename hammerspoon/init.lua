@@ -29,7 +29,20 @@ hs.hotkey.bind({"cmd", "ctrl"}, "L", function()
   win:setFrame(f)
 end)
 
+-- make window fullscreen
+hs.hotkey.bind({"cmd", "ctrl"}, "return", function()
+    local win = hs.window.focusedWindow()
+    local f = win:frame()
+    local screen = win:screen()
+    local max = screen:frame()
+
+    f.x = max.x
+    f.y = max.y
+    f.w = max.w
+    f.h = max.h
+    win:setFrame(f)
+end)
+
 -- auto reload config spoon
 hs.loadSpoon("ReloadConfiguration")
 spoon.ReloadConfiguration:start()
-
