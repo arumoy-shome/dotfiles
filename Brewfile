@@ -11,7 +11,7 @@ tap 'homebrew/versions'
 tap "thoughtbot/formulae"
 
 brew "git"
-brew "vim --without-python --with-python3"
+brew "vim", args: ["without-python", "with-python3"]
 brew "chruby"
 brew "tmux"
 brew "htop"
@@ -27,7 +27,7 @@ brew "reattach-to-user-namespace"
 brew "ispell"
 brew "pandoc"
 brew "python3"
-brew "ruby --with-doc"
+brew "ruby", args: ["with-docs"]
 
 cask "tunnelbear"
 cask "emacs"
