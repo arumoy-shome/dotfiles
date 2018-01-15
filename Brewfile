@@ -28,6 +28,7 @@ brew "ispell"
 brew "pandoc"
 brew "python3"
 brew "ruby", args: ["with-docs"]
+brew "mas"
 
 cask "tunnelbear"
 cask "emacs"
