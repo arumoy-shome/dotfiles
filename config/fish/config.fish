@@ -28,5 +28,7 @@ if status --is-interactive
   abbr -a jp "jupyter"
   abbr -a pip "pip3"
   abbr -a py "python3"
+  abbr -a py2 "python2"
+  abbr -a ipy "ipython3"
   abbr -a t "tmux"
 end
