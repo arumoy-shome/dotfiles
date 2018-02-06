@@ -1,6 +1,6 @@
 cask_args appdir: "/Applications"
 
-tap "caskroom/cask"
+tap 'caskroom/cask'
 tap 'caskroom/versions'
 tap 'caskroom/fonts'
 tap 'homebrew/bundle'
@@ -8,7 +8,8 @@ tap 'homebrew/core'
 tap 'homebrew/dupes'
 tap 'homebrew/services'
 tap 'homebrew/versions'
-tap "thoughtbot/formulae"
+tap 'thoughtbot/formulae'
+tap 'd12frosted/emacs-plus'
 
 brew "git"
 brew "vim", args: ["without-python", "with-python3"]
@@ -28,10 +29,9 @@ brew "ispell"
 brew "pandoc"
 brew "python3"
 brew "ruby", args: ["with-docs"]
-brew "mas"
+brew "emacs-plus", args: ["devel"]
 
 cask "tunnelbear"
-cask "emacs"
 cask "karabiner-elements"
 cask "1password-beta"
 cask "iterm2-beta"
