@@ -33,7 +33,7 @@ brew "emacs-plus", args: ["devel"]
 
 cask "tunnelbear"
 cask "karabiner-elements"
-cask "1password-beta"
+cask "1password"
 cask "iterm2-beta"
 cask "font-source-code-pro"
 cask "google-drive-file-stream"
