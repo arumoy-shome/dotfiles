@@ -29,6 +29,7 @@ Plug 'Shougo/deoplete.nvim'
 Plug 'roxma/nvim-yarp'
 Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'wincent/terminus'
+Plug 'dag/vim-fish'
 
 call plug#end()
 
