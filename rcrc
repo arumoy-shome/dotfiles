@@ -1,2 +1,2 @@
-EXCLUDES="README.md LICENSE.md looks.png bootstrap.sh Brewfile macos vim vimrc zsh zshrc zshenv"
+EXCLUDES="README.md LICENSE.md looks.png bootstrap.sh Brewfile macos archive"
 DOTFILES_DIRS="$HOME/dotfiles"
