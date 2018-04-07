@@ -9,5 +9,8 @@
 ;; org
 (setq org-ellipsis " ▼ ")
 
+;; latex
+(set! :latex-bibtex-file "./references.bib")
+
 ;; editing
 (add-hook! text-mode 'auto-fill-mode)
