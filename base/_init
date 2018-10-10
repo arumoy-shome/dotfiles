@@ -1,0 +1,13 @@
+#!/usr/bin/env fish
+source (dirname (pwd))
+
+function install
+    if not _is_callable brew
+        /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    end
+
+    brew install \
+    wget curl tree coreutils bash gnupg2 \
+    the_silver_searcher ripgrep \
+    neofetch pinentry-mac
+end
