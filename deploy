@@ -1,40 +1,7 @@
 #!/usr/bin/env fish
 
+source env
 
-# TODO: work in progress, needs work.
-function _mklink -d "Creates a symbolic"
-   set target $argv[1]
-   set dest $argv[2]
-   set flags "-s"
-
-   command ln $flags target $dest
-end
-
-function _is_callable
-    command -sq $argv ; or false
-end
-
-function _enable_topic -d "adds topic to list of enabled topics"
-    set topic $argv
-
-    if not contains $topic $ENABLED_TOPICS
-        set -U ENABLED_TOPICS $ENABLED_TOPICS $topic
-        echo "$topic enabled!"
-    else
-        echo "$topic already enabled!"
-        false
-    end
-end
-
-function _disable_topic -d "removes topic from list of enabled topics"
-    set topic $argv
-
-    if contains $topic $ENABLED_TOPICS
-        set index (contains -i $topic $ENABLED_TOPICS)
-        set -e ENABLED_TOPICS[$index]
-        echo "$topic disabled!"
-    else
-        echo "$topic already disabled!"
-        false
-    end
+# TODO: call the install function in topic/_init
+if _is_valid_topic $argv
 end
