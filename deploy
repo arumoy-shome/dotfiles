@@ -10,6 +10,10 @@ function _mklink -d "Creates a symbolic"
    command ln $flags target $dest
 end
 
+function _is_callable
+    command -sq $argv ; or false
+end
+
 function _enable_topic -d "adds topic to list of enabled topics"
     set topic $argv
 
