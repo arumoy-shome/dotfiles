@@ -18,6 +18,7 @@ function _enable_topic -d "adds topic to list of enabled topics"
         echo "$topic enabled!"
     else
         echo "$topic already enabled!"
+        false
     end
 end
 
@@ -30,7 +31,6 @@ function _disable_topic -d "removes topic from list of enabled topics"
         echo "$topic disabled!"
     else
         echo "$topic already disabled!"
+        false
     end
 end
-
-_disable_topic $argv
