@@ -1,5 +1,13 @@
 #!/usr/bin/env fish
 
+function _echo-ok
+    printf "\r\033[2K\033[0;32m[ OK ]\033[0m %s\n" "$argv"
+end
+
+function _echo-fail
+    printf "\r\033[2K\033[0;31m[ FAIL ]\033[0m %s\n" "$argv"
+end
+
 # TODO: work in progress, needs work.
 function _mklink -d "Creates a symbolic"
    set target $argv[1]
