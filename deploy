@@ -4,4 +4,20 @@ source env
 
 # TODO: call the install function in topic/_init
 if _is_valid_topic $argv
+function _echo_usage
+    printf "
+    usage: ./deploy FLAGS TOPICS
+    if no FLAGS are passed then given TOPICS are installed & linked
+
+    valid FLAGS: -h -l -d
+    -h: print this help message
+    -l: link given TOPICS
+    -d: delete given TOPICS
+
+    example usage:
+    ./deploy base # install and link base
+    ./deploy base zsh fish # install and link base, zsh & fish
+    ./deploy -l base zsh fish # only link base, zsh & fish
+    ./deploy -d tmux # delete tmux
+    "
 end
