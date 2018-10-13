@@ -30,9 +30,9 @@ function _enable_topic -d "adds topic to list of enabled topics"
 
     if not contains $topic $ENABLED_TOPICS
         set -U ENABLED_TOPICS $ENABLED_TOPICS $topic
-        echo "$topic enabled!"
+        _echo-ok "$topic enabled!"
     else
-        echo "$topic already enabled!"
+        _echo-ok "$topic already enabled!"
         false
     end
 end
