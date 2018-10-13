@@ -25,8 +25,8 @@ function _is_valid_topic -d "accepts a TOPIC and checks if a corresponding dir \
 is present in the root dir of the project and if TOPIC/_init exists"
 
     function _valid_topic
-        ls -ld */ | grep $argv > /dev/null
-        and ls $argv | grep _init > /dev/null
+        test -d "$argv"
+        and test -e "$argv/_init"
     end
 
     _valid_topic $argv ; or false
