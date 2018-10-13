@@ -1,9 +1,9 @@
 #!/usr/bin/env fish
-source (dirname (pwd))
+source env
 
 function install
     if not _is_callable brew
-        /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+        /usr/bin/ruby -e "(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     end
 
     brew install \
