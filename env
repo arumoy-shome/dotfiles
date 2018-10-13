@@ -17,7 +17,7 @@ function _mklink -d "Creates a symbolic"
    command ln $flags target $dest
 end
 
-function _is_callable
+function _is_callable -d "accepts a COMMAND and checks if it exists"
     command -sq $argv ; or false
 end
 
@@ -32,7 +32,7 @@ is present in the root dir of the project and if TOPIC/_init exists"
     _valid_topic $argv ; or false
 end
 
-function _enable_topic -d "adds topic to list of enabled topics"
+function _enable_topic -d "adds TOPIC to list of enabled topics"
     set topic $argv
 
     if not contains $topic $ENABLED_TOPICS
@@ -44,7 +44,7 @@ function _enable_topic -d "adds topic to list of enabled topics"
     end
 end
 
-function _disable_topic -d "removes topic from list of enabled topics"
+function _disable_topic -d "removes TOPIC from list of enabled topics"
     set topic $argv
 
     if contains $topic $ENABLED_TOPICS
