@@ -2,8 +2,33 @@
 
 source env
 
-# TODO: call the install function in topic/_init
-if _is_valid_topic $argv
+function _install_topics
+    set topics $argv
+
+    for topic in $topics
+        if _is_valid_topic $topic; and _enable_topic $topic
+            _echo_ok "source $topic/_init..."
+            source "$topic/_init"
+
+            _echo_ok "install $topic/_init..."
+            install
+
+            _echo_ok "link $topic/_init..."
+            _link_topics $topic
+        end
+    end
+end
+
+# TODO: work in progress...
+function _link_topics
+    echo "_link_topics: under construction..."
+end
+
+# TODO: work in progress...
+function _delete_topics
+    echo "_delete_topics: under construction..."
+end
+
 function _echo_usage
     printf "
     usage: ./deploy FLAGS TOPICS
