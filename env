@@ -17,24 +17,22 @@ function _mklink -d "Creates a symbolic"
    command ln $flags target $dest
 end
 
-function _is_callable -d "accepts a COMMAND and checks if it exists"
-    command -sq $argv ; or false
+function _is_callable -a cmd -d "accepts a COMMAND and checks if it exists"
+    command -sq $cmd ; or false
 end
 
-function _is_valid_topic -d "accepts a TOPIC and checks if a corresponding dir \
+function _is_valid_topic -a topic -d "accepts a TOPIC and checks if a corresponding dir \
 is present in the root dir of the project and if TOPIC/_init exists"
 
-    function _valid_topic
-        test -d "$argv"
-        and test -e "$argv/_init"
+    function _valid_topic -a topic
+        test -d "$topic"
+        and test -e "$topic/_init"
     end
 
-    _valid_topic $argv ; or false
+    _valid_topic $topic ; or false
 end
 
-function _enable_topic -d "adds TOPIC to list of enabled topics"
-    set topic $argv
-
+function _enable_topic -a topic -d "adds TOPIC to list of enabled topics"
     if not contains $topic $ENABLED_TOPICS
         set -U ENABLED_TOPICS $ENABLED_TOPICS $topic
         _echo-ok "$topic enabled!"
@@ -44,9 +42,7 @@ function _enable_topic -d "adds TOPIC to list of enabled topics"
     end
 end
 
-function _disable_topic -d "removes TOPIC from list of enabled topics"
-    set topic $argv
-
+function _disable_topic -a topic -d "removes TOPIC from list of enabled topics"
     if contains $topic $ENABLED_TOPICS
         set index (contains -i $topic $ENABLED_TOPICS)
         set -e ENABLED_TOPICS[$index]
