@@ -1,0 +1,11 @@
+#!/usr/bin/env fish
+
+source env
+
+function install
+    _echo-ok "test/install()!"
+end
+
+function link
+    _echo-ok "test/link()!"
+end
