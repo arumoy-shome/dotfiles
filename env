@@ -1,10 +1,10 @@
 #!/usr/bin/env fish
 
-function _echo-ok
+function _echo_ok
     printf "\r\033[2K\033[0;32m[ OK ]\033[0m %s\n" "$argv"
 end
 
-function _echo-fail
+function _echo_fail
     printf "\r\033[2K\033[0;31m[ FAIL ]\033[0m %s\n" "$argv"
 end
 
@@ -35,9 +35,9 @@ end
 function _enable_topic -a topic -d "adds TOPIC to list of enabled topics"
     if not contains $topic $ENABLED_TOPICS
         set -U ENABLED_TOPICS $ENABLED_TOPICS $topic
-        _echo-ok "$topic enabled!"
+        _echo_ok "$topic enabled!"
     else
-        _echo-ok "$topic already enabled!"
+        _echo_ok "$topic already enabled!"
         false
     end
 end
