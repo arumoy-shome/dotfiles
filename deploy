@@ -21,3 +21,42 @@ function _echo_usage
     ./deploy -d tmux # delete tmux
     "
 end
+
+# TODO: work in progress, requires furthur implementation and testing
+function deploy
+    set options (fish_opt -s h) (fish_opt -s l) (fish_opt -s d)
+    argparse -n deploy $options -- $argv
+    set topics $argv
+
+    function _any_topics -S
+        test (count $topics) -gt 0
+    end
+
+    function _any_options -S
+        test $_flag_h; or test $_flag_l; or test $_flag_d
+    end
+
+    if not _any_topics; and not _any_options; or test $_flag_h
+        _echo_usage
+    end
+
+    # TODO: implement this using -x flag of argparse
+    # need to know how to define a comma separated list
+    if test $_flag_l; and test $_flag_d
+        _echo_fail "cannot link and delete at the same time"
+    end
+
+    if test $_flag_l
+        _link_topics $topics
+    end
+
+    if test $_flag_d
+        _delete_topics $topics
+    end
+
+    if _any_topics; and not _any_options
+        _install_topics $topics
+    end
+end
+
+deploy $argv
