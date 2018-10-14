@@ -11,12 +11,11 @@ function _echo_fail
 end
 
 # TODO: work in progress, needs work.
-function _mklink -d "Creates a symbolic"
-   set target $argv[1]
-   set dest $argv[2]
-   set flags "-s"
+function _mklink -a src target -d "Creates a symbolic link between SRC & TARGET"
+   set flags "-svf"
 
-   command ln $flags target $dest
+   command mkdir -p $target
+   command ln $flags $src $target
 end
 
 function _is_callable -a cmd -d "accepts a COMMAND and checks if it exists"
