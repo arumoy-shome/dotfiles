@@ -19,19 +19,23 @@ function _install_topics
     end
 end
 
-# TODO: work in progress, needs testing
 function _link_topics
     set topics $argv
 
     function _link_topic -S
-        set files $topic/*
-        set excluded_files _init bin $topic/*.md
+        pushd $topic
+
+        set files (ls)
+        set excluded_files _init bin *.md
 
         for file in $files
             if not contains $file $excluded_files
-                echo "_link_topic: $file"
+                _echo_ok "linking $file..."
+                _mklink $file $XDG_CONFIG_HOME/$topic
             end
         end
+
+        popd
     end
 
     if not test (count $topics) -eq 0
