@@ -29,10 +29,19 @@ is present in the root dir of the project and if TOPIC/_init exists"
         and test -e "$topic/_init"
     end
 
-    _valid_topic ; or false
+    if _valid_topic
+        true
+    else
+        _echo_fail "$topic is not a valid topic"
+        false
+    end
 end
 
 function _enable_topic -a topic -d "adds TOPIC to list of enabled topics"
+    if not _is_valid_topic $topic
+        return 1
+    end
+
     if not contains $topic $ENABLED_TOPICS
         set -U ENABLED_TOPICS $ENABLED_TOPICS $topic
         _echo_ok "$topic enabled!"
@@ -43,12 +52,16 @@ function _enable_topic -a topic -d "adds TOPIC to list of enabled topics"
 end
 
 function _disable_topic -a topic -d "removes TOPIC from list of enabled topics"
+    if not _is_valid_topic $topic
+        return 1
+    end
+
     if contains $topic $ENABLED_TOPICS
         set index (contains -i $topic $ENABLED_TOPICS)
         set -e ENABLED_TOPICS[$index]
-        echo "$topic disabled!"
+        _echo_ok "$topic disabled!"
     else
-        echo "$topic already disabled!"
+        _echo_ok "$topic already disabled!"
         false
     end
 end
