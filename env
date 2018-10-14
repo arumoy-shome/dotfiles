@@ -43,6 +43,15 @@ is present in the root dir of the project and if TOPIC/_init exists"
     end
 end
 
+function _is_enabled_topic -a topic -d "checks if TOPIC is enabled or not"
+    if _is_valid_topic $topic; and contains $topic $ENABLED_TOPICS
+        true
+    else
+        _echo_fail "$topic is not installed"
+        false
+    end
+end
+
 function _enable_topic -a topic -d "adds TOPIC to list of enabled topics"
     if not _is_valid_topic $topic
         return 1

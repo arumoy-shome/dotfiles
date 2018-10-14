@@ -17,7 +17,6 @@ function _install_topics
     end
 end
 
-# TODO: only allow (re)linking of installed topics
 function _link_topics
     set topics $argv
 
@@ -39,7 +38,9 @@ function _link_topics
 
     if not test (count $topics) -eq 0
         for topic in $topics
-            _link_topic $topic
+            if _is_enabled_topic $topic
+                _link_topic $topic
+            end
         end
     else
         _echo_fail "need 1 or more topics to link"
