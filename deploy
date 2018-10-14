@@ -19,9 +19,28 @@ function _install_topics
     end
 end
 
-# TODO: work in progress...
+# TODO: work in progress, needs testing
 function _link_topics
-    echo "_link_topics: under construction..."
+    set topics $argv
+
+    function _link_topic -S
+        set files $topic/*
+        set excluded_files _init bin $topic/*.md
+
+        for file in $files
+            if not contains $file $excluded_files
+                echo "_link_topic: $file"
+            end
+        end
+    end
+
+    if not test (count $topics) -eq 0
+        for topic in $topics
+            _link_topic $topic
+        end
+    else
+        _echo_fail "need 1 or more topics to link"
+    end
 end
 
 # TODO: work in progress...
