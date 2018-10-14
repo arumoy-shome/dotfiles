@@ -3,9 +3,13 @@
 source env
 
 function install
-    _echo-ok "test/install()!"
+    echo "test/install()!"
 end
 
 function link
-    _echo-ok "test/link()!"
+    echo "test/link()!"
+end
+
+function delete
+    echo "test/delte()!"
 end
