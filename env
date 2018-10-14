@@ -10,11 +10,17 @@ function _echo_fail
     printf "\r\033[2K\033[0;31m[ FAIL ]\033[0m %s\n" "$argv"
 end
 
-function _mklink -a src target -d "Creates a symbolic link between SRC & TARGET"
+function _mklink -a src target -d "creates a symbolic link between SRC & TARGET"
    set flags "-svf"
 
    command mkdir -p $target
    command ln $flags $src $target
+end
+
+function _cleanup -a target -d "removes TARGET recursively"
+    set flags "-rvf"
+
+    command rm $flags $XDG_CONFIG_HOME/$target
 end
 
 function _is_callable -a cmd -d "accepts a COMMAND and checks if it exists"

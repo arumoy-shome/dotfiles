@@ -6,11 +6,9 @@ function _install_topics
     set topics $argv
 
     for topic in $topics
-        if _is_valid_topic $topic; and _enable_topic $topic
-            _echo_ok "source $topic/_init..."
+        if _enable_topic $topic
+            _echo_ok "running $topic/_init#install()..."
             source "$topic/_init"
-
-            _echo_ok "install $topic/_init..."
             install
 
             _echo_ok "link $topic/_init..."
@@ -19,6 +17,7 @@ function _install_topics
     end
 end
 
+# TODO: only allow (re)linking of installed topics
 function _link_topics
     set topics $argv
 
@@ -47,9 +46,27 @@ function _link_topics
     end
 end
 
-# TODO: work in progress...
 function _delete_topics
-    echo "_delete_topics: under construction..."
+    set topics $argv
+
+    function _delete_topic -S
+        if _disable_topic $topic
+            _echo_ok "running $topic/_init#delete()..."
+            source $topic/_init
+            delete
+
+            _echo_ok "cleaning up $topic files..."
+            _cleanup $topic
+        end
+    end
+
+    if not test (count $topics) -eq 0
+        for topic in $topics
+            _delete_topic $topic
+        end
+    else
+        _echo_fail "need 1 or more topics to delete"
+    end
 end
 
 function _echo_usage
@@ -70,9 +87,8 @@ function _echo_usage
     "
 end
 
-# TODO: work in progress, requires furthur implementation and testing
 function deploy
-    set options (fish_opt -s h) (fish_opt -s l) (fish_opt -s d)
+    set options (fish_opt -s h) (fish_opt -s l) (fish_opt -s L) (fish_opt -s d)
     argparse -n deploy $options -- $argv
     set topics $argv
 
@@ -81,7 +97,7 @@ function deploy
     end
 
     function _any_options -S
-        test $_flag_h; or test $_flag_l; or test $_flag_d
+        test $_flag_h; or test $_flag_l; or test $_flag_L; or test $_flag_d
     end
 
     if not _any_topics; and not _any_options; or test $_flag_h
@@ -94,6 +110,17 @@ function deploy
     if test $_flag_l; and test $_flag_d
         _echo_fail "cannot link and delete at the same time"
         return 1
+    end
+
+    if test $_flag_L
+        if test (count $ENABLED_TOPICS) -gt 0
+            printf "
+            enabled topics: $ENABLED_TOPICS"
+        else
+            printf "
+            no topics enabled!
+            "
+        end
     end
 
     if test $_flag_l
