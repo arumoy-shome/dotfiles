@@ -63,12 +63,14 @@ function deploy
 
     if not _any_topics; and not _any_options; or test $_flag_h
         _echo_usage
+        return 0
     end
 
     # TODO: implement this using -x flag of argparse
     # need to know how to define a comma separated list
     if test $_flag_l; and test $_flag_d
         _echo_fail "cannot link and delete at the same time"
+        return 1
     end
 
     if test $_flag_l
