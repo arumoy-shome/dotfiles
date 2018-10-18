@@ -8,6 +8,10 @@ function install
 
     brew install \
     wget curl tree coreutils bash gnupg2 \
-    the_silver_searcher ripgrep \
-    neofetch pinentry-mac
+    the_silver_searcher ripgrep neofetch \
+    pinentry-mac htop
 end
+
+# function link; end
+
+# function delete; end
