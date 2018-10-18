@@ -44,7 +44,7 @@ is present in the root dir of the project and if TOPIC/_init exists"
 end
 
 function _is_enabled_topic -a topic -d "checks if TOPIC is enabled or not"
-    if _is_valid_topic $topic; and contains $topic $ENABLED_TOPICS
+    if contains $topic $ENABLED_TOPICS
         true
     else
         _echo_fail "$topic is not installed"
