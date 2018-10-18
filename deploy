@@ -5,14 +5,28 @@ source env
 function _install_topics -d "install one or more topics by calling topic/_init#(install)"
     set topics $argv
 
+    function _install_topic -a topic
+        _echo_ok "running $topic/_init#install()..."
+        source "$topic/_init"
+        install
+
+        _echo_ok "linking $topic..."
+        _link_topics $topic
+
+        if contains bin (ls $topic)
+            pushd $topic
+
+            _echo_ok "adding $topic/bin to PATH"
+            set bin_path (dirname (pwd))"/$topic/bin"
+            set -U fish_user_paths $fish_user_paths $bin_path
+
+            popd
+        end
+    end
+
     for topic in $topics
         if _enable_topic $topic
-            _echo_ok "running $topic/_init#install()..."
-            source "$topic/_init"
-            install
-
-            _echo_ok "link $topic/_init..."
-            _link_topics $topic
+            _install_topic $topic
         end
     end
 end
@@ -20,7 +34,7 @@ end
 function _link_topics -d "link one or more topics by calling topic/_init#link()"
     set topics $argv
 
-    function _link_topic -S
+    function _link_topic -a topic
         _echo_ok "running $topic/_init#link()..."
         source "$topic/_init"
         link
@@ -36,19 +50,30 @@ end
 function _delete_topics -d "delete one or more topics by calling topic/_init#delete()"
     set topics $argv
 
-    function _delete_topic -S
-        if _disable_topic $topic
-            _echo_ok "running $topic/_init#delete()..."
-            source $topic/_init
-            delete
+    function _delete_topic -a topic
+        _echo_ok "running $topic/_init#delete()..."
+        source $topic/_init
+        delete
 
-            _echo_ok "cleaning up $topic files..."
-            _cleanup $topic
+        _echo_ok "cleaning up $topic files..."
+        _cleanup $topic
+
+        if contains bin (ls $topic)
+            pushd $topic
+
+            _echo_ok "cleaning up PATH..."
+            set bin_path (dirname (pwd))"/$topic/bin"
+            set index (contains -i $bin_path $fish_user_paths)
+            set -e fish_user_paths[$index]
+
+            popd
         end
     end
 
     for topic in $topics
-        _delete_topic $topic
+        if _disable_topic $topic
+            _delete_topic $topic
+        end
     end
 end
 
