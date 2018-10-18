@@ -56,7 +56,7 @@ function _enable_topic -a topic -d "adds TOPIC to list of enabled topics"
         return 1
     end
 
-    if not contains $topic $ENABLED_TOPICS
+    if not _is_enabled_topic $topic
         set -U ENABLED_TOPICS $ENABLED_TOPICS $topic
         _echo_ok "$topic enabled!"
     else
@@ -70,7 +70,7 @@ function _disable_topic -a topic -d "removes TOPIC from list of enabled topics"
         return 1
     end
 
-    if contains $topic $ENABLED_TOPICS
+    if _is_enabled_topic $topic
         set index (contains -i $topic $ENABLED_TOPICS)
         set -e ENABLED_TOPICS[$index]
         _echo_ok "$topic disabled!"
