@@ -47,7 +47,6 @@ function _is_enabled_topic -a topic -d "checks if TOPIC is enabled or not"
     if contains $topic $ENABLED_TOPICS
         true
     else
-        _echo_fail "$topic is not installed"
         false
     end
 end
