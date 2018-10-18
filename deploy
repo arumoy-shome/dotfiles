@@ -2,7 +2,7 @@
 
 source env
 
-function _install_topics
+function _install_topics -d "install one or more topics by calling topic/_init#(install)"
     set topics $argv
 
     for topic in $topics
@@ -17,7 +17,7 @@ function _install_topics
     end
 end
 
-function _link_topics
+function _link_topics -d "link one or more topics by calling topic/_init#link()"
     set topics $argv
 
     function _link_topic -S
@@ -47,7 +47,7 @@ function _link_topics
     end
 end
 
-function _delete_topics
+function _delete_topics -d "delete one or more topics by calling topic/_init#delete()"
     set topics $argv
 
     function _delete_topic -S
@@ -70,7 +70,7 @@ function _delete_topics
     end
 end
 
-function _echo_usage
+function _echo_usage -d "prints a help message"
     printf "
     usage: ./deploy FLAGS TOPICS
     if no FLAGS are passed then given TOPICS are installed & linked
