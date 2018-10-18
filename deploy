@@ -47,12 +47,8 @@ function _delete_topics -d "delete one or more topics by calling topic/_init#del
         end
     end
 
-    if not test (count $topics) -eq 0
-        for topic in $topics
-            _delete_topic $topic
-        end
-    else
-        _echo_fail "need 1 or more topics to delete"
+    for topic in $topics
+        _delete_topic $topic
     end
 end
 
