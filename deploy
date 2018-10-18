@@ -21,29 +21,15 @@ function _link_topics -d "link one or more topics by calling topic/_init#link()"
     set topics $argv
 
     function _link_topic -S
-        pushd $topic
-
-        set files (ls)
-        set excluded_files _init bin *.md
-
-        for file in $files
-            if not contains $file $excluded_files
-                _echo_ok "linking $file..."
-                _mklink $file $XDG_CONFIG_HOME/$topic
-            end
-        end
-
-        popd
+        _echo_ok "running $topic/_init#link()..."
+        source "$topic/_init"
+        link
     end
 
-    if not test (count $topics) -eq 0
-        for topic in $topics
-            if _is_enabled_topic $topic
-                _link_topic $topic
-            end
+    for topic in $topics
+        if _is_valid_topic $topic; and _is_enabled_topic $topic
+            _link_topic $topic
         end
-    else
-        _echo_fail "need 1 or more topics to link"
     end
 end
 

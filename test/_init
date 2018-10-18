@@ -7,7 +7,7 @@ function install
 end
 
 function link
-    echo "test/link()!"
+    _mklink testrc $XDG_CONFIG_HOME/test
 end
 
 function delete
