@@ -1,0 +1,15 @@
+#!/usr/bin/env fish
+source env
+
+function install
+    brew install \
+    git git-lfs hub diff-so-fancy git-standup \
+    git-extras git-flow-avh
+end
+
+function link
+    _mklink gitignore $XDG_CONFIG_HOME/git
+    _mklink gitconfig $XDG_CONFIG_HOME/git
+    _mklink gitmessage $XDG_CONFIG_HOME/git
+    _mklink git_template $XDG_CONFIG_HOME/git
+end
