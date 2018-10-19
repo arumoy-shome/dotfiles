@@ -14,7 +14,13 @@ function _mklink -a src target -d "creates a symbolic link between SRC & TARGET"
    set flags "-svf"
 
    command mkdir -p $target
-   command ln $flags $src $target
+
+   if (test -d $src)
+       mkdir -p $target/$src
+       command ln $flags $src/* $target/$src
+   else
+       command ln $flags $src $target
+    end
 end
 
 function _cleanup -a target -d "removes TARGET recursively"
