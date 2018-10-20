@@ -8,7 +8,7 @@ function install
 end
 
 function link
-    _mklink ignore $XDG_CONFIG_HOME/git
-    _mklink config $XDG_CONFIG_HOME/git
-    _mklink message $XDG_CONFIG_HOME/git
+    _mklink git ignore
+    _mklink git config
+    _mklink git message
 end

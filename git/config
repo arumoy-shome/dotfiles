@@ -14,12 +14,12 @@
   lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
 	undo-commit = reset --soft "HEAD^"
 [core]
-  excludesfile = ~/.config/ignore
+  excludesfile = ~/.config/git/ignore
   autocrlf = input
 [merge]
   ff = only
 [commit]
-  template = ~/.config/message
+  template = ~/.config/git/message
 [fetch]
   prune = true
 [rebase]
