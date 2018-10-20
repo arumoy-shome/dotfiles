@@ -21,7 +21,7 @@ when not specified"
        set target "$XDG_CONFIG_HOME/$topic"
    end
 
-   command mkdir -p $target
+   test $argv[3]; or command mkdir -p $target
 
    pushd $topic
 
