@@ -1,11 +1,6 @@
 # change the greeting message
 set fish_greeting 'welcome, aru.'
 
-# Base16 Shell
-if status --is-interactive
-    eval sh $HOME/.config/base16-shell/scripts/base16-tomorrow-night.sh
-end
-
 # define some useful abbreviations
 # abbreviations are like alias but with nicer gui
 if status --is-interactive

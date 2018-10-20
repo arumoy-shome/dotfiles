@@ -10,17 +10,31 @@ function _echo_fail
     printf "\r\033[2K\033[0;31m[ FAIL ]\033[0m %s\n" "$argv"
 end
 
-function _mklink -a src target -d "creates a symbolic link between SRC & TARGET"
+function _mklink -a topic src -d "expects a TOPIC and a SRC and optionally a TOPIC
+and (sym)link between SRC and TOPIC. XDG_CONFIG_HOME/TOPIC is implied as TARGET
+when not specified"
    set flags "-svf"
+
+   if test $argv[3]
+       set target $argv[3]
+   else
+       set target "$XDG_CONFIG_HOME/$topic"
+   end
 
    command mkdir -p $target
 
-   if (test -d $src)
-       mkdir -p $target/$src
-       command ln $flags $src/* $target/$src
+   pushd $topic
+
+   if test -d "$src"
+       mkdir -p "$target/$src"
+       for file in $src/*
+           ln $flags (pwd)"/$file" "$target/$src"
+       end
    else
-       command ln $flags $src $target
+       ln $flags (pwd)"/$src" $target
     end
+
+    popd
 end
 
 function _cleanup -a target -d "removes TARGET recursively"

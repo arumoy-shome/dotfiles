@@ -10,6 +10,6 @@ function install
 end
 
 function link
-    _mklink config.fish $XDG_CONFIG_HOME/fish
-    _mklink functions $XDG_CONFIG_HOME/fish
+    _mklink fish config.fish
+    _mklink fish functions
 end
