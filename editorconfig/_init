@@ -1,0 +1,10 @@
+#!/usr/bin/env fish
+source env
+
+function install
+    brew install editorconfig
+end
+
+function link
+  _mklink editorconfig .editorconfig ~/.editorconfig
+end
