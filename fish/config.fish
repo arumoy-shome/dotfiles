@@ -27,3 +27,4 @@ abbr -a t "tmux"
 
 # define aliases
 alias tmux "tmux -f $XDG_CONFIG_HOME/tmux/tmux.conf"
+alias git "hub"
