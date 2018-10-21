@@ -8,3 +8,7 @@ end
 function link
   _mklink editorconfig .editorconfig "$HOME/.editorconfig"
 end
+
+function unlink
+    _cleanup editorconfig "$HOME/.editorconfig"
+end
