@@ -10,7 +10,6 @@ function _install_topics -d "install one or more topics by calling topic/_init#(
         source "$topic/_init"
         install
 
-        _echo_ok "linking $topic..."
         _link_topics $topic
 
         if contains bin (ls $topic)
