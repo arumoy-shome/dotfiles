@@ -37,10 +37,17 @@ when not specified"
     popd
 end
 
-function _cleanup -a target -d "removes TARGET recursively"
+function _cleanup -a topic -d "expects a TOPIC and removes TARGET recursively.
+XDG_CONFIG_HOME/TOPIC is impiled as TARGET when not specified"
     set flags "-rvf"
 
-    command rm $flags $XDG_CONFIG_HOME/$target
+   if test $argv[2]
+       set target $argv[2]
+   else
+       set target "$XDG_CONFIG_HOME/$topic"
+   end
+
+   rm $flags $target
 end
 
 function _is_callable -a cmd -d "accepts a COMMAND and checks if it exists"

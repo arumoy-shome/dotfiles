@@ -46,6 +46,22 @@ function _link_topics -d "link one or more topics by calling topic/_init#link()"
     end
 end
 
+function _unlink_topics -d "unlinks one or more topics by calling topic/_init#unlink()"
+    set topics $argv
+
+    function _unlink_topic -a topic
+        _echo_ok "running $topic/_init#unlink()..."
+        source "$topic/_init"
+        unlink
+    end
+
+    for topic in $topics
+        if _is_valid_topic $topic; and _is_enabled_topic $topic
+            _unlink_topic $topic
+        end
+    end
+end
+
 function _delete_topics -d "delete one or more topics by calling topic/_init#delete()"
     set topics $argv
 
@@ -54,8 +70,8 @@ function _delete_topics -d "delete one or more topics by calling topic/_init#del
         source $topic/_init
         delete
 
-        _echo_ok "cleaning up $topic files..."
-        _cleanup $topic
+        _echo_ok "running $topic/_init#unlink()..."
+        unlink
 
         if contains bin (ls $topic)
             pushd $topic
@@ -95,7 +111,7 @@ function _echo_usage -d "prints a help message"
 end
 
 function deploy
-    set options (fish_opt -s h) (fish_opt -s l) (fish_opt -s L) (fish_opt -s d)
+    set options (fish_opt -s h) (fish_opt -s l) (fish_opt -s L) (fish_opt -s d) (fish_opt -s u)
     argparse -n deploy $options -- $argv
     set topics $argv
 
@@ -104,7 +120,7 @@ function deploy
     end
 
     function _any_options -S
-        test $_flag_h; or test $_flag_l; or test $_flag_L; or test $_flag_d
+        test $_flag_h; or test $_flag_l; or test $_flag_L; or test $_flag_d; or test $_flag_u
     end
 
     if not _any_topics; and not _any_options; or test $_flag_h
@@ -114,6 +130,11 @@ function deploy
 
     if test $_flag_l; and test $_flag_d
         _echo_fail "cannot link and delete at the same time"
+        return 1
+    end
+
+    if test $_flag_l; and test $_flag_u
+        _echo_fail "cannot link and unlink at the same time"
         return 1
     end
 
@@ -132,6 +153,9 @@ function deploy
         _link_topics $topics
     end
 
+    if test $_flag_u
+        _unlink_topics $topics
+    end
     if test $_flag_d
         _delete_topics $topics
     end
