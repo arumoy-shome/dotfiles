@@ -51,7 +51,11 @@ XDG_CONFIG_HOME/TOPIC is impiled as TARGET when not specified"
 end
 
 function _is_callable -a cmd -d "accepts a COMMAND and checks if it exists"
-    command -sq $cmd ; or false
+    command -sq $cmd; or false
+end
+
+function _is_defined -a func -d "accepts a FUNCTION and checks if it is defined"
+    contains $func (functions)
 end
 
 function _is_valid_topic -a topic -d "accepts a TOPIC and checks if a corresponding dir \

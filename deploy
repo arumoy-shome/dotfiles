@@ -6,11 +6,18 @@ function _install_topics -d "install one or more topics by calling topic/_init#(
     set topics $argv
 
     function _install_topic -a topic
-        _echo_ok "running $topic/_init#install()..."
         source "$topic/_init"
-        install
 
-        _link_topics $topic
+        if _is_defined install
+            _echo_ok "running $topic/_init#install()..."
+            install
+        else
+            _echo_fail "$topic/_init#install() does not exist"
+            _disable_topic $topic
+            return 1
+        end
+
+        _is_defined link; and _link_topics $topic
 
         if contains bin (ls $topic)
             pushd $topic
@@ -34,9 +41,14 @@ function _link_topics -d "link one or more topics by calling topic/_init#link()"
     set topics $argv
 
     function _link_topic -a topic
-        _echo_ok "running $topic/_init#link()..."
         source "$topic/_init"
-        link
+
+        if _is_defined link
+            _echo_ok "running $topic/_init#link()..."
+            link
+        else
+            _echo_fail "$topic/_init#link() does not exist"
+        end
     end
 
     for topic in $topics
@@ -50,15 +62,18 @@ function _unlink_topics -d "unlinks one or more topics by calling topic/_init#un
     set topics $argv
 
     function _unlink_topic -a topic
-        _echo_ok "running $topic/_init#unlink()..."
         source "$topic/_init"
-        unlink
+
+        if _is_defined unlink
+            _echo_ok "running $topic/_init#unlink()..."
+            unlink
+        else
+            _echo_fail "$topic/_init#unlink() does not exist"
+        end
     end
 
     for topic in $topics
-        if _is_valid_topic $topic; and _is_enabled_topic $topic
-            _unlink_topic $topic
-        end
+        _is_valid_topic $topic; and _unlink_topic $topic
     end
 end
 
@@ -66,12 +81,14 @@ function _delete_topics -d "delete one or more topics by calling topic/_init#del
     set topics $argv
 
     function _delete_topic -a topic
-        _echo_ok "running $topic/_init#delete()..."
         source $topic/_init
-        delete
 
-        _echo_ok "running $topic/_init#unlink()..."
-        unlink
+        if _is_defined delete
+            _echo_ok "running $topic/_init#delete()..."
+            delete
+        end
+
+        _is_defined unlink; and _unlink_topics $topic
 
         if contains bin (ls $topic)
             pushd $topic
