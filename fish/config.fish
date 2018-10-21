@@ -23,7 +23,7 @@ abbr -a pip "pip3"
 abbr -a py "python3"
 abbr -a py2 "python2"
 abbr -a ipy "ipython3"
-abbr -a t "tmux -f $XDG_CONFIG_HOME/tmux/tmux.conf"
+abbr -a t "tmux"
 
 # define aliases
 alias tmux "tmux -f $XDG_CONFIG_HOME/tmux/tmux.conf"
