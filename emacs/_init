@@ -1,0 +1,15 @@
+#!/usr/bin/env fish
+source env
+
+function install
+    brew tap d12frosted/emacs-plus
+    brew install emacs-plus --without-spacemacs-icon
+
+    git clone git@github.com:hlissner/doom-emacs.git "$HOME/.emacs.d"
+    and cd "$HOME/.emacs.d"
+    and YES=1 make install
+
+    git clone git@github.com:cask/cask.git "$HOME/.emacs.d/cask"
+
+    git clone git@github.com:arumoy-shome/doom-private.git "$XDG_CONFIG_HOME/doom"
+end
