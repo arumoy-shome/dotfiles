@@ -17,5 +17,5 @@ function unlink
 end
 
 function delete
-    echo "test/delte()!"
+    echo "test/delete()!"
 end
