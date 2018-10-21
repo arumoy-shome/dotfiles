@@ -1,0 +1,14 @@
+#!/usr/bin/env sh
+
+# fish is great but it doesn't come pre installed on osx
+# run this script right after cloning this repo to install the
+# core dependencies that this program needs
+
+# install xcode command line developer tools
+xcode-select --install
+
+# install Homebrew
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+# install fish
+brew install fish
