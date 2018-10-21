@@ -16,6 +16,8 @@
 [core]
   excludesfile = ~/.config/git/ignore
   autocrlf = input
+	pager = diff-so-fancy | less --tabs=4 -RFX
+	whitespace = trailing-space
 [merge]
   ff = only
 [commit]
