@@ -6,5 +6,5 @@ function install
 end
 
 function link
-  _mklink editorconfig .editorconfig ~/.editorconfig
+  _mklink editorconfig .editorconfig "$HOME/.editorconfig"
 end
