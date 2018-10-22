@@ -1,4 +1,5 @@
 function fish_prompt
+    echo
     set last_status $status
 
     test $last_status -eq 0; and set -l suffix (set_color green)'❯'
