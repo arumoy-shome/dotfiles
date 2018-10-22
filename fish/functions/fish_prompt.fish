@@ -5,7 +5,6 @@ function fish_prompt
     test $last_status -eq 1; and set -l suffix (set_color red)'❯'
 
     printf '%s' (set_color -i $fish_color_cwd)(basename (pwd))
-    printf '%s ' (__fish_git_prompt)
     echo
     printf '%s ' $suffix
 end

@@ -1,5 +1,5 @@
 # change the greeting message
-set fish_greeting 'welcome, aru.'
+set fish_greeting 'welcome, '(whoami)'.'
 
 # define some useful abbreviations
 # abbreviations are like alias but with nicer gui
