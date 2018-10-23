@@ -1,6 +1,9 @@
 # change the greeting message
 set fish_greeting 'welcome, '(whoami)'.'
 
+# base16-shell
+source "$XDG_CONFIG_HOME/base16-shell/profile_helper.fish"
+
 # define some useful abbreviations
 # abbreviations are like alias but with nicer gui
 abbr -a b "brew"
