@@ -10,7 +10,7 @@ function _echo_fail
     printf "\r\033[2K\033[0;31m[ FAIL ]\033[0m %s\n" "$argv"
 end
 
-function _mklink -a topic src -d "expects a TOPIC and a SRC and optionally a TOPIC
+function _mklink -a topic src -d "expects a TOPIC and a SRC and optionally a TARGET
 and (sym)link between SRC and TOPIC. XDG_CONFIG_HOME/TOPIC is implied as TARGET
 when not specified"
    set flags "-svf"
