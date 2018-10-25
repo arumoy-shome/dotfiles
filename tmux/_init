@@ -7,4 +7,10 @@ end
 
 function link
     _mklink tmux tmux.conf
+    _mklink tmux tmux.fish "$FISH_CONFIG_HOME"
+end
+
+function unlink
+    _cleanup tmux
+    _cleanup tmux "$FISH_CONFIG_HOME/tmux.fish"
 end

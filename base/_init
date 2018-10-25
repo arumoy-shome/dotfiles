@@ -12,6 +12,10 @@ function install
     pinentry-mac htop
 end
 
-# function link; end
+function link
+    _mklink base base.fish "$FISH_CONFIG_HOME"
+end
 
-# function delete; end
+function unlink
+    _cleanup base "$FISH_CONFIG_HOME/base.fish"
+end

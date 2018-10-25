@@ -1,0 +1,6 @@
+abbr -a b "brew"
+abbr -a bc "brew cask"
+abbr -a bci "brew cask install"
+abbr -a bcs "brew cask search"
+abbr -a bi "brew install"
+abbr -a bs "brew search"

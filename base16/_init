@@ -2,5 +2,17 @@
 source env
 
 function install
-    git clone git@github.com:chriskempson/base16-shell.git "$XDG_CONFIG_HOME/base16-shell"
+    git clone git@github.com:chriskempson/base16-shell.git "$XDG_CONFIG_HOME/base16"
+end
+
+function link
+    _mklink base16 base16.fish "$FISH_CONFIG_HOME"
+end
+
+function unlink
+    _cleanup base16 "$FISH_CONFIG_HOME/base16.fish"
+end
+
+function delete
+    _cleanup base16
 end
