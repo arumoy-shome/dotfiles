@@ -7,10 +7,24 @@ function install
     set fish (which fish)
     test "$SHELL" = $fish; or chsh -s $fish (whoami)
     grep -q $fish /etc/shells; or echo $fish | sudo tee -a /etc/shells > /dev/null
+
+    mkdir -p "$XDG_CONFIG_HOME/fish/conf.d"
+
+    set -U FISH_CONFIG_HOME (dirname (pwd))"/.config/fish/conf.d"
 end
 
 function link
-    _mklink fish config.fish
-    _mklink fish functions
-    _mklink fish completions
+    for f in config.fish functions completions
+        _mklink fish $f
+    end
+end
+
+function unlink
+    _cleanup fish
+end
+
+function delete
+    _cleanup fish "$XDG_CONFIG_HOME/fish/conf.d"
+
+    set -e FISH_CONFIG_HOME
 end
