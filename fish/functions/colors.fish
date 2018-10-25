@@ -1,6 +1,4 @@
-set base "$XDG_CONFIG_HOME/base16-shell/scripts"
-
-function _list_colors
+function _list_colors -S
     # look after '-' and before '.'
     string match -r '(?<=-)[\S\d]*(?=\.)' (ls $base)
 end
@@ -11,11 +9,19 @@ function _valid_color
     contains $argv $colors
 end
 
+function _current_theme -S
+    string match -r '(?<=-)[\S\d]*(?=\.)' (realpath "$BASE16_HOME/.base16_theme")
+end
+
 function colors
-    if _valid_color $argv
-        eval base16-$argv
-        echo "theme set successfully!"
-    else
-        _list_colors
-    end
+    set base "$BASE16_HOME/scripts"
+
+    set options (fish_opt -s l)
+    argparse -n colors $options -- $argv
+
+    test $_flag_l; and _list_colors
+
+    _valid_color $argv; and eval base16-$argv
+
+    echo "current theme set to: "(_current_theme)
 end

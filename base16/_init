@@ -3,6 +3,8 @@ source env
 
 function install
     git clone git@github.com:arumoy-shome/base16-shell.git "$XDG_CONFIG_HOME/base16"
+
+    set -U BASE16_HOME "$XDG_CONFIG_HOME/base16"
 end
 
 function link
@@ -15,4 +17,6 @@ end
 
 function delete
     _cleanup base16
+
+    set -e BASE16_HOME
 end

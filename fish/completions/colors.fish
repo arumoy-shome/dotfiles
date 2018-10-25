@@ -1,6 +1,5 @@
-set base "$XDG_CONFIG_HOME/base16-shell/scripts"
-
 function _list_colors
+    set base "$BASE16_HOME/scripts"
     # look after '-' and before '.'
     string match -r '(?<=-)[\S\d]*(?=\.)' (ls $base)
 end
