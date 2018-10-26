@@ -8,7 +8,7 @@ function install
 end
 
 function link
-    for f in ignore config message
+    for f in ignore config message template
         _mklink git $f
     end
 
