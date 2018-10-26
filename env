@@ -1,6 +1,6 @@
 #!/usr/bin/env fish
 
-set -U XDG_CONFIG_HOME (dirname (pwd))/.config
+set -U XDG_CONFIG_HOME "$HOME/.config"
 
 function _echo_ok
     printf "\r\033[2K\033[0;32m[ OK ]\033[0m %s\n" "$argv"

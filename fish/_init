@@ -10,7 +10,7 @@ function install
 
     mkdir -p "$XDG_CONFIG_HOME/fish/conf.d"
 
-    set -U FISH_CONFIG_HOME (dirname (pwd))"/.config/fish/conf.d"
+    set -U FISH_CONFIG_HOME "$XDG_CONFIG_HOME/fish/conf.d"
 end
 
 function link
