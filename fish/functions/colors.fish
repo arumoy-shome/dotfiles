@@ -9,7 +9,7 @@ function _valid_color
     contains $argv $colors
 end
 
-function _current_theme -S
+function _current_theme
     string match -r '(?<=-)[\S\d]*(?=\.)' (realpath "$BASE16_HOME/.base16_theme")
 end
 
