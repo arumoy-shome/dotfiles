@@ -6,7 +6,7 @@ function install
 end
 
 function link
-  _mklink editorconfig .editorconfig "$HOME/.editorconfig"
+  _mklink editorconfig editorconfig "$HOME/.editorconfig"
 end
 
 function unlink
