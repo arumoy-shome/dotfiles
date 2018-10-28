@@ -21,7 +21,7 @@ function colors
 
     test $_flag_l; and _list_colors
 
-    _valid_color $argv; and eval base16-$argv
+    test $argv; and _valid_color $argv; and eval base16-$argv
 
     echo "current theme set to: "(_current_theme)
 end
