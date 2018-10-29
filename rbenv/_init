@@ -1,0 +1,14 @@
+#!/usr/bin/env fish
+source env
+
+function install
+    brew install rbenv
+end
+
+function link
+    _mklink rbenv rbenv.fish "$FISH_CONFIG_HOME"
+end
+
+function unlink
+    _mklink rbenv "$FISH_CONFIG_HOME/rbenv.fish"
+end
