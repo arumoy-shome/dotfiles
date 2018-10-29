@@ -1,4 +1,6 @@
-function _list_colors -S
+function _list_colors
+    set base "$BASE16_HOME/scripts"
+
     # look after '-' and before '.'
     string match -r '(?<=-)[\S\d]*(?=\.)' (ls $base)
 end
@@ -14,7 +16,6 @@ function _current_theme
 end
 
 function colors
-    set base "$BASE16_HOME/scripts"
 
     set options (fish_opt -s l)
     argparse -n colors $options -- $argv
