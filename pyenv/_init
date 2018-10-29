@@ -2,11 +2,7 @@
 source env
 
 function install
-    git clone https://github.com/pyenv/pyenv.git "$XDG_CONFIG_HOME/pyenv"
-
-    set -U PYENV_HOME "$XDG_CONFIG_HOME/pyenv"
-
-    set -U fish_user_paths "$PYENV_HOME/bin" $fish_user_paths
+    brew install pyenv
 end
 
 function link
@@ -15,13 +11,4 @@ end
 
 function unlink
     _cleanup pyenv "$FISH_CONFIG_HOME/pyenv.fish"
-end
-
-function delete
-    _cleanup pyenv
-
-    set index (contains -i "$PYENV_HOME/bin" $fish_user_paths)
-    set -e fish_user_paths[$index]
-
-    set -e PYENV_HOME
 end
