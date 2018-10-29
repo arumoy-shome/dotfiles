@@ -1,0 +1,14 @@
+#!/usr/bin/env fish
+source env
+
+function install
+    brew cask install karabiner-elements
+end
+
+function link
+    _mklink karabiner karabiner.json
+end
+
+function unlink
+    _cleanup karabiner
+end
