@@ -2,37 +2,56 @@
 
 A set of files that begin with a dot and are updated quite frequently.
 
-~I use [rcm](https://github.com/thoughtbot/rcm) behind the scenes to symlink the~
-~files into my home directory.~
-
-I am writing my own dotfiles manager in [fish](https://fishshell.com) at the
-moment, stay tuned!
-
 ## Dependencies ##
 
-* A relatively new Vim version (ideally 7.5 and above) compiled with Python3
-  support. For more info, check this [Github
-  issue](https://github.com/Homebrew/legacy-homebrew/issues/20327)
-* A relatively new Zsh version as your shell.
-* A relatively new Tmux version (ideally 2.1 and above).
-* iTerm as your terminal since the default terminal app does not play nice with
-  italics.
-* [Vim Plug](https://github.com/junegunn/vim-plug/) as your Vim plugin manager.
-* [Zplug](https://github.com/zplug/zplug) as your Zsh plugin manager.
-* ~[rcm](https://github.com/thoughtbot/rcm) to manage your dotfiles.~
-* [chruby](https://github.com/postmodern/chruby) to manage your rubies.
-* [reattach-to-user-namespace](https://github.com/ChrisJohnsen/tmux-MacOSX-pasteboard)
-  if using Tmux version below 2.6 (Tmux bakes this in starting at version 2.6).
-* [terminal-notifier](https://github.com/julienXX/terminal-notifier) for
-  notifications from processes.
+- osx as your operating system
+- xcode developer tools
+- [fish](http://fishshell.com/) as your command line shell
+- [homebrew](https://brew.sh/) for package management
 
 ## Getting started ##
 
-under construction...stay tuned.
+1. execute the `bootstrap` script with `./bootstrap`, this will install the core
+dependencies
+2. use `./deploy` to install, link/unlink & delete topics
 
-## Organization ##
+```
+    usage: ./deploy FLAGS TOPICS
+    if no FLAGS are passed then given TOPICS are installed & linked
 
-under construction...stay tuned.
+    valid FLAGS: -h -l -L -u -d
+    -h: print this help message
+    -L: list enabled topics
+    -l: link given TOPICS
+    -u: unlink given TOPICS
+    -d: delete given TOPICS
+
+    example usage:
+    ./deploy base # install and link base
+    ./deploy base zsh fish # install and link base, zsh & fish
+    ./deploy -l base zsh fish # only link base, zsh & fish
+    ./deploy -d tmux # delete tmux
+```
+
+Make sure to read the topic/README before installing for caveats and dependencies.
+
+## Organisation ##
+
+1. Each topic is under it's own directory
+2. A topic must contain a `_init` script
+3. `_init` must define an `install` function for the topic to be valid
+4. Executables can be placed under topic/bin which will be automatically loaded
+into the `PATH`
+5. Additional shell configs can be placed under topic/topic.fish, these are (sym)linked
+to `XDG_CONFIG_DIR/fish/conf.d` and are automatically picked up by fish
+6. Use `topic/_init#install` to define how to install a topic. Additionally,
+one off actions such as setting up `PATH` or exporting variables can be placed here
+7. Use `topic/_init#link` to (sym)link config files to their appropriate locations
+8. Use `topic/_init#unlink` to undo `topic/_init#link`. In essence, `link` &
+`unlink` must only contain repeatable actions such that they may be executed multiple
+times without any serious consequences
+9. Use `topic/_init#delete` to undo `topic/_init#install`. In essence, `install`
+& `delete` must only contain one off actions that cannot be executed multiple times.
 
 ## License ##
 
