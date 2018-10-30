@@ -33,7 +33,8 @@ dependencies
     ./deploy -d tmux # delete tmux
 ```
 
-Make sure to read the topic/README before installing for caveats and dependencies.
+Make sure to read the corresponding topic/README before installing for caveats
+and dependencies.
 
 ## Organisation ##
 
@@ -42,20 +43,24 @@ Make sure to read the topic/README before installing for caveats and dependencie
 3. `_init` must define an `install` function for the topic to be valid
 4. Executables can be placed under topic/bin which will be automatically loaded
 into the `PATH`
-5. Additional shell configs can be placed under topic/topic.fish, these are (sym)linked
-to `XDG_CONFIG_DIR/fish/conf.d` and are automatically picked up by fish
-6. Use `topic/_init#install` to define how to install a topic. Additionally,
-one off actions such as setting up `PATH` or exporting variables can be placed here
+5. Additional shell configs can be placed under topic/topic.fish, these are
+(sym)linked to `XDG_CONFIG_DIR/fish/conf.d` and are automatically picked up by
+fish
+6. Use `topic/_init#install` to define how to install a topic. Additionally, one
+off actions such as setting up `PATH` or exporting variables can be placed here
 7. Use `topic/_init#link` to (sym)link config files to their appropriate locations
 8. Use `topic/_init#unlink` to undo `topic/_init#link`. In essence, `link` &
-`unlink` must only contain repeatable actions such that they may be executed multiple
-times without any serious consequences
+`unlink` must only contain repeatable actions such that they may be executed
+multiple times without any serious consequences
 9. Use `topic/_init#delete` to undo `topic/_init#install`. In essence, `install`
-& `delete` must only contain one off actions that cannot be executed multiple times.
+& `delete` must only contain one off actions that cannot be executed multiple
+times.
+10. Finally, `test` is a topic for testing. Use this to test out scripts before
+running scripts on actual files!
 
 ## License ##
 
-This project is open sourced and free to use under the [MIT license](LICENSE.md)].
+This project is open sourced and free to use under the [MIT license](LICENSE.md).
 
 ## Credits ##
 
