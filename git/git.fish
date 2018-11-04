@@ -1,10 +1,3 @@
 abbr -a g "git"
-abbr -a gco "git checkout"
-abbr -a gco "git checkout"
-abbr -a gfm "git pull origin"
-abbr -a gia "git add"
-abbr -a gp "git push origin"
-abbr -a gwd "git diff"
-abbr -a gws "git status"
 
 alias git "hub"
