@@ -6,7 +6,7 @@
 [init]
   templatedir = ~/.config/git/template
 [push]
-  default = current
+  default = upstream
 [color]
   ui = true
 [alias]
