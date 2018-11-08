@@ -15,7 +15,7 @@ function _current_theme
     string match -r '(?<=-)[\S\d]*(?=\.)' (realpath "$BASE16_HOME/.base16_theme")
 end
 
-function colors
+function colors -d "a helpful wrapper around base16-shell"
 
     set options (fish_opt -s l)
     argparse -n colors $options -- $argv
