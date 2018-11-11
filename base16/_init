@@ -2,9 +2,9 @@
 source env
 
 function install
-    git clone git@github.com:arumoy-shome/base16-shell.git "$XDG_CONFIG_HOME/base16"
+    git clone git@github.com:arumoy-shome/base16-shell.git "$XDG_DATA_HOME/base16"
 
-    set -U BASE16_HOME "$XDG_CONFIG_HOME/base16"
+    set -U BASE16_HOME "$XDG_DATA_HOME/base16"
 end
 
 function link
