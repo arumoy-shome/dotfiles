@@ -4,9 +4,9 @@ hs.loadSpoon("MiroWindowsManager")
 
 hs.window.animationDuration = 0
 spoon.MiroWindowsManager:bindHotkeys({
-  up = {hyper, "up"},
-  right = {hyper, "right"},
-  down = {hyper, "down"},
-  left = {hyper, "left"},
+  up = {hyper, "k"},
+  right = {hyper, "l"},
+  down = {hyper, "j"},
+  left = {hyper, "h"},
   fullscreen = {hyper, "f"}
 })

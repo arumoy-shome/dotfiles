@@ -1,0 +1,16 @@
+#!/usr/bin/env fish
+source env
+
+function install
+    brew cask install hammerspoon
+end
+
+function link
+    command mkdir -p "$HOME/.hammerspoon"
+    _mklink hammerspoon init.lua "$HOME/.hammerspoon/init.lua"
+    cp -Rvn "hammerspoon/Spoons" "$HOME/.hammerspoon"
+end
+
+function unlink
+    _cleanup hammerspoon "$HOME/.hammerspoon"
+end
