@@ -20,6 +20,7 @@
   glog = log -E -i --grep
   car = commit --amend --no-edit
   unstage = reset
+  squash = rebase -i
 [core]
   excludesfile = ~/.config/git/ignore
   autocrlf = input
