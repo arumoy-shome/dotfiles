@@ -103,10 +103,11 @@ function _echo_usage -d "prints a help message"
     usage: ./deploy FLAGS TOPICS
     if no FLAGS are passed then given TOPICS are installed & linked
 
-    valid FLAGS: -h -l -d
+    valid FLAGS: -h -l -d -L
     -h: print this help message
     -l: link given TOPICS
     -d: delete given TOPICS
+    -L: list enabled topics
 
     example usage:
     ./deploy base # install and link base
@@ -145,9 +146,10 @@ function deploy
     end
 
     if test $_flag_L
-        if test (count $ENABLED_TOPICS) -gt 0
+        set enabled_topics (cat (pwd)"/.enabled_topics")
+        if test (count $enabled_topics) -gt 0
             printf "
-            enabled topics: $ENABLED_TOPICS"
+            enabled topics: $enabled_topics"
         else
             printf "
             no topics enabled!
