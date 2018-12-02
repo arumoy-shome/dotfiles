@@ -25,9 +25,7 @@ function _install_topics -d "install one or more topics by calling topic/_init#(
     end
 
     for topic in $topics
-        if _enable_topic $topic
-            _install_topic $topic
-        end
+        _enable_topic $topic; and _install_topic $topic
     end
 end
 
@@ -47,9 +45,7 @@ function _link_topics -d "link one or more topics using stow if variable TARGET 
     end
 
     for topic in $topics
-        if _is_valid_topic $topic; and _is_enabled_topic $topic
-            _link_topic $topic
-        end
+        _is_enabled_topic $topic; and _link_topic $topic
     end
 end
 
@@ -92,9 +88,7 @@ function _delete_topics -d "delete one or more topics by calling topic/_init#del
     end
 
     for topic in $topics
-        if _disable_topic $topic
-            _delete_topic $topic
-        end
+        _disable_topic $topic; and _delete_topic $topic
     end
 end
 
