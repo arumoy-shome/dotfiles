@@ -20,13 +20,7 @@ function _install_topics -d "install one or more topics by calling topic/_init#(
         _is_defined link; and _link_topics $topic
 
         if contains bin (ls $topic)
-            pushd $topic
-
-            _echo_ok "adding $topic/bin to PATH"
-            set bin_path (dirname (pwd))"/$topic/bin"
-            set -U fish_user_paths $fish_user_paths $bin_path
-
-            popd
+            command stow -v -t $XDG_DATA_BIN -d $topic bin
         end
     end
 
@@ -91,14 +85,7 @@ function _delete_topics -d "delete one or more topics by calling topic/_init#del
         _is_defined unlink; and _unlink_topics $topic
 
         if contains bin (ls $topic)
-            pushd $topic
-
-            _echo_ok "cleaning up PATH..."
-            set bin_path (dirname (pwd))"/$topic/bin"
-            set index (contains -i $bin_path $fish_user_paths)
-            set -e fish_user_paths[$index]
-
-            popd
+            command stow -v -t $XDG_DATA_BIN -d $topic -D bin
         end
     end
 
