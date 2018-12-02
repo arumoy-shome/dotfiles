@@ -17,7 +17,7 @@ function _install_topics -d "install one or more topics by calling topic/_init#(
             return 1
         end
 
-        _is_defined link; and _link_topics $topic
+        test $TARGET; and _link_topics $topic
 
         if contains bin (ls $topic)
             command stow -v -t $XDG_DATA_BIN -d $topic bin
@@ -84,7 +84,7 @@ function _delete_topics -d "delete one or more topics by calling topic/_init#del
             delete
         end
 
-        _is_defined unlink; and _unlink_topics $topic
+        test $TARGET; and _unlink_topics $topic
 
         if contains bin (ls $topic)
             command stow -v -t $XDG_DATA_BIN -d $topic -D bin
