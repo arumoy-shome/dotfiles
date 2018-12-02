@@ -37,8 +37,8 @@ function _link_topics -d "link one or more topics using stow if variable TARGET 
 
         if test $TARGET
             _echo_ok "linking $topic..."
-            test -e $TARGET; or command mkdir -p $TARGET
-            command stow -nv -t $TARGET $topic
+            not test "$TARGET" = "$HOME"; and command mkdir -p $TARGET
+            command stow -v -t $TARGET $topic
         else
             _echo_fail "$topic/_init#TARGET not defined"
         end
