@@ -10,32 +10,18 @@ function _echo_fail
     printf "\r\033[2K\033[0;31m[ FAIL ]\033[0m %s\n" "$argv"
 end
 
-# function _mklink -a topic src -d "expects a TOPIC and a SRC and optionally a TARGET
-# and (sym)link between SRC and TOPIC. XDG_CONFIG_HOME/TOPIC is implied as TARGET
-# when not specified"
-#    if test $argv[3]
-#        set target $argv[3]
-#    else
-#        set target "$XDG_CONFIG_HOME/$topic"
-#    end
+function _cleanup -a topic -d "expects a TOPIC and removes TARGET recursively.
+XDG_CONFIG_HOME/TOPIC is impiled as TARGET when not specified"
+    set flags "-rvf"
 
-#    test $argv[3]; or command mkdir -p $target
+   if test $argv[2]
+       set target $argv[2]
+   else
+       set target "$XDG_CONFIG_HOME/$topic"
+   end
 
-#    command stow -v -t $target $topic
-# end
-
-# function _cleanup -a topic -d "expects a TOPIC and removes TARGET recursively.
-# XDG_CONFIG_HOME/TOPIC is impiled as TARGET when not specified"
-#     set flags "-rvf"
-
-#    if test $argv[2]
-#        set target $argv[2]
-#    else
-#        set target "$XDG_CONFIG_HOME/$topic"
-#    end
-
-#    rm $flags $target
-# end
+   rm $flags $target
+end
 
 function _is_callable -a cmd -d "accepts a COMMAND and checks if it exists"
     command -sq $cmd

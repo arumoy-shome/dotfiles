@@ -1,6 +1,6 @@
 #!/usr/bin/env fish
 
-source env
+source helper
 
 function _install_topics -d "install one or more topics by calling topic/_init#(install)"
     set topics $argv
@@ -31,17 +31,18 @@ function _install_topics -d "install one or more topics by calling topic/_init#(
     end
 end
 
-function _link_topics -d "link one or more topics by calling topic/_init#link()"
+function _link_topics -d "link one or more topics using stow if variable TARGET is defined"
     set topics $argv
 
     function _link_topic -a topic
         source "$topic/_init"
 
-        if _is_defined link
-            _echo_ok "running $topic/_init#link()..."
-            link
+        if test $TARGET
+            _echo_ok "linking $topic..."
+            test -e $TARGET; or command mkdir -p $TARGET
+            command stow -nv -t $TARGET $topic
         else
-            _echo_fail "$topic/_init#link() does not exist"
+            _echo_fail "$topic/_init#TARGET not defined"
         end
     end
 
