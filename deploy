@@ -59,11 +59,12 @@ function _unlink_topics -d "unlinks one or more topics by calling topic/_init#un
     function _unlink_topic -a topic
         source "$topic/_init"
 
-        if _is_defined unlink
-            _echo_ok "running $topic/_init#unlink()..."
-            unlink
+        if test $TARGET
+            _echo_ok "unlinking $topic..."
+            command stow -v -t $TARGET -D $topic
+            not test "$TARGET" = "$HOME"; and command rm -rvf $TARGET
         else
-            _echo_fail "$topic/_init#unlink() does not exist"
+            _echo_fail "$topic/_init#TARGET not defined"
         end
     end
 
