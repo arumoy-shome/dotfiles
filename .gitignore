@@ -1,2 +1,3 @@
 *.org
 *.org_archive
+.enabled_topics

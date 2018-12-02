@@ -52,7 +52,7 @@ XDG_CONFIG_HOME/TOPIC is impiled as TARGET when not specified"
 end
 
 function _is_callable -a cmd -d "accepts a COMMAND and checks if it exists"
-    command -sq $cmd; or false
+    command -sq $cmd
 end
 
 function _is_defined -a func -d "accepts a FUNCTION and checks if it is defined"
@@ -76,11 +76,7 @@ is present in the root dir of the project and if TOPIC/_init exists"
 end
 
 function _is_enabled_topic -a topic -d "checks if TOPIC is enabled or not"
-    if contains $topic $ENABLED_TOPICS
-        true
-    else
-        false
-    end
+    contains $topic (cat (pwd)"/.enabled_topics")
 end
 
 function _enable_topic -a topic -d "adds TOPIC to list of enabled topics"
@@ -89,7 +85,7 @@ function _enable_topic -a topic -d "adds TOPIC to list of enabled topics"
     end
 
     if not _is_enabled_topic $topic
-        set -U ENABLED_TOPICS $ENABLED_TOPICS $topic
+        echo $topic >> (pwd)"/.enabled_topics"
     else
         _echo_ok "$topic already enabled!"
         false
@@ -102,8 +98,15 @@ function _disable_topic -a topic -d "removes TOPIC from list of enabled topics"
     end
 
     if _is_enabled_topic $topic
-        set index (contains -i $topic $ENABLED_TOPICS)
-        set -e ENABLED_TOPICS[$index]
+        set lines (cat (pwd)"/.enabled_topics")
+        set index (contains -i $topic $lines)
+        set -e lines[$index]
+
+        cat /dev/null > (pwd)"/.enabled_topics"
+
+        for line in $lines
+            echo $line >> (pwd)"/.enabled_topics"
+        end
     else
         _echo_ok "$topic already disabled!"
         false
