@@ -1,21 +1,10 @@
 #!/usr/bin/env fish
 source env
 
+set TARGET "$XDG_CONFIG_HOME/git"
+
 function install
     brew install \
     git git-lfs hub diff-so-fancy git-standup \
     git-extras git-flow-avh
-end
-
-function link
-    for f in ignore config message template
-        _mklink git $f
-    end
-
-    _mklink git git.fish "$FISH_CONFIG_HOME"
-end
-
-function unlink
-    _cleanup git
-    _cleanup git "$FISH_CONFIG_HOME/git.fish"
 end
