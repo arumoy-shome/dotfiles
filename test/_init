@@ -2,18 +2,10 @@
 
 source env
 
+set TARGET $HOME
+
 function install
     echo "test/install()!"
-end
-
-function link
-    _mklink test testrc
-    _mklink test testrc "$HOME/.testrc"
-end
-
-function unlink
-    _cleanup test
-    _cleanup test "$HOME/.testrc"
 end
 
 function delete
