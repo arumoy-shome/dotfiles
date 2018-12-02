@@ -1,0 +1,100 @@
+#!/usr/bin/env fish
+
+source env
+
+function _echo_ok
+    printf "\r\033[2K\033[0;32m[ OK ]\033[0m %s\n" "$argv"
+end
+
+function _echo_fail
+    printf "\r\033[2K\033[0;31m[ FAIL ]\033[0m %s\n" "$argv"
+end
+
+# function _mklink -a topic src -d "expects a TOPIC and a SRC and optionally a TARGET
+# and (sym)link between SRC and TOPIC. XDG_CONFIG_HOME/TOPIC is implied as TARGET
+# when not specified"
+#    if test $argv[3]
+#        set target $argv[3]
+#    else
+#        set target "$XDG_CONFIG_HOME/$topic"
+#    end
+
+#    test $argv[3]; or command mkdir -p $target
+
+#    command stow -v -t $target $topic
+# end
+
+# function _cleanup -a topic -d "expects a TOPIC and removes TARGET recursively.
+# XDG_CONFIG_HOME/TOPIC is impiled as TARGET when not specified"
+#     set flags "-rvf"
+
+#    if test $argv[2]
+#        set target $argv[2]
+#    else
+#        set target "$XDG_CONFIG_HOME/$topic"
+#    end
+
+#    rm $flags $target
+# end
+
+function _is_callable -a cmd -d "accepts a COMMAND and checks if it exists"
+    command -sq $cmd
+end
+
+function _is_defined -a func -d "accepts a FUNCTION and checks if it is defined"
+    contains $func (functions)
+end
+
+function _is_valid_topic -a topic -d "accepts a TOPIC and checks if a corresponding dir \
+is present in the root dir of the project and if TOPIC/_init exists"
+
+    function _valid_topic -S
+        test -d "$topic"
+        and test -e "$topic/_init"
+    end
+
+    if _valid_topic
+        true
+    else
+        _echo_fail "$topic is not a valid topic"
+        false
+    end
+end
+
+function _is_enabled_topic -a topic -d "checks if TOPIC is enabled or not"
+    contains $topic (cat (pwd)"/.enabled_topics")
+end
+
+function _enable_topic -a topic -d "adds TOPIC to list of enabled topics"
+    if not _is_valid_topic $topic
+        return 1
+    end
+
+    if not _is_enabled_topic $topic
+        echo $topic >> (pwd)"/.enabled_topics"
+    else
+        _echo_ok "$topic already enabled!"
+        false
+    end
+end
+
+function _disable_topic -a topic -d "removes TOPIC from list of enabled topics"
+    if not _is_valid_topic $topic
+        return 1
+    end
+
+    if _is_enabled_topic $topic
+        set lines (cat (pwd)"/.enabled_topics")
+        set index (contains -i $topic $lines)
+        set -e lines[$index]
+
+        cat /dev/null > (pwd)"/.enabled_topics"
+
+        for line in $lines
+            echo $line >> (pwd)"/.enabled_topics"
+        end
+    else
+        _echo_ok "$topic already disabled!"
+        false
+    end
+end
