@@ -17,11 +17,7 @@ function _install_topics -d "install one or more topics by calling topic/_init#(
             return 1
         end
 
-        test $TARGET; and _link_topics $topic
-
-        if contains bin (ls $topic)
-            command stow -v -t $XDG_DATA_BIN -d $topic bin
-        end
+        _link_topics $topic
     end
 
     for topic in $topics
@@ -41,6 +37,14 @@ function _link_topics -d "link one or more topics using stow if variable TARGET 
             command stow -v -t $TARGET $topic
         else
             _echo_fail "$topic/_init#TARGET not defined"
+        end
+
+        if contains bin (ls $topic)
+            command stow -v -t $XDG_DATA_BIN -d $topic bin
+        end
+
+        if contains conf.d (ls $topic); and test $FISH_CONFIG_HOME
+            command stow -v -t $FISH_CONFIG_HOME -d $topic conf.d
         end
     end
 
@@ -62,6 +66,14 @@ function _unlink_topics -d "unlinks one or more topics by calling topic/_init#un
         else
             _echo_fail "$topic/_init#TARGET not defined"
         end
+
+        if contains bin (ls $topic)
+            command stow -v -t $XDG_DATA_BIN -d $topic -D bin
+        end
+
+        if contains conf.d (ls $topic)
+            command stow -v -t $FISH_CONFIG_HOME -d $topic -D conf.d
+        end
     end
 
     for topic in $topics
@@ -80,11 +92,7 @@ function _delete_topics -d "delete one or more topics by calling topic/_init#del
             delete
         end
 
-        test $TARGET; and _unlink_topics $topic
-
-        if contains bin (ls $topic)
-            command stow -v -t $XDG_DATA_BIN -d $topic -D bin
-        end
+        _unlink_topics $topic
     end
 
     for topic in $topics
