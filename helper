@@ -39,9 +39,7 @@ function _is_enabled_topic -a topic -d "checks if TOPIC is enabled or not"
 end
 
 function _enable_topic -a topic -d "adds TOPIC to list of enabled topics"
-    if not _is_valid_topic $topic
-        return 1
-    end
+    _is_valid_topic $topic; or return 1
 
     if not _is_enabled_topic $topic
         echo $topic >> (pwd)"/.enabled_topics"
@@ -52,9 +50,7 @@ function _enable_topic -a topic -d "adds TOPIC to list of enabled topics"
 end
 
 function _disable_topic -a topic -d "removes TOPIC from list of enabled topics"
-    if not _is_valid_topic $topic
-        return 1
-    end
+    _is_valid_topic $topic; or return 1
 
     if _is_enabled_topic $topic
         set lines (cat (pwd)"/.enabled_topics")
