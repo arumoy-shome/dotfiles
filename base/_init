@@ -1,6 +1,8 @@
 #!/usr/bin/env fish
 source env
 
+set TARGET ""
+
 function install
     if not _is_callable brew
         /usr/bin/ruby -e "(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
@@ -10,12 +12,4 @@ function install
     wget curl tree coreutils bash gnupg2 \
     the_silver_searcher ripgrep neofetch \
     pinentry-mac htop
-end
-
-function link
-    _mklink base base.fish "$FISH_CONFIG_HOME"
-end
-
-function unlink
-    _cleanup base "$FISH_CONFIG_HOME/base.fish"
 end
