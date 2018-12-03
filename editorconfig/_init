@@ -1,14 +1,8 @@
 #!/usr/bin/env fish
 source env
 
+set TARGET $HOME
+
 function install
     brew install editorconfig
-end
-
-function link
-  _mklink editorconfig editorconfig "$HOME/.editorconfig"
-end
-
-function unlink
-    _cleanup editorconfig "$HOME/.editorconfig"
 end
