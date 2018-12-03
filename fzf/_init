@@ -1,0 +1,10 @@
+#!/usr/bin/env fish
+
+set TARGET ""
+
+function install
+    brew install fzf
+
+    # install useful keybindings and fuzzy completions
+    /usr/local/opt/fzf/install
+end
