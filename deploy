@@ -32,18 +32,20 @@ function _link_topics -d "link one or more topics using stow if variable TARGET 
         source "$topic/_init"
 
         if test $TARGET
-            _echo_ok "linking $topic..."
+            _echo_ok "linking $topic config files..."
             test "$TARGET" = "$HOME"; or command mkdir -p $TARGET
             command stow -v -t $TARGET $topic
         else
-            _echo_fail "$topic/_init#TARGET not defined"
+            _echo_ok "$topic/_init#TARGET not defined, skipping config files..."
         end
 
         if contains bin (ls $topic)
+            _echo_ok "linking $topic bin..."
             command stow -v -t $XDG_DATA_BIN -d $topic bin
         end
 
         if contains conf.d (ls $topic); and test $FISH_CONFIG_HOME
+            _echo_ok "linking $topic conf.d..."
             command stow -v -t $FISH_CONFIG_HOME -d $topic conf.d
         end
     end
@@ -60,18 +62,20 @@ function _unlink_topics -d "unlink one or more topics using stow if variable TAR
         source "$topic/_init"
 
         if test $TARGET
-            _echo_ok "unlinking $topic..."
+            _echo_ok "(un)linking $topic config files..."
             command stow -v -t $TARGET -D $topic
             test "$TARGET" = "$HOME"; or command rm -rvf $TARGET
         else
-            _echo_fail "$topic/_init#TARGET not defined"
+            _echo_ok "$topic/_init#TARGET not defined, skipping config files..."
         end
 
         if contains bin (ls $topic)
+            _echo_ok "(un)linking $topic bin..."
             command stow -v -t $XDG_DATA_BIN -d $topic -D bin
         end
 
         if contains conf.d (ls $topic)
+            _echo_ok "(un)linking $topic conf.d..."
             command stow -v -t $FISH_CONFIG_HOME -d $topic -D conf.d
         end
     end
