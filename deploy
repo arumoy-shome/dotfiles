@@ -55,6 +55,36 @@ function _link_topics -d "link one or more topics using stow if variable TARGET 
     end
 end
 
+function _relink_topics -d "relink one or more topics using stow"
+    set topics $argv
+
+    function _relink_topic -a topic
+        source "$topic/_init"
+
+        if test $TARGET
+            _echo_ok "(re)linking $topic config files..."
+            test "$TARGET" = "$HOME"; or command mkdir -p $TARGET
+            command stow -v -t $TARGET -R $topic
+        else
+            _echo_ok "$topic/_init#TARGET not defined, skipping config files..."
+        end
+
+        if contains bin (ls $topic)
+            _echo_ok "(re)linking $topic bin..."
+            command stow -v -t $XDG_DATA_BIN -d $topic -R bin
+        end
+
+        if contains conf.d (ls $topic); and test $FISH_CONFIG_HOME
+            _echo_ok "(re)linking $topic conf.d..."
+            command stow -v -t $FISH_CONFIG_HOME -d $topic -R conf.d
+        end
+    end
+
+    for topic in $topics
+        _is_enabled_topic $topic; and _relink_topic $topic
+    end
+end
+
 function _unlink_topics -d "unlink one or more topics using stow if variable TARGET is defined"
     set topics $argv
 
@@ -124,7 +154,8 @@ function _echo_usage -d "prints a help message"
 end
 
 function deploy
-    set options (fish_opt -s h) (fish_opt -s l) (fish_opt -s L) (fish_opt -s d) (fish_opt -s u)
+    set options (fish_opt -s h) (fish_opt -s l) (fish_opt -s L)
+    set options $options (fish_opt -s d) (fish_opt -s u) (fish_opt -s r)
     argparse -n deploy $options -- $argv
     set topics $argv
 
@@ -133,21 +164,16 @@ function deploy
     end
 
     function _any_options -S
-        test $_flag_h; or test $_flag_l; or test $_flag_L; or test $_flag_d; or test $_flag_u
+        test $_flag_h
+        or test $_flag_l
+        or test $_flag_L
+        or test $_flag_d
+        or test $_flag_u
+        or test $flag_r
     end
 
     if not _any_topics; and not _any_options; or test $_flag_h
         _echo_usage
-    end
-
-    if test $_flag_l; and test $_flag_d
-        _echo_fail "cannot link and delete at the same time"
-        return 1
-    end
-
-    if test $_flag_l; and test $_flag_u
-        _echo_fail "cannot link and unlink at the same time"
-        return 1
     end
 
     if test $_flag_L
@@ -162,11 +188,13 @@ function deploy
         end
     end
 
-    test $_flag_l; and _link_topics $topics
+    test $_flag_l; and _link_topics $topics; and return 0
 
-    test $_flag_u; and _unlink_topics $topics
+    test $_flag_u; and _unlink_topics $topics; and return 0
 
-    test $_flag_d; and _delete_topics $topics
+    test $_flag_r; and _relink_topics $topics; and return 0
+
+    test $_flag_d; and _delete_topics $topics; and return 0
 
     _any_topics; and not _any_options; and _install_topics $topics
 end
