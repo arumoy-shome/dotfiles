@@ -16,5 +16,5 @@ brew install fish
 # install stow
 brew install stow
 
-# link stow-global-ignore file to $HOME/.stow-global-ignore
-ln -svf stow-global-ignore $HOME/.stow-global-ignore
+# cp stow-global-ignore file to $HOME/.stow-global-ignore
+cp stow-global-ignore $HOME/.stow-global-ignore
