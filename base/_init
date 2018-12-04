@@ -1,8 +1,6 @@
 #!/usr/bin/env fish
 source env
 
-set TARGET ""
-
 function install
     if not _is_callable brew
         /usr/bin/ruby -e "(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"

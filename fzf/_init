@@ -1,7 +1,5 @@
 #!/usr/bin/env fish
 
-set TARGET ""
-
 function install
     brew install fzf
 
