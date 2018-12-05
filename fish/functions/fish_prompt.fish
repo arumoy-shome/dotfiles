@@ -4,12 +4,11 @@ function fish_prompt
 
     # redirect output to stdout and stderror to /dev/null
     # taken from fish documentation>syntax overview>i/o redirection
-    jobs > /dev/null ^&1; and set -l job (set_color blue)'❯'
+    jobs > /dev/null ^&1; and set job (set_color blue)'❯'
     test $last_status -eq 0; and set suffix (set_color white)'❯'
     test $last_status -eq 1; and set suffix (set_color red)'❯'
 
-    printf '%s' (set_color $fish_color_cwd)(basename (pwd))
-    echo
+    printf '%s ' (set_color $fish_color_cwd)(basename (pwd))
     printf '%s' $job
     printf '%s ' $suffix
 end
