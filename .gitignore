@@ -1,3 +1,4 @@
 *.org
 *.org_archive
 .enabled_topics
+vim/.vim/bundle
