@@ -1,0 +1,8 @@
+#!/usr/bin/env fish
+source env
+
+set TARGET "$HOME"
+
+function install
+  brew install vim
+end
