@@ -1,28 +1,7 @@
-function _list_colors
-    set base "$BASE16_HOME/scripts"
+function colors -d "switch to a dark of light theme"
+    set base "$XDG_DATA_HOME/base16"
+    set color $argv[1]
 
-    # look after '-' and before '.'
-    string match -r '(?<=-)[\S\d]*(?=\.)' (ls $base)
-end
-
-function _valid_color
-    set colors (_list_colors)
-
-    contains $argv $colors
-end
-
-function _current_theme
-    string match -r '(?<=-)[\S\d]*(?=\.)' (realpath "$BASE16_HOME/.base16_theme")
-end
-
-function colors -d "a helpful wrapper around base16-shell"
-
-    set options (fish_opt -s l)
-    argparse -n colors $options -- $argv
-
-    test $_flag_l; and _list_colors
-
-    test $argv; and _valid_color $argv; and eval base16-$argv
-
-    echo "current theme set to: "(_current_theme)
+    test "$color" = "light"; and sh "$base/base16-solarized-light.sh"
+    test "$color" = "dark"; and sh "$base/base16-tomorrow-night.sh"
 end
