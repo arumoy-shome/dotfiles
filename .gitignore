@@ -1,5 +1,3 @@
 *.org
 *.org_archive
 .enabled_topics
-vim/.vim/bundle
-vim/.vim/.background
