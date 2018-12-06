@@ -4,9 +4,9 @@ Install [fish](https://fishshell.com) and set it as the default shell.
 
 ## Highlights
 
-![prompt](images/prompt-dark.png)
+![prompt](../images/prompt-dark.png)
 
-![prompt](images/prompt-light.png)
+![prompt](../images/prompt-light.png)
 
 1. A fast and clean prompt that includes the basename of current dir (left),
    background job indicator (blue arrow), git branch and untracked, modified &
