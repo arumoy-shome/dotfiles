@@ -1,8 +1,6 @@
 #!/usr/bin/env fish
 
-source env
-
-set TARGET $HOME
+set TARGET "$XDG_CONFIG_HOME/test"
 
 function install
     echo "test/install()!"

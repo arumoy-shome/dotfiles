@@ -1,5 +1,4 @@
 #!/usr/bin/env fish
-source env
 
 function install
     if not _is_callable brew

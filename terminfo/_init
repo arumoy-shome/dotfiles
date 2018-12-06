@@ -1,5 +1,4 @@
 #!/usr/bin/env fish
-source env
 
 function install
     tic terminfo/xterm-256color-italic.terminfo

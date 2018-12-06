@@ -1,5 +1,4 @@
 #!/usr/bin/env fish
-source env
 
 set TARGET "$XDG_DATA_HOME/base16"
 
