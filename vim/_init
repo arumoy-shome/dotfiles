@@ -5,3 +5,7 @@ function install
 
   git clone git@github.com:arumoy-shome/vim.git $HOME/.vim
 end
+
+function delete
+    rm -rf $HOME/.vim
+end
