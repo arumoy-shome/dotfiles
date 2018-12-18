@@ -12,3 +12,4 @@ set PATH $XDG_DATA_BIN $PATH
 colors dark
 
 abbr -a jp "jupyter"
+set -g fish_user_paths "/usr/local/opt/sqlite/bin" $fish_user_paths
