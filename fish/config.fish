@@ -9,4 +9,6 @@ set -g FISH_CONFIG_HOME "$XDG_CONFIG_HOME/fish/conf.d"
 
 set PATH $XDG_DATA_BIN $PATH
 
+colors dark
+
 abbr -a jp "jupyter"
