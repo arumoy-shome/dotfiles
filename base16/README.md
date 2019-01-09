@@ -1,6 +1,5 @@
 # base16
 
-Installs my personal fork of
-[base16-shell](https://github.com/arumoy-shome/base16-shell) which sticks to the
-xdg convensions rather than polluting `$HOME`.
-
+Installs a light and a dark theme in `XDG_DATA_HOME/base16` which are
+taken from the
+[base16-shell](https://github.com/arumoy-shome/base16-shell) project.
