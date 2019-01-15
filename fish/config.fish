@@ -9,7 +9,9 @@ set -g FISH_CONFIG_HOME "$XDG_CONFIG_HOME/fish/conf.d"
 
 set PATH $XDG_DATA_BIN $PATH
 
-colors dark
+if not test "$TERM" = "eterm-color"
+    colors dark
+end
 
 abbr -a jp "jupyter"
 set -g fish_user_paths "/usr/local/opt/sqlite/bin" $fish_user_paths
