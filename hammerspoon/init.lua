@@ -1,4 +1,4 @@
-local hyper = {"ctrl", "cmd"}
+local hyper = {"ctrl", "cmd", "alt", "shift"}
 
 hs.loadSpoon("MiroWindowsManager")
 
