@@ -5,4 +5,7 @@ function install
     brew install emacs-plus --without-spacemacs-icon
 
     git clone git@github.com:arumoy-shome/emacs.d.git "$HOME/.emacs.d"
+
+    # install ghostscript, required for DocView
+    brew install ghostscript
 end
