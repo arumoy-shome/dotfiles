@@ -1,0 +1,11 @@
+#!/usr/bin/env fish
+
+set TARGET "$XDG_CONFIG_HOME/zsh"
+
+function install
+    brew install zsh
+
+    set zsh (which zsh)
+    test "$SHELL" = $zsh; or chsh -s $zsh (whoami)
+    grep -q $zsh /etc/shells; or echo $zsh | sudo tee -a /etc/shells > /dev/null
+end
