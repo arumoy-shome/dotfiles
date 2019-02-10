@@ -45,3 +45,6 @@ set smarttab
 set cursorline
 
 let &showbreak='↳ '
+
+language en_US
+language messages en_US
