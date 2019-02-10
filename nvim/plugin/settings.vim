@@ -42,5 +42,6 @@ set fillchars+=eob:\
 set inccommand=split
 set linebreak
 set smarttab
+set cursorline
 
 let &showbreak='↳ '
