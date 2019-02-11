@@ -7,8 +7,8 @@ nmap <leader>b :Buffers<CR>
 nmap <leader>h :Helptags<CR>
 nmap <leader>gg :Gtabedit :<CR>
 nmap <leader>gc :Commits<CR>
-nmap <leader>gp :Gpush origin master<CR>
-nmap <leader>tl :set relativenumber!<CR>
+nmap <leader>gp :Gpush<CR>
+nmap <leader>gF :Gpull<CR>
 
 imap <c-x><c-k> <plug>(fzf-complete-word)
 imap <c-x><c-f> <plug>(fzf-complete-path)
