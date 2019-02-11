@@ -5,5 +5,5 @@ cdpath=(
   $HOME/dotfiles
   $HOME/Dropbox
   $HOME/Downloads
-  $HOME/"Google Drive"
+  $HOME/Google\ Drive
 )
