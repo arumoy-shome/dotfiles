@@ -39,7 +39,7 @@ set termguicolors
 set fillchars=vert:┃
 set fillchars+=fold:·
 set fillchars+=eob:\ 
-set inccommand=split
+set inccommand=nosplit
 set linebreak
 set smarttab
 set cursorline
