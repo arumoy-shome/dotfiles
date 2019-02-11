@@ -5,7 +5,7 @@ nmap k gk
 nmap <C-p> :Files<CR>
 nmap <leader>b :Buffers<CR>
 nmap <leader>h :Helptags<CR>
-nmap <leader>gg :Gstatus<CR>
+nmap <leader>gg :Gtabedit :<CR>
 nmap <leader>gc :Commits<CR>
 nmap <leader>gp :Gpush origin master<CR>
 nmap <leader>tl :set relativenumber!<CR>
