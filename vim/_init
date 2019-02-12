@@ -1,11 +1,7 @@
 #!/usr/bin/env fish
 
+set TARGET "$HOME/.vim"
+
 function install
   brew install vim
-
-  git clone git@github.com:arumoy-shome/vim.git $HOME/.vim
-end
-
-function delete
-    rm -rf $HOME/.vim
 end
