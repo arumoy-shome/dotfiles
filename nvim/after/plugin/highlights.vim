@@ -13,4 +13,4 @@ highlight Search guifg=orange
 highlight Substitute guifg=orange
 highlight IncSearch gui=underline guifg=orange
 highlight LineNr guibg=bg
-
+highlight Comment gui=italic
