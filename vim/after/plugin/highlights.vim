@@ -9,8 +9,8 @@ highlight Error gui=underline guifg=red
 highlight SpellBad gui=underline guifg=red
 highlight SpellCap gui=underline guifg=blue
 highlight VertSplit guibg=bg
-highlight Search guifg=orange
-highlight Substitute guifg=orange
-highlight IncSearch gui=underline guifg=orange
+highlight Search gui=underline guifg=orange
+highlight Substitute gui=underline guifg=orange
+highlight IncSearch  guifg=orange
 highlight LineNr guibg=bg
 highlight Comment gui=italic
