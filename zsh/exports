@@ -14,6 +14,8 @@ else
   export EDITOR=vim
 fi
 
+export VISUAL=$EDITOR
+
 # filename (if known), line number if known, falling back to percent if known,
 # falling back to byte offset, falling back to dash
 export LESSPROMPT='?f%f .?ltLine %lt:?pt%pt\%:?btByte %bt:-...'
