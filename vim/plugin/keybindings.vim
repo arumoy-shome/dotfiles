@@ -3,6 +3,7 @@ nmap <leader>vr :vsp $MYVIMRC<CR>
 nmap j gj
 nmap k gk
 nmap <C-p> :Files<CR>
+nmap <leader>/ :Lines<CR>
 nmap <leader>b :Buffers<CR>
 nmap <leader>h :Helptags<CR>
 nmap <leader>gg :Gtabedit :<CR>
