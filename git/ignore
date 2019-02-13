@@ -13,3 +13,5 @@ tmp/**/*
 *.pyc
 *.org
 *.org_archive
+node_modules/
+.projections.json
