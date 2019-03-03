@@ -1,26 +1,3 @@
-" the following settings are taken from fzf.vim homepage
-" https://github.com/junegunn/fzf.vim#advanced-customization
-" * fzf#vim#with_preview([[options], preview window, [toggle keys...]])
-" * For syntax-highlighting, Ruby and any of the following tools are required:
-"     - Highlight: http://www.andre-simon.de/doku/highlight/en/highlight.php
-"     - CodeRay: http://coderay.rubychan.de/
-"     - Rouge: https://github.com/jneen/rouge
-
-" Augmenting Ag command using fzf#vim#with_preview function
-"   :Ag  - Start fzf with hidden preview window that can be enabled with "?" key
-"   :Ag! - Start fzf in fullscreen and display the preview window above
-command! -bang -nargs=* Ag
-  \ call fzf#vim#ag(<q-args>,
-  \                 <bang>0 ? fzf#vim#with_preview('up:60%')
-  \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
-  \                 <bang>0)
-
-" setup fzf keybindings
-let g:fzf_action = {
-  \ 'ctrl-t': 'tab split',
-  \ 'ctrl-x': 'split',
-  \ 'ctrl-v': 'vsplit' }
-
 " Customize fzf colors to match color scheme
 let g:fzf_colors =
 \ { 'fg':      ['fg', 'Normal'],
@@ -36,3 +13,18 @@ let g:fzf_colors =
   \ 'marker':  ['fg', 'Keyword'],
   \ 'spinner': ['fg', 'Label'],
   \ 'header':  ['fg', 'Comment'] }
+
+nmap <C-p> :Files<CR>
+nmap <leader>/ :Lines<CR>
+nmap <leader>b :Buffers<CR>
+nmap <leader>h :Helptags<CR>
+nmap <leader>gg :Gtabedit :<CR>
+nmap <leader>gc :Commits<CR>
+nmap <leader>gp :Gpush<CR>
+nmap <leader>gF :Gpull<CR>
+
+imap <c-x><c-k> <plug>(fzf-complete-word)
+imap <c-x><c-f> <plug>(fzf-complete-path)
+imap <c-x><c-j> <plug>(fzf-complete-file-ag)
+imap <c-x><c-l> <plug>(fzf-complete-line)
+
