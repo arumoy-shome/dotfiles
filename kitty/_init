@@ -1,0 +1,7 @@
+#!/usr/bin/env fish
+
+set TARGET "$XDG_CONFIG_HOME/kitty"
+
+function install
+    _is_callable kitty; or brew cask install kitty
+end
