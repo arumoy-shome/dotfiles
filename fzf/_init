@@ -1,8 +1,5 @@
 #!/usr/bin/env fish
 
 function install
-    brew install fzf fd
-
-    # install useful keybindings and fuzzy completions
-    /usr/local/opt/fzf/install
+    _is_callable fzf; or brew install fzf fd
 end

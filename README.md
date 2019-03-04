@@ -48,7 +48,7 @@ into the `PATH`
 5. Additional shell configs can be placed under topic/conf.d/topic.fish, these are
 (sym)linked to `XDG_CONFIG_DIR/fish/conf.d` and are automatically picked up by
 fish
-6. Set the `TARGET` variable in topic/_init to the path where you want your
+6. Set the `TARGET` variable in topic/\_init to the path where you want your
    config files to be symlinked (ie. `$HOME`, `$XDG_CONFIG_HOME` or otherwise)
 6. Use `topic/_init#install` to define how to install a topic. Additionally, one
 off actions such as setting up `PATH` or exporting variables can be placed here

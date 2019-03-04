@@ -3,5 +3,5 @@
 set TARGET "$HOME/.vim"
 
 function install
-  brew install vim
+    brew install vim
 end

@@ -8,7 +8,7 @@ highlight clear LineNr
 highlight clear WildMenu
 highlight Error gui=underline guifg=red
 highlight SpellBad gui=underline guifg=red
-highlight SpellCap gui=underline guifg=blue
+highlight SpellCap gui=underline
 highlight VertSplit guibg=bg
 highlight Search gui=underline guifg=orange
 highlight Substitute gui=underline guifg=orange
@@ -16,3 +16,7 @@ highlight IncSearch  guifg=orange
 highlight LineNr guibg=bg
 highlight Comment gui=italic
 highlight WildMenu gui=underline guifg=orange
+if has('nvim')
+  highlight! link TermCursor Cursor
+  highlight! TermCursorNC guibg=red guifg=white
+endif
