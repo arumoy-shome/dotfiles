@@ -26,6 +26,7 @@ Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-pandoc/vim-pandoc-syntax'
 Plug 'radenling/vim-dispatch-neovim'
 Plug 'mhinz/vim-grepper'
+Plug 'dag/vim-fish'
 
 call plug#end()
 
