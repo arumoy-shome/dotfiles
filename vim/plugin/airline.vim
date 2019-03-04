@@ -1,1 +1,1 @@
-let g:airline_theme = 'falcon'
+let g:airline_theme = 'base16_spacemacs'
