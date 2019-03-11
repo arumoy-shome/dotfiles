@@ -12,21 +12,21 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-dispatch'
+Plug 'radenling/vim-dispatch-neovim'
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
-Plug 'junegunn/goyo.vim'
-Plug 'junegunn/limelight.vim'
+Plug 'junegunn/goyo.vim', { 'for': ['pandoc', 'markdown'] }
+Plug 'junegunn/limelight.vim', { 'for': ['pandoc', 'markdown'] }
 Plug 'wincent/loupe'
 Plug 'wincent/terminus'
 Plug 'chriskempson/base16-vim'
 Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'vim-pandoc/vim-pandoc'
-Plug 'vim-pandoc/vim-pandoc-syntax'
-Plug 'radenling/vim-dispatch-neovim'
+Plug 'vim-pandoc/vim-pandoc', { 'for': ['pandoc', 'markdown'] }
+Plug 'vim-pandoc/vim-pandoc-syntax', { 'for': ['pandoc', 'markdown'] }
 Plug 'mhinz/vim-grepper'
-Plug 'dag/vim-fish'
+Plug 'dag/vim-fish', { 'for': 'fish' }
 
 call plug#end()
 
