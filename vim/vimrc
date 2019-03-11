@@ -27,6 +27,9 @@ Plug 'vim-pandoc/vim-pandoc', { 'for': ['pandoc', 'markdown'] }
 Plug 'vim-pandoc/vim-pandoc-syntax', { 'for': ['pandoc', 'markdown'] }
 Plug 'mhinz/vim-grepper'
 Plug 'dag/vim-fish', { 'for': 'fish' }
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --ts-completer' }
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 
 call plug#end()
 
