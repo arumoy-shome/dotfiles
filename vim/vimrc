@@ -30,6 +30,7 @@ Plug 'dag/vim-fish', { 'for': 'fish' }
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --ts-completer' }
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
+Plug 'tommcdo/vim-lion'
 
 call plug#end()
 
