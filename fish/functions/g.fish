@@ -1,7 +1,7 @@
 function g
     if test "$argv"
-        command git $argv
+        command hub $argv
     else
-        command git status
+        command hub status
     end
 end
