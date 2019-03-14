@@ -11,7 +11,7 @@ tags
 tmp/**/*
 !tmp/cache/.keep
 *.pyc
-*.org
+todo.org
 *.org_archive
 node_modules/
 .projections.json
