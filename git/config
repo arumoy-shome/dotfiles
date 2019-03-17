@@ -30,7 +30,12 @@
 	pager = diff-so-fancy | less --tabs=4 -RFX
 	whitespace = trailing-space
 [merge]
+  tool = vimdiff
   ff = only
+[mergetool]
+  prompt = true
+[mergetool "vimdiff"]
+  cmd = nvim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
 [commit]
   template = ~/.config/git/message
 [fetch]
