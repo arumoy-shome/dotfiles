@@ -11,3 +11,6 @@ set PATH $XDG_DATA_BIN $PATH
 
 abbr -a jp "jupyter"
 abbr -a py "python3"
+
+# use neovim as the pager
+set -gx MANPAGER "nvim --noplugin -Rc 'set ft=man' -"
