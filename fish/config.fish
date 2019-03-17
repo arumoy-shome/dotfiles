@@ -10,3 +10,4 @@ set -g FISH_CONFIG_HOME "$XDG_CONFIG_HOME/fish/conf.d"
 set PATH $XDG_DATA_BIN $PATH
 
 abbr -a jp "jupyter"
+abbr -a py "python3"
