@@ -5,7 +5,7 @@ function colors -d "switch to a dark of light theme"
     test "$color" = "light"; and set theme "base16-solarized-light"
     test "$color" = "dark"; and set theme "base16-tomorrow-night"
 
-    sh "$base/$theme.sh"
+    kitty @ set-colors --all "$base/$theme.conf"
 
     echo -e "if !exists('g:colors_name') || g:colors_name != '$theme'\n  colorscheme $theme\nendif" >  ~/.vim/.background
 end
