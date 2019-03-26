@@ -33,8 +33,8 @@ set wildmode=list:longest,list:full
 set wildmode=list:longest,list:full
 set noshowmode
 set clipboard=unnamed
-set foldmethod=syntax
-set foldlevelstart=2
+set foldmethod=indent
+set foldlevelstart=99
 set termguicolors
 set fillchars=vert:┃
 set fillchars+=fold:·
@@ -43,6 +43,7 @@ set inccommand=nosplit
 set linebreak
 set smarttab
 set cursorline
+set foldtext=aru#autoloads#foldtext()
 
 let &showbreak='↳ '
 
