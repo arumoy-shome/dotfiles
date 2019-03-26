@@ -1,7 +1,7 @@
-function g -d "without arguments call hub status else delegate to hub"
+function g -d "without arguments call git status else delegate to git"
     if test "$argv"
-        command hub $argv
+        command git $argv
     else
-        command hub status
+        command git status
     end
 end
