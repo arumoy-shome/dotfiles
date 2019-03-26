@@ -48,5 +48,3 @@ let &showbreak='↳ '
 
 language en_US
 language messages en_US
-
-colorscheme base16-default-dark

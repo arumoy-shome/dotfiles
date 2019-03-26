@@ -6,3 +6,8 @@ function! aru#autoloads#setupCommandAlias(input, output)
         \ .' ((getcmdtype() is# ":" && getcmdline() is# "'.a:input.'")'
         \ .'? ("'.a:output.'") : ("'.a:input.'"))'
 endfunction
+
+function! aru#autoloads#updateTheme() abort
+  source ~/.vim/.background
+  source ~/.vim/after/plugin/highlights.vim
+endfunction

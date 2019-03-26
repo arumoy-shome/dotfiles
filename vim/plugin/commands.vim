@@ -7,5 +7,5 @@ augroup AruAutoCmds
   autocmd BufRead,BufNewFile .{jscs,jshint,eslint}rc set filetype=json
   autocmd! User GoyoEnter Limelight
   autocmd! User GoyoLeave Limelight!
-  autocmd FocusGained * source ~/.vim/.background
+  autocmd FocusGained * call aru#autoloads#updateTheme()
 augroup END
