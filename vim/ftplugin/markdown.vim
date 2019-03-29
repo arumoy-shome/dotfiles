@@ -2,4 +2,4 @@
 setlocal spell
 
 " Automatically wrap at 72 characters
-setlocal textwidth=72
+setlocal textwidth=0
