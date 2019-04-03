@@ -20,6 +20,3 @@ let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 
 " set the extensions
 let g:airline_extensions = ['quickfix', 'branch', 'grepper']
-
-" sections
-" let g:airline_section_z = ['percentage', 'line number']
