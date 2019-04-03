@@ -1,5 +1,7 @@
 " Enable spellchecking
 setlocal spell
 
-" Automatically wrap at 72 characters
+" do not wrap text
 setlocal textwidth=0
+" do not show line breaks
+setlocal showbreak=
