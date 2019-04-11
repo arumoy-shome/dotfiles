@@ -10,3 +10,8 @@ spoon.MiroWindowsManager:bindHotkeys({
   left = {hyper, "h"},
   fullscreen = {hyper, "f"}
 })
+
+hs.hotkey.bind(hyper, "R", function()
+  hs.reload()
+end)
+hs.alert.show("Config loaded")
