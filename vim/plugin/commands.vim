@@ -7,8 +7,3 @@ augroup AruAutoCmds
   autocmd BufRead,BufNewFile .{jscs,jshint,eslint}rc set filetype=json
   autocmd VimResized * execute "normal! \<c-w>="
 augroup END
-
-augroup UpdateThemeAutoCmds
-  autocmd!
-  autocmd FocusGained * call aru#autoloads#updateTheme()
-augroup END
