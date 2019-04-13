@@ -4,6 +4,7 @@ function colors -d "switch to a dark of light theme"
 
     test "$color" = "light"; and set theme "base16-solarized-light"
     test "$color" = "dark"; and set theme "base16-tomorrow-night"
+    test "$color" = "dracula"; and set theme "base16-dracula"
 
     kitty @ set-colors --all --configured "$base/$theme.conf"
 
