@@ -36,3 +36,8 @@ end
 local gdriveWatcher = hs.pathwatcher.new(os.getenv("HOME") .. "/Google Drive", startSync):start()
 local orgWatcher = hs.pathwatcher.new(os.getenv("HOME") .. "/org", startSync):start()
 local documentsWatcher = hs.pathwatcher.new(os.getenv("HOME") .. "/Documents", startSync):start()
+
+-- hotkey for terminal
+hs.hotkey.bind(hyper, "Return", function()
+  hs.application.launchOrFocus("Kitty")
+end)
