@@ -6,7 +6,11 @@ function colors -d "switch to a dark of light theme"
     test "$color" = "dark"; and set theme "base16-tomorrow-night"
     test "$color" = "dracula"; and set theme "base16-dracula"
 
-    kitty @ set-colors --all --configured "$base/$theme.conf"
+    if command -sq kitty
+      kitty @ set-colors --all --configured "$base/$theme.conf"
+    else
+      eval sh "$base/$theme.sh"
+    end
 
     ln -sfh ~/.local/share/base16/$theme.conf ~/.local/share/base16/current-theme.conf
 
