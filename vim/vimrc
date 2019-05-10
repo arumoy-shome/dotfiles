@@ -2,6 +2,7 @@ call plug#begin('~/.vim/bundle')
 
 Plug 'Raimondi/delimitMate'
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'christoomey/vim-tmux-runner'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-projectionist'
 Plug 'tpope/vim-eunuch'
@@ -35,6 +36,7 @@ Plug 'tommcdo/vim-lion'
 Plug 'lervag/vimtex'
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } } " use pre build
 
 call plug#end()
 
