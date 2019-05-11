@@ -8,11 +8,15 @@ function fish_prompt
 
     # although $status has the same scope, it can't be used to do this check
     if test $last_status -eq 0
-      set suffix (set_color white)'❯'(set_color normal)
+        set suffix (set_color white)'❯'(set_color normal)
     else
-      set suffix (set_color red)'❯'(set_color normal)
+        set suffix (set_color red)'❯'(set_color normal)
     end
 
+    # show current venv if available
+    if test "$VIRTUAL_ENV"
+        printf '(%s) ' (set_color --italics yellow)(basename $VIRTUAL_ENV)(set_color normal)
+    end
     printf '%s ' (set_color $fish_color_cwd)(basename (pwd))(set_color normal)
     printf '%s' $job
     printf '%s ' $suffix

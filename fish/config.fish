@@ -14,3 +14,6 @@ abbr -a py "python3"
 
 # use neovim as the pager
 set -gx MANPAGER "nvim --noplugin -Rc 'set ft=man' -"
+
+# do not modify prompt when virtualenv is active, I will do it myself
+set -gx VIRTUAL_ENV_DISABLE_PROMPT false
