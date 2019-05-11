@@ -6,7 +6,7 @@ function activate -d "mirror the deactivate function provided by virtualenv"
     set listing (ls -d */ (pwd)) # list only directories
 
     for name in $venv_names
-      contains $name $listing; and set venv_basename $name
+      contains $name $listing; and set venv_basename $name; and break
     end
 
     if test -n "$venv_basename"
