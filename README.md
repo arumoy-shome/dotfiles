@@ -2,6 +2,8 @@
 
 A set of files that begin with a dot and are updated quite frequently.
 
+![banner](images/banner.png)
+
 ## Dependencies ##
 
 - osx as your operating system
