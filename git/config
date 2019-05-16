@@ -24,6 +24,7 @@
   unstage = reset
   squash = rebase -i
   df = difftool --no-symlinks --dir-diff
+  ctags = !.git/hooks/ctags
 [core]
   excludesfile = ~/.config/git/ignore
   autocrlf = input
