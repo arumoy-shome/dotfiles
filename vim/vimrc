@@ -3,6 +3,7 @@ call plug#begin('~/.vim/bundle')
 Plug 'Raimondi/delimitMate'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'christoomey/vim-tmux-runner'
+Plug 'christoomey/vim-conflicted'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-projectionist'
 Plug 'tpope/vim-eunuch'
