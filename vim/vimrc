@@ -28,16 +28,20 @@ Plug 'editorconfig/editorconfig-vim'
 " Plug 'vim-pandoc/vim-pandoc'
 " Plug 'vim-pandoc/vim-pandoc-syntax'
 Plug 'mhinz/vim-grepper'
-Plug 'dag/vim-fish'
+" Plug 'dag/vim-fish'
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --ts-completer' }
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'tommcdo/vim-lion'
-Plug 'lervag/vimtex'
-Plug 'pangloss/vim-javascript'
-Plug 'mxw/vim-jsx'
+" Plug 'lervag/vimtex'
+" Plug 'pangloss/vim-javascript'
+" Plug 'mxw/vim-jsx'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } } " use pre build
 Plug 'janko-m/vim-test'
+Plug 'sheerun/vim-polyglot'
+Plug 'airblade/vim-gitgutter'
+" Plug 'w0rp/ale'
+Plug 'Yggdroot/indentLine'
 
 call plug#end()
 
