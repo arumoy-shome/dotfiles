@@ -1,0 +1,5 @@
+#!/usr/bin/env fish
+
+set TARGET "$HOME/Library/Application Support/Code/User"
+
+function install; end
