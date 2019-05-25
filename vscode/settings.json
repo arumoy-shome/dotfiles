@@ -112,5 +112,12 @@
   "workbench.colorTheme": "One Dark Pro",
   "files.associations": {
     "_init": "fish"
+  },
+  "git.confirmSync": false,
+  "python.autoComplete.addBrackets": true,
+  "editor.suggestSelection": "first",
+  "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+  "[python]": {
+    "editor.glyphMargin": true
   }
 }
