@@ -23,6 +23,7 @@
   car = commit --amend --no-edit
   unstage = reset
   squash = rebase -i
+  df = difftool --no-symlinks --dir-diff
   ctags = !.git/hooks/ctags
 [core]
   excludesfile = ~/.config/git/ignore
@@ -31,12 +32,12 @@
 	whitespace = trailing-space
 	editor = code --wait
 [merge]
-  tool = code
+  tool = vimdiff
   ff = only
 [mergetool]
   prompt = true
-[mergetool "code"]
-  cmd = code --wait $MERGED
+[mergetool "vimdiff"]
+  cmd = nvim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
 [commit]
   template = ~/.config/git/message
 [fetch]
@@ -44,9 +45,12 @@
 [rebase]
   autosquash = true
 [diff]
-  tool = code
+  tool = kitty
+  guitool = kitty.gui
 [difftool]
   prompt = false
   trustExitCode = true
-[difftool "code"]
-  cmd = code --await --diff $LOCAL $REMOTE
+[difftool "kitty"]
+  cmd = kitty +kitten diff $LOCAL $REMOTE
+[difftool "kitty.gui"]
+  cmd = kitty kitty +kitten diff $LOCAL $REMOTE
