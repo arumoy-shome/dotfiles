@@ -2,7 +2,6 @@ highlight clear Error
 highlight clear SpellBad
 highlight clear SpellCap
 highlight clear Search
-highlight clear IncSearch
 highlight clear Substitute
 highlight clear LineNr
 highlight clear WildMenu
@@ -13,7 +12,7 @@ highlight SpellCap gui=undercurl
 highlight VertSplit guibg=bg
 highlight Search gui=underline,bold guifg=orange
 highlight Substitute gui=underline guifg=orange
-highlight IncSearch  gui=bold guifg=orange
+highlight IncSearch  gui=bold
 highlight LineNr guibg=bg
 highlight Comment gui=italic
 highlight WildMenu gui=underline guifg=orange
