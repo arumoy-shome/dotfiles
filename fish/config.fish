@@ -9,7 +9,7 @@ set -g FISH_CONFIG_HOME "$XDG_CONFIG_HOME/fish/conf.d"
 
 set PATH $XDG_DATA_BIN $PATH
 
-set PATH /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/ $PATH
+set PATH "/Applications/Visual Studio Code - Insiders.app/Contents/Resources/app/bin/" $PATH
 
 # use neovim as the pager
 set -gx MANPAGER "nvim --noplugin -Rc 'set ft=man' -"
