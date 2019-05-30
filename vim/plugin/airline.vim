@@ -20,3 +20,23 @@ let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 
 " set the extensions
 let g:airline_extensions = ['quickfix', 'branch', 'grepper']
+
+let g:airline_mode_map = {
+      \ '__' : '',
+      \ 'c'  : '',
+      \ 'i'  : '',
+      \ 'ic' : '',
+      \ 'ix' : '',
+      \ 'n'  : '',
+      \ 'ni' : '',
+      \ 'no' : '',
+      \ 'R'  : '',
+      \ 'Rv' : '',
+      \ 's'  : '',
+      \ 'S'  : '',
+      \ '' : '',
+      \ 't'  : '',
+      \ 'v'  : '',
+      \ 'V'  : '',
+      \ '' : '',
+      \ }
