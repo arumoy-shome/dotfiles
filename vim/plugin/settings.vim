@@ -43,6 +43,7 @@ set linebreak
 set smarttab
 set cursorline
 set foldtext=aru#autoloads#foldtext()
+set history=50
 
 let &showbreak='↳ '
 let &l:colorcolumn='+' . join(range(0, 254), ',+')
