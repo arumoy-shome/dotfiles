@@ -1,6 +1,7 @@
 filetype plugin indent on
 
 set autowrite
+set colorcolumn=+1
 set complete+=kspell
 set diffopt+=vertical
 set expandtab
@@ -46,7 +47,6 @@ set foldtext=aru#autoloads#foldtext()
 set history=50
 
 let &showbreak='↳ '
-let &l:colorcolumn='+' . join(range(0, 254), ',+')
 
 language en_US
 language messages en_US
