@@ -1,4 +1,6 @@
-function colors -d "switch to a dark of light theme"
+function colors -d "switch to a dark of light theme in kitty"
+    command -sq kitty; or return
+
     set base "$XDG_DATA_HOME/base16"
     set color $argv[1]
 
