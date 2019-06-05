@@ -1,6 +1,5 @@
 call plug#begin('~/.vim/bundle')
 
-Plug 'Raimondi/delimitMate'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'christoomey/vim-tmux-runner'
 Plug 'tpope/vim-commentary'
@@ -34,6 +33,7 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } } " use 
 Plug 'janko-m/vim-test'
 Plug 'sheerun/vim-polyglot'
 Plug 'jpalardy/vim-slime'
+Plug 'jiangmiao/auto-pairs'
 
 call plug#end()
 
