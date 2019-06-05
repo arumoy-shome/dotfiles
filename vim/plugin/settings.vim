@@ -45,6 +45,7 @@ set smarttab
 set cursorline
 set foldtext=aru#autoloads#foldtext()
 set history=50
+set shortmess+=I
 
 let &showbreak='↳ '
 
