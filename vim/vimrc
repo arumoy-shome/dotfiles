@@ -33,6 +33,7 @@ Plug 'tommcdo/vim-lion'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } } " use pre build
 Plug 'janko-m/vim-test'
 Plug 'sheerun/vim-polyglot'
+Plug 'jpalardy/vim-slime'
 
 call plug#end()
 
