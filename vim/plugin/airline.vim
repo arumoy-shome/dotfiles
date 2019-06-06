@@ -19,7 +19,8 @@ let g:airline_symbols.crypt = '🔒'
 let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 
 " set the extensions
-let g:airline_extensions = ['quickfix', 'branch', 'grepper']
+let g:airline_extensions = ['quickfix', 'branch', 'grepper', 'virtualenv',
+      \ 'fugitiveline', 'wordcount', 'ycm']
 
 let g:airline_mode_map = {
       \ '__' : '',
