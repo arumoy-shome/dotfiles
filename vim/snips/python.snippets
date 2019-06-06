@@ -13,3 +13,20 @@ snippet csrecipe "CS 116 method recipe"
 # ${7:Examples:
 # ${8: examples}}
 endsnippet
+
+snippet cell "Code cell" b
+# %%
+${1}
+endsnippet
+
+snippet mcell "Markdown cell" b
+# %% [markdown]
+"""
+${1}
+"""
+endsnippet
+
+snippet rcell "Result cell" b
+# %% [result]
+${1}
+endsnippet
