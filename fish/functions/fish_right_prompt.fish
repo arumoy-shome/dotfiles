@@ -16,7 +16,7 @@ function fish_right_prompt
     set -g __fish_git_prompt_char_invalidstate ✖
 
     if test -n "$command_duration" -a "$command_duration" -gt (math "$max_time_elapsed * 1000")
-        printf '[%s]' (set_color --italics yellow)$human_command_duration(set_color normal)
+        printf '%s' (set_color --italics yellow)$human_command_duration(set_color normal)
     end
 
     printf '%s' (__fish_git_prompt)
