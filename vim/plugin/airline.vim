@@ -1,4 +1,4 @@
-let g:airline_theme = 'base16_spacemacs'
+let g:airline_highlighting_cache = 0
 
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
