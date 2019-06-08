@@ -7,7 +7,6 @@ function! s:goyo_enter()
   set scrolloff=999
   set nocursorline
   Limelight
-  " ...
 endfunction
 
 function! s:goyo_leave()
@@ -19,7 +18,6 @@ function! s:goyo_leave()
   set scrolloff=5
   set cursorline
   Limelight!
-  " ...
 endfunction
 
 autocmd! User GoyoEnter nested call <SID>goyo_enter()
