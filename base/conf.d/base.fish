@@ -4,3 +4,4 @@
 set -g fish_user_abbreviations
 abbr -a b "brew"
 abbr -a bc "brew cask"
+abbr -a m "man"
