@@ -6,9 +6,9 @@ highlight clear Substitute
 highlight clear LineNr
 highlight clear WildMenu
 highlight clear EndOfBuffer
-highlight Error gui=underline
-highlight SpellBad gui=undercurl
-highlight SpellCap gui=undercurl
+highlight Error gui=underline guisp=green
+highlight SpellBad gui=underline guisp=red
+highlight SpellCap gui=underline guisp=blue
 highlight VertSplit guibg=bg
 highlight Search gui=underline,bold guifg=orange
 highlight Substitute gui=underline guifg=orange
