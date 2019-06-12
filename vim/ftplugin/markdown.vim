@@ -1,2 +1,2 @@
-" Enable spellchecking
 setlocal spell
+setlocal textwidth=72
