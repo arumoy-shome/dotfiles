@@ -12,7 +12,6 @@ set listchars+=extends:»
 set listchars+=precedes:«
 set listchars+=trail:•
 set nobackup
-set nocompatible
 set nojoinspaces
 set nonumber
 set noswapfile
