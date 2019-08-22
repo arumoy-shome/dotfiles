@@ -1,3 +1,5 @@
+scriptencoding utf-8
+
 " helper function to define alias for ex commands
 " this function ensures that the expansion occurs
 " only if the work appears at the beginning of the prompt
@@ -6,8 +8,6 @@ function! aru#autoloads#setupCommandAlias(input, output)
         \ .' ((getcmdtype() is# ":" && getcmdline() is# "'.a:input.'")'
         \ .'? ("'.a:output.'") : ("'.a:input.'"))'
 endfunction
-
-scriptencoding utf-8
 
 let s:middot='·'
 let s:raquo='»'
