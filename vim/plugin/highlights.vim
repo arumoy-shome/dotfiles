@@ -24,12 +24,8 @@ function! AruHighlights() abort
   endif
 endfunction
 
+" apply overrides everytime the colorscheme changes
 augroup AruHighlightsCmd
   autocmd!
   autocmd ColorScheme * call AruHighlights()
 augroup END
-
-if filereadable(expand("~/.vimrc_background"))
-  let base16colorspace=256
-  source ~/.vimrc_background
-endif
