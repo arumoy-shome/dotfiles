@@ -3,5 +3,5 @@ if status --is-interactive
     source "$BASE16_SHELL/profile_helper.fish"
 end
 
-abbr -a dark "base16-tomorrow-night"
-abbr -a light "base16-tomorrow"
+abbr -a dark "base16-default-dark"
+abbr -a light "base16-default-light"
