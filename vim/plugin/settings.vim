@@ -113,7 +113,6 @@ if has('persistent_undo')
     set noundofile                    " don't create root-owned files
   else
     set undodir=~/.vim/tmp/undo       " keep undo files out of the way
-    set undodir+=.
     set undofile                      " actually use undo files
   endif
 endif
