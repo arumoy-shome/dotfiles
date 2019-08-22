@@ -20,8 +20,6 @@ Plug 'junegunn/limelight.vim'
 Plug 'wincent/loupe'
 Plug 'wincent/terminus'
 Plug 'chriskempson/base16-vim'
-Plug 'bling/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'mhinz/vim-grepper'
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --ts-completer' }
