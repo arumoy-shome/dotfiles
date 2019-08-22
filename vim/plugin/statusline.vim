@@ -41,8 +41,7 @@ if has('statusline')
   if has('autocmd')
     augroup AruStatusline
       autocmd!
-      " TODO: need to install wincent/pinnacle before this can be activated
-      " autocmd ColorScheme * call aru#statusline#update_highlight()
+      autocmd ColorScheme * call aru#statusline#update_highlight()
       if exists('##TextChangedI')
         autocmd BufWinEnter,BufWritePost,FileWritePost,TextChanged,TextChangedI,WinEnter * call aru#statusline#check_modified()
       else
@@ -51,4 +50,3 @@ if has('statusline')
     augroup END
   endif
 endif
-
