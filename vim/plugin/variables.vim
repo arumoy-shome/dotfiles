@@ -4,7 +4,7 @@ scriptencoding uft-8
 " with line continuation markers without Vim freaking out).
 let g:AruQuickfixStatusline =
       \ '%7*'
-      \ . '%{wincent#statusline#lhs()}'
+      \ . '%{aru#statusline#lhs()}'
       \ . '%*'
       \ . '%4*'
       \ . ''
@@ -21,6 +21,6 @@ let g:AruQuickfixStatusline =
       \ . '\ '
       \ . ''
       \ . '%5*'
-      \ . '%{wincent#statusline#rhs()}'
+      \ . '%{aru#statusline#rhs()}'
       \ . '%*'
 
