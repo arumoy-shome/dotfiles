@@ -21,7 +21,6 @@ Plug 'wincent/pinnacle'
 Plug 'wincent/command-t', {
     \   'do': 'cd ruby/command-t/ext/command-t && ruby extconf.rb && make'
     \ }
-Plug 'chriskempson/base16-vim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'mhinz/vim-grepper'
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --ts-completer' }

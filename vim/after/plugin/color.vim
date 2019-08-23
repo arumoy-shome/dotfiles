@@ -1,4 +1,4 @@
-if filereadable(expand("~/.vimrc_background"))
+if filereadable(expand("~/.vim/.background"))
     if !has('termguicolors')
         let g:base16colorspace=256
     endif
