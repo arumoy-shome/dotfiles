@@ -1,7 +1,13 @@
-if status --is-interactive
-    set BASE16_SHELL "$HOME/.config/base16-shell/"
-    source "$BASE16_SHELL/profile_helper.fish"
-end
+set theme $XDG_DATA_HOME/base16/current-theme.sh
+eval sh '"'(realpath $theme)'"'
 
-abbr -a dark "base16-default-dark"
-abbr -a light "base16-default-light"
+# reapply tmux window and pane colors such that inactive windows remain dim
+set bg (grep color_background= "$theme" | cut -d \" -f2 | sed -e 's#/##g')
+set cc (grep color18= "$theme" | cut -d \" -f2 | sed -e 's#/##g')
+
+if test -n "$TMUX"
+    command tmux set -a window-active-style "bg=#$bg"
+    command tmux set -a window-style "bg=#$cc"
+    command tmux set -g pane-active-border-style "bg=#$cc"
+    command tmux set -g pane-border-style "bg=#$cc"
+end
