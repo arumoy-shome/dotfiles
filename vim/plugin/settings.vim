@@ -2,6 +2,7 @@ scriptencoding utf-8
 
 filetype plugin indent on
 
+set clipboard+=unnamed                " always use the * register for yanking
 set laststatus=2                      " always show status line
 set lazyredraw                        " don't bother updating screen during macro playback
 
@@ -18,21 +19,15 @@ set complete+=kspell                  " use the currently active spell file duri
 set diffopt+=vertical                 " start diff view with vertical splits
 set diffopt+=foldcolumn:0             " don't show foldcolumn in diff view
 
-set list                              " show whitespace
-set listchars=nbsp:⦸                  " CIRCLED REVERSE SOLIDUS (U+29B8, UTF-8: E2 A6 B8)
-set listchars+=tab:▷┅                 " WHITE RIGHT-POINTING TRIANGLE (U+25B7, UTF-8: E2 96 B7)
-                                      " + BOX DRAWINGS HEAVY TRIPLE DASH HORIZONTAL (U+2505, UTF-8: E2 94 85)
+set list                                " show whitespace
+set listchars=nbsp:⦸                    " CIRCLED REVERSE SOLIDUS (U+29B8, UTF-8: E2 A6 B8)
+set listchars+=tab:▷┅                   " WHITE RIGHT-POINTING TRIANGLE (U+25B7, UTF-8: E2 96 B7)
 set listchars+=extends:»                " RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00BB, UTF-8: C2 BB)
 set listchars+=precedes:«               " LEFT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00AB, UTF-8: C2 AB)
 set listchars+=trail:•                  " BULLET (U+2022, UTF-8: E2 80 A2)
 
-if exists('$SUDO_USER')
-    set nobackup                        " don't create root-owned files
-    set nowritebackup                   " don't create root-owned files
-else
-    set backupdir=~/.vim/tmp/backup     " keep backup files out of the way
-    set backupdir+=.
-endif
+set nobackup                        " don't create root-owned files
+set nowritebackup                   " don't create root-owned files
 
 if has('wildignore')
   set backupskip+=*.re,*.rei            " prevent bsb's watch mode from getting confused
@@ -44,12 +39,7 @@ endif
 
 set nojoinspaces                        " don't autoinsert two spaces after '.', '?', '!' for join command
 
-if exists('$SUDO_USER')
-    set noswapfile                      " don't create root-owned files
-else
-    set directory=~/.vim/tmp/swap//     " keep swap files out of the way
-    set directory+=.
-endif
+set noswapfile                      " don't create root-owned files
 
 set sidescrolloff=3                   " same as scrolloff, but for columns
 set scrolloff=3                       " start scrolling 3 lines before edge of viewport
@@ -183,7 +173,3 @@ if !has('nvim')
   set highlight+=N:FoldColumn         " make current line number stand out a little
   set highlight+=c:LineNr             " blend vertical separators with line numbers
 endif
-
-" set the language to en_US since en_NL does not exist
-language en_US
-language messages en_US
