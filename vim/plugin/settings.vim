@@ -5,6 +5,11 @@ filetype plugin indent on
 set clipboard+=unnamed                " always use the * register for yanking
 set laststatus=2                      " always show status line
 set lazyredraw                        " don't bother updating screen during macro playback
+set number                            " show line numbers in gutter
+
+if exists('+relativenumber')
+  set relativenumber                  " show relative numbers in gutter
+endif
 
 set autoindent                        " maintain indent of current line
 set backspace=indent,start,eol        " allow unrestricted backspacing in insert mode
