@@ -32,6 +32,7 @@ Plug 'janko-m/vim-test'
 Plug 'sheerun/vim-polyglot'
 Plug 'jpalardy/vim-slime'
 Plug 'jiangmiao/auto-pairs'
+Plug 'Yggdroot/indentLine'
 
 call plug#end()
 
