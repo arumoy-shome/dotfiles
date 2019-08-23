@@ -1,0 +1,84 @@
+[submodule "vim-fugitive"]
+	path = vim/pack/bundle/opt/vim-fugitive
+	url = git@github.com:tpope/vim-fugitive.git
+[submodule "vim-commentary"]
+	path = vim/pack/bundle/opt/vim-commentary
+	url = git@github.com:tpope/vim-commentary.git
+[submodule "vim-dispatch"]
+	path = vim/pack/bundle/opt/vim-dispatch
+	url = git@github.com:tpope/vim-dispatch.git
+[submodule "git-projectionist"]
+	path = vim/pack/bundle/opt/vim-projectionist
+	url = git@github.com:tpope/vim-projectionist.git
+[submodule "git-eunuch"]
+	path = vim/pack/bundle/opt/vim-eunuch
+	url = git@github.com:tpope/vim-eunuch.git
+[submodule "git-surround"]
+	path = vim/pack/bundle/opt/vim-surround
+	url = git@github.com:tpope/vim-surround.git
+[submodule "git-vinegar"]
+	path = vim/pack/bundle/opt/vim-vinegar
+	url = git@github.com:tpope/vim-vinegar.git
+[submodule "git-rhubarb"]
+	path = vim/pack/bundle/opt/vim-rhubarb
+	url = git@github.com:tpope/vim-rhubarb.git
+[submodule "git-repeat"]
+	path = vim/pack/bundle/opt/vim-repeat
+	url = git@github.com:tpope/vim-repeat.git
+[submodule "git-unimpaired"]
+	path = vim/pack/bundle/opt/vim-unimpaired
+	url = git@github.com:tpope/vim-unimpaired.git
+[submodule "vim-clipper"]
+	path = vim/pack/bundle/opt/vim-clipper
+	url = git@github.com:wincent/vim-clipper.git
+[submodule "loupe"]
+	path = vim/pack/bundle/opt/loupe
+	url = git@github.com:wincent/loupe.git
+[submodule "terminus"]
+	path = vim/pack/bundle/opt/terminus
+	url = git@github.com:wincent/terminus.git
+[submodule "pinnacle"]
+	path = vim/pack/bundle/opt/pinnacle
+	url = git@github.com:wincent/pinnacle.git
+[submodule "command-t"]
+	path = vim/pack/bundle/opt/command-t
+	url = git@github.com:wincent/command-t.git
+[submodule "vim-easydir"]
+	path = vim/pack/bundle/opt/vim-easydir
+	url = git@github.com:duggiefresh/vim-easydir.git
+[submodule "indentline"]
+	path = vim/pack/bundle/opt/indentline
+	url = git@github.com:Yggdroot/indentLine.git
+[submodule "auto-pairs"]
+	path = vim/pack/bundle/opt/auto-pairs
+	url = git@github.com:jiangmiao/auto-pairs.git
+[submodule "vim-slime"]
+	path = vim/pack/bundle/opt/vim-slime
+	url = git@github.com:jpalardy/vim-slime.git
+[submodule "vim-test"]
+	path = vim/pack/bundle/opt/vim-test
+	url = git@github.com:janko/vim-test.git
+[submodule "vim-lion"]
+	path = vim/pack/bundle/opt/vim-lion
+	url = git@github.com:tommcdo/vim-lion.git
+[submodule "goyo"]
+	path = vim/pack/bundle/opt/goyo
+	url = git@github.com:junegunn/goyo.vim.git
+[submodule "vim-tmux-navigator"]
+	path = vim/pack/bundle/opt/vim-tmux-navigator
+	url = git@github.com:christoomey/vim-tmux-navigator.git
+[submodule "vim-tmux-runner"]
+	path = vim/pack/bundle/opt/vim-tmux-runner
+	url = git@github.com:christoomey/vim-tmux-runner.git
+[submodule "vim-grepper"]
+	path = vim/pack/bundle/opt/vim-grepper
+	url = git@github.com:mhinz/vim-grepper.git
+[submodule "ultisnips"]
+	path = vim/pack/bundle/opt/ultisnips
+	url = git@github.com:SirVer/ultisnips.git
+[submodule "vim-snippets"]
+	path = vim/pack/bundle/opt/vim-snippets
+	url = git@github.com:honza/vim-snippets.git
+[submodule "vim-pathogen"]
+	path = vim/pack/bundle/opt/vim-pathogen
+	url = git@github.com:tpope/vim-pathogen.git
