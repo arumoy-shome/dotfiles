@@ -84,6 +84,7 @@ endif
 set expandtab                         " always use spaces instead of tabs
 set textwidth=80                      " automatically hard wrap at 80 columns
 
+set wildcharm=<C-z>                   " substitute for 'wildchar' (<Tab>) in macros
 if has('wildignore')
     " patterns to ignore during file navigation
     set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__

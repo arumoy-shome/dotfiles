@@ -9,7 +9,7 @@ if &loadplugins
     packadd! vim-vinegar
     packadd! vim-rhubarb
     packadd! vim-repeat
-    packadd! vim-unimpaired
+    " packadd! vim-unimpaired
     packadd! vim-clipper
     packadd! loupe
     packadd! terminus
