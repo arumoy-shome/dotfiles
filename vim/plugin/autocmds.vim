@@ -40,6 +40,14 @@ if has ('autocmd')
 
   call s:AruAutocmds()
 
+  " Wait until idle to run additional "boot" commands.
+  augroup AruIdleboot
+    autocmd!
+    if has('vim_starting')
+      autocmd CursorHold,CursorHoldI * call aru#autocmds#idleboot()
+    endif
+  augroup END
+
   " WARNING: this is currently broken
   " Goyo
   "

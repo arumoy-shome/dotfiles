@@ -115,3 +115,14 @@ function! s:get_custom_statusline(action) abort
   return 1 " Use default.
 endfunction
 
+function! aru#autocmds#idleboot() abort
+  " Make sure we automatically call aru#autocmds#idleboot() only once.
+  augroup AruIdleboot
+    autocmd!
+  augroup END
+
+  " Make sure we run deferred tasks exactly once.
+  doautocmd User AruDefer
+  autocmd! User AruDefer
+endfunction
+
