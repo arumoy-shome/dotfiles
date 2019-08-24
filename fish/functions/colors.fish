@@ -23,5 +23,5 @@ function colors -d "switch to a dark of light theme"
     echo -e "if !exists('g:colors_name') || g:colors_name != '$theme'\n  colorscheme $theme\nendif" >  ~/.vim/.background
 
     # finally, set the theme
-    eval sh '"'(realpath $base/$theme.sh)'"'
+    eval sh "$base/$theme.sh"
 end

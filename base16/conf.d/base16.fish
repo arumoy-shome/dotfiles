@@ -1,5 +1,6 @@
-set theme $XDG_DATA_HOME/base16/current-theme.sh
-eval sh '"'(realpath $theme)'"'
+# note that we cannot use $XDG_DATA_HOME here since it is not loaded yet
+set theme ~/.local/share/base16/current-theme.sh
+eval sh "$theme"
 
 # reapply tmux window and pane colors such that inactive windows remain dim
 set bg (grep color_background= "$theme" | cut -d \" -f2 | sed -e 's#/##g')
