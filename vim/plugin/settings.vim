@@ -1,7 +1,5 @@
 scriptencoding utf-8
 
-filetype plugin indent on
-
 set clipboard+=unnamed                " always use the * register for yanking
 set laststatus=2                      " always show status line
 set lazyredraw                        " don't bother updating screen during macro playback

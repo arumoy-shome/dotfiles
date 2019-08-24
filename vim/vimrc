@@ -1,39 +1,41 @@
-call plug#begin('~/.vim/bundle')
+if &loadplugins
+  if has('packages')
+    packadd! vim-fugitive
+    packadd! vim-commentary
+    packadd! vim-dispatch
+    packadd! vim-projectionist
+    packadd! vim-eunuch
+    packadd! vim-surround
+    packadd! vim-vinegar
+    packadd! vim-rhubarb
+    packadd! vim-repeat
+    packadd! vim-unimpaired
+    packadd! vim-clipper
+    packadd! loupe
+    packadd! terminus
+    packadd! pinnacle
+    packadd! command-t
+    packadd! vim-easydir
+    packadd! indentline
+    packadd! auto-pairs
+    packadd! vim-slime
+    packadd! vim-test
+    packadd! vim-lion
+    packadd! goyo
+    packadd! vim-tmux-navigator
+    packadd! vim-tmux-runner
+    packadd! vim-grepper
+    packadd! ultisnips
+    packadd! vim-snippets
+  else
+    source $HOME/.vim/pack/bundle/opt/vim-pathogen/autoload/pathogen.vim
+    call pathogen#infect('pack/bundle/opt/{}')
+  endif
+endif
 
-Plug 'christoomey/vim-tmux-navigator'
-Plug 'christoomey/vim-tmux-runner'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-projectionist'
-Plug 'tpope/vim-eunuch'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-rhubarb'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-sensible'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-unimpaired'
-Plug 'tpope/vim-vinegar'
-Plug 'tpope/vim-dispatch'
-Plug 'junegunn/goyo.vim'
-Plug 'wincent/vim-clipper'
-Plug 'wincent/loupe'
-Plug 'wincent/terminus'
-Plug 'wincent/pinnacle'
-Plug 'wincent/command-t', {
-    \   'do': 'cd ruby/command-t/ext/command-t && ruby extconf.rb && make'
-    \ }
-Plug 'editorconfig/editorconfig-vim'
-Plug 'mhinz/vim-grepper'
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --ts-completer' }
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
-Plug 'tommcdo/vim-lion'
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } } " use pre build
-Plug 'janko-m/vim-test'
-Plug 'sheerun/vim-polyglot'
-Plug 'jpalardy/vim-slime'
-Plug 'jiangmiao/auto-pairs'
-Plug 'Yggdroot/indentLine'
+" Must come *after* the `:packadd!` calls above otherwise the contents of
+" package "ftdetect" directories won't be evaluated.
+filetype indent plugin on
+syntax on
 
-call plug#end()
-
-let mapleader = " "
+let mapleader = "\<Space>"
