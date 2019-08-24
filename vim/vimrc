@@ -40,3 +40,4 @@ filetype indent plugin on
 syntax on
 
 let mapleader = "\<Space>"
+let maplocalleader="\\"
