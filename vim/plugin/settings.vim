@@ -54,8 +54,6 @@ if has('showcmd')
   set noshowcmd                       " don't show extra info at end of command line
 endif
 
-set spellfile=$HOME/.vim-spell-en.utf-8.add " file where new words are added
-
 if has('windows')
   set splitbelow                      " open horizontal splits below current window
 endif

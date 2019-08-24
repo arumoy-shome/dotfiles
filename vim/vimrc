@@ -27,6 +27,7 @@ if &loadplugins
     packadd! vim-grepper
     packadd! ultisnips
     packadd! vim-snippets
+    packadd! vim-json
   else
     source $HOME/.vim/pack/bundle/opt/vim-pathogen/autoload/pathogen.vim
     call pathogen#infect('pack/bundle/opt/{}')
