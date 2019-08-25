@@ -1,6 +1,6 @@
 set -gx EDITOR nvim
 set -gx VISUAL $EDITOR
-set -gx MANPAGER "nvim --noplugin -Rc 'set ft=man' -"
+set -gx MANPAGER "nvim -Rc 'set ft=man' -"
 
 # add the path to ruby gems installed by brew so that neovim can locate the ruby
 # provider
