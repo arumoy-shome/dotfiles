@@ -1,3 +1,12 @@
+let g:LanguageClient_diagnosticsDisplay = {
+      \   1: {'signTexthl': 'LineNr', 'virtualTexthl': 'User8'},
+      \   2: {'signTexthl': 'LineNr', 'virtualTexthl': 'User8'},
+      \   3: {'signTexthl': 'LineNr', 'virtualTexthl': 'User8'},
+      \   4: {'signTexthl': 'LineNr', 'virtualTexthl': 'User8'},
+      \ }
+
+let g:LanguageClient_serverCommands = {'python': ['pyls']}
+
 if &loadplugins
   if has('packages')
     packadd! vim-fugitive
@@ -27,6 +36,7 @@ if &loadplugins
     packadd! ultisnips
     packadd! vim-snippets
     packadd! vim-json
+    packadd! languageclient-neovim
   else
     source $HOME/.vim/pack/bundle/opt/vim-pathogen/autoload/pathogen.vim
     call pathogen#infect('pack/bundle/opt/{}')
