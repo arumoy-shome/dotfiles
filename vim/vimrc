@@ -21,7 +21,6 @@ if &loadplugins
     packadd! vim-slime
     packadd! vim-test
     packadd! vim-lion
-    packadd! goyo
     packadd! vim-tmux-navigator
     packadd! vim-tmux-runner
     packadd! vim-grepper
