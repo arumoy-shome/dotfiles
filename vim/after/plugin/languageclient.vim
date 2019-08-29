@@ -20,7 +20,17 @@ function! s:Config()
   endif
 endfunction
 
+function! s:Bind()
+  nnoremap <buffer> <silent> K :call LanguageClient#closeFloatingHover()<CR>
+  nnoremap <buffer> <silent> <Esc> :call LanguageClient#closeFloatingHover()<CR>
+endfunction
+
 augroup AruLanguageClientAutocmds
   autocmd!
   autocmd FileType * call s:Config()
+
+  if has('nvim') && exists('*nvim_open_win')
+    " Can use floating window.
+    autocmd BufEnter __LanguageClient__ call s:Bind()
+  endif
 augroup END
