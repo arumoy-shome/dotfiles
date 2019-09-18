@@ -94,3 +94,12 @@
 [submodule "languageclient-neovim"]
 	path = vim/pack/bundle/opt/languageclient-neovim
 	url = git@github.com:autozimu/LanguageClient-neovim.git
+[submodule "vimtex"]
+	path = vim/pack/bundle/opt/vimtex
+	url = git@github.com:lervag/vimtex.git
+[submodule "vim-fish"]
+	path = vim/pack/bundle/opt/vim-fish
+	url = git@github.com:dag/vim-fish.git
+[submodule "tex-conceal"]
+	path = vim/pack/bundle/opt/tex-conceal
+	url = git@github.com:KeitaNakamura/tex-conceal.vim.git

@@ -18,3 +18,6 @@ let g:VtrUseVtrMaps = 1
 
 "vimtex
 let g:tex_flavor = 'latex'
+
+"tex-conceal
+let g:tex_conceal="abdgm"

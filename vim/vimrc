@@ -129,6 +129,9 @@ if &loadplugins
     packadd! vim-snippets
     packadd! vim-json
     packadd! languageclient-neovim
+    packadd! vimtex
+    packadd! tex-conceal
+    packadd! vim-fish
   else
     source $HOME/.vim/pack/bundle/opt/vim-pathogen/autoload/pathogen.vim
     call pathogen#infect('pack/bundle/opt/{}')

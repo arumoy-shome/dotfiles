@@ -3,11 +3,11 @@
 set TARGET "$XDG_CONFIG_HOME/fish"
 
 function install
-    brew install fish
+  brew install fish
 
-    set fish (which fish)
-    test "$SHELL" = $fish; or chsh -s $fish (whoami)
-    grep -q $fish /etc/shells; or echo $fish | sudo tee -a /etc/shells > /dev/null
+  set fish (which fish)
+  test "$SHELL" = $fish; or chsh -s $fish (whoami)
+  grep -q $fish /etc/shells; or echo $fish | sudo tee -a /etc/shells > /dev/null
 
-    mkdir -p "$XDG_CONFIG_HOME/fish/conf.d"
+  mkdir -p "$XDG_CONFIG_HOME/fish/conf.d"
 end
