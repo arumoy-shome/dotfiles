@@ -1,27 +1,29 @@
 function colors -d "switch to a dark of light theme"
-    set base "$XDG_DATA_HOME/base16"
-    set color $argv[1]
+  set base "$XDG_DATA_HOME/base16"
 
-    test "$color" = "light"; and set theme "base16-default-light"
-    test "$color" = "dark"; and set theme "base16-default-dark"
+  set color $argv[1]
 
-    # grab the hex codes
-    set bg (grep color_background= "$base/$theme.sh" | cut -d \" -f2 | sed -e 's#/##g')
-    set cc (grep color18= "$base/$theme.sh" | cut -d \" -f2 | sed -e 's#/##g')
+  test "$color" = "light"; and set theme "base16-default-light"
+  test "$color" = "dark"; and set theme "base16-default-dark"
 
-    # update tmux window and pane colours to dim inactive panes
-    if test -n "$TMUX"
-      command tmux set -a window-active-style "bg=#$bg"
-      command tmux set -a window-style "bg=#$cc"
-      command tmux set -g pane-active-border-style "bg=#$cc"
-      command tmux set -g pane-border-style "bg=#$cc"
-    end
+  # grab the hex codes
+  set bg (grep color_background= "$base/$theme.sh" | cut -d \" -f2 | sed -e 's#/##g')
+  set cc (grep color18= "$base/$theme.sh" | cut -d \" -f2 | sed -e 's#/##g')
 
-    ln -sfh ~/.local/share/base16/$theme.sh ~/.local/share/base16/current-theme.sh
+  # update tmux window and pane colours to dim inactive panes
+  if test -n "$TMUX"
+    command tmux set -a window-active-style "bg=#$bg"
+    command tmux set -a window-style "bg=#$cc"
+    command tmux set -g pane-active-border-style "bg=#$cc"
+    command tmux set -g pane-border-style "bg=#$cc"
+    command tmux set -g status-style "bg=#$cc"
+  end
 
-    # let vim know what theme to use
-    echo -e "if !exists('g:colors_name') || g:colors_name != '$theme'\n  colorscheme $theme\nendif" >  ~/.vim/.background
+  ln -sfh ~/.local/share/base16/$theme.sh ~/.local/share/base16/current-theme.sh
 
-    # finally, set the theme
-    eval sh "$base/$theme.sh"
+  # let vim know what theme to use
+  echo -e "if !exists('g:colors_name') || g:colors_name != '$theme'\n  colorscheme $theme\nendif" >  ~/.vim/.background
+
+  # finally, set the theme
+  eval sh "$base/$theme.sh"
 end
