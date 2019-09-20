@@ -130,8 +130,8 @@ if &loadplugins
     packadd! vim-json
     packadd! languageclient-neovim
     packadd! vimtex
-    packadd! tex-conceal
     packadd! vim-fish
+    " packadd! tex-conceal
   else
     source $HOME/.vim/pack/bundle/opt/vim-pathogen/autoload/pathogen.vim
     call pathogen#infect('pack/bundle/opt/{}')
