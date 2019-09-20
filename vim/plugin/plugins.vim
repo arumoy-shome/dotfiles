@@ -20,14 +20,3 @@ let g:VtrUseVtrMaps = 1
 let g:tex_flavor = 'latex'
 let g:vimtex_quickfix_mode = 0
 let g:vimtex_view_method = 'skim'
-
-"tex-conceal
-let g:tex_conceal="abdgm"
-
-"indentline
-" indentline does not play well in latex files so here I tell it to not change
-" the conceal settings automatically and set them explicitely myself then I can
-" overwrite these settigns for tex files
-let g:indentLine_setConceal = 0
-set concealcursor=inc
-set conceallevel=2
