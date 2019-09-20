@@ -5,6 +5,8 @@ call aru#functions#plaintext()
 call aru#autocomplete#deoplete_init()
 
 setlocal synmaxcol=0
+setlocal concealcursor=
+setlocal conceallevel=0
 
 " This is new style
 call deoplete#custom#var('omni', 'input_patterns', {
