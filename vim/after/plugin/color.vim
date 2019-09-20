@@ -9,10 +9,29 @@ function s:RemoveBg(group)
 endfunction
 
 function s:CheckColorScheme()
-  if filereadable(expand("~/.vim/.background"))
-    if !has('termguicolors')
-      let g:base16colorspace=256
+  if !has('termguicolors')
+    let g:base16colorspace=256
+  endif
+
+  let s:config_file = expand('~/.vim/.background')
+
+  if filereadable(s:config_file)
+    let s:config = readfile(s:config_file, '', 2)
+
+    if s:config[1] =~# '^dark\|light$'
+      execute 'set background=' . s:config[1]
+    else
+      echoerr 'Bad background ' . s:config[1] . ' in ' . s:config_file
     endif
+
+    if filereadable(expand('~/.vim/colors/' . s:config[0] . '.vim'))
+      execute 'colorscheme ' . s:config[0]
+    else
+      echoerr 'Bad scheme ' . s:config[0] . ' in ' . s:config_file
+    endif
+  else " default
+    set background=dark
+    colorscheme base16-default-dark
     source ~/.vim/.background
   endif
 
@@ -50,9 +69,9 @@ function s:CheckColorScheme()
   endfor
 
   " More subtle highlighting during merge conflict resolution.
-  " highlight clear DiffAdd
-  " highlight clear DiffChange
-  " highlight clear DiffText
+  highlight clear DiffAdd
+  highlight clear DiffChange
+  highlight clear DiffText
 
   if aru#pinnacle#active()
     let l:highlight=pinnacle#italicize('ModeMsg')
@@ -61,6 +80,7 @@ function s:CheckColorScheme()
 
   " Allow for overrides:
   " - `statusline.vim` will re-set User1, User2 etc.
+  " - `after/plugin/loupe.vim` will override Search.
   doautocmd ColorScheme
 endfunction
 

@@ -16,13 +16,12 @@ function colors -d "switch to a dark of light theme"
     command tmux set -a window-style "bg=#$cc"
     command tmux set -g pane-active-border-style "bg=#$cc"
     command tmux set -g pane-border-style "bg=#$cc"
-    command tmux set -g status-style "bg=#$cc"
   end
 
   ln -sfh ~/.local/share/base16/$theme.sh ~/.local/share/base16/current-theme.sh
 
   # let vim know what theme to use
-  echo -e "if !exists('g:colors_name') || g:colors_name != '$theme'\n  colorscheme $theme\nendif" >  ~/.vim/.background
+  echo -e "$theme\n$color" >  ~/.vim/.background
 
   # finally, set the theme
   eval sh "$base/$theme.sh"
