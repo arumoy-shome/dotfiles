@@ -108,7 +108,6 @@ if &loadplugins
     packadd! vim-projectionist
     packadd! vim-eunuch
     packadd! vim-surround
-    packadd! vim-vinegar
     packadd! vim-rhubarb
     packadd! vim-repeat
     packadd! vim-clipper
@@ -131,7 +130,10 @@ if &loadplugins
     packadd! languageclient-neovim
     packadd! vimtex
     packadd! vim-fish
+    packadd! vim-textobj-comment
+    packadd! vim-textobj-user
     " packadd! tex-conceal
+    " packadd! vim-vinegar
   else
     source $HOME/.vim/pack/bundle/opt/vim-pathogen/autoload/pathogen.vim
     call pathogen#infect('pack/bundle/opt/{}')

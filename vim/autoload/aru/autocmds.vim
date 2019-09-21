@@ -3,6 +3,13 @@ let g:AruColorColumnFileTypeBlacklist = ['command-t', 'diff', 'fugitiveblame', '
 let g:AruCursorlineBlacklist = ['command-t']
 let g:AruMkviewFiletypeBlacklist = ['diff', 'hgcommit', 'gitcommit']
 
+function! aru#autocmds#attempt_select_last_file() abort
+  let l:previous=expand('#:t')
+  if l:previous !=# ''
+    call search('\v<' . l:previous . '>')
+  endif
+endfunction
+
 function! aru#autocmds#should_colorcolumn() abort
   if index(g:AruColorColumnBufferNameBlacklist, bufname(bufnr('%'))) != -1
     return 0

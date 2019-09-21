@@ -103,3 +103,12 @@
 [submodule "tex-conceal"]
 	path = vim/pack/bundle/opt/tex-conceal
 	url = git@github.com:KeitaNakamura/tex-conceal.vim.git
+[submodule "vim-textobj-comment"]
+	path = vim/pack/bundle/opt/vim-textobj-comment
+	url = git@github.com:glts/vim-textobj-comment.git
+[submodule "nerdtree"]
+	path = vim/pack/bundle/opt/nerdtree
+	url = git@github.com:scrooloose/nerdtree.git
+[submodule "vim-textobj-user"]
+	path = vim/pack/bundle/opt/vim-textobj-user
+	url = git@github.com:kana/vim-textobj-user.git
