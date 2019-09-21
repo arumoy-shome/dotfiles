@@ -48,11 +48,8 @@ if has ('autocmd')
     endif
   augroup END
 
-  " WARNING: this is currently broken
-  " Goyo
-  "
-
   let s:settings={}
+
   function! s:goyo_enter()
     augroup AruAutocmds
       autocmd!
@@ -66,13 +63,11 @@ if has ('autocmd')
 
     let s:settings = {
           \   'showbreak': &showbreak,
-          \   'statusline': &statusline,
           \   'cursorline': &cursorline,
           \   'showmode': &showmode
           \ }
 
     set showbreak=
-    set statusline=\ 
     set nocursorline
     set noshowmode
 
