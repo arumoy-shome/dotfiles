@@ -1,16 +1,36 @@
-snippet tbo "bold text"
-\textbf{$0}
+snippet tbo "bold text" i
+\textbf{${VISUAL}}$0
 endsnippet
 
-snippet tit "italic text"
-\textit{$0}
+snippet tit "italic text" i
+\textit{${VISUAL}}$0
 endsnippet
 
-snippet tco "code text"
-\texttt{$0}
+snippet tco "code text" i
+\texttt{${VISUAL}}$0
 endsnippet
 
-snippet bm "bold maths"
-\bm{$0}
+snippet bm "bold maths" i
+\bm{${VISUAL}}$0
+endsnippet
+
+snippet mexp "math expression"
+$${VISUAL}$$0
+endsnippet
+
+snippet pder "partial derivative"
+\frac{\partial ${1:num}}{\partial ${2:denom}}$0
+endsnippet
+
+snippet int "integral"
+\int_{${1:i=0}}^{${2:N}}$0
+endsnippet
+
+snippet sum "summation"
+\sum_{${1:i=0}}^{${2:N}}$0
+endsnippet
+
+snippet prod "product"
+\prod_{${1:i=0}}^{${2:N}}$0
 endsnippet
 
