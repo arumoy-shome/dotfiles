@@ -56,11 +56,6 @@ if has ('autocmd')
     augroup END
     augroup! AruAutocmds
 
-    augroup AruAutocolor
-      autocmd!
-    augroup END
-    augroup! AruAutocolor
-
     let s:settings = {
           \   'showbreak': &showbreak,
           \   'cursorline': &cursorline,
