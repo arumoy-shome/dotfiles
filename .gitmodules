@@ -112,3 +112,6 @@
 [submodule "vim-textobj-user"]
 	path = vim/pack/bundle/opt/vim-textobj-user
 	url = git@github.com:kana/vim-textobj-user.git
+[submodule "float-preview"]
+	path = vim/pack/bundle/opt/float-preview
+	url = git@github.com:ncm2/float-preview.nvim.git

@@ -132,6 +132,7 @@ if &loadplugins
     packadd! vim-fish
     packadd! vim-textobj-comment
     packadd! vim-textobj-user
+    packadd! float-preview
     " packadd! tex-conceal
     " packadd! vim-vinegar
   else
