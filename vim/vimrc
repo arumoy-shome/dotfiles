@@ -133,6 +133,8 @@ if &loadplugins
     packadd! vim-textobj-comment
     packadd! vim-textobj-user
     packadd! float-preview
+    " packadd! vim-pandoc
+    " packadd! vim-pandoc-syntax
     " packadd! tex-conceal
     " packadd! vim-vinegar
   else

@@ -115,3 +115,9 @@
 [submodule "float-preview"]
 	path = vim/pack/bundle/opt/float-preview
 	url = git@github.com:ncm2/float-preview.nvim.git
+[submodule "vim-pandoc"]
+	path = vim/pack/bundle/opt/vim-pandoc
+	url = git@github.com:vim-pandoc/vim-pandoc.git
+[submodule "vim-pandoc-syntax"]
+	path = vim/pack/bundle/opt/vim-pandoc-syntax
+	url = git@github.com:vim-pandoc/vim-pandoc-syntax.git
