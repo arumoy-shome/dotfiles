@@ -22,6 +22,8 @@ let g:UltiSnipsSnippetsDir = $HOME . '/.vim/snips'
 " here prevents it from doing so giving a little performace boost
 let g:UltiSnipsSnippetDirectories = [
       \ $HOME . '/.vim/snips',
+      \ $HOME . './vim/pack/bundle/opt/vim-snippets/UltiSnips',
+      \ $HOME . './vim/pack/bundle/opt/vim-fish/UltiSnips'
       \ ]
 
 if has('nvim')
