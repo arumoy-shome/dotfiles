@@ -1,36 +1,73 @@
+snippet txt "text inside math exp" i
+\text{${1:${VISUAL:text}}}$0
+endsnippet
+
 snippet tbo "bold text" i
-\textbf{${VISUAL}}$0
+\textbf{${1:${VISUAL:text}}}$0
 endsnippet
 
 snippet tit "italic text" i
-\textit{${VISUAL}}$0
+\textit{${1:${VISUAL:text}}}$0
 endsnippet
 
-snippet tco "code text" i
-\texttt{${VISUAL}}$0
+snippet tco "monospaced text" i
+\texttt{${1:${VISUAL:text}}}$0
 endsnippet
 
 snippet bm "bold maths" i
-\bm{${VISUAL}}$0
+\bm{${1:${VISUAL:exp}}}$0
 endsnippet
 
-snippet mexp "math expression"
-$${VISUAL}$$0
+snippet bar "bar over char" i
+\bar{${1:${VISUAL:char}}}$0
 endsnippet
 
-snippet pder "partial derivative"
+snippet ln "natural log" i
+\ln{${1:${VISUAL:exp}}}$0
+endsnippet
+
+snippet mexp "math expression" i
+\$${1:${VISUAL:exp}}\$$0
+endsnippet
+
+snippet frac "fraction" i
+\frac{${1:num}}{${2:denom}}$0
+endsnippet
+
+snippet pder "partial derivative" i
 \frac{\partial ${1:num}}{\partial ${2:denom}}$0
 endsnippet
 
-snippet int "integral"
-\int_{${1:i=0}}^{${2:N}}$0
+snippet int "integral" i
+\int_{${1:n=0}}^{${2:N}}$0
 endsnippet
 
-snippet sum "summation"
-\sum_{${1:i=0}}^{${2:N}}$0
+# $1: numerator
+# $2: numerator index
+# $3: denominator
+# $4: numerator only
+# $5: sum sign only
+snippet sum "summation" i
+\sum${5:_{${1:n=${2:0}}}${4:^{${3:N}}}}$0
 endsnippet
 
-snippet prod "product"
-\prod_{${1:i=0}}^{${2:N}}$0
+snippet sums "two summations" i
+\sum${5:_{${1:n=${2:0}}}${4:^{${3:N}}}}\sum${10:_{${6:k=${7:0}}}${9:^{${8:K}}}}$0
 endsnippet
 
+# $1: numerator
+# $2: numerator index
+# $3: denominator
+# $4: numerator only
+# $5: product sign only
+snippet prod "product" i
+\prod${5:_{${1:n=${2:0}}}${4:^{${3:N}}}}$0
+endsnippet
+
+snippet prods "two products" i
+\prod${5:_{${1:n=${2:0}}}${4:^{${3:N}}}}\prod${10:_{${6:k=${7:0}}}${9:^{${8:K}}}}$0
+endsnippet
+
+snippet subsup "char with subscript and superscript" i
+${1:${VISUAL:char}}_{${2:sub}}^{${3:sup}}$0
+endsnippet
