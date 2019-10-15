@@ -12,32 +12,32 @@ spoon.MiroWindowsManager:bindHotkeys({
   fullscreen = {hyper, "f"}
 })
 
+-- send focused window to other desktop
+hs.hotkey.bind(hyper, "o", function()
+  -- Get the focused window, its window frame dimensions, its screen frame dimensions,
+  -- and the next screen's frame dimensions.
+  local focusedWindow = hs.window.focusedWindow()
+  local focusedScreenFrame = focusedWindow:screen():frame()
+  local nextScreenFrame = focusedWindow:screen():next():frame()
+  local windowFrame = focusedWindow:frame()
+
+  -- Calculate the coordinates of the window frame in the next screen and retain aspect ratio
+  windowFrame.x = ((((windowFrame.x - focusedScreenFrame.x) / focusedScreenFrame.w) * nextScreenFrame.w) + nextScreenFrame.x)
+  windowFrame.y = ((((windowFrame.y - focusedScreenFrame.y) / focusedScreenFrame.h) * nextScreenFrame.h) + nextScreenFrame.y)
+  windowFrame.h = ((windowFrame.h / focusedScreenFrame.h) * nextScreenFrame.h)
+  windowFrame.w = ((windowFrame.w / focusedScreenFrame.w) * nextScreenFrame.w)
+
+  -- Set the focused window's new frame dimensions
+  focusedWindow:setFrame(windowFrame)
+end)
+
 -- reload
 hs.hotkey.bind(hyper, "R", function()
   hs.reload()
 end)
 hs.alert.show("Config loaded")
 
--- watchers
-function startSync(files)
-  local gdrive = hs.application.find("Backup and Sync")
-
-  if not gdrive then
-    hs.application.launchOrFocus("Backup and Sync")
-    -- wait for 5 minutes and then quit sync
-    hs.timer.delayed.new(300, stopSync):start()
-  end
-end
-
-function stopSync()
-  hs.application.find("Backup and Sync"):kill()
-end
-
-local gdriveWatcher = hs.pathwatcher.new(os.getenv("HOME") .. "/Google Drive", startSync):start()
-local orgWatcher = hs.pathwatcher.new(os.getenv("HOME") .. "/org", startSync):start()
-local documentsWatcher = hs.pathwatcher.new(os.getenv("HOME") .. "/Documents", startSync):start()
-
 -- hotkey for terminal
 hs.hotkey.bind(hyper, "Return", function()
-  hs.application.launchOrFocus("Kitty")
+  hs.application.launchOrFocus("iTerm")
 end)
