@@ -1,0 +1,25 @@
+#!/usr/bin/env python3
+
+import json
+import os
+import sys
+
+HOME = os.getenv("HOME")
+# the sys.argv[0] is this file
+# split on $HOME/ to get relative path
+# note: that we expect it to be an absolute path
+CWD = sys.argv[1].split("{0}/".format(HOME))
+if len(CWD) == 1:
+    CWD = ""
+else:
+    CWD = CWD[1]
+
+with open("{0}/.config/fish/.projections.json".format(HOME), "r") as f:
+    projections = json.load(f)
+
+try:
+    ALT_CWD = "{0}/{1}".format(HOME, projections[CWD]["alternate"])
+except KeyError:
+    ALT_CWD = ""
+
+print(ALT_CWD)
