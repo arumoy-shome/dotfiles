@@ -1,7 +1,7 @@
 function venv -d "python virtualenv management"
 
   function _create_venv -d "create a new virtualenv"
-    python3 virtualenv venv
+    python3 -m venv venv
 
     _activate_venv
 
