@@ -42,3 +42,26 @@ function! aru#functions#substitute(pattern, replacement, flags) abort
   endfor
 endfunction
 
+" TODO: return if cursor not on a task
+function! aru#functions#toggle_task() abort
+  " getcurpos returns [bufnum, lnum, col, off, curswant]
+  let l:cursor_pos=getcurpos()
+  " ^: go to beginning of line
+  " f{: find [
+  " di{: delete inside [  ]
+  normal ^f[di[
+  " grab the text between [  ]
+  let l:content=@"
+
+  if l:content == "X"
+    " i : insert a space and return back to normal mode
+    normal i 
+  else
+    " iX: insert a X and return back to normal mode
+    normal iX
+  endif
+
+  " cursor accepts [{lnum}, {col}, {off}, {curswant}]
+  call cursor(l:cursor_pos[1:])
+endfunction
+
