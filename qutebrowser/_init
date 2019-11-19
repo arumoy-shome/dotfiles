@@ -1,0 +1,7 @@
+#!/usr/bin/env fish
+
+set TARGET "$HOME/.qutebrowser"
+
+function install
+  brew cask install qutebrowser
+end
