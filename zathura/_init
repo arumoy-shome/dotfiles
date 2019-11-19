@@ -1,0 +1,13 @@
+#!/usr/bin/env fish
+
+set TARGET "$XDG_CONFIG_HOME/zathura"
+
+function install
+  brew install zathura zathura-pdf-poppler
+
+  # zathura-pdf-poppler caveats
+  # First create the plugin directory if it does not exist yet:
+  mkdir -p $(brew --prefix zathura)/lib/zathura
+  # Then link the .dylib to the directory:
+  ln -s $(brew --prefix zathura-pdf-poppler)/libpdf-poppler.dylib $(brew --prefix zathura)/lib/zathura/libpdf-poppler.dylib
+end
