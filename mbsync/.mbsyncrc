@@ -1,0 +1,77 @@
+
+
+IMAPStore primary-remote
+Host imap.gmail.com
+Port  993
+User arumoy.shome@gmail.com
+PassCmd "pass mutt-wizard-primary"
+SSLType IMAPS
+AuthMechs LOGIN
+CertificateFile /etc/ssl/cert.pem
+
+MaildirStore primary-local
+Subfolders Verbatim
+Path ~/.local/share/mail/primary/
+Inbox ~/.local/share/mail/primary/INBOX
+Flatten .
+
+Channel primary
+Expunge Both
+Master :primary-remote:
+Slave :primary-local:
+Patterns * !"[Gmail]/All Mail"
+Create Both
+SyncState *
+MaxMessages 0
+# End profile
+
+IMAPStore vu-remote
+Host imap.vu.nl
+Port  993
+User ase247
+PassCmd "pass mutt-wizard-vu"
+SSLType IMAPS
+AuthMechs LOGIN
+CertificateFile /etc/ssl/cert.pem
+
+MaildirStore vu-local
+Subfolders Verbatim
+Path ~/.local/share/mail/vu/
+Inbox ~/.local/share/mail/vu/INBOX
+Flatten .
+
+Channel vu
+Expunge Both
+Master :vu-remote:
+Slave :vu-local:
+Patterns * !"[Gmail]/All Mail"
+Create Both
+SyncState *
+MaxMessages 0
+# End profile
+
+IMAPStore work-remote
+Host imap.gmail.com
+Port  993
+User arumoy.shome.work@gmail.com
+PassCmd "pass mutt-wizard-work"
+SSLType IMAPS
+AuthMechs LOGIN
+CertificateFile /etc/ssl/cert.pem
+
+MaildirStore work-local
+Subfolders Verbatim
+Path ~/.local/share/mail/work/
+Inbox ~/.local/share/mail/work/INBOX
+Flatten .
+
+Channel work
+Expunge Both
+Master :work-remote:
+Slave :work-local:
+Patterns * !"[Gmail]/All Mail"
+Create Both
+SyncState *
+MaxMessages 0
+# End profile
+

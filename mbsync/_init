@@ -1,0 +1,7 @@
+#!/usr/bin/env fish
+
+set TARGET "$HOME"
+
+function install
+  brew install isync
+end
