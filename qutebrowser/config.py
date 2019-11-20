@@ -17,3 +17,9 @@ config.set('content.javascript.enabled', True, 'chrome://*/*')
 # Enable JavaScript.
 # Type: Bool
 config.set('content.javascript.enabled', True, 'qute://*/*')
+
+c.url.searchengines['DEFAULT'] = 'https://www.google.com/search?q={}'
+c.url.searchengines['github'] = 'https://www.github.com/search?q={}'
+c.url.searchengines['youtube'] = 'https://www.youtube.com/results?search_query={}'
+c.url.searchengines['wiki'] = 'https://www.youtube.com/results?search_query={}'
+c.url.searchengines['scholar'] = 'https://scholar.google.com/scholar?q={}'
