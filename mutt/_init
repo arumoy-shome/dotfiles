@@ -1,0 +1,7 @@
+#!/usr/bin/env fish
+
+set TARGET "$XDG_CONFIG_HOME/mutt"
+
+function install
+  brew install neomutt
+end
