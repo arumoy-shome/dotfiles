@@ -1,5 +1,13 @@
 local hyper = {"ctrl", "cmd", "alt", "shift"}
 
+-- reload config
+hs.loadSpoon("ReloadConfiguration")
+
+spoon.ReloadConfiguration:bindHotkeys({
+  reloadConfiguration = {hyper, "r"}
+})
+spoon.ReloadConfiguration:start()
+
 -- window manager
 hs.loadSpoon("MiroWindowsManager")
 
@@ -30,12 +38,6 @@ hs.hotkey.bind(hyper, "o", function()
   -- Set the focused window's new frame dimensions
   focusedWindow:setFrame(windowFrame)
 end)
-
--- reload
-hs.hotkey.bind(hyper, "R", function()
-  hs.reload()
-end)
-hs.alert.show("Config loaded")
 
 -- hotkey for terminal
 hs.hotkey.bind(hyper, "Return", function()
