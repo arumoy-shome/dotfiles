@@ -8,6 +8,10 @@ function venv -d "python virtualenv management"
     if test -f requirements.txt
       pip install -r requirements.txt
     end
+
+    if test -f "$XDG_DATA_HOME/python/default-projections.json"
+      cp -f "$XDG_DATA_HOME/python/default-projections.json" .projections.json
+    end
   end
 
   function _delete_venv -d "delete virtualenv"

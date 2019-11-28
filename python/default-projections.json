@@ -1,0 +1,10 @@
+{
+  "projectionist/*.py": {
+    "type": "code",
+    "alternate": ["tests/test_{}.py"]
+  },
+  "tests/test_*.py": {
+    "type": "test",
+    "alternate": ["projectionist/{}.py"]
+  }
+}

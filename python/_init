@@ -1,3 +1,5 @@
 #!/usr/bin/env fish
 
+set TARGET "$XDG_DATA_HOME/python"
+
 function install; end
