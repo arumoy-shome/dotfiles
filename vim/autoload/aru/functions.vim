@@ -66,34 +66,55 @@ function! aru#functions#toggle_task() abort
   call cursor(l:cursor_pos[1:])
 endfunction
 
-" Auto lists: Automatically continue/end lists by adding markers if the
-" previous line is a list item, or removing them when they are empty
-" from: https://gist.github.com/sedm0784/dffda43bcfb4728f8e90
-function! aru#functions#auto_list()
-  let l:preceding_line = getline(line(".") - 1)
-  if l:preceding_line =~ '\v^\d+\.\s.'
-    " The previous line matches any number of digits followed by a full-stop
+function! s:complete_list(prepend, context_line)
+  if a:context_line =~ '\v^\d+\.\s.'
+    " The context line matches any number of digits followed by a full-stop
     " followed by one character of whitespace followed by one more character
     " i.e. it is an ordered list item
 
     " Continue the list
-    let l:list_index = matchstr(l:preceding_line, '\v^\d*')
-    call setline(".", l:list_index + 1. ". ")
-  elseif l:preceding_line =~ '\v^\d+\.\s$'
-    " The previous line matches any number of digits followed by a full-stop
+    let l:list_index = matchstr(a:context_line, '\v^\d*')
+    if a:prepend
+      call setline(".", l:list_index - 1. ". ")
+    else
+      call setline(".", l:list_index + 1. ". ")
+    end
+  elseif a:context_line =~ '\v^\d+\.\s$'
+    " The context line matches any number of digits followed by a full-stop
     " followed by one character of whitespace followed by nothing
-   " i.e. it is an empty ordered list item
+    " i.e. it is an empty ordered list item
 
     " End the list and clear the empty item
-    call setline(line(".") - 1, "")
-  elseif l:preceding_line[0] == "-" && l:preceding_line[1] == " "
-    " The previous line is an unordered list item
-    if strlen(l:preceding_line) == 2
-      " ...which is empty: end the list and clear the empty item
+    if a:prepend
+      call setline(line(".") + 1, "")
+    else
       call setline(line(".") - 1, "")
+    end
+  elseif a:context_line[0] == "-" && a:context_line[1] == " "
+    " The previous line is an unordered list item
+    if strlen(a:context_line) == 2
+      " ...which is empty: end the list and clear the empty item
+      if a:prepend
+        call setline(line(".") + 1, "")
+      else
+        call setline(line(".") - 1, "")
+      end
     else
       " ...which is not empty: continue the list
       call setline(".", "- ")
     endif
   endif
+endfunction
+
+" Auto lists: Automatically continue/end lists by adding markers if the
+" previous line is a list item, or removing them when they are empty
+" from: https://gist.github.com/sedm0784/dffda43bcfb4728f8e90
+function! aru#functions#auto_list(prepend)
+  if a:prepend
+    let l:context_line = getline(line(".") + 1)
+    call s:complete_list(a:prepend, l:context_line)
+  else
+    let l:context_line = getline(line(".") - 1)
+    call s:complete_list(a:prepend, l:context_line)
+  end
 endfunction
