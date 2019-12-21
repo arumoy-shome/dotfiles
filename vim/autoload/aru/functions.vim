@@ -42,28 +42,33 @@ function! aru#functions#substitute(pattern, replacement, flags) abort
   endfor
 endfunction
 
-" TODO: return if cursor not on a task
 function! aru#functions#toggle_task() abort
-  " getcurpos returns [bufnum, lnum, col, off, curswant]
-  let l:cursor_pos=getcurpos()
-  " ^: go to beginning of line
-  " f{: find [
-  " di{: delete inside [  ]
-  normal ^f[di[
-  " grab the text between [  ]
-  let l:content=@"
-
-  if l:content == "X"
-    " i : insert a space and return back to normal mode
-    " NOTE: the whitespace in the end is intensional
-    normal i 
+  let l:current_line = getline(".")
+  if l:current_line =~ '\v^\s*[-\*]\s\[[X]*\]\s'
+    " if the current line starts with an arbitrary number of whitespace followed
+    " by a `-` or `*` followed by a single whitespace followed by a `[` followed
+    " by a `X` followed by a `]` followed by a single whitespace then make the
+    " line an unordered list.
+    substitute/\v^\s*[-\*]\s\zs\[[X]*\]\s\ze/
+  elseif l:current_line =~ '\v^\s*[-\*]\s\[[^\]]*\]\s'
+    " if the current line starts with an arbitrary number of whitespace followed
+    " by a `-` or `*` followed by a single whitespace followed by a `[` followed
+    " by a single char that is NOT `]` followed by a `]` followed by a single
+    " whitespace then mark the task as done.
+    substitute/\v^\s*[-\*]\s\zs\[[^\]]*\]\ze\s/[X]
+  elseif l:current_line =~ '\v^\s*[-\*]\s'
+    " if the current line starts with an arbitrary number of whitespace followed
+    " by a `-` or `*` followed by a single whitespace then mae the line an
+    " incomplete task.
+    " NOTE: the trailing whitespace is intentional
+    substitute/\v^\s*[-\*]\s\zs\ze/[ ] 
+  elseif l:current_line =~ '\v^[A-Za-z]'
+    " if the line starts with an alphabet, make it an unordered list.
+    " NOTE: the trailing whitespace is intentional
+    substitute/\v\zs\ze^[A-Za-z]/- 
   else
-    " iX: insert a X and return back to normal mode
-    normal iX
-  endif
-
-  " cursor accepts [{lnum}, {col}, {off}, {curswant}]
-  call cursor(l:cursor_pos[1:])
+    " do nothing
+  end
 endfunction
 
 function! s:complete_list(prepend, context_line)
