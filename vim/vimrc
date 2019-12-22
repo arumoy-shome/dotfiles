@@ -1,5 +1,6 @@
 if &loadplugins
   if has('packages')
+    packadd! vim-markdown-lists
     packadd! vim-fugitive
     packadd! vim-commentary
     packadd! vim-dispatch
