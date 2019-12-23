@@ -121,3 +121,9 @@
 [submodule "vim-pandoc-syntax"]
 	path = vim/pack/bundle/opt/vim-pandoc-syntax
 	url = git@github.com:vim-pandoc/vim-pandoc-syntax.git
+[submodule "ferret"]
+	path = vim/pack/bundle/opt/ferret
+	url = git@github.com:wincent/ferret.git
+[submodule "vim-text-lists"]
+	path = vim/pack/bundle/opt/vim-text-lists
+	url = git@github.com:arumoy-shome/vim-text-lists.git
