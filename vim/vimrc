@@ -14,6 +14,7 @@ if &loadplugins
     packadd! terminus
     packadd! pinnacle
     packadd! command-t
+    packadd! ferret
     packadd! vim-easydir
     packadd! indentline
     packadd! auto-pairs
@@ -22,7 +23,6 @@ if &loadplugins
     packadd! vim-lion
     packadd! vim-tmux-navigator
     packadd! vim-tmux-runner
-    packadd! vim-grepper
     packadd! ultisnips
     packadd! vim-snippets
     packadd! vim-json
@@ -36,6 +36,7 @@ if &loadplugins
     " packadd! vim-pandoc-syntax
     " packadd! tex-conceal
     " packadd! vim-vinegar
+    " packadd! vim-grepper
   else
     source $HOME/.vim/pack/bundle/opt/vim-pathogen/autoload/pathogen.vim
     call pathogen#infect('pack/bundle/opt/{}')
