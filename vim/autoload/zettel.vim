@@ -27,14 +27,14 @@ endfunction
 
 function! s:new_sub_note_id(note) abort
     " arbitrary number of digits before '.md' at the end of str
-    let l:note_id = matchstr(a:note, "\v\zs\d+\ze(\.md)$")
+    let l:note_id = matchstr(a:note, '\v\zs\d+\ze\.md$')
 
     return l:note_id + 1
 endfunction
 
 function! s:get_note_id(type, cur_note) abort
   if a:type == "sub"
-    return s:new_sub_note_id(cur_note)
+    return s:new_sub_note_id(a:cur_note)
   elseif a:type == ""
     return s:new_note_id()
   endif
