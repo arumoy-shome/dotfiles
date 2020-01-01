@@ -1,5 +1,6 @@
 let s:cwd = getcwd()
 let s:notes_dir = s:cwd . "/notes"
+let s:note_id_pattern = '\v\zs\d+\ze\.md$'
 
 if isdirectory(s:notes_dir)
   let s:notes = split(globpath(s:notes_dir, "*.md"), "\n")
@@ -8,7 +9,6 @@ else
 endif
 
 function! s:create_notes_dir() abort
-  " TODO: returns nothing, creates a notes dir at cwd()
   let l:choice = confirm("Create notes directory " . s:notes_dir . " ?", "&Yes\n&No")
 
   if choice == 1
@@ -27,7 +27,7 @@ endfunction
 
 function! s:new_sub_note_id(note) abort
     " arbitrary number of digits before '.md' at the end of str
-    let l:note_id = matchstr(a:note, '\v\zs\d+\ze\.md$')
+    let l:note_id = matchstr(a:note, s:note_id_pattern)
 
     return l:note_id + 1
 endfunction
@@ -56,4 +56,28 @@ function! zettel#new_note(split, type, cur_note) abort
       call zettel#new_note(a:split, a:type, a:cur_note)
     endif
   endif
+endfunction
+
+function! s:populate_qf(list) abort
+  " Map file names to format, as understood by 'errorformat' (similar to
+  " grepformat)
+  " from https://github.com/samoshkin/vim-find-files/blob/master/autoload/find_files/qf.vim#L10
+  let l:notes = map(a:list, 'v:val . ":1:" . fnamemodify(v:val, ":.")')
+  cgetexpr l:notes
+  copen
+  call setqflist([], 'r', {'title': 'zettel - ' . getcwd()})
+endfunction
+
+function! zettel#ls(scope, note) abort
+  if a:scope == 'main'
+    let l:notes = split(globpath(s:notes_dir, '????????????00.md'), "\n")
+  elseif a:scope == 'sub'
+    let l:note_id = matchstr(a:note, s:note_id_pattern)
+    let l:node_id = l:note_id[0:11]
+    let l:notes = split(globpath(s:notes_dir, l:node_id . '??.md'), "\n")
+  else
+    let l:notes = s:notes
+  endif
+
+  call s:populate_qf(l:notes)
 endfunction
