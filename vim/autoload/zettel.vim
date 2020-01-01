@@ -69,15 +69,31 @@ function! s:populate_qf(list) abort
 endfunction
 
 function! zettel#ls(scope, note) abort
-  if a:scope == 'main'
+  if !len(s:notes)
+    echomsg "No notes found, create a note first!"
+    return
+  endif
+
+  if a:scope == 'all'
+    let l:notes = s:notes
+  elseif a:scope == 'main'
     let l:notes = split(globpath(s:notes_dir, '????????????00.md'), "\n")
   elseif a:scope == 'sub'
+    if !len(a:note)
+      echomsg "Parent note required!"
+      return
+    endif
+
     let l:note_id = matchstr(a:note, s:note_id_pattern)
     let l:node_id = l:note_id[0:11]
     let l:notes = split(globpath(s:notes_dir, l:node_id . '??.md'), "\n")
   else
-    let l:notes = s:notes
+    let l:notes = []
   endif
 
-  call s:populate_qf(l:notes)
+  if len(l:notes)
+    call s:populate_qf(l:notes)
+  else
+    echomsg "No notes found."
+  endif
 endfunction
