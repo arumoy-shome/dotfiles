@@ -1,7 +1,3 @@
-" convenience for sourcing config file
-nmap <leader>so :source $MYVIMRC<CR>
-nmap <leader>vr :vsp $MYVIMRC<CR>
-
 " zoom/unzoom splits
 nnoremap <leader>= :wincmd _<CR>:wincmd \|<CR>
 nnoremap <leader>- :wincmd =<CR>
