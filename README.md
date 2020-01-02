@@ -53,6 +53,10 @@ Make sure to read the corresponding topic/README before installing for caveats a
 9. Use `topic/_init#delete` to undo `topic/_init#install`. In essence, `install` & `delete` must only contain one off actions that cannot be executed multiple times.
 10. Finally, `test` is a topic for testing. Use this to test out scripts before running scripts on actual files!
 
+## Updating
+
+Use `git pull --recusive-submodules` to update repo along with all submodules. To update just the submodules use `git submodule update --remote --merge --jobs 8`.
+
 ## License ##
 
 This project is open sourced and free to use under the [MIT license](LICENSE.md).
