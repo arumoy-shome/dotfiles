@@ -8,3 +8,7 @@ if bufname(bufnr('%')) == '__LanguageClient__'
   setlocal nonumber
   setlocal norelativenumber
 endif
+
+" jump between sections
+nnoremap <buffer> <silent> [[ ?\v^#+<CR>:noh<CR>
+nnoremap <buffer> <silent> ]] /\v^#+<CR>:noh<CR>
