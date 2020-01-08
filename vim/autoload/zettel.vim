@@ -1,8 +1,10 @@
 let s:cwd = getcwd()
-let s:notes_dir = s:cwd . "/notes"
+let s:home = expand("$HOME")
+let s:notes_dir = s:home . "/zettel"
 let s:note_id_pattern = '\v\zs\d+\ze\.md$'
 
 if isdirectory(s:notes_dir)
+  " TODO: this can be expensive when we have a lot of notes
   let s:notes = split(globpath(s:notes_dir, "*.md"), "\n")
 else
   let s:notes = []
@@ -20,40 +22,36 @@ function! s:create_notes_dir() abort
   echoerr "Notes directory not created."
 endfunction
 
-function! s:new_note_id() abort
-    " format: YYYYMMDDHHSSNN where NN is the note number
-    return strftime("%Y%m%d%H%M%S") . "00"
-endfunction
-
-function! s:new_sub_note_id(note) abort
-    " arbitrary number of digits before '.md' at the end of str
-    let l:note_id = matchstr(a:note, s:note_id_pattern)
-
-    return l:note_id + 1
-endfunction
-
-function! s:get_note_id(type, cur_note) abort
-  if a:type == "sub"
-    return s:new_sub_note_id(a:cur_note)
-  elseif a:type == ""
-    return s:new_note_id()
+function! s:new_note_id(title) abort
+  if len(matchstr(a:title, '\v\s'))
+    let l:title = join(split(a:title, '\v\s'), "-")
+  elseif len(a:title)
+    let l:title = a:title
   endif
+
+  if exists("l:title")
+    return strftime("%Y%m%d%H%M%S") . "-" . l:title
+  else
+    return strftime("%Y%m%d%H%M%S")
 endfunction
 
-function! zettel#new_note(split, type, cur_note) abort
+function! zettel#new_note(split, title) abort
   if isdirectory(s:notes_dir)
-    let l:note_name = s:notes_dir . "/" . s:get_note_id(a:type, a:cur_note) . ".md"
+    let l:note_name = s:notes_dir . "/" . s:new_note_id(a:title) . ".md"
 
     if a:split == "h"
       execute "split " . l:note_name
-    elseif a:split == "v"
-      execute "vsplit" l:note_name
+      execute "lcd" . s:notes_dir
+    elseif a:split == "t"
+      execute "tabedit" . l:note_name
+      execute "lcd" . s:notes_dir
     else
-      execute "edit" l:note_name
+      execute "vsplit" . l:note_name
+      execute "lcd" . s:notes_dir
     endif
   else
     if s:create_notes_dir()
-      call zettel#new_note(a:split, a:type, a:cur_note)
+      call zettel#new_note(a:split, a:title)
     endif
   endif
 endfunction
