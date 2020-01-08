@@ -127,3 +127,6 @@
 [submodule "vim-text-lists"]
 	path = vim/pack/bundle/opt/vim-text-lists
 	url = git@github.com:arumoy-shome/vim-text-lists.git
+[submodule "vim-zettel"]
+	path = vim/pack/bundle/opt/vim-zettel
+	url = git@github.com:arumoy-shome/vim-zettel.git
