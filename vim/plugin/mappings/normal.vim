@@ -3,15 +3,15 @@ nnoremap <Tab> za
 
 " Repurpose cursor keys (accessible near homerow via "SpaceFN" layout) for one
 " of my most oft-use key sequences.
-nnoremap <silent> <Up> :cprevious<CR>
-nnoremap <silent> <Down> :cnext<CR>
-nnoremap <silent> <Left> :cpfile<CR>
-nnoremap <silent> <Right> :cnfile<CR>
+nnoremap <Up> :cprevious<CR>
+nnoremap <Down> :cnext<CR>
+nnoremap <Left> :cpfile<CR>
+nnoremap <Right> :cnfile<CR>
 
-nnoremap <silent> <S-Up> :lprevious<CR>
-nnoremap <silent> <S-Down> :lnext<CR>
-nnoremap <silent> <S-Left> :lpfile<CR>
-nnoremap <silent> <S-Right> :lnfile<CR>
+nnoremap <S-Up> :lprevious<CR>
+nnoremap <S-Down> :lnext<CR>
+nnoremap <S-Left> :lpfile<CR>
+nnoremap <S-Right> :lnfile<CR>
 
 " When I use gf I almost always want it to open in a new split. Vim's built in
 " binding to open in split (<C-w><C-f>) is clunky and there is no option for
