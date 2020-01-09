@@ -2,6 +2,7 @@ if &loadplugins
   if has('packages')
     packadd! vim-zettel
     packadd! vim-text-lists
+    packadd! vim-scriptease
     packadd! vim-fugitive
     packadd! vim-commentary
     packadd! vim-dispatch

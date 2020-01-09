@@ -130,3 +130,6 @@
 [submodule "vim-zettel"]
 	path = vim/pack/bundle/opt/vim-zettel
 	url = git@github.com:arumoy-shome/vim-zettel.git
+[submodule "vim-scriptease"]
+	path = vim/pack/bundle/opt/vim-scriptease
+	url = git@github.com:tpope/vim-scriptease.git
