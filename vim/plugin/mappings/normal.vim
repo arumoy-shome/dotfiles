@@ -14,10 +14,11 @@ nnoremap <S-Left> :lpfile<CR>
 nnoremap <S-Right> :lnfile<CR>
 
 " When I use gf I almost always want it to open in a new split. Vim's built in
-" binding to open in split (<C-w><C-f>) is clunky and there is no option for
-" opening in vertical split. I have not had a usecase for gF (same as gf but
-" also jumps to a specific linenumber). So, we remap gf to open in split and gF
-" to open in vertical split. The default <C-w>gf for opening in a new tab is
+" binding to open in split (<C-w>f or <C-w><C-f>) is clunky and there is no
+" option for opening in vertical split. gF is similar to gf but also jumps to
+" the line number (if given) and similarly <C-w>F for opening in split and
+" following line number. So, we remap gf to gF and gF to <C-w>F followed by
+" vertical split. The default <C-w>gf and <C-w>gF for opening in a new tab is
 " fine since I rarely need it.
-nnoremap gf <C-w>f
-nnoremap gF <C-w>f<C-w>L
+nnoremap gf <C-w>F
+nnoremap gF <C-w>F<C-w>L
