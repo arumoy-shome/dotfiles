@@ -22,3 +22,8 @@ nnoremap <S-Right> :lnfile<CR>
 " fine since I rarely need it.
 nnoremap gf <C-w>F
 nnoremap gF <C-w>F<C-w>L
+
+" mappings for yanking filename or filename+linenum of current buffer, useful
+" when linking notes and opening files using gf or gF.
+nmap <silent> yf :call aru#mappings#normal#yank_filename()<CR>
+nmap <silent> yF :call aru#mappings#normal#yank_filename_and_linenum()<CR>
