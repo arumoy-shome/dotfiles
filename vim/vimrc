@@ -3,6 +3,7 @@ if &loadplugins
     packadd! vim-zettel
     packadd! vim-text-lists
     packadd! vim-scriptease
+    packadd! vim-markdown
     packadd! vim-fugitive
     packadd! vim-commentary
     packadd! vim-dispatch
