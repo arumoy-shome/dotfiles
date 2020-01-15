@@ -9,7 +9,7 @@ nnoremap <leader><leader> <c-^>
 "
 "        As this one is somewhat destructive and relatively close to the
 "        oft-used <leader>a mapping, make this one a double key-stroke.
-nnoremap <silent> <Leader>zz :call aru#mappings#leader#zap()<CR>
+nnoremap <silent> <expr> <Leader>zz aru#mappings#leader#zap()
 
 " <LocalLeader>c -- Fix (most) syntax highlighting problems in current buffer
 " (mnemonic: coloring).
