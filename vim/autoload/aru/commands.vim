@@ -23,3 +23,19 @@ function! aru#commands#preview(...) abort
     endfor
   endif
 endfunction
+
+let s:w = winwidth(0) * 1.0
+let s:h = winheight(0) * 1.0
+let s:threshold = s:h / s:w
+
+function aru#commands#SPlit(f) abort
+  let w = winwidth(0) * 1.0
+  let h = winheight(0) * 1.0
+  let ratio = h / w
+
+  if ratio <= s:threshold
+    execute "vertical " . a:f
+  else
+    execute a:f
+  endif
+endfunction
