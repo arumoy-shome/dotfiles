@@ -17,7 +17,7 @@ function fish_prompt
     if test "$VIRTUAL_ENV"
         printf '(%s) ' (set_color --italics yellow)(basename $VIRTUAL_ENV)(set_color normal)
     end
-    printf '%s ' (set_color $fish_color_cwd)(basename (pwd))(set_color normal)
+    printf '%s ' (set_color --bold $fish_color_cwd)(basename (pwd))(set_color normal)
     printf '%s' $job
     printf '%s ' $suffix
 end

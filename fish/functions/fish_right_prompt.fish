@@ -20,7 +20,7 @@ function fish_right_prompt
     end
 
     printf '%s' (__fish_git_prompt)
-    printf ' %s' (prompt_pwd)
+    printf ' %s' (set_color blue)(prompt_pwd)(set_color normal)
 end
 
 # taken from https://github.com/matchai/spacefish
