@@ -1,1 +1,1 @@
-complete -c g -w git
+complete -c g -w hub

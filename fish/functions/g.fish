@@ -1,7 +1,9 @@
 function g -d "without arguments call git status else delegate to git"
-    if test "$argv"
-        command git $argv
-    else
-        command git status
-    end
+  # NOTE: assuming topic git is installed in the recommended way in which case
+  # hub is also installed.
+  if test "$argv"
+    command hub $argv
+  else
+    command hub status
+  end
 end
