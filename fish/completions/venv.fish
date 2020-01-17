@@ -1,1 +1,1 @@
-complete -c venv -a "activate deactivate create delete"
+complete -f -c venv -a "activate deactivate create delete"

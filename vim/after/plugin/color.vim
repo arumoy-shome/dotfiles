@@ -32,7 +32,6 @@ function s:CheckColorScheme()
   else " default
     set background=dark
     colorscheme base16-default-dark
-    source ~/.vim/.background
   endif
 
   if aru#pinnacle#active()

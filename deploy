@@ -180,10 +180,10 @@ function deploy
         set enabled_topics (cat (pwd)"/.enabled_topics")
         if test (count $enabled_topics) -gt 0
             printf "
-            enabled topics: $enabled_topics"
+            enabled topics: $enabled_topics\n"
         else
             printf "
-            no topics enabled!
+            no topics enabled!\n
             "
         end
     end
