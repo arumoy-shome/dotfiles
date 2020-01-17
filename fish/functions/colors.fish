@@ -1,18 +1,34 @@
 function colors -d "switch to a dark of light theme"
   set base "$XDG_DATA_HOME/base16"
 
-  set color $argv[1]
+  if test -n "$argv[1]"
+    set scheme "$argv[1]"
+  else
+    echo "No scheme given, using default."
+    set scheme default
+  end
 
-  test "$color" = "light"; and set theme "base16-default-light"
-  test "$color" = "dark"; and set theme "base16-default-dark"
+  if test -n "$argv[2]"
+    set color "$argv[2]"
+  else
+    echo "No color given, using dark."
+    set color dark
+  end
 
-  ln -sfh ~/.local/share/base16/$theme.sh ~/.local/share/base16/current-theme.sh
+  set theme "base16-$scheme-$color"
 
-  # let vim know what theme to use
-  echo -e "$theme\n$color" >  ~/.vim/.background
+  if test -e "$base/$theme.sh"
+    ln -sfh ~/.local/share/base16/$theme.sh ~/.local/share/base16/current-theme.sh
 
-  # finally, set the theme
-  eval sh "$base/$theme.sh"
+    # let vim know what theme to use
+    echo -e "$theme\n$color" >  ~/.vim/.background
 
-  sync_tmux_colors
+    # finally, set the theme
+    eval sh "$base/$theme.sh"
+
+    sync_tmux_colors
+  else
+    echo "Scheme $theme does not exist."
+    return 1
+  end
 end
