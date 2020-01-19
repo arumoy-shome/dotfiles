@@ -139,3 +139,6 @@
 [submodule "vim-sleuth"]
 	path = vim/pack/bundle/opt/vim-sleuth
 	url = git@github.com:tpope/vim-sleuth.git
+[submodule "vim-rsi"]
+	path = vim/pack/bundle/opt/vim-rsi
+	url = git@github.com:tpope/vim-rsi.git
