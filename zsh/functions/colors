@@ -1,0 +1,33 @@
+# vim:filetype=zsh
+# switch to specifid theme or else a default dark theme.
+
+if [[ -n "$1" ]]; then
+  local SCHEME="$1"
+else
+  echo "No scheme given, using default."
+  local SCHEME=default
+fi
+
+if [[ -n "$2" ]]; then
+  local COLOR="$2"
+else
+  echo "No color given, using dark."
+  local COLOR=dark
+fi
+
+local THEME="base16-$SCHEME-$COLOR"
+
+if [[ -e "$XDG_DATA_HOME/base16/$THEME.sh" ]]; then
+  ln -sfh "$XDG_DATA_HOME/base16/$THEME.sh" "$XDG_DATA_HOME/base16/current-theme.sh"
+
+  # let vim know what theme to use
+  echo -e "$THEME\n$COLOR" >  "$HOME/.vim/.background"
+
+  # finally, set the theme
+  eval sh "$XDG_DATA_HOME/base16/$THEME.sh"
+
+  sync_tmux_colors
+else
+  echo "Scheme $THEME does not exist."
+  return 1
+fi

@@ -56,9 +56,6 @@ zstyle ':completion:*:descriptions' format %F{default}%B%{$__WINCENT[ITALIC_ON]%
 # Prompt
 #
 
-autoload -U colors
-colors
-
 # http://zsh.sourceforge.net/Doc/Release/User-Contributions.html
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git hg
@@ -337,17 +334,23 @@ source "$XDG_CONFIG_HOME/zsh/alias"
 # source exports
 source "$XDG_CONFIG_HOME/zsh/exports"
 
-# source /functions
-for function in $XDG_CONFIG_HOME/zsh/functions/*.zsh; do
-  source $function
-done
-
 #
-# fzf
+# autoloads
 #
 
+# keep list on individual lines for clean git diffs
+fpath=("$ZDOTDIR/functions" $fpath)
+autoload -U colors
+autoload -U g
+autoload -U sync_tmux_colors
 
+#
+# colors
+#
 
+[[ -f "$XDG_DATA_HOME/base16/current-theme.sh" ]] && \
+  eval sh "$XDG_DATA_HOME/base16/current-theme.sh"
+sync_tmux_colors
 
 #
 # plugins
