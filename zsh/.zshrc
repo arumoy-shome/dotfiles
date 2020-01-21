@@ -1,13 +1,3 @@
-# source zplug
-export ZPLUG_HOME=/usr/local/opt/zplug
-source $ZPLUG_HOME/init.zsh
-
-zplug "zsh-users/zsh-syntax-highlighting"
-zplug "zsh-users/zsh-completions"
-zplug "zsh-users/zsh-autosuggestions"
-zplug "chriskempson/base16-shell", as:command
-zplug load
-
 # Create a hash table for globally stashing variables without polluting main
 # scope with a bunch of identifiers.
 typeset -A __WINCENT
@@ -354,15 +344,18 @@ done
 # fzf
 #
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-export FZF_DEFAULT_OPTS="--height 70% --border"
-export FZF_DEFAULT_COMMAND="fd --type f --hidden --follow --exclude .git"
 
 
 #
-# base16-shell
+# plugins
 #
 
-BASE16_SHELL=$ZPLUG_HOME/repos/chriskempson/base16-shell/
-[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
+if [[ -d "$ZDOTDIR/zsh-syntax-highlighting" ]]; then
+  source "$ZDOTDIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+fi
+
+if [[ -d "$ZDOTDIR/zsh-autosuggestions" ]]; then
+  source "$ZDOTDIR/zsh-autosuggestions/zsh-autosuggestions.zsh"
+  ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=59'
+fi
