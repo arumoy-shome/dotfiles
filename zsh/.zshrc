@@ -12,17 +12,20 @@ __WINCENT[ITALIC_OFF]=$'\e[23m'
 # source this earlier since we use defined exports later in this script
 [[ -f "$ZDOTDIR/exports" ]] && source "$ZDOTDIR/exports"
 
-PATH="$XDG_DATA_BIN:$PATH"
-# add ruby to path, required by neovim
-PATH="/usr/local/lib/ruby/gems/2.6.0/bin:/usr/local/opt/ruby/bin:$PATH"
+#
+# Path
+#
 
-export -U PATH
+source "$ZDOTDIR/exports"
+path=($XDG_DATA_BIN $path)
+# add ruby to path, required by neovim
+path=("/usr/local/lib/ruby/gems/2.6.0/bin" "/usr/local/opt/ruby/bin" $path)
 
 #
 # Completion
 #
 
-fpath=("$XDG_CONFIG_HOME/zsh/completions" $fpath)
+fpath=("$ZDOTDIR/completions" $fpath)
 
 autoload -U compinit
 compinit -u
