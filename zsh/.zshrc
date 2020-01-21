@@ -24,6 +24,8 @@ export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_DATA_BIN="$HOME/.local/bin"
 
 PATH="$XDG_DATA_BIN:$PATH"
+# add ruby to path, required by neovim
+PATH="/usr/local/lib/ruby/gems/2.6.0/bin:/usr/local/opt/ruby/bin:$PATH"
 
 export -U PATH
 
