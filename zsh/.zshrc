@@ -6,12 +6,11 @@ __WINCENT[ITALIC_ON]=$'\e[3m'
 __WINCENT[ITALIC_OFF]=$'\e[23m'
 
 #
-# Path
+# exports
 #
 
-export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_DATA_HOME="$HOME/.local/share"
-export XDG_DATA_BIN="$HOME/.local/bin"
+# source this earlier since we use defined exports later in this script
+[[ -f "$ZDOTDIR/exports" ]] && source "$ZDOTDIR/exports"
 
 PATH="$XDG_DATA_BIN:$PATH"
 # add ruby to path, required by neovim
