@@ -1,4 +1,4 @@
-function colors -d "switch to a dark of light theme"
+function colors -d "switch to specifid theme or else a default dark theme."
   set base "$XDG_DATA_HOME/base16"
 
   if test -n "$argv[1]"
