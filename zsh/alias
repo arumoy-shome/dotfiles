@@ -1,22 +1,33 @@
+# vim: filetype=zsh
+
 # Unix
-alias la="ls -al"
+alias l="ls -F"
+alias ll="ls -laF"
 alias ln="ln -v"
 alias mkdir="mkdir -p"
-alias e="$EDITOR"
-alias v="$VISUAL"
+alias v="$EDITOR" #nvim when available else vim (see $ZDOTDIR/exports)
 
 # Pretty print the path
 alias path='echo $PATH | tr -s ":" "\n"'
 
 # Tmux
-alias t="tmux"
+(( $+commands[tmux] )) && alias t="tmux"
 
 # Python
-alias py="python3"
-
-# Neovim
-alias vim="nvim"
+(( $+commands[python3] )) && alias py="python3"
 
 # Brew
-alias b="brew"
-alias bc="brew cask"
+if (( $+commands[brew] )); then
+  alias b="brew"
+  alias bc="brew cask"
+fi
+
+# nvim
+(( $+commands[nvim] )) && alias vim="nvim" # use \vim or command vim to get real vim
+
+#
+# Suffix aliases
+#
+
+# "foo.md" to open Markdown files in "Marked 2.app"
+alias -s md='open -a "Marked 2.app"'

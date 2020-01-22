@@ -1,25 +1,72 @@
 # Create a hash table for globally stashing variables without polluting main
 # scope with a bunch of identifiers.
-typeset -A __WINCENT
+typeset -A __ARU
 
-__WINCENT[ITALIC_ON]=$'\e[3m'
-__WINCENT[ITALIC_OFF]=$'\e[23m'
+__ARU[ITALIC_ON]=$'\e[3m'
+__ARU[ITALIC_OFF]=$'\e[23m'
 
 #
-# exports
+# Teh H4xx
+#
+
+if [ "$(uname)" = "Darwin" ]; then
+  # Suppress unwanted Homebrew-installed stuff.
+  if [ -e /usr/local/share/zsh/site-functions/_git ]; then
+    mv -f /usr/local/share/zsh/site-functions/{,disabled.}_git
+  fi
+
+  # Set 60 fps key repeat rate
+  #
+  # Equivalent to the fatest rate acheivable with:
+  #
+  #     defaults write NSGlobalDomain KeyRepeat -int 1
+  #
+  # But doesn't require a logout and will get restored every time we open a
+  # shell (for example, if somebody manipulates the slider in the UI).
+  #
+  # Fastest rate available from UI corresponds to:
+  #
+  #     defaults write NSGlobalDomain KeyRepeat -int 2
+  #
+  # Slowest rate available from UI corresponds to:
+  #
+  #     defaults write NSGlobalDomain KeyRepeat -int 120
+  #
+  # Values at each slider position in UI, from slowest to fastest:
+  #
+  # - 120 -> 2 seconds (ie. .5 fps)
+  # - 90 -> 1.5 seconds (ie .6666 fps)
+  # - 60 -> 1 second (ie 1 fps)
+  # - 30 -> 0.5 seconds (ie. 2 fps)
+  # - 12 -> 0.2 seconds (ie. 5 fps)
+  # - 6 -> 0.1 seconds (ie. 10 fps)
+  # - 2 -> 0.03333 seconds (ie. 30 fps)
+  #
+  # See: https://github.com/mathiasbynens/dotfiles/issues/687
+  #
+  if command -v dry &> /dev/null; then
+    dry 0.0166666666667 > /dev/null
+  fi
+fi
+
+#
+# Exports
 #
 
 # source this earlier since we use defined exports later in this script
-[[ -f "$ZDOTDIR/exports" ]] && source "$ZDOTDIR/exports"
+source "$ZDOTDIR/exports"
 
 #
 # Path
 #
 
-source "$ZDOTDIR/exports"
-path=($XDG_DATA_BIN $path)
-# add ruby to path, required by neovim
-path=("/usr/local/lib/ruby/gems/2.6.0/bin" "/usr/local/opt/ruby/bin" $path)
+# TODO: this check prevents duplication in $PATH when a tmux session is started
+# but does not preserve order.
+if [[ -z "$TMUX" ]]; then
+  # add ruby to path, required by neovim
+  path=($path "/usr/local/lib/ruby/gems/2.6.0/bin" "/usr/local/opt/ruby/bin")
+  path=($path $XDG_DATA_BIN)
+fi
 
 #
 # Completion
@@ -50,7 +97,24 @@ zstyle ':completion:*:complete:(cd|pushd):*' tag-order 'local-directories named-
 
 # Categorize completion suggestions with headings:
 zstyle ':completion:*' group-name ''
-zstyle ':completion:*:descriptions' format %F{default}%B%{$__WINCENT[ITALIC_ON]%}--- %d ---%{$__WINCENT[ITALIC_OFF]%}%b%f
+zstyle ':completion:*:descriptions' format %F{default}%B%{$__ARU[ITALIC_ON]%}--- %d ---%{$__ARU[ITALIC_OFF]%}%b%f
+
+# Enable keyboard navigation of completions in menu
+# (not just tab/shift-tab but cursor keys as well):
+zstyle ':completion:*' menu select
+
+#
+# Correction
+#
+
+# exceptions to auto-correction
+alias bundle='nocorrect bundle'
+alias cabal='nocorrect cabal'
+alias man='nocorrect man'
+alias mkdir='nocorrect mkdir'
+alias mv='nocorrect mv'
+alias stack='nocorrect stack'
+alias sudo='nocorrect sudo'
 
 #
 # Prompt
@@ -58,7 +122,7 @@ zstyle ':completion:*:descriptions' format %F{default}%B%{$__WINCENT[ITALIC_ON]%
 
 # http://zsh.sourceforge.net/Doc/Release/User-Contributions.html
 autoload -Uz vcs_info
-zstyle ':vcs_info:*' enable git hg
+zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:*' stagedstr "%F{green}●%f" # default 'S'
 zstyle ':vcs_info:*' unstagedstr "%F{red}●%f" # default 'U'
@@ -66,39 +130,6 @@ zstyle ':vcs_info:*' use-simple true
 zstyle ':vcs_info:git+set-message:*' hooks git-untracked
 zstyle ':vcs_info:git*:*' formats '[%b%m%c%u] ' # default ' (%s)-[%b]%c%u-'
 zstyle ':vcs_info:git*:*' actionformats '[%b|%a%m%c%u] ' # default ' (%s)-[%b|%a]%c%u-'
-zstyle ':vcs_info:hg*:*' formats '[%m%b] '
-zstyle ':vcs_info:hg*:*' actionformats '[%b|%a%m] '
-zstyle ':vcs_info:hg*:*' branchformat '%b'
-zstyle ':vcs_info:hg*:*' get-bookmarks true
-zstyle ':vcs_info:hg*:*' get-revision true
-zstyle ':vcs_info:hg*:*' get-mq false
-zstyle ':vcs_info:hg*+gen-hg-bookmark-string:*' hooks hg-bookmarks
-zstyle ':vcs_info:hg*+set-message:*' hooks hg-message
-
-function +vi-hg-bookmarks() {
-  emulate -L zsh
-  if [[ -n "${hook_com[hg-active-bookmark]}" ]]; then
-    hook_com[hg-bookmark-string]="${(Mj:,:)@}"
-    ret=1
-  fi
-}
-
-function +vi-hg-message() {
-  emulate -L zsh
-
-  # Suppress hg branch display if we can display a bookmark instead.
-  if [[ -n "${hook_com[misc]}" ]]; then
-    hook_com[branch]=''
-  fi
-  return 0
-}
-
-function +vi-git-untracked() {
-  emulate -L zsh
-  if [[ -n $(git ls-files --exclude-standard --others 2> /dev/null) ]]; then
-    hook_com[unstaged]+="%F{blue}●%f"
-  fi
-}
 
 RPROMPT_BASE="\${vcs_info_msg_0_}%F{blue}%~%f"
 setopt PROMPT_SUBST
@@ -175,6 +206,31 @@ setopt SHARE_HISTORY           # share history across shells
 stty -ixon
 
 bindkey -e # emacs bindings, set to -v for vi bindings
+
+# Use "cbt" capability ("back_tab", as per `man terminfo`), if we have it:
+if tput cbt &> /dev/null; then
+  bindkey "$(tput cbt)" reverse-menu-complete # make Shift-tab go to previous completion
+fi
+
+autoload history-search-end
+zle -N history-beginning-search-backward-end history-search-end
+zle -N history-beginning-search-forward-end history-search-end
+bindkey "\e[A" history-beginning-search-backward-end  # cursor up
+bindkey "\e[B" history-beginning-search-forward-end   # cursor down
+
+autoload -U select-word-style
+select-word-style bash # only alphanumeric chars are considered WORDCHARS
+
+autoload -U edit-command-line
+zle -N edit-command-line
+bindkey '^x^x' edit-command-line
+
+bindkey ' ' magic-space # do history expansion on space
+
+# Replace standard history-incremental-search-{backward,forward} bindings.
+# These are the same but permit patterns (eg. a*b) to be used.
+bindkey "^r" history-incremental-pattern-search-backward
+bindkey "^s" history-incremental-pattern-search-forward
 
 # Make CTRL-Z background things and unbackground them.
 function fg-bg() {
@@ -274,7 +330,7 @@ function -report-start-time() {
       SECS="$((~~$SECS))s"
     fi
     ELAPSED="${ELAPSED}${SECS}"
-    export RPROMPT="%F{cyan}%{$__WINCENT[ITALIC_ON]%}${ELAPSED}%{$__WINCENT[ITALIC_OFF]%}%f $RPROMPT_BASE"
+    export RPROMPT="%F{cyan}%{$__ARU[ITALIC_ON]%}${ELAPSED}%{$__ARU[ITALIC_OFF]%}%f $RPROMPT_BASE"
     unset ZSH_START_TIME
   else
     export RPROMPT="$RPROMPT_BASE"
@@ -294,17 +350,17 @@ add-zsh-hook chpwd -auto-ls-after-cd
 
 # Remember each command we run.
 function -record-command() {
-  __WINCENT[LAST_COMMAND]="$2"
+  __ARU[LAST_COMMAND]="$2"
 }
 add-zsh-hook preexec -record-command
 
 # Update vcs_info (slow) after any command that probably changed it.
 function -maybe-show-vcs-info() {
-  local LAST="$__WINCENT[LAST_COMMAND]"
+  local LAST="$__ARU[LAST_COMMAND]"
 
   # In case user just hit enter, overwrite LAST_COMMAND, because preexec
   # won't run and it will otherwise linger.
-  __WINCENT[LAST_COMMAND]="<unset>"
+  __ARU[LAST_COMMAND]="<unset>"
 
   # Check first word; via:
   # http://tim.vanwerkhoven.org/post/2012/10/28/ZSH/Bash-string-manipulation
@@ -328,24 +384,26 @@ zstyle ':completion:*:*:cdr:*:*' menu selection
 # fall through to cd if cdr is passed a non-recent dir as an argument
 zstyle ':chpwd:*' recent-dirs-default true
 
-# source alias
-source "$XDG_CONFIG_HOME/zsh/alias"
+#
+# Others
+#
 
-# source exports
-source "$XDG_CONFIG_HOME/zsh/exports"
+source "$ZDOTDIR/alias"
 
 #
-# autoloads
+# Autoloads
 #
 
 # keep list on individual lines for clean git diffs
 fpath=("$ZDOTDIR/functions" $fpath)
-autoload -U colors
-autoload -U g
-autoload -U sync_tmux_colors
+
+# NOTE: (double)quotes don't work here, probably because it's a glob pattern?
+for f in $ZDOTDIR/functions/*; do
+  autoload -U $(basename "$f")
+done
 
 #
-# colors
+# Colors
 #
 
 [[ -f "$XDG_DATA_HOME/base16/current-theme.sh" ]] && \
@@ -353,7 +411,7 @@ autoload -U sync_tmux_colors
 sync_tmux_colors
 
 #
-# plugins
+# Plugins
 #
 
 if [[ -d "$ZDOTDIR/zsh-syntax-highlighting" ]]; then
