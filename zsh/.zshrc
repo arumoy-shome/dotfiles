@@ -131,6 +131,31 @@ zstyle ':vcs_info:git+set-message:*' hooks git-untracked
 zstyle ':vcs_info:git*:*' formats '[%b%m%c%u] ' # default ' (%s)-[%b]%c%u-'
 zstyle ':vcs_info:git*:*' actionformats '[%b|%a%m%c%u] ' # default ' (%s)-[%b|%a]%c%u-'
 
+# function +vi-hg-bookmarks() {
+#   emulate -L zsh
+#   if [[ -n "${hook_com[hg-active-bookmark]}" ]]; then
+#     hook_com[hg-bookmark-string]="${(Mj:,:)@}"
+#     ret=1
+#   fi
+# }
+
+# function +vi-hg-message() {
+#   emulate -L zsh
+
+#   # Suppress hg branch display if we can display a bookmark instead.
+#   if [[ -n "${hook_com[misc]}" ]]; then
+#     hook_com[branch]=''
+#   fi
+#   return 0
+# }
+
+function +vi-git-untracked() {
+  emulate -L zsh
+  if [[ -n $(git ls-files --exclude-standard --others 2> /dev/null) ]]; then
+    hook_com[unstaged]+="%F{blue}●%f"
+  fi
+}
+
 RPROMPT_BASE="\${vcs_info_msg_0_}%F{blue}%~%f"
 setopt PROMPT_SUBST
 
