@@ -41,10 +41,3 @@ function! aru#functions#substitute(pattern, replacement, flags) abort
     let l:number=l:number + 1
   endfor
 endfunction
-
-function! aru#functions#use_four_spaces() abort
-  " use 4 spaces instead of tabs
-  setlocal noexpandtab
-  setlocal shiftwidth=4
-  setlocal tabstop=4
-endfunction
