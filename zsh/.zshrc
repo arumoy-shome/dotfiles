@@ -57,18 +57,6 @@ fi
 source "$ZDOTDIR/exports"
 
 #
-# Path
-#
-
-# TODO: this check prevents duplication in $PATH when a tmux session is started
-# but does not preserve order.
-if [[ -z "$TMUX" ]]; then
-  # add ruby to path, required by neovim
-  path=($path "/usr/local/lib/ruby/gems/2.6.0/bin" "/usr/local/opt/ruby/bin")
-  path=($path $XDG_DATA_BIN)
-fi
-
-#
 # Completion
 #
 
