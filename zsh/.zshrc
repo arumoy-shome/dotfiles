@@ -57,9 +57,7 @@ fi
 # Config
 #
 
-for f in $ZDOTDIR/*.zsh; do
-  source $f
-done
+for f in $ZDOTDIR/*.zsh; do source $f; done
 
 #
 # Autoloads
@@ -68,9 +66,7 @@ done
 fpath=("$ZDOTDIR/functions" $fpath)
 
 # NOTE: (double)quotes don't work here, probably because it's a glob pattern?
-for f in $ZDOTDIR/functions/*; do
-  autoload -U ${f:t}
-done
+for f in $ZDOTDIR/functions/*; do autoload -U ${f:t}; done
 
 #
 # History
@@ -84,15 +80,15 @@ export SAVEHIST=$HISTSIZE
 # Others
 #
 
-# an alternative to looking up man pages for zsh builtins (similar to fish's help)
-# from man zshcontrib(1)@56
+# an alternative to looking up man pages for zsh builtins (similar to fish's help) from man zshcontrib(1)@56
+# it is unaliased first since run-help is usually symlinked to man on most unix systems
 unalias run-help && autoload -U run-help
 
 #
 # Colors
 #
 
-[[ -f "$XDG_DATA_HOME/base16/current-theme.sh" ]] && \
+[[ -r "$XDG_DATA_HOME/base16/current-theme.sh" ]] && \
   eval sh "$XDG_DATA_HOME/base16/current-theme.sh"
 sync_tmux_colors
 
@@ -100,11 +96,9 @@ sync_tmux_colors
 # Plugins
 #
 
-if [[ -d "$ZDOTDIR/zsh-syntax-highlighting" ]]; then
+[[ -d "$ZDOTDIR/zsh-syntax-highlighting" ]] && \
   source "$ZDOTDIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-fi
 
-if [[ -d "$ZDOTDIR/zsh-autosuggestions" ]]; then
+[[ -d "$ZDOTDIR/zsh-autosuggestions" ]] && \
   source "$ZDOTDIR/zsh-autosuggestions/zsh-autosuggestions.zsh"
-  ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=59'
-fi
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=59'
