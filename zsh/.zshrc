@@ -414,6 +414,9 @@ fpath=("$ZDOTDIR/functions" $fpath)
 for f in $ZDOTDIR/functions/*; do
   autoload -U $(basename "$f")
 done
+# an alternative to looking up man pages for zsh builtins (similar to fish's help)
+# from man zshcontrib(1)@56
+unalias run-help && autoload -U run-help
 
 #
 # Colors
