@@ -27,7 +27,6 @@ if &loadplugins
     packadd! vim-test
     packadd! vim-lion
     packadd! vim-tmux-navigator
-    packadd! vim-tmux-runner
     packadd! ultisnips
     packadd! vim-snippets
     packadd! vim-json
@@ -40,6 +39,7 @@ if &loadplugins
     " The following packages are uninitialized git submodules using `git
     " submodule deinit -force -- {path}`. To enable, uncomment the corresponding
     " line, run `git submodule update --init {path}` and restart vim.
+    " packadd! vim-tmux-runner
     " packadd! vim-pandoc
     " packadd! vim-pandoc-syntax
     " packadd! tex-conceal
