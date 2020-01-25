@@ -8,16 +8,14 @@ if [[ -f "$XDG_DATA_HOME/base16/current-theme.sh" ]]; then
   local FG=$(grep color_foreground= "$THEME" | cut -d \" -f2 | sed -e 's#/##g')
   local RED=$(grep color01= "$THEME" | cut -d \" -f2 | sed -e 's#/##g')
 else
-  echo "No such file $XDG_DATA_HOME/base16/current-theme.sh."
+  echo "ERROR: No such file $XDG_DATA_HOME/base16/current-theme.sh."
   exit 1
 fi
 
-if [[ -n "$TMUX" ]]; then
-  command tmux set -a window-active-style "bg=#$BG"
-  command tmux set -a window-style "bg=#$CC"
-  command tmux set -g window-status-current-style "bg=#$CC,fg=#$RED,bold,italics"
-  command tmux set -g pane-active-border-style "bg=#$CC"
-  command tmux set -g pane-border-style "bg=#$CC"
-  command tmux set -g status-style "bg=#$CC,fg=#$FG,bold,italics"
-  command tmux set -g window-status-bell-style "fg=#$RED,bold,underscore"
-fi
+command tmux set -a window-active-style "bg=#$BG"
+command tmux set -a window-style "bg=#$CC"
+command tmux set -g window-status-current-style "bg=#$CC,fg=#$RED,bold,italics"
+command tmux set -g pane-active-border-style "bg=#$CC"
+command tmux set -g pane-border-style "bg=#$CC"
+command tmux set -g status-style "bg=#$CC,fg=#$FG,bold,italics"
+command tmux set -g window-status-bell-style "fg=#$RED,bold,underscore"
