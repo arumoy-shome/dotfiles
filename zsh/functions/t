@@ -1,0 +1,35 @@
+# vim:ft=zsh
+# attach to tmux session if it exists, or create a new one with no args
+# envoke tmux when args are passed
+
+emulate -L zsh
+
+# Make sure even pre-existing tmux sessions use the latest SSH_AUTH_SOCK.
+# (Inspired by: https://gist.github.com/lann/6771001)
+local SOCK_SYMLINK=~/.ssh/ssh_auth_sock
+if [ -r "$SSH_AUTH_SOCK" -a ! -L "$SSH_AUTH_SOCK" ]; then
+  ln -sf "$SSH_AUTH_SOCK" $SOCK_SYMLINK
+fi
+
+# If provided with args, pass them through.
+if [[ -n "$@" ]]; then
+  env SSH_AUTH_SOCK=$SOCK_SYMLINK tmux "$@"
+  return
+fi
+
+__session_exists() {
+  tmux list-sessions | sed -E 's/:.*$//' | grep -q "^$SESSION_NAME$"
+}
+
+__create_detached_session() {
+  (TMUX='' tmux new-session -Ad -s "$SESSION_NAME")
+}
+# Attach to existing session, or create one, based on current directory.
+local SESSION_NAME=$(basename "${$(pwd)//[.:]/_}")
+
+if [[ -z "$TMUX" ]]; then
+  env SSH_AUTH_SOCK=$SOCK_SYMLINK tmux new -A -s "$SESSION_NAME"
+else
+  if ! __session_exists; then __create_detached_session; fi
+  tmux switch-client -t "$SESSION_NAME"
+fi

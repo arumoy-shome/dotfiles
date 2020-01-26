@@ -9,9 +9,6 @@ alias help=run-help
 # Pretty print the path
 alias path='echo $PATH | tr -s ":" "\n"'
 
-# Tmux
-(( $+commands[tmux] )) && alias t="tmux"
-
 # Python
 (( $+commands[python3] )) && alias py="python3"
 

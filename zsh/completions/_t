@@ -1,0 +1,2 @@
+#compdef t
+compdef t=tmux
