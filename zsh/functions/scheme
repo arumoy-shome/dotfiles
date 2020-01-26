@@ -38,6 +38,8 @@ __luma() {
 }
 
 __scheme() {
+  emulate -L zsh
+
   local SCHEME="base16-$1"
   local SCRIPT="$BASE/$SCHEME.sh"
 
