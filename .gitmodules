@@ -154,6 +154,3 @@
 [submodule "base16-vim"]
 	path = vim/pack/bundle/opt/base16-vim
 	url = git@github.com:chriskempson/base16-vim.git
-[submodule "pure"]
-	path = zsh/pure
-	url = git@github.com:sindresorhus/pure.git
