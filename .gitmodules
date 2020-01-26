@@ -149,7 +149,7 @@
 	path = zsh/zsh-autosuggestions
 	url = git@github.com:zsh-users/zsh-autosuggestions.git
 [submodule "base16-shell"]
-	path = zsh/base16-shell
+	path = fish/base16-shell
 	url = git@github.com:chriskempson/base16-shell.git
 [submodule "base16-vim"]
 	path = vim/pack/bundle/opt/base16-vim
