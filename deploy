@@ -177,14 +177,13 @@ function deploy
     end
 
     if test $_flag_L
-        set enabled_topics (cat (pwd)"/.enabled_topics")
-        if test (count $enabled_topics) -gt 0
-            printf "
-            enabled topics: $enabled_topics\n"
+        set count (cat "$PWD/.enabled_topics" | wc -l)
+        if test $count -gt 0
+            echo "Enabled topics:"
+            echo
+            cat "$PWD/.enabled_topics" | column
         else
-            printf "
-            no topics enabled!\n
-            "
+            echo "No topics enabled!"
         end
     end
 
