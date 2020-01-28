@@ -32,7 +32,6 @@ if &loadplugins
     packadd! vim-json
     packadd! languageclient-neovim
     packadd! vimtex
-    packadd! vim-fish
     packadd! vim-textobj-comment
     packadd! vim-textobj-user
     packadd! float-preview
@@ -40,6 +39,7 @@ if &loadplugins
     " The following packages are uninitialized git submodules using `git
     " submodule deinit -force -- {path}`. To enable, uncomment the corresponding
     " line, run `git submodule update --init {path}` and restart vim.
+    " packadd! vim-fish
     " packadd! vim-tmux-runner
     " packadd! vim-pandoc
     " packadd! vim-pandoc-syntax
