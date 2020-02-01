@@ -28,12 +28,14 @@ if &loadplugins
     packadd! ultisnips
     packadd! vim-snippets
     packadd! vim-json
-    packadd! languageclient-neovim
     packadd! vimtex
     packadd! vim-textobj-comment
     packadd! vim-textobj-user
-    packadd! float-preview
     packadd! base16-vim
+    if has('nvim')
+      packadd! float-preview
+      packadd! languageclient-neovim
+    endif
     " The following packages are uninitialized git submodules using `git
     " submodule deinit -force -- {path}`. To enable, uncomment the corresponding
     " line, run `git submodule update --init {path}` and restart vim.
