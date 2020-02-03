@@ -4,7 +4,8 @@ endsnippet
 
 snippet def "function definition" b
 function ${1:name}${3: -a ${2:args}}${5: -d "${4:desc}"}
-	${0:${VISUAL}}
+	${6:${VISUAL}}
+	$0
 end
 endsnippet
 
@@ -14,6 +15,8 @@ if ${1:cond}
 else
 	$3
 end
+
+$0
 endsnippet
 
 snippet switch "switch clause" b
@@ -24,4 +27,6 @@ case ${3:clause}
 case '*'
 	$4
 end
+
+$0
 endsnippet

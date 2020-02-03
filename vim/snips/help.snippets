@@ -32,4 +32,12 @@ snippet modeline "Vim help modeline"
  `!v 'vim'`:tw=78:ts=8:ft=help:norl:
 endsnippet
 
+snippet | "link" w
+|${0:${VISUAL}}|$0
+endsnippet
+
+snippet * "tag" w
+*${1:${VISUAL}}*$0
+endsnippet
+
 # vim:ft=snippets:
