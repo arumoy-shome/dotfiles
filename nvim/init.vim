@@ -2,6 +2,7 @@
 " automatically loaded by vim. see :h runtimepath.
 set runtimepath^=~/.vim
 set runtimepath+=~/.vim/after
+set runtimepath+=~/zettel
 
 let &packpath = &runtimepath
 let g:python3_host_prog = "/Users/aru/.vim/venv/bin/python"
