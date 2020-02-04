@@ -20,13 +20,11 @@ if &loadplugins
     packadd! ferret
     packadd! vim-easydir
     packadd! indentline
-    packadd! auto-pairs
     packadd! vim-slime
     packadd! vim-test
     packadd! vim-lion
     packadd! vim-tmux-navigator
     packadd! ultisnips
-    packadd! vim-snippets
     packadd! vim-json
     packadd! vimtex
     packadd! vim-textobj-comment
@@ -39,6 +37,8 @@ if &loadplugins
     " The following packages are uninitialized git submodules using `git
     " submodule deinit -force -- {path}`. To enable, uncomment the corresponding
     " line, run `git submodule update --init {path}` and restart vim.
+    " packadd! auto-pairs
+    " packadd! vim-snippets
     " packadd! vim-zettel
     " packadd! vim-text-lists
     " packadd! vim-fish
