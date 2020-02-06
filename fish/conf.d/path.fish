@@ -11,7 +11,6 @@ if test -z "$TMUX"
     /usr/local/lib/ruby/gems/2.6.0/bin \
     /usr/local/opt/ruby/bin \
     $HOME/.local/bin \
-    $HOME/.emacs.d/bin \
 
   set PATH $PATHS $PATH
 end

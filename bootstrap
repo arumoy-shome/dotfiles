@@ -18,3 +18,6 @@ brew install stow
 
 # cp stow-global-ignore file to $HOME/.stow-global-ignore
 cp stow-global-ignore $HOME/.stow-global-ignore
+
+# install topic dot
+./dot/bin/dot dot
