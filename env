@@ -1,6 +1,0 @@
-#!/usr/bin/env fish
-
-set XDG_CONFIG_HOME "$HOME/.config"
-set XDG_DATA_HOME "$HOME/.local/share"
-set XDG_DATA_BIN "$HOME/.local/bin"
-set FISH_CONFIG_HOME "$XDG_CONFIG_HOME/fish/conf.d"

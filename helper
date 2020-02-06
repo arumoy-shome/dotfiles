@@ -1,69 +1,52 @@
 #!/usr/bin/env fish
 
-source env
-
-function _echo_ok
-    printf "\r\033[2K\033[0;32m[ OK ]\033[0m %s\n" "$argv"
+function _echo_ok -a msg -d "pretty print message"
+  echo (set_color --bold --italics green)"[ OK ] $msg"(set_color normal)
 end
 
-function _echo_fail
-    printf "\r\033[2K\033[0;31m[ FAIL ]\033[0m %s\n" "$argv"
+function _echo_fail -a msg -d "pretty print error message"
+  echo (set_color --bold --italics red)"[ ERROR ] $msg"(set_color normal)
 end
 
 function _is_callable -a cmd -d "accepts a COMMAND and checks if it exists"
-    command -sq $cmd
+  command -sq $cmd
 end
 
 function _is_defined -a func -d "accepts a FUNCTION and checks if it is defined"
-    contains $func (functions)
+  functions -q $func
 end
 
 function _is_valid_topic -a topic -d "accepts a TOPIC and checks if a corresponding dir \
 is present in the root dir of the project and if TOPIC/_init exists"
+  test -d "$DOTDIR/$topic" -a -r "$DOTDIR/$topic/_init"; and return 0
 
-    function _valid_topic -S
-        test -d "$topic"
-        and test -e "$topic/_init"
-    end
-
-    if _valid_topic
-        true
-    else
-        _echo_fail "$topic is not a valid topic"
-        false
-    end
+  _echo_fail "$topic is not a valid topic"
+  return 1
 end
 
 function _is_enabled_topic -a topic -d "checks if TOPIC is enabled or not"
-    contains $topic (cat (pwd)"/.enabled_topics")
+  # contains $topic (cat "$DOTDIR/.enabled_topics")
+  grep $topic "$DOTDIR/.enabled_topics" > /dev/null
 end
 
 function _enable_topic -a topic -d "adds TOPIC to list of enabled topics"
-    _is_valid_topic $topic; or return 1
+  _is_valid_topic $topic; or return 1
 
-    if not _is_enabled_topic $topic
-        echo $topic >> (pwd)"/.enabled_topics"
-    else
-        _echo_ok "$topic already enabled!"
-        false
-    end
+  if not _is_enabled_topic $topic
+    echo $topic >> "$DOTDIR/.enabled_topics"
+  else
+    _echo_fail "$topic already enabled!"
+    return 1
+  end
 end
 
 function _disable_topic -a topic -d "removes TOPIC from list of enabled topics"
-    _is_valid_topic $topic; or return 1
+  _is_valid_topic $topic; or return 1
 
-    if _is_enabled_topic $topic
-        set lines (cat (pwd)"/.enabled_topics")
-        set index (contains -i $topic $lines)
-        set -e lines[$index]
-
-        cat /dev/null > (pwd)"/.enabled_topics"
-
-        for line in $lines
-            echo $line >> (pwd)"/.enabled_topics"
-        end
-    else
-        _echo_ok "$topic already disabled!"
-        false
-    end
+  if _is_enabled_topic $topic
+    sed -i '' '/'$topic'/d' "$DOTDIR/.enabled_topics"
+  else
+    _echo_fail "$topic already disabled!"
+    return 1
+  end
 end
