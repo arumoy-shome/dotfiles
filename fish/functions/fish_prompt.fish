@@ -1,23 +1,17 @@
 function fish_prompt
-    set -g last_status $status
-    echo
+  set last_status $status
 
-    # redirect output to stdout and stderror to /dev/null
-    # taken from fish documentation>syntax overview>i/o redirection
-    jobs > /dev/null ^&1; and set job (set_color blue)'❯'(set_color normal)
+  echo
 
-    # although $status has the same scope, it can't be used to do this check
-    if test $last_status -eq 0
-        set suffix (set_color white)'❯'(set_color normal)
-    else
-        set suffix (set_color red)'❯'(set_color normal)
-    end
+  # root or ssh session
+  set -l uid (id -u)
+  if test \( $uid -eq 0 -o -n "$SUDO_USER" \) -o -n "$SSH_CONNECTION"
+    echo -sn (set_color brblack) $USER "@" (command hostname) " "
+  end
 
-    # show current venv if available
-    if test "$VIRTUAL_ENV"
-        printf '(%s) ' (set_color --italics yellow)(basename $VIRTUAL_ENV)(set_color normal)
-    end
-    printf '%s ' (set_color --bold $fish_color_cwd)(basename (pwd))(set_color normal)
-    printf '%s' $job
-    printf '%s ' $suffix
+  test -n "$VIRTUAL_ENV"; and printf '%s ' (set_color --italics blue)(basename $VIRTUAL_ENV)
+  jobs -q; and printf '%s' (set_color yellow) "❯"
+  set prompt_color (set_color brblack)
+  test $last_status -ne 0; and set prompt_color (set_color red)
+  printf '%s' $prompt_color "❯ " (set_color normal)
 end
