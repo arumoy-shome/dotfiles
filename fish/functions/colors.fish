@@ -43,7 +43,7 @@ function __scheme -a ARGV
     test "$LUMA" -gt 127.5; and set BACKGROUND light
 
     test -d "$XDG_DATA_HOME/base16"; or mkdir -p "$XDG_DATA_HOME/base16"
-    ln -sfh "$SCRIPT" "$XDG_DATA_HOME/base16/current-theme.sh"
+    ln -sf "$SCRIPT" "$XDG_DATA_HOME/base16/current-theme.sh"
     # let vim know what theme to use
     echo -e "$SCHEME\n$BACKGROUND" >  "$HOME/.vim/.background"
     # finally, set the theme
