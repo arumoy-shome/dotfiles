@@ -8,5 +8,5 @@ function install
     brew install \
     wget curl tree coreutils bash gnupg2 \
     the_silver_searcher ripgrep neofetch \
-    pinentry-mac htop
+    pinentry-mac htop tldr
 end
