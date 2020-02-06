@@ -45,18 +45,18 @@ function venv -d "python virtualenv management"
     end
   end
 
-  argparse --name venv --exclusive 'c,a,d,D' 'c/python3=?' 'a/activate=?' 'd/deactivate' 'D/delete=?' -- $argv
+  argparse --name venv --exclusive 'c,a,d,D' 'c/create=?' 'a/activate=?' 'd/deactivate' 'D/delete=?' -- $argv
     or return
 
   if set -q _flag_c
-    _create_venv "$argv"
+    _create_venv $argv
   else if set -q _flag_a
-    _activate_venv "$argv"
+    _activate_venv $argv
   else if set -q _flag_d
     _deactivate_venv
   else if set -q _flag_D
-    _delete_venv "$argv"
+    _delete_venv $argv
   else
-    _activate_venv
+    _activate_venv $argv
   end
 end
