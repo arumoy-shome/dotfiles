@@ -20,13 +20,13 @@ function venv -d "python virtualenv management"
       echo "Deleting virtualenv $venv"
       rm -rf "$venv"
     else
-      echo "No virtualenv available in this directory."
+      echo "No virtualenv $venv available in this directory."
     end
   end
 
   function _deactivate_venv -d "deactivate current virtualenv"
     if test -n "$VIRTUAL_ENV"
-      echo "Deactivating virtualenv $VIRTUAL_ENV."
+      echo 'Deactivating virtualenv '(basename $VIRTUAL_ENV)'.'
       deactivate
       test -n "$TMUX"; and tmux set-environment -u VIRTUAL_ENV
     end
@@ -37,11 +37,11 @@ function venv -d "python virtualenv management"
     test -n "$venv"; and set script "$venv/bin/activate.fish"
 
     if test -r "$script"
-      echo "Activating virtualenv $script."
+      echo "Activating virtualenv $venv."
       source "$script"
       test -n "$TMUX"; and tmux set-environment VIRTUAL_ENV "$VIRTUAL_ENV"
     else
-      echo "No virtualenv available in this directory."
+      echo "No virtualenv $venv available in this directory."
     end
   end
 
@@ -56,7 +56,13 @@ function venv -d "python virtualenv management"
     _deactivate_venv
   else if set -q _flag_D
     _delete_venv $argv
-  else
+  else if test -n "$argv"
     _activate_venv $argv
+  else
+    if test -n "$VIRTUAL_ENV"
+      _deactivate_venv
+    else
+      _activate_venv
+    end
   end
 end
