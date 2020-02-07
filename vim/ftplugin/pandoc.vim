@@ -1,6 +1,6 @@
-" Enable spellchecking
-setlocal spell
-
-" Automatically wrap at 72 characters
-setlocal textwidth=72
-setlocal colorcolumn=""
+call aru#autocomplete#deoplete_init()
+"
+" This is new style
+call deoplete#custom#var('omni', 'input_patterns', {
+        \ 'pandoc': '@'
+        \})

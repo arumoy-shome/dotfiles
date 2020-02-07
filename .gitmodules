@@ -16,9 +16,6 @@
 [submodule "git-surround"]
 	path = vim/pack/bundle/opt/vim-surround
 	url = git@github.com:tpope/vim-surround.git
-[submodule "git-vinegar"]
-	path = vim/pack/bundle/opt/vim-vinegar
-	url = git@github.com:tpope/vim-vinegar.git
 [submodule "git-rhubarb"]
 	path = vim/pack/bundle/opt/vim-rhubarb
 	url = git@github.com:tpope/vim-rhubarb.git
@@ -49,9 +46,6 @@
 [submodule "indentline"]
 	path = vim/pack/bundle/opt/indentline
 	url = git@github.com:Yggdroot/indentLine.git
-[submodule "auto-pairs"]
-	path = vim/pack/bundle/opt/auto-pairs
-	url = git@github.com:jiangmiao/auto-pairs.git
 [submodule "vim-slime"]
 	path = vim/pack/bundle/opt/vim-slime
 	url = git@github.com:jpalardy/vim-slime.git
@@ -67,18 +61,9 @@
 [submodule "vim-tmux-navigator"]
 	path = vim/pack/bundle/opt/vim-tmux-navigator
 	url = git@github.com:christoomey/vim-tmux-navigator.git
-[submodule "vim-tmux-runner"]
-	path = vim/pack/bundle/opt/vim-tmux-runner
-	url = git@github.com:christoomey/vim-tmux-runner.git
-[submodule "vim-grepper"]
-	path = vim/pack/bundle/opt/vim-grepper
-	url = git@github.com:mhinz/vim-grepper.git
 [submodule "ultisnips"]
 	path = vim/pack/bundle/opt/ultisnips
 	url = git@github.com:SirVer/ultisnips.git
-[submodule "vim-snippets"]
-	path = vim/pack/bundle/opt/vim-snippets
-	url = git@github.com:honza/vim-snippets.git
 [submodule "vim-pathogen"]
 	path = vim/pack/bundle/opt/vim-pathogen
 	url = git@github.com:tpope/vim-pathogen.git
@@ -97,12 +82,6 @@
 [submodule "vimtex"]
 	path = vim/pack/bundle/opt/vimtex
 	url = git@github.com:lervag/vimtex.git
-[submodule "vim-fish"]
-	path = vim/pack/bundle/opt/vim-fish
-	url = git@github.com:dag/vim-fish.git
-[submodule "tex-conceal"]
-	path = vim/pack/bundle/opt/tex-conceal
-	url = git@github.com:KeitaNakamura/tex-conceal.vim.git
 [submodule "vim-textobj-comment"]
 	path = vim/pack/bundle/opt/vim-textobj-comment
 	url = git@github.com:glts/vim-textobj-comment.git
@@ -124,12 +103,6 @@
 [submodule "ferret"]
 	path = vim/pack/bundle/opt/ferret
 	url = git@github.com:wincent/ferret.git
-[submodule "vim-text-lists"]
-	path = vim/pack/bundle/opt/vim-text-lists
-	url = git@github.com:arumoy-shome/vim-text-lists.git
-[submodule "vim-zettel"]
-	path = vim/pack/bundle/opt/vim-zettel
-	url = git@github.com:arumoy-shome/vim-zettel.git
 [submodule "vim-scriptease"]
 	path = vim/pack/bundle/opt/vim-scriptease
 	url = git@github.com:tpope/vim-scriptease.git

@@ -3,7 +3,6 @@ if &loadplugins
     packadd! vim-rsi
     packadd! vim-sleuth
     packadd! vim-scriptease
-    packadd! vim-markdown
     packadd! vim-fugitive
     packadd! vim-commentary
     packadd! vim-dispatch
@@ -30,24 +29,12 @@ if &loadplugins
     packadd! vim-textobj-comment
     packadd! vim-textobj-user
     packadd! base16-vim
+    packadd! vim-pandoc
+    packadd! vim-pandoc-syntax
     if has('nvim')
       packadd! float-preview
       packadd! languageclient-neovim
     endif
-    " The following packages are uninitialized git submodules using `git
-    " submodule deinit -force -- {path}`. To enable, uncomment the corresponding
-    " line, run `git submodule update --init {path}` and restart vim.
-    " packadd! auto-pairs
-    " packadd! vim-snippets
-    " packadd! vim-zettel
-    " packadd! vim-text-lists
-    " packadd! vim-fish
-    " packadd! vim-tmux-runner
-    " packadd! vim-pandoc
-    " packadd! vim-pandoc-syntax
-    " packadd! tex-conceal
-    " packadd! vim-vinegar
-    " packadd! vim-grepper
   else
     source $HOME/.vim/pack/bundle/opt/vim-pathogen/autoload/pathogen.vim
     call pathogen#infect('pack/bundle/opt/{}')
