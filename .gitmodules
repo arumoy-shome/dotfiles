@@ -133,9 +133,6 @@
 [submodule "vim-scriptease"]
 	path = vim/pack/bundle/opt/vim-scriptease
 	url = git@github.com:tpope/vim-scriptease.git
-[submodule "vim-markdown"]
-	path = vim/pack/bundle/opt/vim-markdown
-	url = git@github.com:tpope/vim-markdown.git
 [submodule "vim-sleuth"]
 	path = vim/pack/bundle/opt/vim-sleuth
 	url = git@github.com:tpope/vim-sleuth.git
