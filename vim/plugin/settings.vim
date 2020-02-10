@@ -19,8 +19,10 @@ if exists('+colorcolumn')
 endif
 
 set complete+=kspell                  " use the currently active spell file during completion
-set diffopt+=vertical                 " start diff view with vertical splits
-set diffopt+=foldcolumn:0             " don't show foldcolumn in diff view
+if has('nvim')
+  set diffopt+=vertical                 " start diff view with vertical splits
+  set diffopt+=foldcolumn:0             " don't show foldcolumn in diff view
+endif
 
 set list                                " show whitespace
 set listchars=nbsp:⦸                    " CIRCLED REVERSE SOLIDUS (U+29B8, UTF-8: E2 A6 B8)
