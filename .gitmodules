@@ -124,3 +124,6 @@
 [submodule "base16-vim"]
 	path = vim/pack/bundle/opt/base16-vim
 	url = git@github.com:chriskempson/base16-vim.git
+[submodule "base16-kitty"]
+	path = kitty/base16-kitty
+	url = git@github.com:kdrag0n/base16-kitty.git
