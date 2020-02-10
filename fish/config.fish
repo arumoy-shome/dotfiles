@@ -5,4 +5,5 @@ set -gx XDG_DATA_HOME "$HOME/.local/share"
 set -g XDG_DATA_BIN "$HOME/.local/bin"
 set -g FDOTDIR "$XDG_CONFIG_HOME/fish"
 set -x LC_ALL en_US.UTF-8
-command -sq nvim; and set -x MANPAGER "nvim -RMn -u $HOME/.vim/vimrc.min --noplugin -c 'set ft=man' -"
+set -gx EDITOR vim
+set -gx VISUAL $EDITOR

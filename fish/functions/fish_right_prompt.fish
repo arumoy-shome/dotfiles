@@ -12,7 +12,7 @@ function fish_right_prompt
     if test -n "$git_working_tree"
       __pure_git_fetch $git_working_tree
       __pure_git_update_workdir $git_working_tree
-      printf ' %s' (set_color brblack) (__pure_git_info $git_working_tree)
+      printf ' %s' (set_color brblue) (__pure_git_info $git_working_tree)
 
       set -l git_arrows (__pure_git_arrows $git_working_tree)
       test -n "$git_arrows"; and printf '%s' (set_color brcyan) $git_arrows
