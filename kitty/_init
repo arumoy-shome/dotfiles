@@ -3,5 +3,11 @@
 set TARGET "$XDG_CONFIG_HOME/kitty"
 
 function install
-    _is_callable kitty; or brew cask install kitty
+  _is_callable kitty; or brew cask install kitty
+
+  # kitty needs these files for navigation between kitty windows and vim splits.
+  set -l vkn_dir "$HOME/.vim/bundle/vim-kitty-navigator"
+  if test -d "$vkn_dir"
+    ln -svf "$vkn_dir/{neighboring_window,pass_keys}.py" "$TARGET"
+  end
 end
