@@ -42,3 +42,8 @@ let g:UltiSnipsEditSplit = "horizontal"
 " here prevents it from doing so giving a little performace boost albeit now
 " snippets need to be managed manually.
 let g:UltiSnipsSnippetDirectories = [$HOME . '/.vim/snips']
+
+" vimwiki
+" turn this off until a suitable solution to resolve conflict with ultisnips
+" is figured out, snippets are far more useful than tables!
+let g:vimwiki_table_mappings = 0
