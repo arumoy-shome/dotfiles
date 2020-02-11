@@ -1,50 +1,43 @@
-if &loadplugins
-  if has('packages')
-    packadd! vim-rsi
-    packadd! vim-sleuth
-    packadd! vim-scriptease
-    packadd! vim-fugitive
-    packadd! vim-commentary
-    packadd! vim-dispatch
-    packadd! vim-projectionist
-    packadd! vim-eunuch
-    packadd! vim-surround
-    packadd! vim-rhubarb
-    packadd! vim-repeat
-    packadd! vim-clipper
-    packadd! loupe
-    packadd! terminus
-    packadd! pinnacle
-    packadd! command-t
-    packadd! ferret
-    packadd! vim-easydir
-    packadd! indentline
-    packadd! vim-slime
-    packadd! vim-test
-    packadd! vim-lion
-    packadd! vim-tmux-navigator
-    packadd! ultisnips
-    packadd! vim-json
-    packadd! vimtex
-    packadd! vim-textobj-comment
-    packadd! vim-textobj-user
-    packadd! base16-vim
-    packadd! vim-pandoc
-    packadd! vim-pandoc-syntax
-    if has('nvim')
-      packadd! float-preview
-      packadd! languageclient-neovim
-    endif
-  else
-    source $HOME/.vim/pack/bundle/opt/vim-pathogen/autoload/pathogen.vim
-    call pathogen#infect('pack/bundle/opt/{}')
-  endif
-endif
+call plug#begin('~/.vim/bundle')
+Plug 'knubie/vim-kitty-navigator' " seamless nav between vim and kitty
+Plug 'SirVer/ultisnips'           " ultimate snippet solution for vim
+Plug '/usr/local/opt/fzf'         " fzf executable, obtained with `brew --prefix fzf`
+Plug 'fenetikm/falcon'            " a colorscheme for terminal, vim and friends
+Plug 'junegunn/fzf.vim'           " fzf ❤ vim
+Plug 'junegunn/goyo.vim'          " distraction-free writing in vim
+Plug 'junegunn/vim-easy-align'    " a vim alignment plugin
+Plug 'junegunn/vim-plug'          " minimalist vim plugin manager
+Plug 'tpope/vim-abolish'          " easily search/substitute/abbreviate variants of a word
+Plug 'tpope/vim-apathy'           " set the 'path' for miscellaneous filetypes
+Plug 'tpope/vim-commentary'       " comment stuff out
+Plug 'tpope/vim-dispatch'         " asynchronous build and test dispatcher
+Plug 'tpope/vim-endwise'          " wisely add 'end/endfunction/endif' and more
+Plug 'tpope/vim-eunuch'           " helpers for unix
+Plug 'tpope/vim-flagship'         " configurable and extensible tab line and status line
+Plug 'tpope/vim-fugitive'         " a git wrapper so awesome it should be illegal
+Plug 'tpope/vim-projectionist'    " granular project configuration
+Plug 'tpope/vim-repeat'           " enable repeating supported plugin maps with '.'
+Plug 'tpope/vim-rhubarb'          " github extension for fugitive.vim
+Plug 'tpope/vim-rsi'              " readline style insertion
+Plug 'tpope/vim-sleuth'           " heuristically set buffer options
+Plug 'tpope/vim-surround'         " quoting/parenthesizing made simple
+Plug 'tpope/vim-unimpaired'       " pairs of handy bracket mappings
+Plug 'tpope/vim-vinegar'          " combine with netrw to create a delicious salad dressing
+Plug 'preservim/nerdtree',
+    \ { 'on': 'NERDTreeToggle' }  " tree explorer for vim
+Plug 'Yggdroot/indentLine'        " display the indentation level with thin vertical lines
+Plug 'lervag/vimtex'              " a modern vim plugin for editing latex files
+Plug 'janko/vim-test'             " run tests at the speed of thought
+Plug 'vimwiki/vimwiki'            " personal wiki for vim
+Plug 'wincent/loupe'              " enhanced in file search for vim
+Plug 'wincent/pinnacle'           " highlight group manipulation for vim
+Plug 'wincent/terminus'           " enhanced terminal integration with vim
+" Plug 'ycm-core/YouCompleteMe', \ { 'do': './install.py --ts-completer'
+" } " code completion engine for vim
+call plug#end()
 
-" Must come *after* the `:packadd!` calls above otherwise the contents of
-" package "ftdetect" directories won't be evaluated.
-filetype indent plugin on
-syntax on
-
+" vim-plug handles the following, kept here for reference
+" filetype plugin indent on
+" syntax on
 let mapleader = "\<Space>"
 let maplocalleader="\\"

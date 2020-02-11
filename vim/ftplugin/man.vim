@@ -1,1 +1,0 @@
-call aru#functions#plaintext()
