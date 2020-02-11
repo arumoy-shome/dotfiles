@@ -4,9 +4,3 @@
 [submodule "zsh-autosuggestions"]
 	path = zsh/zsh-autosuggestions
 	url = git@github.com:zsh-users/zsh-autosuggestions.git
-[submodule "base16-shell"]
-	path = fish/base16-shell
-	url = git@github.com:chriskempson/base16-shell.git
-[submodule "base16-kitty"]
-	path = kitty/base16-kitty
-	url = git@github.com:kdrag0n/base16-kitty.git
