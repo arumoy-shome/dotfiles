@@ -3,5 +3,5 @@
 set TARGET $HOME
 
 function install
-    brew install tmux
+  command -sq tmux; or brew install tmux
 end
