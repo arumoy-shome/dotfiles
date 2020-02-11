@@ -49,7 +49,7 @@ snippet [[ "link" w
 endsnippet
 
 snippet def "definition" b
-${1:term}::${2:definition}$0
+${1:term}:: ${2:definition}$0
 endsnippet
 
 snippet {{{ "block" b
@@ -57,4 +57,8 @@ snippet {{{ "block" b
 ${1:${VISUAL}}
 }}}
 $0
+endsnippet
+
+snippet note "note" b
+* [`!v strftime("%Y-%m-%d %H:%M")`] $0
 endsnippet
