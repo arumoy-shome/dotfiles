@@ -3,8 +3,5 @@
 set TARGET "$XDG_CONFIG_HOME/nvim"
 
 function install
-  brew install neovim
-
-  pip2 install --user --upgrade pynvim
-  pip3 install --user --upgrade pynvim
+  command -sq nvim; or brew install neovim
 end
