@@ -16,11 +16,6 @@ let g:ycm_extra_conf_vim_data = [
     \ ]
 let g:ycm_global_ycm_extra_conf = expand('~/.vim/global_extra_conf.py')
 
-""""""""""""""
-"  NERDTree  "
-""""""""""""""
-nnoremap <C--> :NERDTreeToggle<CR>
-
 """""""""""
 "  loupe  "
 """""""""""
