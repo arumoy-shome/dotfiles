@@ -22,3 +22,8 @@ function! aru#statusline_update_highlight() abort
   execute 'highlight User2 ' . pinnacle#italicize('StatusLine')
 endfunction
 
+function! aru#spell() abort
+  setlocal spell
+  setlocal spellfile=~/.vim/spell/en.utf-8.add
+  setlocal spelllang=en
+endfunction

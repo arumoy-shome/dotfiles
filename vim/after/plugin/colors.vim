@@ -11,3 +11,5 @@ highlight clear VertSplit " make the split visible (for falcon)
 highlight Folded gui=italic " make folds italic
 highlight clear CursorLineNr " cleaner CursorLineNr
 highlight link CursorLineNr LineNr
+highlight clear SpellBad
+execute 'highlight SpellBad ' . pinnacle#underline('Normal')
