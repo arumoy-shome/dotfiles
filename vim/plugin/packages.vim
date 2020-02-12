@@ -19,11 +19,28 @@ let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_key_list_select_completion = ['C-n']
 let g:ycm_key_list_previous_completion = ['C-p']
 let g:ycm_filetype_whitelist = {
-    \ 'vim':       1,
-    \ 'python':    1,
-    \ 'vimwiki':   1,
+    \ 'python': 1,
+    \ 'vim': 1,
+    \ 'markdown': 1,
+    \ 'vimwiki': 1,
     \ 'gitcommit': 1,
-    \ 'markdown':  1
+    \ }
+let g:ycm_filetype_blacklist = {
+    \ 'nerdtree': 1,
+    \ 'notes':    1,
+    \ 'tagbar':   1,
+    \ 'netrw':    1,
+    \ 'unite':    1,
+    \ 'infolog':  1,
+    \ 'leaderf':  1,
+    \ 'git':      1,
+    \ 'fugitive': 1,
+    \ }
+let g:ycm_filetype_specific_completion_to_disable = {
+    \ 'gitcommit': 1,
+    \ 'vimwiki':   1,
+    \ 'markdown':  1,
+    \ 'vim':       1,
     \ }
 
 augroup AruYcm
@@ -47,14 +64,14 @@ let g:LoupeCenterResults = 0     " do not center current match
 """"""""""""""""
 "  indentLine  "
 """"""""""""""""
-let g:indentLine_bufNameExclude=['NERD_tree.*']
 let g:indentLine_fileTypeExclude=[
     \ 'help',
     \ 'markdown',
     \ 'tex',
     \ 'man',
     \ 'vimwiki',
-    \ 'gitcommit'
+    \ 'gitcommit',
+    \ 'nerdtree'
     \ ]
 
 """""""""""""""
@@ -75,3 +92,59 @@ let g:UltiSnipsSnippetDirectories = [$HOME . '/.vim/snips']
 " is figured out, snippets are far more useful than tables!
 let g:vimwiki_table_mappings = 0
 let g:vimwiki_folding='expr'
+
+"""""""""""""""""""""""
+"  vim-projectionist  "
+"""""""""""""""""""""""
+let g:projectionist_heuristics = {
+  \ "after/|autoload/|plugin/|ftplugin/|ftdetect/": {
+  \   "plugin/*.vim": {
+  \     "type": "plug",
+  \     "alternate": ["autoload/{}.vim", "after/plugin/{}.vim"]
+  \   },
+  \   "autoload/*.vim": {
+  \     "type": "autoload",
+  \     "alternate": ["plugin/{}.vim", "after/plugin/{}.vim"]
+  \   },
+  \   "after/plugin/*.vim": {
+  \     "type": "after",
+  \     "alternate": ["plugin/{}.vim", "autoload/{}.vim"]
+  \   },
+  \   "ftplugin/*.vim": {
+  \     "type": "ftplug"
+  \   }
+  \ },
+  \ "venv/|requirements.txt": {
+  \   "*.py": {
+  \     "type": "code",
+  \     "alternate": ["tests/test_{basename}"]
+  \   },
+  \   "tests/test_*.py": {
+  \     "type": "test",
+  \     "alternate": ["{project|basename}/{}.py"]
+  \   }
+  \ }
+  \}
+
+""""""""""""""
+"  vim-test  "
+""""""""""""""
+nmap <silent> t<C-n> :TestNearest<CR>
+nmap <silent> t<C-f> :TestFile<CR>
+nmap <silent> t<C-s> :TestSuite<CR>
+nmap <silent> t<C-l> :TestLast<CR>
+nmap <silent> t<C-g> :TestVisit<CR>
+let test#strategy = "dispatch"
+
+""""""""""""
+"  vimtex  "
+""""""""""""
+let g:tex_flavor = 'latex'
+let g:vimtex_quickfix_mode = 0
+
+""""""""""""""""""""
+"  vim-easy-align  "
+""""""""""""""""""""
+vmap <Enter> <Plug>(EasyAlign)
+" NOTE: this shadows builtin ga, use :ascii instead
+nmap ga <Plug>(EasyAlign)
