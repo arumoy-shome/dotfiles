@@ -16,3 +16,9 @@ function! aru#statusline_readonly() abort
   let l:flag = &readonly ? '*' : ''
   return l:flag
 endfunction
+
+function! aru#statusline_update_highlight() abort
+  execute 'highlight User1 ' . pinnacle#highlight({'bg': pinnacle#extract_bg('StatusLine'), 'fg': pinnacle#extract_fg('Special'), 'term': 'bold'})
+  execute 'highlight User2 ' . pinnacle#italicize('StatusLine')
+endfunction
+
