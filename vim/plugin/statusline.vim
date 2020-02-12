@@ -16,3 +16,5 @@ augroup AruStatusline
   autocmd!
   autocmd ColorScheme * call aru#statusline_update_highlight()
 augroup END
+
+set tabline=%!aru#tabline()
