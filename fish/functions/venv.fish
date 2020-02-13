@@ -1,5 +1,15 @@
 function venv -d "python virtualenv management"
 
+  function _list_venv -d "list available virtualenvs"
+    set venvs (find $PWD -path '*/bin/python' -maxdepth 3 | sed -E 's|/bin/python$||' | sed -E 's@.*/@@')
+
+    if test -n "$venvs"
+      echo $venvs | column
+    else
+      echo "No virtualenvs available."
+    end
+  end
+
   function _create_venv -a venv -d "create a new virtualenv"
     test -n "$venv"; or set venv 'venv'
 
@@ -45,7 +55,15 @@ function venv -d "python virtualenv management"
     end
   end
 
-  argparse --name venv --exclusive 'c,a,d,D' 'c/create=?' 'a/activate=?' 'd/deactivate' 'D/delete=?' -- $argv
+function _toggle_venv -d "toggle venv"
+  if test -n "$VIRTUAL_ENV"
+    _deactivate_venv
+  else
+    _activate_venv
+  end
+end
+
+  argparse --name venv --exclusive 'c,a,d,D,l' 'c/create=?' 'a/activate=?' 'd/deactivate' 'D/delete=?' 'l/ls' -- $argv
     or return
 
   if set -q _flag_c
@@ -56,13 +74,11 @@ function venv -d "python virtualenv management"
     _deactivate_venv
   else if set -q _flag_D
     _delete_venv $argv
+  else if set -q _flag_l
+    _list_venv
   else if test -n "$argv"
     _activate_venv $argv
   else
-    if test -n "$VIRTUAL_ENV"
-      _deactivate_venv
-    else
-      _activate_venv
-    end
+    _toggle_venv
   end
 end
