@@ -4,3 +4,5 @@ else
   set -gx EDITOR vim
 end
 set -gx VISUAL $EDITOR
+
+alias v $EDITOR

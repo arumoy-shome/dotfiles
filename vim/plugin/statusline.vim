@@ -10,7 +10,7 @@
 " %{aru#statusline_readonly()}: custom readonly flag
 " %l: line number
 " %L: total lines in buffer
-set statusline=\ %<\ %2*%f%*%1*%{aru#statusline_modified()}%*%=%{aru#statusline_ft()}%1*%{aru#statusline_readonly()}%*\ %l:%L\ 
+set statusline=\ %<\ %2*%f%*%1*%{aru#statusline_modified()}%*%=%{aru#statusline_ft()}%1*%{aru#statusline_readonly()}%*\ %l:%L:%P\ 
 
 augroup AruStatusline
   autocmd!

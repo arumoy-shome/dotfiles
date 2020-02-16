@@ -18,13 +18,6 @@ let g:ycm_global_ycm_extra_conf = expand('~/.vim/global_extra_conf.py')
 let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_key_list_select_completion = ['C-n']
 let g:ycm_key_list_previous_completion = ['C-p']
-let g:ycm_filetype_whitelist = {
-    \ 'python': 1,
-    \ 'vim': 1,
-    \ 'markdown': 1,
-    \ 'vimwiki': 1,
-    \ 'gitcommit': 1,
-    \ }
 let g:ycm_filetype_blacklist = {
     \ 'nerdtree': 1,
     \ 'notes':    1,
@@ -35,12 +28,8 @@ let g:ycm_filetype_blacklist = {
     \ 'leaderf':  1,
     \ 'git':      1,
     \ 'fugitive': 1,
-    \ }
-let g:ycm_filetype_specific_completion_to_disable = {
-    \ 'gitcommit': 1,
-    \ 'vimwiki':   1,
-    \ 'markdown':  1,
-    \ 'vim':       1,
+    \ 'vimwiki': 1,
+    \ 'markdown': 1,
     \ }
 
 augroup AruYcm
