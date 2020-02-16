@@ -150,7 +150,7 @@ end
 
 function _echo_usage -d "prints a help message"
   printf '%s\n' '
-  usage: ./deploy [ FLAGS ] [ TOPICS ]
+  usage: dot [ FLAGS ] [ TOPICS ]
   if no FLAGS are passed then given TOPICS are installed & linked
 
   valid FLAGS:
@@ -162,10 +162,10 @@ function _echo_usage -d "prints a help message"
   -d/--delete [ TOPICS ]: delete given TOPICS
 
   example usage:
-  ./deploy base             # install and link base
-  ./deploy base zsh fish    # install and link base, zsh & fish
-  ./deploy -l base zsh fish # only link base, zsh & fish
-  ./deploy -d tmux          # delete tmux
+  dot base             # install and link base
+  dot base zsh fish    # install and link base, zsh & fish
+  dot -l base zsh fish # only link base, zsh & fish
+  dot -d tmux          # delete tmux
   '
 end
 
