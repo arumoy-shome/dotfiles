@@ -171,12 +171,14 @@ end
 
 function _echo_ls
   set count (cat "$DOTDIR/.enabled_topics" | wc -l)
+  echo (set_color --bold)'Enabled topics:'(set_color normal)
   if test "$count" -gt 0
-    echo (set_color --bold)'Enabled topics:'(set_color normal)
     cat "$DOTDIR/.enabled_topics" | column
   else
     echo 'No topics enabled!'
   end
+  echo (set_color --bold)'Disabled topics:'(set_color normal)
+  comm -13 (cat .enabled_topics | sort | psub) (find . -name '_init' -type f -maxdepth 2 | sed -E 's|/_init$||' | sed -E 's@.*/@@' | sort | psub) | column
 end
 
 function dot
