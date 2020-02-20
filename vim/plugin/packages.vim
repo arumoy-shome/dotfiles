@@ -1,6 +1,8 @@
 """""""""
 "  fzf  "
 """""""""
+command! -bang WikiFiles call fzf#vim#files('~/vimwiki', fzf#vim#with_preview(), <bang>0)
+nnoremap <Leader><C-p> :WikiFiles!<CR>
 nnoremap <C-p> :Files<CR>
 nnoremap <leader>h :Helptags<CR>
 nnoremap <leader>b :Buffers<CR>
@@ -60,7 +62,8 @@ let g:indentLine_fileTypeExclude=[
     \ 'man',
     \ 'vimwiki',
     \ 'gitcommit',
-    \ 'nerdtree'
+    \ 'nerdtree',
+    \ 'fzf'
     \ ]
 
 """""""""""""""

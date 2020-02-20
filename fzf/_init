@@ -1,5 +1,5 @@
 #!/usr/bin/env fish
 
 function install
-    _is_callable fzf; or brew install fzf fd
+    _is_callable fzf; or brew install fzf fd bat
 end
