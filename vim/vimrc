@@ -30,9 +30,6 @@ Plug 'vimwiki/vimwiki'                " personal wiki for vim
 Plug 'wincent/loupe'                  " enhanced in file search for vim
 Plug 'wincent/pinnacle'               " highlight group manipulation for vim
 Plug 'wincent/terminus'               " enhanced terminal integration with vim
-Plug 'ycm-core/YouCompleteMe',
-    \ { 'do': './install.py --ts-completer',
-    \ 'on': [] }                      " code completion engine for vim
 call plug#end()
 
 " vim-plug handles the following, kept here for reference
