@@ -1,9 +1,31 @@
+""""""""""""
+"  normal  "
+""""""""""""
+
 nmap <C-h> <C-w>h
 nmap <C-j> <C-w>j
 nmap <C-k> <C-w>k
 nmap <C-l> <C-w>l
+nmap <Tab> za
 
-" <Leader>zz -- Zap trailing whitespace in the current buffer. As this one is
+" use the linenumber variant of corresponding commands
+" by default <C-w>gt and <C-w>gT map to gt and gT respectively so they can be
+" put to better use.
+nmap gf gF
+nmap <C-w>f <C-w>F
+nmap <C-w><C-f> <C-w>F
+nmap <C-w>gf <C-w>gF
+
+""""""""""""
+"  leader  "
+""""""""""""
+
+" Zap trailing whitespace in the current buffer. As this one is
 " somewhat destructive and relatively close to the oft-used <leader>a mapping,
 " make this one a double key-stroke.
-nnoremap <silent> <expr> <Leader>zz aru#mappings#leader#zap()
+nmap <silent> <expr> <Leader>zz aru#mappings#leader#zap()
+
+" quickly capture stuff
+if filereadable(expand('~/vimwiki/inbox.wiki'))
+  nmap <Leader><Leader> :vertical edit ~/vimwiki/inbox.wiki<CR>
+endif
