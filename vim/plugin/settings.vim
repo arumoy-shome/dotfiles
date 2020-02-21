@@ -84,6 +84,7 @@ endif
 if has('cmdline_info')
   set ruler               " show line and column number
 endif
+set tags^=./.git/tags
 
 " indent by 2 spaces by default, later overriden by vim-sleuth
 set expandtab      " use spaces instead of tabs
