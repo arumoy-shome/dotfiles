@@ -1,11 +1,13 @@
 function z -d "wrapper around EDITOR"
   test -z "$EDITOR"
-    and echo "ERROR: EDITOR not set."
-    and return 1
+    and echo "WARNING: EDITOR not set, using vim."
+    and set EDITOR vim
 
   test -d "~/.vim/bundle/vimwiki/"
-    and echo "ERROR: vimwiki not installed."
-    and return 1
+    and echo "WARNING: vimwiki not installed."
 
-  $EDITOR -c VimwikiMakeDiaryNote $argv
+  test -r "~/vimwiki/inbox.wiki"
+    or touch ~/vimwiki/inbox.wiki
+
+  $EDITOR ~/vimwiki/inbox.wiki
 end

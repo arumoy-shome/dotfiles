@@ -60,3 +60,9 @@ function! aru#tabline() abort
   return s
 endfunction
 
+function! aru#vimwiki_setup_special_buffer() abort
+  setlocal nonumber
+  setlocal norelativenumber
+  nmap <buffer> q :wq<CR>
+endfunction
+

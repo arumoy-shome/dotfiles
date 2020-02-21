@@ -24,8 +24,3 @@ nmap <C-w>gf <C-w>gF
 " somewhat destructive and relatively close to the oft-used <leader>a mapping,
 " make this one a double key-stroke.
 nmap <silent> <expr> <Leader>zz aru#mappings#leader#zap()
-
-" quickly capture stuff
-if filereadable(expand('~/vimwiki/inbox.wiki'))
-  nmap <Leader><Leader> :vertical edit ~/vimwiki/inbox.wiki<CR>
-endif

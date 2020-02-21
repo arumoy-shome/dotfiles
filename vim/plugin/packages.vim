@@ -1,8 +1,10 @@
 """""""""
 "  fzf  "
 """""""""
-command! -bang WikiFiles call fzf#vim#files('~/vimwiki', fzf#vim#with_preview(), <bang>0)
-nnoremap <Leader><C-p> :WikiFiles!<CR>
+if isdirectory(expand('~/vimwiki'))
+  command! -bang WikiFiles call fzf#vim#files('~/vimwiki', fzf#vim#with_preview(), <bang>0)
+endif
+nnoremap <Leader><C-p> :WikiFiles<CR>
 nnoremap <C-p> :Files<CR>
 nnoremap <leader>h :Helptags<CR>
 nnoremap <leader>b :Buffers<CR>
@@ -55,8 +57,19 @@ let g:vimwiki_listsyms         = ' ○◐●✓' " 0-100% task completion symbol
 let g:vimwiki_listsym_rejected = '✗'     " cancelled task symbol
 let g:vimwiki_use_calendar     = 0       " don't use calendar.vim
 
-" default is <Leader>ws
-nmap <Leader>wq <Plug>VimwikiUISelect
+" quickly capture stuff
+if filereadable(expand('~/vimwiki/inbox.wiki'))
+  nmap <Leader><Leader> :12split ~/vimwiki/inbox.wiki<CR>
+endif
+if filereadable(expand('~/vimwiki/bujo.wiki'))
+  nmap <Leader>j :split ~/vimwiki/bujo.wiki<CR>
+endif
+
+" additionally set some things up for these files
+augroup AruPackages
+  autocmd!
+  autocmd BufRead ~/vimwiki/{inbox,bujo}.wiki call aru#vimwiki_setup_special_buffer()
+augroup END
 
 """""""""""""""""""""""
 "  vim-projectionist  "
