@@ -17,3 +17,6 @@ config
 symlinked
 zettelkasten
 vimwiki
+timestamp
+vimwiki's
+zettel
