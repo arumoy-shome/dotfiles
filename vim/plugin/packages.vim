@@ -62,7 +62,7 @@ if filereadable(expand('~/vimwiki/inbox.wiki'))
   nmap <Leader><Leader> :12split ~/vimwiki/inbox.wiki<CR>
 endif
 if filereadable(expand('~/vimwiki/bujo.wiki'))
-  nmap <Leader>j :split ~/vimwiki/bujo.wiki<CR>
+  nmap <Leader>j :split +/Today ~/vimwiki/bujo.wiki<CR>
 endif
 
 " additionally set some things up for these files
