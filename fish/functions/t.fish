@@ -9,7 +9,7 @@ end
 function t -d "attach to tmux session if it exists, or create a new one with no args envoke tmux when args are passed"
   # If provided with args, pass them through.
   if test -n "$argv"
-    tmux "$argv"
+    tmux $argv
     return
   end
 
