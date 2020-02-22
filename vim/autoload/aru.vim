@@ -18,6 +18,7 @@ function! aru#statusline_readonly() abort
 endfunction
 
 function! aru#statusline_update_highlight() abort
+  highlight StatusLine guifg=white guibg=#151521
   execute 'highlight User1 ' . pinnacle#highlight({'bg': pinnacle#extract_bg('StatusLine'), 'fg': pinnacle#extract_fg('Special'), 'term': 'bold'})
   execute 'highlight User2 ' . pinnacle#italicize('StatusLine')
 endfunction
