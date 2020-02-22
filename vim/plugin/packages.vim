@@ -68,7 +68,8 @@ endif
 " additionally set some things up for these files
 augroup AruPackages
   autocmd!
-  autocmd BufRead ~/vimwiki/{inbox,bujo}.wiki call aru#vimwiki_setup_special_buffer()
+  autocmd BufRead ~/vimwiki/inbox.wiki call aru#vimwiki_setup_special_buffer('inbox')
+  autocmd BufRead ~/vimwiki/bujo.wiki call aru#vimwiki_setup_special_buffer('bujo')
 augroup END
 
 """""""""""""""""""""""

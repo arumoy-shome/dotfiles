@@ -60,9 +60,15 @@ function! aru#tabline() abort
   return s
 endfunction
 
-function! aru#vimwiki_setup_special_buffer() abort
+function! aru#vimwiki_setup_special_buffer(filename) abort
   setlocal nonumber
   setlocal norelativenumber
   nmap <buffer> q :wq<CR>
+
+  if a:filename == 'inbox'
+    setlocal statusline=%2*\ [Inbox]%*
+  else
+    setlocal statusline=%2*\ [Journal]%*
+  endif
 endfunction
 
