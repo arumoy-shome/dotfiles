@@ -43,7 +43,7 @@ end)
 
 -- hotkey for terminal
 hs.hotkey.bind(hyper, "Return", function()
-  hs.application.launchOrFocus("iTerm")
+  hs.application.launchOrFocus("Kitty")
 end)
 
 -- editor and browser 50-50 layout
