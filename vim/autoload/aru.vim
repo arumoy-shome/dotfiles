@@ -64,6 +64,7 @@ endfunction
 function! aru#vimwiki_setup_special_buffer(filename) abort
   setlocal nonumber
   setlocal norelativenumber
+  setlocal nobuflisted
   nmap <buffer> q :wq<CR>
 
   if a:filename == 'inbox'
