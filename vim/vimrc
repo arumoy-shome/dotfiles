@@ -21,8 +21,6 @@ Plug 'tpope/vim-rsi'                  " readline style insertion
 Plug 'tpope/vim-surround'             " quoting/parenthesizing made simple
 Plug 'tpope/vim-unimpaired'           " pairs of handy bracket mappings
 Plug 'tpope/vim-vinegar'              " combine with netrw to create a delicious salad dressing
-Plug 'preservim/nerdtree',
-    \ { 'on': 'NERDTreeToggle' }      " tree explorer for vim
 Plug 'Yggdroot/indentLine'            " display the indentation level with thin vertical lines
 Plug 'lervag/vimtex'                  " a modern vim plugin for editing latex files
 Plug 'janko/vim-test'                 " run tests at the speed of thought
