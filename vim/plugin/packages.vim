@@ -48,10 +48,10 @@ let g:vimwiki_use_calendar     = 0       " don't use calendar.vim
 
 " quickly capture stuff
 if filereadable(expand('~/vimwiki/inbox.wiki'))
-  nmap <Leader><Leader> :12split ~/vimwiki/inbox.wiki<CR>
+  nmap <Leader><Leader> :botright 12split ~/vimwiki/inbox.wiki<CR>
 endif
 if filereadable(expand('~/vimwiki/bujo.wiki'))
-  nmap <Leader>j :split +/Today ~/vimwiki/bujo.wiki<CR>
+  nmap <Leader>j :botright split +/Today ~/vimwiki/bujo.wiki<CR>
 endif
 
 " additionally set some things up for these files
