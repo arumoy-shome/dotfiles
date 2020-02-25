@@ -1,1 +1,1 @@
-nmap <buffer> q :bdelete<CR>
+nmap <buffer> <Esc> :close<CR>

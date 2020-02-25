@@ -65,7 +65,7 @@ function! aru#vimwiki_setup_special_buffer(filename) abort
   setlocal nonumber
   setlocal norelativenumber
   setlocal nobuflisted
-  nmap <buffer> q :wq<CR>
+  nmap <buffer> <Esc> :wq<CR>
 
   if a:filename == 'inbox'
     setlocal statusline=%2*\ [Inbox]%*
