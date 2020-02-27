@@ -86,7 +86,7 @@ if has('cmdline_info')
 endif
 set tags+=./.git/tags
 set path+=**              " poor man's fuzzy finder
-set path+=~/vimwiki/**    " (poorly) browse notes files as well
+set path+=~/vimwiki/notes
 
 " indent by 2 spaces by default, later overriden by ftplugin
 set expandtab      " use spaces instead of tabs
