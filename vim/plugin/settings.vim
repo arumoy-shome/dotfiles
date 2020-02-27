@@ -85,10 +85,8 @@ if has('cmdline_info')
   set ruler               " show line and column number
 endif
 set tags+=./.git/tags
-set path+=**              " poor man's fuzzy finder
-set path+=~/vimwiki/notes
 
-" indent by 2 spaces by default, later overriden by ftplugin
+" indent by 2 spaces by default, later overriden by vim-sleuth
 set expandtab      " use spaces instead of tabs
 set tabstop=2      " spaces per tab
 set shiftwidth=2   " spaces per tab (when shifting)

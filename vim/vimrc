@@ -1,7 +1,9 @@
 call plug#begin('~/.vim/bundle')
 Plug 'SirVer/ultisnips'               " ultimate snippet solution for vim
+Plug '/usr/local/opt/fzf'             " fzf executable, obtained with `brew --prefix fzf`
 Plug 'blankname/vim-fish'             " (actively) teaching vim how to fish
 Plug 'fenetikm/falcon'                " a colorscheme for terminal, vim and friends
+Plug 'junegunn/fzf.vim'               " fzf ❤ vim
 Plug 'junegunn/goyo.vim'              " distraction-free writing in vim
 Plug 'junegunn/vim-easy-align'        " a vim alignment plugin
 Plug 'junegunn/vim-plug'              " minimalist vim plugin manager
