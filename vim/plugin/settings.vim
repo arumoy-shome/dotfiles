@@ -1,6 +1,5 @@
 " settings
 set laststatus=2          " always show statusline
-set showtabline=2         " always show tabline
 set guioptions-=e         " disable gui tabline in favour of plain text version
 if has ('textprop')
   set completeopt+=popup  " use popup instead of preview window
