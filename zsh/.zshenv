@@ -2,14 +2,5 @@ export LC_ALL=en_US.UTF-8
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_DATA_BIN="$HOME/.local/bin"
-
-#
-# Path
-#
-
-# from http://zsh.sourceforge.net/Guide/zshguide02.html#l24
-# this prevents duplicates in path by dropping the duplicate from the tail
-typeset -U path
-# add ruby to path, required by neovim
-# cannot use $XDG_DATA_BIN here since it is not defined yet
-path=(/usr/local/lib/ruby/gems/2.6.0/bin /usr/local/opt/ruby/bin $HOME/.local/bin $path)
+export NOTESDIR="$HOME/Documents/notes"
+export SLIPBOX="$NOTESDIR/slipbox.md"

@@ -1,14 +1,3 @@
-"""""""""
-"  fzf  "
-"""""""""
-if isdirectory(expand('~/vimwiki'))
-  command! -bang WikiFiles call fzf#vim#files('~/vimwiki', fzf#vim#with_preview(), <bang>0)
-endif
-nnoremap <Leader><C-p> :WikiFiles<CR>
-nnoremap <C-p> :Files<CR>
-nnoremap <leader>h :Helptags<CR>
-nnoremap <leader>b :Buffers<CR>
-
 """""""""""
 "  loupe  "
 """""""""""
@@ -27,12 +16,11 @@ let g:LoupeCenterResults = 0     " do not center current match
 let g:indentLine_fileTypeExclude=[
     \ 'help',
     \ 'markdown',
+    \ 'pandoc',
     \ 'tex',
     \ 'man',
-    \ 'vimwiki',
     \ 'gitcommit',
     \ 'nerdtree',
-    \ 'fzf'
     \ ]
 
 """""""""""""""
@@ -45,32 +33,6 @@ let g:UltiSnipsEditSplit = "horizontal"
 " here prevents it from doing so giving a little performace boost albeit now
 " snippets need to be managed manually.
 let g:UltiSnipsSnippetDirectories = [$HOME . '/.vim/snips']
-
-"""""""""""""
-"  vimwiki  "
-"""""""""""""
-" turn this off until a suitable solution to resolve conflict with ultisnips
-" is figured out, snippets are far more useful than tables!
-let g:vimwiki_table_mappings   = 0       " disable table mappings
-let g:vimwiki_folding          = 'expr'  " fold at headers
-let g:vimwiki_listsyms         = ' ○◐●✓' " 0-100% task completion symbols
-let g:vimwiki_listsym_rejected = '✗'     " cancelled task symbol
-let g:vimwiki_use_calendar     = 0       " don't use calendar.vim
-
-" quickly capture stuff
-if filereadable(expand('~/vimwiki/inbox.wiki'))
-  nmap <Leader><Leader> :botright 12split ~/vimwiki/inbox.wiki<CR>
-endif
-if filereadable(expand('~/vimwiki/bujo.wiki'))
-  nmap <Leader>j :botright split +/Today ~/vimwiki/bujo.wiki<CR>
-endif
-
-" additionally set some things up for these files
-augroup AruPackages
-  autocmd!
-  autocmd BufRead ~/vimwiki/inbox.wiki call aru#vimwiki_setup_special_buffer('inbox')
-  autocmd BufRead ~/vimwiki/bujo.wiki call aru#vimwiki_setup_special_buffer('bujo')
-augroup END
 
 """""""""""""""""""""""
 "  vim-projectionist  "

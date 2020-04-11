@@ -1,9 +1,7 @@
 call plug#begin('~/.vim/bundle')
 Plug 'SirVer/ultisnips'               " ultimate snippet solution for vim
-Plug '/usr/local/opt/fzf'             " fzf executable, obtained with `brew --prefix fzf`
-Plug 'blankname/vim-fish'             " (actively) teaching vim how to fish
-Plug 'fenetikm/falcon'                " a colorscheme for terminal, vim and friends
-Plug 'junegunn/fzf.vim'               " fzf ❤ vim
+Plug 'nanotech/jellybeans.vim'
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'junegunn/goyo.vim'              " distraction-free writing in vim
 Plug 'junegunn/vim-easy-align'        " a vim alignment plugin
 Plug 'junegunn/vim-plug'              " minimalist vim plugin manager
@@ -24,7 +22,6 @@ Plug 'tpope/vim-vinegar'              " combine with netrw to create a delicious
 Plug 'Yggdroot/indentLine'            " display the indentation level with thin vertical lines
 Plug 'lervag/vimtex'                  " a modern vim plugin for editing latex files
 Plug 'janko/vim-test'                 " run tests at the speed of thought
-Plug 'vimwiki/vimwiki'                " personal wiki for vim
 Plug 'wincent/loupe'                  " enhanced in file search for vim
 Plug 'wincent/pinnacle'               " highlight group manipulation for vim
 Plug 'wincent/terminus'               " enhanced terminal integration with vim

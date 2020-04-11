@@ -85,14 +85,6 @@ export SAVEHIST=$HISTSIZE
 unalias run-help && autoload -U run-help
 
 #
-# Colors
-#
-
-[[ -r "$XDG_DATA_HOME/base16/current-theme.sh" ]] && \
-  eval sh "$XDG_DATA_HOME/base16/current-theme.sh"
-sync_tmux_colors
-
-#
 # Plugins
 #
 
