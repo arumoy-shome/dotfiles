@@ -1,32 +1,13 @@
-snippet cshead "CS 116 file header"
-# ******************************
-# Name: Arumoy Shome (20460621)
-# CS 116 Spring 2017
-# Assignment ${1:num}, Problem ${2:num}
-# ******************************
+snippet #! "#!/usr/bin/env python" b
+#!/usr/bin/env python
+$0
 endsnippet
 
-snippet csrecipe "CS 116 method recipe"
-# ${1:purpose}
-# ${2:Effects: ${3:effects}}
-# ${4:function name}: ${5:params} -> ${6:return}
-# ${7:Examples:
-# ${8: examples}}
+snippet ifmain "ifmain" b
+if __name__ == "__main__":
+	${1:${VISUAL:main()}}
 endsnippet
 
-snippet cell "Code cell" b
-# %%
-${1}
-endsnippet
-
-snippet mcell "Markdown cell" b
-# %% [markdown]
-"""
-${1}
-"""
-endsnippet
-
-snippet rcell "Result cell" b
-# %% [result]
-${1}
+snippet debug "debugger"
+import pdb; pdb.set_trace()
 endsnippet

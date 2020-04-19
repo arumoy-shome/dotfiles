@@ -18,9 +18,18 @@ function! aru#statusline_readonly() abort
 endfunction
 
 function! aru#statusline_update_highlight() abort
-  highlight StatusLine guifg=white guibg=black
-  execute 'highlight User1 ' . pinnacle#highlight({'bg': pinnacle#extract_bg('StatusLine'), 'fg': pinnacle#extract_fg('Special'), 'term': 'bold'})
+  execute 'highlight User1 ' . pinnacle#highlight({'bg': pinnacle#extract_bg('StatusLine'),
+        \ 'fg': 'red', 'term': 'bold'})
   execute 'highlight User2 ' . pinnacle#italicize('StatusLine')
+endfunction
+
+function! aru#colorscheme_update_highlight() abort
+  highlight clear VertSplit " make the split visible
+  highlight Folded gui=italic " make folds italic
+  highlight clear CursorLineNr " cleaner CursorLineNr
+  highlight link CursorLineNr LineNr
+  highlight clear SpellBad
+  execute 'highlight SpellBad ' . pinnacle#underline('Normal')
 endfunction
 
 function! aru#spell() abort
@@ -60,17 +69,3 @@ function! aru#tabline() abort
   let s .= '%T' " resets tab page number?
   return s
 endfunction
-
-function! aru#vimwiki_setup_special_buffer(filename) abort
-  setlocal nonumber
-  setlocal norelativenumber
-  setlocal nobuflisted
-  nmap <buffer> <Esc> :wq<CR>
-
-  if a:filename == 'inbox'
-    setlocal statusline=%2*\ [Inbox]%*
-  else
-    setlocal statusline=%2*\ [Journal]%*
-  endif
-endfunction
-
