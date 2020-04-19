@@ -1,7 +1,0 @@
-#!/usr/bin/env fish
-
-function install
-    tic terminfo/xterm-256color.terminfo
-    tic terminfo/tmux-256color.terminfo
-    tic terminfo/tmux.terminfo
-end

@@ -1,7 +1,0 @@
-#!/usr/bin/env fish
-
-set TARGET "$XDG_CONFIG_HOME/nvim"
-
-function install
-  command -sq nvim; or brew install neovim
-end

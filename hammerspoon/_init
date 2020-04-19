@@ -1,7 +1,0 @@
-#!/usr/bin/env fish
-
-set TARGET "$HOME/.hammerspoon"
-
-function install
-    brew cask install hammerspoon
-end

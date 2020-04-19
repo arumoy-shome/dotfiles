@@ -1,5 +1,0 @@
-set selection-clipboard clipboard
-set font 'source code pro normal 10'
-set first-page-column 1:1
-set window-title-basename true
-set statusbar-home-tilde true

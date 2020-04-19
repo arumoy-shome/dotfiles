@@ -1,9 +1,0 @@
-#!/usr/bin/env fish
-
-set TARGET "$XDG_CONFIG_HOME/git"
-
-function install
-    brew install \
-    git git-lfs hub diff-so-fancy git-standup \
-    git-extras git-flow-avh
-end

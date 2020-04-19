@@ -1,7 +1,0 @@
-#!/usr/bin/env fish
-
-set TARGET "$XDG_CONFIG_HOME/msmtp"
-
-function install
-  brew install msmtp
-end

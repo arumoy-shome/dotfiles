@@ -1,7 +1,0 @@
-#!/usr/bin/env fish
-
-set TARGET $HOME
-
-function install
-  command -sq tmux; or brew install tmux
-end

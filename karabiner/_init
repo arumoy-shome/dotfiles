@@ -1,7 +1,0 @@
-#!/usr/bin/env fish
-
-set TARGET "$XDG_CONFIG_HOME/karabiner"
-
-function install
-    brew cask install karabiner-elements
-end
