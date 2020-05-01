@@ -56,3 +56,11 @@ if [[ -d "$ZDOTDIR/pure" ]]; then
   autoload -U promptinit; promptinit
   prompt pure
 fi
+
+#
+# hooks
+#
+
+# ls -a after cd
+autoload -U add-zsh-hook
+add-zsh-hook -Uz chpwd (){ ls -a; }
