@@ -1,0 +1,12 @@
+set completion-ignore-case on       # case insensitive completion
+set show-all-if-ambiguous on        # reduce tab key preses
+set show-all-if-unmodified on       # reduce tab key preses
+set colored-stats on                # color file by types
+set visible-stats on                # append char to indicate type
+set colored-completion-prefix on    # color the common prefix
+set menu-complete-display-prefix on # in menu-complete as well
+set mark-symlinked-directories on   # append / to symlinked directory names
+set mark-directories on             # [default] append / to directory names
+set skip-completed-text on          # better midword completion
+set blink-matching-paren on
+set enable-bracketed-paste on

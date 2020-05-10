@@ -1,17 +1,16 @@
 ##############
 #  settings  #
 ##############
-# no duplicates or lines starting with space in history
-HISTCONTROL=ignoreboth
-
-# append to history file, don't overwrite it.
-shopt -s histappend
-
+HISTCONTROL=ignoreboth # no duplicates or lines starting with space in history
 HISTSIZE=1000
 HISTFILESIZE=2000
 
-# check window size after each command and lazy update LINES and COLUMNS
-shopt -s checkwinsize
+shopt -s histappend   # append to history file, don't overwrite it.
+shopt -s checkwinsize # [default] check window size after each command
+shopt -s autocd       # .. for cd ..
+shopt -s cdspell      # check minor file spell errors
+shopt -s dirspell     # check minor dir spell errors
+shopt -s direxpand
 
 #############
 #  exports  #
@@ -19,6 +18,10 @@ shopt -s checkwinsize
 export PAGER=less
 export MANPAGER=$PAGER
 export EDITOR=vim
+[[ -d $HOME/Documents/notes ]] && \
+  export NOTESDIR="$HOME/Documents/notes"
+[[ -r $NOTESDIR/slipbox.md ]] && \
+  export SLIPBOX="$NOTESDIR/slipbox.md"
 
 # filename (if known), line number if known, falling back to percent if known,
 # falling back to byte offset, falling back to dash
@@ -38,9 +41,6 @@ export CLICOLOR=true
 ###########
 #  alias  #
 ###########
-alias ..='cd ..'
-alias ...='cd ../..'
-alias ....='cd ../../..'
 
 # safer defaults for cp, mv and rm
 # verbose output and ask for confirmation if existing file is affected
@@ -62,6 +62,9 @@ alias ll='ls -FAl@hT'
 # n: show line number
 alias grep='grep -inE --color=auto'
 
+alias b='brew'
+alias bc='brew cask'
+
 #################
 #  completions  #
 #################
@@ -71,11 +74,14 @@ alias grep='grep -inE --color=auto'
 [[ -r /usr/local/etc/bash_completion.d/git-prompt.sh ]] && \
     source /usr/local/etc/bash_completion.d/git-prompt.sh
 
+[[ -r /usr/local/etc/bash_completion.d/tmux ]] && \
+    source /usr/local/etc/bash_completion.d/tmux
+
 ############
 #  prompt  #
 ############
 GIT_PS1_SHOWDIRTYSTATE=true
-PS1='\[\033[36m\][\w$(__git_ps1 " (%s)")] \$ \[\033[00m\]'
+PS1='\[\033[37m\][\j \w$(__git_ps1 " (%s)")] \$ \[\033[00m\]'
 
 ###############
 #  functions  #
@@ -84,20 +90,20 @@ PS1='\[\033[36m\][\w$(__git_ps1 " (%s)")] \$ \[\033[00m\]'
 # Colourise man pages
 man() {
   env \
-  LESS_TERMCAP_mb=$(tput bold; tput setaf 6) \
-  LESS_TERMCAP_md=$(tput bold; tput setaf 6) \
-  LESS_TERMCAP_me=$(tput sgr0) \
-  LESS_TERMCAP_se=$(tput rmso; tput sgr0) \
-  LESS_TERMCAP_ue=$(tput rmul; tput sgr0) \
-  LESS_TERMCAP_us=$(tput smul; tput bold; tput setaf 4) \
-  LESS_TERMCAP_mr=$(tput rev) \
-  LESS_TERMCAP_mh=$(tput dim) \
-  LESS_TERMCAP_ZN=$(tput ssubm) \
-  LESS_TERMCAP_ZV=$(tput rsubm) \
-  LESS_TERMCAP_ZO=$(tput ssupm) \
-  LESS_TERMCAP_ZW=$(tput rsupm) \
-  man "$@"
-}
+    LESS_TERMCAP_mb=$(tput bold; tput setaf 6) \
+    LESS_TERMCAP_md=$(tput bold; tput setaf 6) \
+    LESS_TERMCAP_me=$(tput sgr0) \
+    LESS_TERMCAP_se=$(tput rmso; tput sgr0) \
+    LESS_TERMCAP_ue=$(tput rmul; tput sgr0) \
+    LESS_TERMCAP_us=$(tput smul; tput bold; tput setaf 4) \
+    LESS_TERMCAP_mr=$(tput rev) \
+    LESS_TERMCAP_mh=$(tput dim) \
+    LESS_TERMCAP_ZN=$(tput ssubm) \
+    LESS_TERMCAP_ZV=$(tput rsubm) \
+    LESS_TERMCAP_ZO=$(tput ssupm) \
+    LESS_TERMCAP_ZW=$(tput rsupm) \
+    man "$@"
+  }
 
 # Enter directory and list contents
 cd() {
@@ -105,5 +111,13 @@ cd() {
     builtin cd "$@" && ls -FA
   else
     builtin cd ~ && ls -FA
+  fi
+}
+
+g() {
+  if [[ $# -gt 0 ]]; then
+    git "$@"
+  else
+    git status
   fi
 }
