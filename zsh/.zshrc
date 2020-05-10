@@ -61,6 +61,6 @@ fi
 # hooks
 #
 
-# ls -a after cd
+# ls -FA after cd
 autoload -U add-zsh-hook
-add-zsh-hook -Uz chpwd (){ ls -a; }
+add-zsh-hook -Uz chpwd (){ ls -FA; }
