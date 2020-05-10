@@ -54,16 +54,6 @@ let g:projectionist_heuristics = {
   \   "ftplugin/*.vim": {
   \     "type": "ftplug"
   \   }
-  \ },
-  \ "venv/|requirements.txt": {
-  \   "*.py": {
-  \     "type": "code",
-  \     "alternate": ["tests/test_{basename}"]
-  \   },
-  \   "tests/test_*.py": {
-  \     "type": "test",
-  \     "alternate": ["{project|basename}/{}.py"]
-  \   }
   \ }
   \}
 
@@ -89,3 +79,9 @@ let g:vimtex_quickfix_mode = 0
 vmap <Enter> <Plug>(EasyAlign)
 " NOTE: this shadows builtin ga, use :ascii instead
 nmap ga <Plug>(EasyAlign)
+
+"""""""""""""""
+"  vim-slime  "
+"""""""""""""""
+let g:slime_target = "tmux"
+let g:slime_default_config = {"socket_name": "default", "target_pane": "{last}"}

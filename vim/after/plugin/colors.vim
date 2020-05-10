@@ -7,5 +7,5 @@ augroup AruColorscheme
 augroup END
 
 " colors
-colorscheme jellybeans
+colorscheme solarized
 

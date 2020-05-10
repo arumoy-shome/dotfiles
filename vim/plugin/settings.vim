@@ -53,9 +53,6 @@ if has('wildmenu')
 endif
 set wildmode=longest:full " shell like autocomplete to unambiguous portion
 set wildmode+=full
-if has ('termguicolors')
-  set termguicolors       " use guifg/guibg instead of ctermfg/ctermbg
-endif
 if has('folding')
   set fillchars=diff:∙    " BULLET OPERATOR (U+2219, UTF-8: E2 88 99)
   set fillchars+=fold:·   " MIDDLE DOT (U+00B7, UTF-8: C2 B7)
@@ -83,7 +80,10 @@ endif
 if has('cmdline_info')
   set ruler               " show line and column number
 endif
-set tags+=./.git/tags
+set tags+=./.git/tags     " read tags file inside .git directory
+set ignorecase            " case insensitive search
+set smartcase             " unless case present in search
+set infercase             " adjust case during ins-completion
 
 " indent by 2 spaces by default, later overriden by vim-sleuth
 set expandtab      " use spaces instead of tabs
