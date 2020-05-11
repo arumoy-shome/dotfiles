@@ -77,6 +77,10 @@ alias bc='brew cask'
 [[ -r /usr/local/etc/bash_completion.d/tmux ]] && \
     source /usr/local/etc/bash_completion.d/tmux
 
+[[ -r /usr/local/bin/g ]] && complete -F _git g
+
+[[ -r /usr/local/bin/t ]] && complete -F _tmux t
+
 ############
 #  prompt  #
 ############
@@ -111,14 +115,6 @@ cd() {
     builtin cd "$@" && ls -FA
   else
     builtin cd ~ && ls -FA
-  fi
-}
-
-g() {
-  if [[ $# -gt 0 ]]; then
-    git "$@"
-  else
-    git status
   fi
 }
 
