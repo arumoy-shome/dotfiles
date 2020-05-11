@@ -32,7 +32,7 @@ export LESSPROMPT='?f%f .?ltLine %lt:?pt%pt\%:?btByte %bt:-...'
 # F: exit if output fits on one screen
 # R: ansi color support
 # X: suppress alternate screen
-export LESS=iFM
+export LESS=iFMRX
 
 # colour ls listings, do not have to use -G flag
 # and works across shells
@@ -46,7 +46,7 @@ export CLICOLOR=true
 # verbose output and ask for confirmation if existing file is affected
 alias cp='cp -iv'
 alias mv='mv -iv'
-alias rm='rm -Iv'
+alias rm='rm -iv'
 
 # G: enable colored output
 # F: append '/' after directory and '*' after executables
@@ -119,5 +119,11 @@ g() {
     git "$@"
   else
     git status
+  fi
+}
+
+z() {
+  if [[ -r $NOTESDIR/inbox.md ]]; then
+    $EDITOR $NOTESDIR/inbox.md
   fi
 }
