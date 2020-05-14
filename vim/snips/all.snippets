@@ -66,34 +66,34 @@ snippet todo "TODO comment" bw
 `!p snip.rv=get_comment_format()[0]` ${2:TODO}: $0${3: <${4:`!v strftime('%d-%m-%y')`}${5:, `!v g:snips_author`}>} `!p snip.rv=get_comment_format()[2]`
 endsnippet
 
-snippet ( "round brace" i
+snippet ( "round brace" w
 (${1:${VISUAL}})$0
 endsnippet
 
-snippet [ "square brace" i
+snippet [ "square brace" w
 [${1:${VISUAL}}]$0
 endsnippet
 
-snippet { "curly brace" i
+snippet { "curly brace" w
 \{${1:${VISUAL}}\}$0
 endsnippet
 
-snippet (( "round brace with space" i
+snippet ) "round brace with space" w
 ( ${1:${VISUAL}} )$0
 endsnippet
 
-snippet [[ "square brace with space" i
+snippet ] "square brace with space" w
 [ ${1:${VISUAL}} ]$0
 endsnippet
 
-snippet {{ "curly brace with space" i
+snippet } "curly brace with space" w
 \{ ${1:${VISUAL}} \}$0
 endsnippet
 
-snippet ' "single quote" i
+snippet ' "single quote" w
 '${1:${VISUAL}}'$0
 endsnippet
 
-snippet " "double quote" i
+snippet " "double quote" w
 "${1:${VISUAL}}"$0
 endsnippet

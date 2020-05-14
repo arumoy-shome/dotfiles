@@ -2,5 +2,5 @@ export LC_ALL=en_US.UTF-8
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_DATA_BIN="$HOME/.local/bin"
-export NOTESDIR="$HOME/Documents/notes"
-export SLIPBOX="$NOTESDIR/slipbox.md"
+NOTESDIR="$HOME/notes"
+TODAY="$(date +'%Y-%m-%d')"
