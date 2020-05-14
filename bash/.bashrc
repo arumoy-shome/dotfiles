@@ -85,7 +85,7 @@ alias bc='brew cask'
 #  prompt  #
 ############
 GIT_PS1_SHOWDIRTYSTATE=true
-PS1='\[\033[37m\][\j \w$(__git_ps1 " (%s)")] \$ \[\033[00m\]'
+PS1='\[\033[36m\][\j \w$(__git_ps1 " (%s)")] \$ \[\033[00m\]'
 
 ###############
 #  functions  #
@@ -115,11 +115,5 @@ cd() {
     builtin cd "$@" && ls -FA
   else
     builtin cd ~ && ls -FA
-  fi
-}
-
-z() {
-  if [[ -r $NOTESDIR/inbox.md ]]; then
-    $EDITOR $NOTESDIR/inbox.md
   fi
 }
