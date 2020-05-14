@@ -7,7 +7,7 @@ augroup AruColorscheme
 augroup END
 
 " colors
-if filereadable(expand("~/.vimrc_background"))
-  let base16colorspace=256
-  source ~/.vimrc_background
-endif
+let base16colorspace=256
+call aru#colorscheme()
+
+

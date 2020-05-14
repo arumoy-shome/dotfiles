@@ -58,10 +58,8 @@ if [[ -d "$ZDOTDIR/pure" ]]; then
 fi
 
 # Base16 Shell
-BASE16_SHELL="$HOME/.config/base16-shell/"
-[ -n "$PS1" ] && \
-    [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
-        eval "$("$BASE16_SHELL/profile_helper.sh")"
+[[ -r "$XDG_DATA_HOME/base16/current-theme.sh" ]] && \
+  sh "$XDG_DATA_HOME/base16/current-theme.sh"
 
 #
 # hooks

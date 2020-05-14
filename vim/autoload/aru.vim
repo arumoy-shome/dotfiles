@@ -15,6 +15,19 @@ function! aru#colorscheme_update_highlight() abort
   execute 'highlight SpellBad ' . pinnacle#underline('Normal')
 endfunction
 
+function aru#colorscheme() abort
+  let s:config_file = expand('~/.vim/.background')
+
+  if filereadable(s:config_file)
+    let s:config = readfile(s:config_file, '', 2)
+    execute 'set background=' . s:config[1]
+    execute 'colorscheme ' . s:config[0]
+  else " default
+    set background=dark
+    colorscheme base16-default-dark
+  endif
+endfunction
+
 function! aru#spell() abort
   setlocal spell
   setlocal spellfile=~/.vim/spell/en.utf-8.add

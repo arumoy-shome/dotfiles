@@ -1,0 +1,3 @@
+#compdef scheme
+
+_values 'schemes' $(scheme ls) ls
