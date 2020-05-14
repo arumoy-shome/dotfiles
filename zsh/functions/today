@@ -1,0 +1,4 @@
+# vim:filetype=zsh
+# return today's date in %Y-%m-%d format
+
+command date +'%Y-%m-%d'

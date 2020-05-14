@@ -1,0 +1,9 @@
+# vim:filetype=zsh
+# No arguments: `basename $PWD`
+# With arguments: acts like `basename`
+
+if [[ $# -gt 0 ]]; then
+  command basename "$@"
+else
+  command basename "$PWD"
+fi
