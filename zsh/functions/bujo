@@ -1,0 +1,52 @@
+# vim:filetype=zsh
+
+local BUJO="$NOTESDIR/.bujo"
+
+__sed() {
+  command sed "s/\(^.*\) $1\([0-9-]*\)/\2: \1/g"
+}
+
+__grep() {
+  command grep -e "$1[0-9-]*" "$BUJO"
+}
+
+__cat() {
+  command grep -v "\.[0-9-]*" "$BUJO"
+}
+
+[[ -r "$BUJO" ]] || touch "$BUJO"
+
+[[ "$#" == 0 ]] && __cat && return 0
+
+if [[ "$1" ]]; then
+  case "$1" in
+    l | ls )
+      case "$2" in
+        = | scheduled )
+          __grep '=' | __sed '=' | sort -g
+          ;;
+        ! | due )
+          __grep '!' | __sed '!' | sort -g
+          ;;
+        . | complete )
+          __grep '\.' | __sed '\.' | sort -g
+          ;;
+        [@:]* )
+          command grep -e "$2" "$BUJO"
+          ;;
+        all )
+          cat "$BUJO"
+          ;;
+        * )
+          __cat
+          ;;
+      esac
+      ;;
+    e | edit )
+      $EDITOR $BUJO
+      ;;
+    a | add )
+      echo "${@:2}" >> "$BUJO"
+      ;;
+  esac
+fi
