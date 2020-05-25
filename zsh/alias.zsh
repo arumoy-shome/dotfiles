@@ -1,6 +1,6 @@
 # Unix
-alias l="ls -F"
-alias ll="ls -laF"
+alias ls="ls -FA"
+alias ll="ls -FAlh"
 alias ln="ln -v"
 alias mkdir="mkdir -p"
 alias v="$EDITOR" #nvim when available else vim (see $ZDOTDIR/exports)
