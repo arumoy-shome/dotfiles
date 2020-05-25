@@ -12,6 +12,7 @@ function! aru#colorscheme_update_highlight() abort
   highlight clear CursorLineNr " cleaner CursorLineNr
   highlight link CursorLineNr LineNr
   highlight clear SpellBad
+  highlight clear SpellRare
   execute 'highlight SpellBad ' . pinnacle#underline('Normal')
 endfunction
 
