@@ -7,16 +7,14 @@ __sed() {
 }
 
 __grep() {
-  command grep -e "$1[0-9-]*" "$BUJO"
+  command grep -ne "$1[0-9-]*" "$BUJO"
 }
 
 __cat() {
-  command grep -v "\.[0-9-]*" "$BUJO"
+  command grep -nv "\.[0-9-]*" "$BUJO"
 }
 
 [[ -r "$BUJO" ]] || touch "$BUJO"
-
-[[ "$#" == 0 ]] && __cat && return 0
 
 if [[ "$1" ]]; then
   case "$1" in
@@ -32,7 +30,7 @@ if [[ "$1" ]]; then
           __grep '\.' | __sed '\.' | sort -g
           ;;
         [@:]* )
-          command grep -e "$2" "$BUJO"
+          command grep -ne "$2" "$BUJO"
           ;;
         all )
           cat "$BUJO"
@@ -43,10 +41,12 @@ if [[ "$1" ]]; then
       esac
       ;;
     e | edit )
-      $EDITOR $BUJO
+      (cd $NOTESDIR && $EDITOR $BUJO +"$2")
       ;;
     a | add )
       echo "${@:2}" >> "$BUJO"
       ;;
   esac
+else
+  bujo ls
 fi
