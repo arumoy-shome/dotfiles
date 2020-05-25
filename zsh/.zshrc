@@ -55,6 +55,7 @@ if [[ -d "$ZDOTDIR/pure" ]]; then
   fpath+="$ZDOTDIR/pure"
   autoload -U promptinit; promptinit
   prompt pure
+  zstyle :prompt:pure:git:stash show yes
 fi
 
 # Base16 Shell
