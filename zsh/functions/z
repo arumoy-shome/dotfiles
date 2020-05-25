@@ -1,0 +1,56 @@
+# vim:filetype=zsh
+
+[[ -d "$NOTESDIR/personal" ]] || command mkdir -p "$NOTESDIR/personal"
+local PROJECT="$NOTESDIR/$(basename $PWD)"
+[[ ! -d "$PROJECT" ]] && PROJECT="$NOTESDIR/personal"
+
+__grep() {
+  command grep -nR --color=auto "$1" "$PROJECT"
+  return
+}
+
+__cat() {
+  command grep -ne '^#\s' "$PROJECT/inbox.md"
+  return
+}
+
+while getopts ":p:clg:s:" arg; do
+  case $arg in
+    p)
+      if [[ "$OPTARG" == '*' ]]; then
+        PROJECT="$NOTESDIR"
+      elif [[ -n "$OPTARG" ]] && [[ -d "$NOTESDIR/$OPTARG" ]]; then
+        PROJECT="$NOTESDIR/$OPTARG"
+      fi
+
+      shift 2
+      ;;
+    c)
+      cflag=true
+      shift 1
+      ;;
+    l)
+      lflag=true
+      shift 1
+      ;;
+    g)
+      [[ -z "$OPTARG" ]] && continue
+      gflag=$OPTARG && shift 2
+      ;;
+    s)
+      [[ ! -r "$PROJECT/inbox.md" ]] && continue
+      sflag=true && shift 1
+      ;;
+  esac
+done
+
+[[ $cflag ]] && cd $PROJECT && return
+[[ $lflag ]] && ls $PROJECT && return
+[[ -n "$gflag" ]] && __grep $gflag && return
+[[ $sflag ]] && __cat && return
+
+if [[ $# -gt 0 ]]; then
+  (\cd $PROJECT && $EDITOR $@)
+else
+  (\cd $PROJECT && $EDITOR inbox.md)
+fi
