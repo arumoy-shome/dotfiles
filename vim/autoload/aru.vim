@@ -35,6 +35,16 @@ function! aru#spell() abort
   setlocal spelllang=en
 endfunction
 
+function! aru#pros() abort
+  setlocal textwidth=0      " do not hardwrap
+
+  " navigate by display lines since we softwrap
+  nmap <buffer> j gj
+  nmap <buffer> k gk
+
+  call aru#spell()
+endfunction
+
 function! aru#tabline() abort
   let s = ''
   for i in range(tabpagenr('$'))

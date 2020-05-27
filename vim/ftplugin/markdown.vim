@@ -1,2 +1,2 @@
 setlocal suffixesadd=.md
-call aru#spell()
+call aru#pros()

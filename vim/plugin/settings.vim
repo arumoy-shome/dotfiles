@@ -61,11 +61,10 @@ endif
 set foldlevelstart=99     " start unfolded, override per ft (or file using modeline)
 if has ('linebreak')
   set linebreak           " wrap long lines at characters in 'breakat'
+  set nobreakindent       " do not indent wrapped lines
+  let &showbreak='⤷ '     " DOWNWARDS ARROW THEN CURVING RIGHTWARDS (U+2937)
 endif
 set smarttab              " <tab>/<bs> indent/dedent in leading whitespace
-if has('linebreak')
-  let &showbreak='↳ '     " DOWNWARDS ARROW WITH TIP RIGHTWARDS (U+21B3, UTF-8: E2 86 B3)
-endif
 set formatoptions+=n      " options when formatting text
 set formatoptions+=1
 set formatoptions+=j

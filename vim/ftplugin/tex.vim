@@ -1,1 +1,1 @@
-call aru#spell()
+call aru#pros()
