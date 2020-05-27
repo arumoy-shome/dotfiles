@@ -24,16 +24,3 @@ nmap <C-w>gf <C-w>gF
 " somewhat destructive and relatively close to the oft-used <leader>a mapping,
 " make this one a double key-stroke.
 nmap <silent> <expr> <Leader>zz aru#mappings#leader#zap()
-
-""""""""""""
-"  insert  "
-""""""""""""
-
-imap <C-n> <C-n><C-p>
-imap <C-p> <C-p><C-p>
-imap <C-x><C-f> <C-x><C-f><C-p>
-imap <C-x><C-v> <C-x><C-v><C-p>
-imap <C-x><C-k> <C-x><C-k><C-p>
-imap <C-x><C-o> <C-x><C-o><C-p>
-imap <C-x><C-]> <C-x><C-]><C-p>
-
