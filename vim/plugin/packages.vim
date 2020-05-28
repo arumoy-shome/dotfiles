@@ -10,19 +10,6 @@ let g:LoupeCenterResults = 0     " do not center current match
 " 'shortmess'
 " 'smartcase'
 
-""""""""""""""""
-"  indentLine  "
-""""""""""""""""
-let g:indentLine_fileTypeExclude=[
-    \ 'help',
-    \ 'markdown',
-    \ 'pandoc',
-    \ 'tex',
-    \ 'man',
-    \ 'gitcommit',
-    \ 'nerdtree',
-    \ ]
-
 """""""""""""""
 "  Ultisnips  "
 """""""""""""""
@@ -85,3 +72,8 @@ nmap ga <Plug>(EasyAlign)
 """""""""""""""
 let g:slime_target = "tmux"
 let g:slime_default_config = {"socket_name": "default", "target_pane": "{last}"}
+
+"""""""""""
+"  ctrlp  "
+"""""""""""
+let g:ctrlp_show_hidden=1

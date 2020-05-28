@@ -1,6 +1,5 @@
 call plug#begin('~/.vim/bundle')
 Plug 'SirVer/ultisnips'        " ultimate snippet solution for vim
-Plug 'Yggdroot/indentLine'     " display the indentation level with thin vertical lines
 Plug 'chriskempson/base16-vim' " base16 for vim
 Plug 'ctrlpvim/ctrlp.vim'      " active fork of kien/ctrlp.vim
 Plug 'janko/vim-test'          " run tests at the speed of thought
