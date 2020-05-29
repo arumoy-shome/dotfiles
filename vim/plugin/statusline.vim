@@ -15,6 +15,8 @@ set statusline=\ %m\ %2*%f%*%<%=%y%r\ %l:%L:%P\
 augroup AruStatusline
   autocmd!
   autocmd ColorScheme * call aru#statusline_update_highlight()
+  autocmd FocusLost,WinLeave * call aru#blur_statusline()
+  autocmd BufEnter,FocusGained,VimEnter,WinEnter * call aru#focus_statusline()
 augroup END
 
 set tabline=%!aru#tabline()

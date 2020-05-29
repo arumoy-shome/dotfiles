@@ -3,7 +3,16 @@ function! aru#zap() abort
 endfunction
 
 function! aru#statusline_update_highlight() abort
-  execute 'highlight User2 ' . pinnacle#italicize('StatusLine')
+  execute 'highlight User2 ' . pinnacle#decorate('italic,bold', 'StatusLine')
+endfunction
+
+function! aru#blur_statusline() abort
+  setlocal statusline=\ %m\ %2*%f%*%<
+endfunction
+
+function! aru#focus_statusline() abort
+  " revert to global statusline
+  setlocal statusline=
 endfunction
 
 function! aru#colorscheme_update_highlight() abort
