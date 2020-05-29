@@ -4,15 +4,61 @@ endfunction
 
 function! aru#statusline_update_highlight() abort
   execute 'highlight User2 ' . pinnacle#decorate('italic,bold', 'StatusLine')
+  execute 'highlight User3 ' . pinnacle#italicize('StatusLine')
+
+  let l:bg=pinnacle#extract_bg('StatusLine')
+  let l:fg=pinnacle#extract_fg('ModeMsg')
+  let l:flag_fg=pinnacle#extract_fg('Identifier')
+
+  if &modified
+    execute 'highlight User1 ' . pinnacle#highlight({'fg': l:flag_fg, 'bg': l:bg})
+  else
+    execute 'highlight User1 ' . pinnacle#highlight({'fg': l:fg, 'bg': l:bg})
+  endif
+
+  if &readonly
+    execute 'highlight User4 ' . pinnacle#highlight({'fg': l:flag_fg, 'bg': l:bg})
+  else
+    execute 'highlight User4 ' . pinnacle#highlight({'fg': l:fg, 'bg': l:bg})
+  endif
+
+  highlight clear StatusLineNC
+  highlight link StatusLineNC User3
+endfunction
+
+function! aru#statusline_fileprefix() abort
+  let l:basename=expand('%:h')
+  if l:basename ==# '' || l:basename ==# '.'
+    return ''
+  elseif has('modify_fname')
+    " Make sure we show $HOME as ~.
+    return substitute(fnamemodify(l:basename, ':~:.'), '/$', '', '') . '/'
+  else
+    " Make sure we show $HOME as ~.
+    return substitute(l:basename . '/', '\C^' . $HOME, '~', '')
+  endif
 endfunction
 
 function! aru#blur_statusline() abort
-  setlocal statusline=\ %m\ %2*%f%*%<
+  setlocal statusline=\ %<%f%=
 endfunction
 
 function! aru#focus_statusline() abort
   " revert to global statusline
   setlocal statusline=
+endfunction
+
+function! aru#statusline_ft() abort
+  let l:ft = strlen(&ft) ? ',' . &ft : ''
+  return l:ft
+endfunction
+
+function! aru#statusline_fenc() abort
+  if strlen(&fenc) && &fenc !=# 'utf-8'
+    return ',' . &fenc
+  else
+    return ''
+  endif
 endfunction
 
 function! aru#colorscheme_update_highlight() abort
@@ -21,8 +67,11 @@ function! aru#colorscheme_update_highlight() abort
   highlight clear CursorLineNr " cleaner CursorLineNr
   highlight link CursorLineNr LineNr
   highlight clear SpellBad
+  execute 'highlight SpellBad ' . pinnacle#underline('Constant')
+  highlight clear SpellCap
+  execute 'highlight SpellCap ' . pinnacle#underline('Special')
   highlight clear SpellRare
-  execute 'highlight SpellBad ' . pinnacle#underline('Normal')
+  execute 'highlight Comment ' . pinnacle#italicize('Comment')
 endfunction
 
 function aru#colorscheme() abort

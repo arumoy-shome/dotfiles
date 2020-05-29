@@ -1,20 +1,26 @@
-" \  :  literal <space>
-" %m :  modified flag
-" %2*:  switch to User2 highlight
-" %f :  file name relative to CWD
-" %* :  reset highlight group
-" %< :  truncate point
-" %= :  right align items hence forth
-" %y :  filetype
-" %r :  readonly flag
-" %l :  line number
-" %L :  total lines in buffer
-" %P :  percentage and position in buffer
-set statusline=\ %m\ %2*%f%*%<%=%y%r\ %l:%L:%P\ 
+set statusline+=%1*
+set statusline+=
+set statusline+=%*
+set statusline+=\ 
+set statusline+=%<
+set statusline+=%{aru#statusline_fileprefix()}
+set statusline+=%2*
+set statusline+=%t
+set statusline+=%*
+set statusline+=%=
+set statusline+=%3*
+set statusline+=%([%{aru#statusline_ft()}%{aru#statusline_fenc()}]%)
+set statusline+=%*
+set statusline+=\ 
+set statusline+=%l:%L:%P
+set statusline+=\ 
+set statusline+=%4*
+set statusline+=
+set statusline+=%*
 
 augroup AruStatusline
   autocmd!
-  autocmd ColorScheme * call aru#statusline_update_highlight()
+  autocmd ColorScheme,BufWinEnter,BufWritePost,FileWritePost,TextChanged,TextChangedI,WinEnter * call aru#statusline_update_highlight()
   autocmd FocusLost,WinLeave * call aru#blur_statusline()
   autocmd BufEnter,FocusGained,VimEnter,WinEnter * call aru#focus_statusline()
 augroup END
