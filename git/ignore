@@ -1,3 +1,4 @@
+# global
 .DS_Store
 *.sw[nop]
 .bundle
@@ -6,13 +7,40 @@
 db/*.sqlite3
 log/*.log
 rerun.txt
-tags
-!tags/
 tmp/**/*
 !tmp/cache/.keep
+
+# python
 *.pyc
+
+# javascript
+node_modules/
+
+# emacs
 todo.org
 *.org_archive
-node_modules/
+
+# vim
 .projections.json
-.vscode
+
+# tags (by etags, ctags, gtags)
+TAGS
+.TAGS
+!TAGS/
+tags
+.tags
+!tags/
+gtags.files
+GTAGS
+GRTAGS
+GPATH
+GSYMS
+
+# vscode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+.history/
