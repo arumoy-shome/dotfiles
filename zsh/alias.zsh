@@ -26,4 +26,4 @@ fi
 #
 
 # "foo.md" to open Markdown files in "Marked 2.app"
-alias -s md='open -a "Marked 2.app"'
+alias -s md='open -a "iA Writer.app"'
