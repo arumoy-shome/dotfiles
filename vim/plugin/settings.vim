@@ -40,7 +40,6 @@ set shiftround            " always indent by multiple of shiftwidth
 set splitbelow            " horizontal splits open below
 set splitright            " vertical splits open right
 set switchbuf=usetab      " reuse windows/tabs when switching buffers
-set synmaxcol=200         " do not syntax highlight long lines
 set textwidth=78          " hardwrap lines at 78 characters by default, override in ftplugin/
 set wildignore=*.o        " patterns to ignore while file navigation
 set wildignore+=*.obj
@@ -62,7 +61,6 @@ set foldlevelstart=99     " start unfolded, override per ft (or file using model
 if has ('linebreak')
   set linebreak           " wrap long lines at characters in 'breakat'
   set nobreakindent       " do not indent wrapped lines
-  let &showbreak='⤷ '     " DOWNWARDS ARROW THEN CURVING RIGHTWARDS (U+2937)
 endif
 set smarttab              " <tab>/<bs> indent/dedent in leading whitespace
 set formatoptions+=n      " options when formatting text

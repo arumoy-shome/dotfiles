@@ -26,6 +26,15 @@ function! aru#statusline_update_highlight() abort
   highlight link StatusLineNC User3
 endfunction
 
+function! aru#statusline_wrap() abort
+  let l:tw = &tw
+  if l:tw == 0
+    return '⤷ '
+  else
+    return '¬'
+  endif
+endfunction
+
 function! aru#statusline_fileprefix() abort
   let l:basename=expand('%:h')
   if l:basename ==# '' || l:basename ==# '.'
