@@ -67,7 +67,6 @@ set formatoptions+=n      " options when formatting text
 set formatoptions+=1
 set formatoptions+=j
 set formatoptions+=p
-set shell=sh              " shell to use for `!`, `:!` and `system()`
 set modelineexpr          " allow expressions to be set in modeline
 if has('conceal')
   set concealcursor=i     " use `V` (linewise-visual) to see concealed characters
