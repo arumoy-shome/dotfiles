@@ -77,3 +77,4 @@ let g:slime_default_config = {"socket_name": "default", "target_pane": "{last}"}
 "  ctrlp  "
 """""""""""
 let g:ctrlp_show_hidden=1
+nmap <leader>b :CtrlPBuffer<CR>

@@ -65,6 +65,10 @@ alias grep='grep -inE --color=auto'
 alias b='brew'
 alias bc='brew cask'
 
+alias py='python3'              # use \python to get python2
+alias python='python3'
+alias jp='jupyter'
+
 #################
 #  completions  #
 #################
@@ -76,6 +80,12 @@ alias bc='brew cask'
 
 [[ -r /usr/local/etc/bash_completion.d/tmux ]] && \
     source /usr/local/etc/bash_completion.d/tmux
+
+[[ -r /usr/local/etc/bash_completion.d/brew ]] && \
+    source /usr/local/etc/bash_completion.d/brew
+
+[[ -r /usr/local/etc/bash_completion.d/brew-service ]] && \
+    source /usr/local/etc/bash_completion.d/brew-service
 
 ############
 #  prompt  #

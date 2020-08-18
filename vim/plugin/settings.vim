@@ -47,6 +47,8 @@ set wildignore+=*.rbc
 set wildignore+=*.pyc
 set wildignore+=__pycache__
 set wildignore+=.git
+set wildignore+=node_modules
+set wildignore+=venv
 if has('wildmenu')
   set wildmenu            " enhanced command line completion with <Tab>
 endif
@@ -57,6 +59,7 @@ if has('folding')
   set fillchars+=fold:·   " MIDDLE DOT (U+00B7, UTF-8: C2 B7)
   set fillchars+=vert:┆   " from Yggdroot/indentLine
 endif
+set foldmethod=syntax
 set foldlevelstart=99     " start unfolded, override per ft (or file using modeline)
 if has ('linebreak')
   set linebreak           " wrap long lines at characters in 'breakat'
