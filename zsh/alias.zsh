@@ -9,17 +9,11 @@ alias help=run-help
 # Pretty print the path
 alias path='echo $PATH | tr -s ":" "\n"'
 
-# Python
-(( $+commands[python3] )) && alias py="python3"
-
 # Brew
 if (( $+commands[brew] )); then
   alias b="brew"
   alias bc="brew cask"
 fi
-
-# nvim
-(( $+commands[nvim] )) && alias vim="nvim" # use \vim or command vim to get real vim
 
 #
 # Suffix aliases

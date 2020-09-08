@@ -79,10 +79,11 @@ endif
 if has('cmdline_info')
   set ruler               " show line and column number
 endif
-set tags+=./.git/tags     " read tags file inside .git directory
-set ignorecase            " case insensitive search
-set smartcase             " unless case present in search
-set infercase             " adjust case during ins-completion
+set tags+=./.git/tags " read tags file inside .git directory
+set ignorecase        " case insensitive search
+set smartcase         " unless case present in search
+set infercase         " adjust case during ins-completion
+set path=.,,**        " search relative to file, cwd and recursively
 
 " indent by 2 spaces by default, later overriden by vim-sleuth
 set expandtab      " use spaces instead of tabs
