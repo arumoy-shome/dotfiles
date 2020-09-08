@@ -60,7 +60,7 @@ alias rm='rm -iv'
 # h: with `l`, use unit siffixes for file size
 # T: with `l`, display complete time info
 alias ls='ls -FA'
-alias ll='ls -FAl@hT'
+alias ll='ls -FAlhT'
 
 # E: use extended regex
 # i: case insensitive
