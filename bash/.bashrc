@@ -42,6 +42,11 @@ export CLICOLOR=true
 #  alias  #
 ###########
 
+###########
+#  path  #
+###########
+export PATH="/usr/local/opt/python@3.8/libexec/bin:$PATH"
+
 # safer defaults for cp, mv and rm
 # verbose output and ask for confirmation if existing file is affected
 alias cp='cp -iv'
@@ -65,9 +70,9 @@ alias grep='grep -inE --color=auto'
 alias b='brew'
 alias bc='brew cask'
 
-alias py='python3'              # use \python to get python2
-alias python='python3'
 alias jp='jupyter'
+
+alias g='git'
 
 #################
 #  completions  #

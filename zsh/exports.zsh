@@ -42,3 +42,25 @@ export LESS_TERMCAP_us=$'\E[04;38;5;111m'
 export CLICOLOR=true
 
 export GPG_TTY=$(tty)
+
+#
+# Path
+#
+
+SYSTEM_PATH=$PATH
+unset PATH
+
+if [[ -d "/usr/local/opt/ruby/bin" ]]; then
+  PATH="/usr/local/opt/ruby/bin"
+fi
+if [[ -d "/usr/local/lib/ruby/gems/2.7.0/bin" ]]; then
+  PATH="$PATH:/usr/local/lib/ruby/gems/2.7.0/bin"
+fi
+if [[ -d "/usr/local/opt/python@3.8/libexec/bin" ]]; then
+  PATH="$PATH:/usr/local/opt/python@3.8/libexec/bin"
+fi
+if [[ -d "/usr/local/opt/coreutils/libexec/gnubin" ]]; then
+  PATH="$PATH:/usr/local/opt/coreutils/libexec/gnubin"
+fi
+PATH="$PATH:$SYSTEM_PATH"
+export PATH
