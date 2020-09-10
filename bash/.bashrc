@@ -39,13 +39,13 @@ export LESS=iFMRX
 export CLICOLOR=true
 
 ###########
-#  alias  #
-###########
-
-###########
 #  path  #
 ###########
 export PATH="/usr/local/opt/python@3.8/libexec/bin:$PATH"
+
+###########
+#  alias  #
+###########
 
 # safer defaults for cp, mv and rm
 # verbose output and ask for confirmation if existing file is affected

@@ -11,7 +11,9 @@
   ui = true
   status = true
 [alias]
+  s = status
   b = branch
+  l = log --oneline --graph
   bd = branch -d
   co = checkout
   cof = checkout --
