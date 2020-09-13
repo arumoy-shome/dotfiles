@@ -59,8 +59,8 @@ if has('folding')
   set fillchars+=fold:·   " MIDDLE DOT (U+00B7, UTF-8: C2 B7)
   set fillchars+=vert:┆   " from Yggdroot/indentLine
 endif
-set foldmethod=syntax
-set foldlevelstart=99     " start unfolded, override per ft (or file using modeline)
+set foldmethod=indent
+set foldlevelstart=1     " start unfolded, override per ft (or file using modeline)
 if has ('linebreak')
   set linebreak           " wrap long lines at characters in 'breakat'
   set nobreakindent       " do not indent wrapped lines
