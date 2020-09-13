@@ -39,11 +39,6 @@ export LESS=iFMRX
 export CLICOLOR=true
 
 ###########
-#  path  #
-###########
-export PATH="/usr/local/opt/python@3.8/libexec/bin:$PATH"
-
-###########
 #  alias  #
 ###########
 

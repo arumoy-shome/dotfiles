@@ -21,10 +21,6 @@ zstyle -e ':completion:*' special-dirs '[[ $PREFIX = (../)#(..) ]] && reply=(..)
 # they will only be used as a fallback if no completions are found.
 zstyle ':completion:*:complete:(cd|pushd):*' tag-order 'local-directories named-directories'
 
-# Categorize completion suggestions with headings:
-zstyle ':completion:*' group-name ''
-zstyle ':completion:*:descriptions' format %F{default}%B%{$__ARU[ITALIC_ON]%}--- %d ---%{$__ARU[ITALIC_OFF]%}%b%f
-
 # Enable keyboard navigation of completions in menu
 # (not just tab/shift-tab but cursor keys as well):
 zstyle ':completion:*' menu select
