@@ -3,10 +3,10 @@ function! aru#zap() abort
 endfunction
 
 function! aru#statusline_update_highlight() abort
-  execute 'highlight User2 ' . pinnacle#decorate('italic,bold', 'StatusLine')
-  execute 'highlight User3 ' . pinnacle#italicize('StatusLine')
+  execute 'highlight User2 ' . pinnacle#decorate('italic,bold', 'ColorColumn')
+  execute 'highlight User3 ' . pinnacle#italicize('ColorColumn')
 
-  let l:bg=pinnacle#extract_bg('StatusLine')
+  let l:bg=pinnacle#extract_bg('ColorColumn')
   let l:fg=pinnacle#extract_fg('ModeMsg')
   let l:flag_fg=pinnacle#extract_fg('Identifier')
 
@@ -22,6 +22,8 @@ function! aru#statusline_update_highlight() abort
     execute 'highlight User4 ' . pinnacle#highlight({'fg': l:fg, 'bg': l:bg})
   endif
 
+  highlight clear StatusLine
+  highlight link Statusline ColorColumn
   highlight clear StatusLineNC
   highlight link StatusLineNC User3
 endfunction
