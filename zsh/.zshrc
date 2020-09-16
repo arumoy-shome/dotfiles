@@ -61,48 +61,48 @@ autoload -U colors && colors
 
 # Display the user@hostname. Then change the color and display the
 # working directory.
-radian_prompt_prefix='%{$fg[yellow]%}{%n@%m} %(?.%{$fg[blue]%}.%{$fg[red]%})%c'
+aru_prompt_prefix='%{$fg[yellow]%}{%n@%m} %(?.%{$fg[blue]%}.%{$fg[red]%})%c'
 
 # Change the color and then display a '%' or '#', then reset the color
 # for the user's input.
-radian_prompt_suffix='%(?.%{$fg[blue]%}.%{$fg[red]%}) %# %{$reset_color%}'
+aru_prompt_suffix='%(?.%{$fg[blue]%}.%{$fg[red]%}) %# %{$reset_color%}'
 
 PROMPT=
 
 if (( $+commands[git] )); then
 
-    # Usage: radian_prompt_git_dirty
+    # Usage: aru_prompt_git_dirty
     #
     # Print an asterisk if the working directory is dirty.
-    function radian_prompt_git_dirty {
+    function aru_prompt_git_dirty {
         emulate -LR zsh
         if [[ $(command git status --porcelain 2>/dev/null | tail -n1) ]]; then
             echo "*"
         fi
     }
 
-    # Usage: radian_prompt_git_info
+    # Usage: aru_prompt_git_info
     #
     # If inside a Git repository, print the branch or abbreviated
     # revision of the current HEAD, surrounded by square brackets and
     # followed by an asterisk if the working directory is dirty.
-    function radian_prompt_git_info {
+    function aru_prompt_git_info {
         emulate -LR zsh
         local ref
         ref=$(command git symbolic-ref HEAD 2> /dev/null) || \
             ref=$(command git rev-parse --short HEAD 2> /dev/null) || \
             return 0
-        echo "[${ref#refs/heads/}$(radian_prompt_git_dirty)]"
+        echo "[${ref#refs/heads/}$(aru_prompt_git_dirty)]"
     }
 
     # Reset the color and display the Git branch and modification
     # status.
-    PROMPT='%{$reset_color%}$(radian_prompt_git_info)'
+    PROMPT='%{$reset_color%}$(aru_prompt_git_info)'
 
 fi
 
-PROMPT="${radian_prompt_prefix}${PROMPT}"
-PROMPT="${PROMPT}${radian_prompt_suffix}"
+PROMPT="${aru_prompt_prefix}${PROMPT}"
+PROMPT="${PROMPT}${aru_prompt_suffix}"
 
 # Base16 Shell (only when not in emacs)
 [[ -r "$XDG_DATA_HOME/base16/current-theme.sh" ]] && \

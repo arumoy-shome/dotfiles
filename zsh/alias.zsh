@@ -19,6 +19,6 @@ fi
 # Suffix aliases
 #
 
-# "foo.md" to open Markdown files in "Marked 2.app"
 alias -s md='open -a "iA Writer.app"'
 alias -s pdf='open -a "PDF Expert.app"'
+alias -s html='open -a "Google Chrome.app"'
