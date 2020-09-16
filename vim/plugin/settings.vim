@@ -45,10 +45,10 @@ set wildignore=*.o        " patterns to ignore while file navigation
 set wildignore+=*.obj
 set wildignore+=*.rbc
 set wildignore+=*.pyc
-set wildignore+=__pycache__
+set wildignore+=*/__pycache__/
 set wildignore+=.git
-set wildignore+=node_modules
-set wildignore+=venv
+set wildignore+=*/node_modules/*
+set wildignore+=*/venv/*
 if has('wildmenu')
   set wildmenu            " enhanced command line completion with <Tab>
 endif
@@ -83,7 +83,7 @@ set tags+=./.git/tags " read tags file inside .git directory
 set ignorecase        " case insensitive search
 set smartcase         " unless case present in search
 set infercase         " adjust case during ins-completion
-set path=.,,**        " search relative to file, cwd and recursively
+set path=.,**        " search relative to file, cwd and recursively
 
 " indent by 2 spaces by default, later overriden by vim-sleuth
 set expandtab      " use spaces instead of tabs
