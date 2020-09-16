@@ -60,7 +60,7 @@ if has('folding')
   set fillchars+=vert:┆   " from Yggdroot/indentLine
 endif
 set foldmethod=indent
-set foldlevelstart=1     " start unfolded, override per ft (or file using modeline)
+set foldlevelstart=1      " start unfolded, override per ft (or file using modeline)
 if has ('linebreak')
   set linebreak           " wrap long lines at characters in 'breakat'
   set nobreakindent       " do not indent wrapped lines
@@ -79,11 +79,12 @@ endif
 if has('cmdline_info')
   set ruler               " show line and column number
 endif
-set tags+=./.git/tags " read tags file inside .git directory
-set ignorecase        " case insensitive search
-set smartcase         " unless case present in search
-set infercase         " adjust case during ins-completion
-set path=.,**        " search relative to file, cwd and recursively
+set tags+=./.git/tags     " read tags file inside .git directory
+set ignorecase            " case insensitive search
+set smartcase             " unless case present in search
+set infercase             " adjust case during ins-completion
+set path=.,**             " search relative to file, cwd and recursively
+set cursorline            " highlight the current line
 
 " indent by 2 spaces by default, later overriden by vim-sleuth
 set expandtab      " use spaces instead of tabs
