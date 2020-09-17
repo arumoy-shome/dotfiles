@@ -1,4 +1,15 @@
 #
+# Global
+#
+
+# Create a hash table for globally stashing variables without polluting main
+# scope with a bunch of identifiers.
+typeset -A __ARU
+
+__ARU[ITALIC_ON]=$'\e[3m'
+__ARU[ITALIC_OFF]=$'\e[23m'
+
+#
 # Config
 #
 
@@ -41,68 +52,15 @@ unalias run-help && autoload -U run-help
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=59'
 
 #
-# prompt (stolen from radox502/radian)
+# prompt
 #
 
-# Enable parameter expansion and other substitutions in the $PROMPT.
-setopt prompt_subst
-
-# Load some associative arrays (color, fg, and bg) that give us
-# convenient access to color-changing escape codes.
-autoload -U colors && colors
-
-# Here we define a prompt that displays the current directory and git
-# branch, and turns red on a nonzero exit code. Adapted heavily from
-# [1], with supporting functions extracted from Oh My Zsh [2] so that
-# we don't have to load the latter as a dependency.
-#
-# [1]: https://github.com/robbyrussell/oh-my-zsh/blob/master/themes/mgutz.zsh-theme
-# [2]: https://github.com/robbyrussell/oh-my-zsh/blob/3705d47bb3f3229234cba992320eadc97a221caf/lib/git.zsh
-
-# Display the user@hostname. Then change the color and display the
-# working directory.
-aru_prompt_prefix='%{$fg[yellow]%}{%n@%m} %(?.%{$fg[blue]%}.%{$fg[red]%})%c'
-
-# Change the color and then display a '%' or '#', then reset the color
-# for the user's input.
-aru_prompt_suffix='%(?.%{$fg[blue]%}.%{$fg[red]%}) %# %{$reset_color%}'
-
-PROMPT=
-
-if (( $+commands[git] )); then
-
-    # Usage: aru_prompt_git_dirty
-    #
-    # Print an asterisk if the working directory is dirty.
-    function aru_prompt_git_dirty {
-        emulate -LR zsh
-        if [[ $(command git status --porcelain 2>/dev/null | tail -n1) ]]; then
-            echo "*"
-        fi
-    }
-
-    # Usage: aru_prompt_git_info
-    #
-    # If inside a Git repository, print the branch or abbreviated
-    # revision of the current HEAD, surrounded by square brackets and
-    # followed by an asterisk if the working directory is dirty.
-    function aru_prompt_git_info {
-        emulate -LR zsh
-        local ref
-        ref=$(command git symbolic-ref HEAD 2> /dev/null) || \
-            ref=$(command git rev-parse --short HEAD 2> /dev/null) || \
-            return 0
-        echo "[${ref#refs/heads/}$(aru_prompt_git_dirty)]"
-    }
-
-    # Reset the color and display the Git branch and modification
-    # status.
-    PROMPT='%{$reset_color%}$(aru_prompt_git_info)'
-
+if [[ -d "$ZDOTDIR/pure" ]]; then
+  fpath+="$ZDOTDIR/pure"
+  autoload -U promptinit; promptinit
+  prompt pure
+  zstyle :prompt:pure:git:stash show yes
 fi
-
-PROMPT="${aru_prompt_prefix}${PROMPT}"
-PROMPT="${PROMPT}${aru_prompt_suffix}"
 
 # Base16 Shell (only when not in emacs)
 [[ -r "$XDG_DATA_HOME/base16/current-theme.sh" ]] && \

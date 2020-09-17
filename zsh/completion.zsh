@@ -16,6 +16,10 @@ zstyle ':completion:*' list-colors ''
 # Allow completion of ..<Tab> to ../ and beyond.
 zstyle -e ':completion:*' special-dirs '[[ $PREFIX = (../)#(..) ]] && reply=(..)'
 
+# Categorize completion suggestions with headings:
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*:descriptions' format %F{default}%B%{$__ARU[ITALIC_ON]%}--- %d ---%{$__ARU[ITALIC_OFF]%}%b%f
+
 # $CDPATH is overpowered (can allow us to jump to 100s of directories) so tends
 # to dominate completion; exclude path-directories from the tag-order so that
 # they will only be used as a fallback if no completions are found.
