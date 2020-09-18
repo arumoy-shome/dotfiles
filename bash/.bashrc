@@ -68,6 +68,7 @@ alias bc='brew cask'
 alias jp='jupyter'
 
 alias g='git'
+alias e='emacsclient -n'
 
 #################
 #  completions  #

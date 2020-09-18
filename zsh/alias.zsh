@@ -5,6 +5,7 @@ alias ln="ln -v"
 alias mkdir="mkdir -p"
 alias v="$EDITOR" #nvim when available else vim (see $ZDOTDIR/exports)
 alias help=run-help
+alias e="emacsclient -n"
 
 # Pretty print the path
 alias path='echo $PATH | tr -s ":" "\n"'
