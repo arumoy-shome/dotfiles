@@ -54,6 +54,14 @@ function! aru#blur_statusline() abort
   setlocal statusline=\ %<%f%=
 endfunction
 
+function! aru#blur_window() abort
+  setlocal nocursorline
+endfunction
+
+function! aru#focus_window() abort
+  setlocal cursorline
+endfunction
+
 function! aru#focus_statusline() abort
   " revert to global statusline
   setlocal statusline=
