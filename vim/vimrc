@@ -1,4 +1,6 @@
 call plug#begin('~/.vim/bundle')
+Plug 'vim-pandoc/vim-pandoc'
+Plug 'vim-pandoc/vim-pandoc-syntax'
 Plug 'SirVer/ultisnips'        " ultimate snippet solution for vim
 Plug 'chriskempson/base16-vim' " base16 for vim
 Plug 'junegunn/vim-easy-align' " a vim alignment plugin

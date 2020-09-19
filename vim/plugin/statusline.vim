@@ -24,7 +24,7 @@ augroup AruStatusline
   autocmd!
   autocmd ColorScheme,BufWinEnter,BufWritePost,FileWritePost,TextChanged,TextChangedI,WinEnter * call aru#statusline_update_highlight()
   autocmd FocusLost,WinLeave * call aru#blur_statusline()
-  autocmd BufEnter,FocusGained,VimEnter,WinEnter * call aru#focus_statusline()
+  autocmd BufEnter,BufWinEnter,FocusGained,VimEnter,WinEnter * call aru#focus_statusline()
 augroup END
 
 set tabline=%!aru#tabline()

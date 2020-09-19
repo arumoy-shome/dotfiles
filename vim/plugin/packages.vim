@@ -78,3 +78,13 @@ let g:slime_default_config = {"socket_name": "default", "target_pane": "{last}"}
 """""""""""
 let g:ctrlp_show_hidden=1
 nmap <leader>b :CtrlPBuffer<CR>
+
+""""""""""""""""
+"  vim-pandoc  "
+""""""""""""""""
+let g:pandoc#formatting#mode = 'hA' " use hard wraps and smart auto-formatting
+
+"""""""""""""""""""""""
+"  vim-pandoc-syntax  "
+"""""""""""""""""""""""
+let g:pandoc#syntax#conceal#use = 0 " do not use conceal

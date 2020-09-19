@@ -113,8 +113,6 @@ function! aru#spell() abort
 endfunction
 
 function! aru#pros() abort
-  setlocal textwidth=0      " do not hardwrap
-
   " navigate by display lines since we softwrap
   nmap <buffer> j gj
   nmap <buffer> k gk

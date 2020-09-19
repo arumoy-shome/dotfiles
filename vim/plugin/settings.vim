@@ -35,7 +35,6 @@ set nojoinspaces          " insert one space when joining spaces
 set noswapfile            " do not create root owned files
 set sidescrolloff=3       " same as scrolloff, but for columns
 set scrolloff=3           " start scrolling 3 lines before edge of viewport
-set shell=sh              " shell to use for `!`, `:!`, `system()` etc.
 set shiftround            " always indent by multiple of shiftwidth
 set splitbelow            " horizontal splits open below
 set splitright            " vertical splits open right
