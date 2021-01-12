@@ -36,8 +36,9 @@ export SAVEHIST=$HISTSIZE
 # Others
 #
 
-# an alternative to looking up man pages for zsh builtins (similar to fish's help) from man zshcontrib(1)@56
-# it is unaliased first since run-help is usually symlinked to man on most unix systems
+# an alternative to looking up man pages for zsh builtins (similar to fish's
+# help) from man zshcontrib(1)@56 it is unaliased first since run-help is
+# usually symlinked to man on most unix systems
 unalias run-help && autoload -U run-help
 
 #
