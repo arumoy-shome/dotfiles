@@ -1,25 +1,27 @@
 call plug#begin('~/.vim/bundle')
+Plug 'SirVer/ultisnips'
+Plug 'chriskempson/base16-vim'
+Plug 'junegunn/vim-easy-align'
+Plug 'junegunn/vim-plug'
+Plug 'lervag/vimtex'
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-apathy'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-projectionist'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-rsi'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-vinegar'
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-pandoc/vim-pandoc-syntax'
-Plug 'SirVer/ultisnips'        " ultimate snippet solution for vim
-Plug 'chriskempson/base16-vim' " base16 for vim
-Plug 'junegunn/vim-easy-align' " a vim alignment plugin
-Plug 'junegunn/vim-plug'       " minimalist vim plugin manager
-Plug 'lervag/vimtex'           " a modern vim plugin for editing latex files
-Plug 'tpope/vim-abolish'       " easily search/substitute/abbreviate variants of a word
-Plug 'tpope/vim-commentary'    " comment stuff out
-Plug 'tpope/vim-dispatch'      " asynchronous build and test dispatcher
-Plug 'tpope/vim-endwise'       " wisely add 'end/endfunction/endif' and more
-Plug 'tpope/vim-eunuch'        " helpers for unix
-Plug 'tpope/vim-fugitive'      " a git wrapper so awesome it should be illegal
-Plug 'tpope/vim-repeat'        " enable repeating supported plugin maps with '.'
-Plug 'tpope/vim-rsi'           " readline style insertion
-Plug 'tpope/vim-surround'      " quoting/parenthesizing made simple
-Plug 'tpope/vim-unimpaired'    " pairs of handy bracket mappings
-Plug 'tpope/vim-vinegar'       " combine with netrw to create a delicious salad dressing
-Plug 'wincent/loupe'           " enhanced in file search for vim
-Plug 'wincent/pinnacle'        " highlight group manipulation for vim
-Plug 'wincent/terminus'        " enhanced terminal integration with vim
+Plug 'wincent/loupe'
+Plug 'wincent/pinnacle'
+Plug 'wincent/terminus'
 call plug#end()
 
 " vim-plug handles the following, kept here for reference

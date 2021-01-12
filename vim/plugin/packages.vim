@@ -59,6 +59,7 @@ let test#strategy = "dispatch"
 """"""""""""
 let g:tex_flavor = 'latex'
 let g:vimtex_quickfix_mode = 0
+let g:vimtex_fold_enabled = 1
 
 """"""""""""""""""""
 "  vim-easy-align  "
@@ -83,6 +84,7 @@ nmap <leader>b :CtrlPBuffer<CR>
 "  vim-pandoc  "
 """"""""""""""""
 let g:pandoc#formatting#mode = 'hA' " use hard wraps and smart auto-formatting
+let g:pandoc#folding#fdc = 0 " do not enable foldcolumn
 
 """""""""""""""""""""""
 "  vim-pandoc-syntax  "
