@@ -84,7 +84,6 @@ set smartcase             " unless case present in search
 set infercase             " adjust case during ins-completion
 set path=.,**             " search relative to file, cwd and recursively
 set cursorline            " highlight the current line
-set spell
 
 " indent by 2 spaces by default, later overriden by vim-sleuth
 set expandtab      " use spaces instead of tabs
