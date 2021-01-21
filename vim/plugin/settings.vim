@@ -39,7 +39,7 @@ set shiftround            " always indent by multiple of shiftwidth
 set splitbelow            " horizontal splits open below
 set splitright            " vertical splits open right
 set switchbuf=usetab      " reuse windows/tabs when switching buffers
-set textwidth=78          " hardwrap lines at 78 characters by default, override in ftplugin/
+set textwidth=75          " hardwrap lines at 75 characters by default, override in ftplugin/
 set wildignore=*.o        " patterns to ignore while file navigation
 set wildignore+=*.obj
 set wildignore+=*.rbc
