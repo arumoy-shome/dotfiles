@@ -41,8 +41,8 @@ export GPG_TTY=$(tty)
 SYSTEM_PATH=$PATH
 unset PATH
 
-if [[ -d "/usr/local/opt/ruby/bin" ]]; then
-  PATH="/usr/local/opt/ruby/bin"
+if [[ -d "/usr/local/opt/ruby@2.7/bin" ]]; then
+  PATH="/usr/local/opt/ruby@2.7/bin"
 fi
 if [[ -d "/usr/local/lib/ruby/gems/2.7.0/bin" ]]; then
   PATH="$PATH:/usr/local/lib/ruby/gems/2.7.0/bin"
