@@ -19,8 +19,6 @@ set backspace=indent      " allow backspacing over autoindent
 set backspace+=start      " allow backspaceing over the start of insert
 set backspace+=eol        " allow backspacing over line breaks
 set clipboard+=unnamed    " always use the * register for yank/put/delete
-set number                " show line number
-set relativenumber        " show relative line number
 set autoindent            " copy indent from previous line for new line
 set autowrite             " auto write buffers when jumping
 set list                  " show whitespace
