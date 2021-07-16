@@ -10,12 +10,6 @@ __ARU[ITALIC_ON]=$'\e[3m'
 __ARU[ITALIC_OFF]=$'\e[23m'
 
 #
-# Config
-#
-
-for f in $ZDOTDIR/*.zsh; do source $f; done
-
-#
 # Autoloads
 #
 
@@ -67,6 +61,17 @@ fi
 [[ -r "$XDG_DATA_HOME/base16/current-theme.sh" ]] && \
     [[ $TERM != "eterm-color" ]] && \
     sh "$XDG_DATA_HOME/base16/current-theme.sh"
+
+#
+# Config
+#
+
+source $ZDOTDIR/bindings.zsh
+source $ZDOTDIR/completion.zsh
+source $ZDOTDIR/options.zsh
+source $ZDOTDIR/exports.zsh
+source $ZDOTDIR/alias.zsh
+source $ZDOTDIR/prompt.zsh
 
 #
 # hooks

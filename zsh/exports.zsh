@@ -6,7 +6,7 @@ export PAGER=less
 # Editor
 #
 
-export EDITOR=$(which vim)
+export EDITOR=$(which nvim)
 export VISUAL=$EDITOR
 
 # filename (if known), line number if known, falling back to percent if known,
