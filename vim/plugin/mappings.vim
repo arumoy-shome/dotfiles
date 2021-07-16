@@ -6,7 +6,8 @@ nmap <C-h> <C-w>h
 nmap <C-j> <C-w>j
 nmap <C-k> <C-w>k
 nmap <C-l> <C-w>l
-nmap <Tab> za
+nmap <Tab> zr
+nmap <S-Tab> zm
 
 " use the linenumber variant of corresponding commands
 " by default <C-w>gt and <C-w>gT map to gt and gT respectively so they can be
