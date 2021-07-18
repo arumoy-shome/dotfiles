@@ -66,6 +66,7 @@ fi
 # Config
 #
 
+source $ZDOTDIR/path.zsh
 source $ZDOTDIR/bindings.zsh
 source $ZDOTDIR/completion.zsh
 source $ZDOTDIR/options.zsh
