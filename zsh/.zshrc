@@ -72,7 +72,6 @@ source $ZDOTDIR/completion.zsh
 source $ZDOTDIR/options.zsh
 source $ZDOTDIR/exports.zsh
 source $ZDOTDIR/alias.zsh
-source $ZDOTDIR/prompt.zsh
 
 #
 # hooks
