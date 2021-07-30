@@ -2,6 +2,11 @@ function! aru#zap() abort
   echohl WarningMsg | echo "aru#zap() not implemented yet! | echohl None
 endfunction
 
+function! aru#statusline_update() abort
+  call aru#statusline_update_highlight()
+  call aru#statusline_wrap()
+endfunction
+
 function! aru#statusline_update_highlight() abort
   execute 'highlight User2 ' . pinnacle#decorate('italic,bold', 'ColorColumn')
   execute 'highlight User3 ' . pinnacle#italicize('ColorColumn')
@@ -14,12 +19,6 @@ function! aru#statusline_update_highlight() abort
     execute 'highlight User1 ' . pinnacle#highlight({'fg': l:flag_fg, 'bg': l:bg})
   else
     execute 'highlight User1 ' . pinnacle#highlight({'fg': l:fg, 'bg': l:bg})
-  endif
-
-  if &readonly
-    execute 'highlight User4 ' . pinnacle#highlight({'fg': l:flag_fg, 'bg': l:bg})
-  else
-    execute 'highlight User4 ' . pinnacle#highlight({'fg': l:fg, 'bg': l:bg})
   endif
 
   highlight clear StatusLine
