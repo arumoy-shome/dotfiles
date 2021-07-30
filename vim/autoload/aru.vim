@@ -9,7 +9,7 @@ endfunction
 
 function! aru#statusline_update_highlight() abort
   execute 'highlight User2 ' . pinnacle#decorate('italic,bold', 'ColorColumn')
-  execute 'highlight User3 ' . pinnacle#italicize('ColorColumn')
+  execute 'highlight User3 ' . pinnacle#decorate('italic', 'Visual')
 
   let l:bg=pinnacle#extract_bg('ColorColumn')
   let l:fg=pinnacle#extract_fg('ModeMsg')
