@@ -58,6 +58,7 @@ if has('folding')
 endif
 set foldmethod=indent
 set foldlevelstart=1      " start unfolded, override per ft (or file using modeline)
+set foldtext=aru#foldtext()
 if has ('linebreak')
   set linebreak           " wrap long lines at characters in 'breakat'
   set nobreakindent       " do not indent wrapped lines
