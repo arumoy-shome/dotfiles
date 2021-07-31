@@ -46,6 +46,8 @@ unalias run-help && autoload -U run-help
   source "$ZDOTDIR/zsh-autosuggestions/zsh-autosuggestions.zsh"
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=59'
 
+[[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
+
 #
 # prompt
 #
@@ -80,5 +82,3 @@ source $ZDOTDIR/alias.zsh
 # ls -FA after cd
 autoload -U add-zsh-hook
 add-zsh-hook -Uz chpwd (){ ls -FA; }
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
