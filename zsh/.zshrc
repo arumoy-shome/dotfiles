@@ -80,3 +80,5 @@ source $ZDOTDIR/alias.zsh
 # ls -FA after cd
 autoload -U add-zsh-hook
 add-zsh-hook -Uz chpwd (){ ls -FA; }
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
