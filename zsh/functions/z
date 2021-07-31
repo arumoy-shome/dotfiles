@@ -1,8 +1,52 @@
-# vim: filetype=zsh
+# vim: filetype=zsh foldmethod=marker
 # knowledge management using unix tools.
 
-# TODO: check if dir already exists, else create it
-# TODO: check if file already exists, else create it
-local NOTESDIR="$HOME/org/inbox.md"
+# Init {{{
+local GREPPRG=rg
+[[ -z $NOTESFORMAT ]] && local NOTESFORMAT="md"
+[[ -z $NOTESDIR ]] && local NOTESDIR="$HOME/org"
+[[ -z $NOTESFILE ]] && local NOTESFILE="$NOTESDIR/inbox.$NOTESFORMAT"
+[[ ! -d $NOTESDIR ]]  && mkdir -p $NOTESDIR
+[[ ! -e $NOTESFILE ]] && touch $NOTESFILE
+# }}}
 
-$EDITOR -c 'startinsert' + $NOTESDIR # start at end of file in insert mode
+# Capture {{{
+__capture () {
+  emulate -L zsh
+  $EDITOR -c 'startinsert' + $NOTESFILE # start at end of file in insert mode
+}
+# }}}
+
+# Agenda {{{
+# TODO: feature org-agenda like functionality. I want to expose this
+# through the `agenda' subcommand. The subcommand will accept two
+# flags: `--state' and `--tag'.
+# Allow the ability to pipe results from previous invocation.
+__agenda () {
+  emulate -L zsh
+  case "$1" in
+    --state | -s )
+      $GREPPRG --type $NOTESFORMAT "^#+.$2"
+      ;;
+    --tag | -t )
+      $GREPPRG --type $NOTESFORMAT "^#+.*\{\.$2\}"
+      ;;
+  esac
+
+}
+# }}}
+
+# Main {{{
+if [[ "$#" -eq 0 ]]; then
+  __capture && exit
+else
+  case "$1" in
+    agenda)
+      __agenda "${@:2}"
+      ;;
+    *)
+      # do nothing
+      ;;
+  esac
+fi
+# }}}
