@@ -1,0 +1,8 @@
+# vim: filetype=zsh
+# knowledge management using unix tools.
+
+# TODO: check if dir already exists, else create it
+# TODO: check if file already exists, else create it
+local NOTESDIR="$HOME/org/inbox.md"
+
+$EDITOR -c 'startinsert' + $NOTESDIR # start at end of file in insert mode
