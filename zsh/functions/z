@@ -3,6 +3,7 @@
 
 # Init {{{
 local GREPPRG=rg
+local FINDPRG=fd
 [[ -z $NOTESFORMAT ]] && local NOTESFORMAT="md"
 [[ -z $NOTESDIR ]] && local NOTESDIR="$HOME/org"
 [[ -z $NOTESFILE ]] && local NOTESFILE="$NOTESDIR/inbox.$NOTESFORMAT"
@@ -50,16 +51,40 @@ __grep () {
       echo "--state -s: print headers matching the specified state. Limit search to notes format."
       echo "--State -S: same as above but search in all files."
       echo "--tag -t: print headers matching the specified tag. Limit search to notes format."
-      echo "--Tag -T: same as above but search in all."
-      echo "With no arguments print all headers with TODO state. Limit search to notes format."
+      echo "--Tag -T: same as above but search in all files."
+      echo "With any other arguments, invoke ripgrep with provided arguments."
       echo "All additional arguments are passed to ripgrep verbatim."
       echo
       ;;
     *)
-      $GREPPRG --smart-case --type $NOTESFORMAT "^#+.TODO.*"
+      $GREPPRG --smart-case $@ $NOTESDIR
       ;;
   esac
 
+}
+# }}}
+
+# Find {{{
+__find() {
+  emulate -L zsh
+  case "$1" in
+    --tag | -t )
+      $FINDPRG --extension $NOTESFORMAT "^\d+-\d+-\d+--$2--.*" $NOTESDIR ${@:3}
+      ;;
+    --Tag | -T )
+      $FINDPRG "^\d+-\d+-\d+--$2--.*" $NOTESDIR ${@:3}
+      ;;
+    --help | -h )
+      echo "find: print a list of files matching a specific tag."
+      echo "--tag -t: print files matching the specified tag. Limit search to notes format."
+      echo "--Tag -T: same as above but search all files."
+      echo "With any other arguments, invoke fd with provided arguments."
+      echo "All additional arguments are passed to fd verbatim."
+      echo
+      ;;
+    *)
+      $FINDPRG $@ $NOTESDIR
+  esac
 }
 # }}}
 
@@ -71,6 +96,9 @@ else
     grep)
       __grep "${@:2}"
       ;;
+    find)
+      __find "${@:2}"
+      ;;
     capture)
       __capture "${@:2}"
       ;;
@@ -81,6 +109,7 @@ else
       echo "z: knowledge management using standard unix tools."
       echo "capture: subcommand to open the default notes file and start capture process."
       echo "grep: subcommand to print a list of headers. See z grep --help for more info."
+      echo "find: subcommand to print a list of files. See z find --help for more info."
       echo "cd: subcommand to change current directory to default notes directory."
       echo
       ;;
