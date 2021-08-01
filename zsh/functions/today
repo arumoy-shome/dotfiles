@@ -5,11 +5,9 @@ while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do
   case $1 in
     -l | --long)
       command date +'%Y-%m-%d-%H-%M' && return
-      exit
       ;;
     -h | --human)
       command date +'%b %d, %Y' && return
-      exit
       ;;
   esac; shift;
 done
