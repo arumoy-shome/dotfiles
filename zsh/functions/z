@@ -45,7 +45,7 @@ __grep () {
       $GREPPRG --smart-case "^#+.$2.*" $NOTESDIR ${@:3}
       ;;
     --tag | -t )
-      $GREPPRG --smart-case --type $NOTESFORMAT "^#+.*\{\.$2\}.*" $NOTESDIR ${@:3}
+      $GREPPRG --smart-case --type $NOTESFORMAT "^#+.*\{[.#]$2\}$" $NOTESDIR ${@:3}
       ;;
     --Tag | -T )
       $GREPPRG --smart-case "^#+.*\{\.$2\}" $NOTESDIR ${@:3}
