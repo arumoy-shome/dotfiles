@@ -34,16 +34,16 @@ __agenda () {
   emulate -L zsh
   case "$1" in
     --state | -s )
-      $GREPPRG --smart-case --type $NOTESFORMAT "^#+.$2.*"
+      $GREPPRG --smart-case --type $NOTESFORMAT "^#+.$2.*" $NOTESDIR ${@:3}
       ;;
     --State | -S )
-      $GREPPRG --smart-case "^#+.$2.*"
+      $GREPPRG --smart-case "^#+.$2.*" $NOTESDIR ${@:3}
       ;;
     --tag | -t )
-      $GREPPRG --smart-case --type $NOTESFORMAT "^#+.*\{\.$2\}.*"
+      $GREPPRG --smart-case --type $NOTESFORMAT "^#+.*\{\.$2\}.*" $NOTESDIR ${@:3}
       ;;
     --Tag | -T )
-      $GREPPRG --smart-case "^#+.*\{\.$2\}"
+      $GREPPRG --smart-case "^#+.*\{\.$2\}" $NOTESDIR ${@:3}
       ;;
     --help | -h )
       echo "Agenda: print a list of headers matching a specific state or tag."
@@ -74,13 +74,16 @@ else
     capture)
       __capture "${@:2}"
       ;;
+    cd)
+      cd $NOTESDIR
+      ;;
     help)
       echo "z: knowledge management using standard unix tools."
       echo "capture: subcommand to open the default notes file and start capture process."
       echo "agenda: subcommand to print a list of headers. See z agenda --help for more info."
+      echo "cd: subcommand to change current directory to default notes directory."
       echo
       ;;
-
     *)
       # do nothing
       ;;
