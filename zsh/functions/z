@@ -4,6 +4,7 @@
 # Init {{{
 local GREPPRG=rg
 local FINDPRG=fd
+local AUTHOR="Arumoy Shome"
 [[ -z $NOTESFORMAT ]] && local NOTESFORMAT="md"
 [[ -z $NOTESDIR ]] && local NOTESDIR="$HOME/org"
 [[ -z $NOTESFILE ]] && local NOTESFILE="$NOTESDIR/inbox.$NOTESFORMAT"
@@ -20,7 +21,6 @@ __capture () {
       echo "The default notes directory is: $NOTESDIR"
       echo "The default notes file is: $NOTESFILE"
       echo "The default notes format is: $NOTESFORMAT"
-      echo
       ;;
     *)
       $EDITOR -c 'startinsert' + $NOTESFILE # start at end of file in insert mode
@@ -54,7 +54,6 @@ __grep () {
       echo "--Tag -T: same as above but search in all files."
       echo "With any other arguments, invoke ripgrep with provided arguments."
       echo "All additional arguments are passed to ripgrep verbatim."
-      echo
       ;;
     *)
       $GREPPRG --smart-case $@ $NOTESDIR
@@ -80,11 +79,68 @@ __find() {
       echo "--Tag -T: same as above but search all files."
       echo "With any other arguments, invoke fd with provided arguments."
       echo "All additional arguments are passed to fd verbatim."
-      echo
       ;;
     *)
       $FINDPRG $@ $NOTESDIR
   esac
+}
+# }}}
+
+# New {{{
+# TODO: not sure about the name. This subcommand can also be used for
+# editing exisiting note files as well?
+__new() {
+  emulate -L zsh
+  local TIMESTAMP=$(date +'%Y-%m-%d')
+  while [[ "$1" =~ - && ! "$1" == "--" ]]; do
+    case "$1" in
+      --tag | -t )
+        shift
+        local TAG="$1"
+        if [[ -z "$TAG" ]]; then
+          echo "Error: tag cannot be empty."
+          return 1
+        fi
+        ;;
+      --name | -n )
+        shift; local NAME="$1"
+        if [[ -z "$NAME" ]]; then
+          echo "Error: name cannot be empty."
+          return 1
+        fi
+        ;;
+      --help | -h )
+        echo "new: create a new note file."
+        echo "--tag -t: specify the tag for the file. Must be a single word. Cannot be empty if used."
+        echo "--name -n: specify the name of the file. Must be a string. Cannot be empty if used."
+        echo "--tag and --name are mutually inclusive, one cannot be passed without the other."
+        echo "When neither a tag nor a name is passed, a %Y-%m-%d timestamp is used to name the file."
+        ;;
+    esac; shift; done
+
+    local RESULT="$TIMESTAMP"
+    if [[ -n "$TAG" && -n "$NAME" ]]; then
+      local FMTNAME=${NAME:l} # lowercase words
+      local FMTNAME=${FMTNAME// /-} # substitute spaces with hyphens
+      local RESULT="$RESULT--$TAG--$FMTNAME"
+    else
+      echo "Warning: Either tag or name or both missing, using default naming."
+    fi
+    local RESULT="$RESULT.$NOTESFORMAT"
+
+    if [[ ! -e "$RESULT" ]]; then
+      echo "Info: $RESULT does not exist, creating file."
+      touch $RESULT
+      echo "---" > $RESULT
+      echo "title: $NAME" >> $RESULT
+      echo "date: $TIMESTAMP" >> $RESULT
+      echo "author: $AUTHOR" >> $RESULT
+      echo "tag: $TAG" >> $RESULT
+      echo "---" >> $RESULT
+    else
+      echo "Info: $RESULT already exists, opening file."
+    fi
+    $EDITOR + $RESULT
 }
 # }}}
 
@@ -102,6 +158,9 @@ else
     capture)
       __capture "${@:2}"
       ;;
+    new)
+      __new "${@:2}"
+      ;;
     cd)
       cd $NOTESDIR
       ;;
@@ -111,6 +170,7 @@ else
       echo "grep: subcommand to print a list of headers. See z grep --help for more info."
       echo "find: subcommand to print a list of files. See z find --help for more info."
       echo "cd: subcommand to change current directory to default notes directory."
+      echo "new: subcommand to create new note file. See z new --help for more info."
       echo
       ;;
     *)
