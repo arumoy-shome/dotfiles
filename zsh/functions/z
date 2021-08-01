@@ -15,7 +15,7 @@ __capture () {
   emulate -L zsh
   case "$1" in
     --help | -h)
-      echo "Capture: open default notes file and start capture process."
+      echo "capture: open default notes file and start capture process."
       echo "The default notes directory is: $NOTESDIR"
       echo "The default notes file is: $NOTESFILE"
       echo "The default notes format is: $NOTESFORMAT"
@@ -28,9 +28,9 @@ __capture () {
 }
 # }}}
 
-# Agenda {{{
+# Grep {{{
 # TODO: Allow the ability to pipe results from previous invocation.
-__agenda () {
+__grep () {
   emulate -L zsh
   case "$1" in
     --state | -s )
@@ -46,7 +46,7 @@ __agenda () {
       $GREPPRG --smart-case "^#+.*\{\.$2\}" $NOTESDIR ${@:3}
       ;;
     --help | -h )
-      echo "Agenda: print a list of headers matching a specific state or tag."
+      echo "grep: print a list of headers matching a specific state or tag."
       echo "--state -s: print headers matching the specified state. Limit search to notes format."
       echo "--State -S: same as above but search in all files."
       echo "--tag -t: print headers matching the specified tag. Limit search to notes format."
@@ -68,8 +68,8 @@ if [[ "$#" -eq 0 ]]; then
   __capture && exit
 else
   case "$1" in
-    agenda)
-      __agenda "${@:2}"
+    grep)
+      __grep "${@:2}"
       ;;
     capture)
       __capture "${@:2}"
@@ -80,7 +80,7 @@ else
     help)
       echo "z: knowledge management using standard unix tools."
       echo "capture: subcommand to open the default notes file and start capture process."
-      echo "agenda: subcommand to print a list of headers. See z agenda --help for more info."
+      echo "grep: subcommand to print a list of headers. See z grep --help for more info."
       echo "cd: subcommand to change current directory to default notes directory."
       echo
       ;;
