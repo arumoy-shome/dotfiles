@@ -16,8 +16,12 @@ local AUTHOR="Arumoy Shome"
 __capture () {
   emulate -L zsh
   case "$1" in
+    --no-edit | -n)
+      $EDITOR $NOTESFILE
+      ;;
     --help | -h)
       echo "capture: open default notes file and start capture process."
+      echo "--no-edit -n: open the default notes files but do not enter insert mode."
       echo "The default notes directory is: $NOTESDIR"
       echo "The default notes file is: $NOTESFILE"
       echo "The default notes format is: $NOTESFORMAT"
