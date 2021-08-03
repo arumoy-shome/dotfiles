@@ -130,11 +130,11 @@ __new() {
     if [[ -n "$TAG" && -n "$NAME" ]]; then
       local FMTNAME=${NAME:l} # lowercase words
       local FMTNAME=${FMTNAME// /-} # substitute spaces with hyphens
-      local RESULT="$RESULT--$TAG--$FMTNAME"
+      RESULT="$RESULT--$TAG--$FMTNAME"
     else
       echo "Warning: Either tag or name or both missing, using default naming."
     fi
-    local RESULT="$RESULT.$NOTESFORMAT"
+    RESULT="$RESULT.$NOTESFORMAT"
 
     if [[ ! -e "$RESULT" ]]; then
       echo "Info: $RESULT does not exist, creating file."
