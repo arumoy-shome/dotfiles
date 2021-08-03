@@ -216,7 +216,12 @@ else
       cd $NOTESDIR
       ;;
     *)
-      # do nothing
+      if [[ -f "$NOTESDIR/$1" && -e "$NOTESDIR/$1" ]]; then
+        $EDITOR $NOTESDIR/$1
+      else
+        echo "Error: $1 does not exist."
+        return 1
+      fi
       ;;
   esac
 fi
