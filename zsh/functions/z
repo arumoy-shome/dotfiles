@@ -134,7 +134,7 @@ __new() {
     else
       echo "Warning: Either tag or name or both missing, using default naming."
     fi
-    RESULT="$RESULT.$NOTESFORMAT"
+    RESULT="$NOTESDIR/$RESULT.$NOTESFORMAT"
 
     if [[ ! -e "$RESULT" ]]; then
       echo "Info: $RESULT does not exist, creating file."
