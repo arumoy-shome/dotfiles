@@ -15,22 +15,17 @@ local AUTHOR="Arumoy Shome"
 # Capture {{{
 __capture () {
   emulate -L zsh
-  local NOEDITFLAG="-c startinsert"
   local TEMPLATE="#"
   while [[ "$1" =~ - && ! "$1" == "--" ]]; do
     case "$1" in
       --help | -h)
         echo "capture: open default notes file and start capture process."
-        echo "--no-edit -n: open the default notes files but do not enter insert mode."
         echo "--state -s: add the specified state to the capture header."
         echo "--tag -t: add the specified tag to the capture header."
         echo "The default notes directory is: $NOTESDIR"
         echo "The default notes file is: $NOTESFILE"
         echo "The default notes format is: $NOTESFORMAT"
         return 0
-        ;;
-      --no-edit | -n)
-        NOEDITFLAG=""
         ;;
       --state | -s)
         shift
@@ -58,7 +53,7 @@ __capture () {
       STATE=${STATE:u} # uppercase
       TEMPLATE="$TEMPLATE $STATE"
     fi
-    if [[ "$STATE" -eq "IDEA" ]]; then
+    if [[ "$STATE" == "IDEA" ]]; then
       local TIMESTAMP=$(date +'%Y-%m-%d %H:%M')
       TEMPLATE="$TEMPLATE $TIMESTAMP"
     fi
@@ -66,11 +61,10 @@ __capture () {
       TAG=${TAG:l} # lowercase
       TEMPLATE="$TEMPLATE {.$TAG}"
     fi
-    if [[ -n "$NOEDITFLAG" ]]; then
-      echo "$TEMPLATE" >> $NOTESFILE
-    fi
 
-    $EDITOR $NOEDITFLAG + $NOTESFILE # start at end of file (in insert mode)
+    echo "$TEMPLATE" >> $NOTESFILE
+
+    $EDITOR + $NOTESFILE # start at end of file (in insert mode)
   }
 # }}}
 
