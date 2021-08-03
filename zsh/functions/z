@@ -25,6 +25,7 @@ __capture () {
       echo "The default notes directory is: $NOTESDIR"
       echo "The default notes file is: $NOTESFILE"
       echo "The default notes format is: $NOTESFORMAT"
+      return 0
       ;;
     *)
       $EDITOR -c 'startinsert' + $NOTESFILE # start at end of file in insert mode
@@ -58,6 +59,7 @@ __grep () {
       echo "--Tag -T: same as above but search in all files."
       echo "With any other arguments, invoke ripgrep with provided arguments."
       echo "All additional arguments are passed to ripgrep verbatim."
+      return 0
       ;;
     *)
       $GREPPRG --smart-case $@ $NOTESDIR
@@ -83,6 +85,7 @@ __find() {
       echo "--Tag -T: same as above but search all files."
       echo "With any other arguments, invoke fd with provided arguments."
       echo "All additional arguments are passed to fd verbatim."
+      return 0
       ;;
     *)
       $FINDPRG $@ $NOTESDIR
@@ -119,6 +122,7 @@ __new() {
         echo "--name -n: specify the name of the file. Must be a string. Cannot be empty if used."
         echo "--tag and --name are mutually inclusive, one cannot be passed without the other."
         echo "When neither a tag nor a name is passed, a %Y-%m-%d timestamp is used to name the file."
+        return 0
         ;;
     esac; shift; done
 
@@ -175,7 +179,7 @@ else
       echo "find: subcommand to print a list of files. See z find --help for more info."
       echo "cd: subcommand to change current directory to default notes directory."
       echo "new: subcommand to create new note file. See z new --help for more info."
-      echo
+      return 0
       ;;
     *)
       # do nothing
