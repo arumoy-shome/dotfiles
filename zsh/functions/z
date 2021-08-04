@@ -137,6 +137,7 @@ __new() {
     case "$1" in
       --help | -h )
         echo "new: create a new note file."
+        echo "--no-edit -x: just create the file, don't open it."
         echo "--tag -t: specify the tag for the file. Must be a single word. Cannot be empty if used."
         echo "--name -n: specify the name of the file. Must be a string. Cannot be empty if used."
         echo "--tag and --name are mutually inclusive, one cannot be passed without the other."
@@ -157,6 +158,9 @@ __new() {
           echo "Error: name cannot be empty."
           return 1
         fi
+        ;;
+      --no-edit | -x )
+        local NOEDITFLAG=1
         ;;
     esac; shift; done
 
@@ -180,9 +184,12 @@ __new() {
       echo "tag: $TAG" >> $RESULT
       echo "---" >> $RESULT
     else
-      echo "Info: $RESULT already exists, opening file."
+      echo "Info: $RESULT already exists."
     fi
-    $EDITOR + $RESULT
+
+    if [[ "$NOEDITFLAG" -eq 0 ]]; then
+      $EDITOR + $RESULT
+    fi
 }
 # }}}
 
