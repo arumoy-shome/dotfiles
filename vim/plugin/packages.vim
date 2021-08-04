@@ -82,6 +82,7 @@ let g:pandoc#formatting#mode = 'h' " use hard wraps
 let g:pandoc#folding#fdc = 0 " do not enable foldcolumn
 let g:pandoc#formatting#textwidth = 70
 let g:pandoc#spell#enabled = 0
+let g:pandoc#modules#disabled = ['command', 'templates', 'menu', 'bibliographies', 'complete', 'spell']
 " }}}
 
 " vim-pandoc-syntax {{{1
