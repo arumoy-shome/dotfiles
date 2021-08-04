@@ -7,6 +7,7 @@ local FINDPRG=fd
 local AUTHOR="Arumoy Shome"
 [[ -z $NOTESFORMAT ]] && local NOTESFORMAT="md"
 [[ -z $NOTESDIR ]] && local NOTESDIR="$HOME/org"
+[[ -z $TEMPLATEDIR ]] && local TEMPLATEDIR="$NOTESDIR/.templates"
 [[ -z $NOTESFILE ]] && local NOTESFILE="$NOTESDIR/inbox.$NOTESFORMAT"
 [[ ! -d $NOTESDIR ]]  && mkdir -p $NOTESDIR
 [[ ! -e $NOTESFILE ]] && touch $NOTESFILE
@@ -175,14 +176,20 @@ __new() {
     if [[ ! -e "$RESULT" ]]; then
       echo "Info: $RESULT does not exist, creating file."
       touch $RESULT
+    else
+      echo "Info: $RESULT already exists."
+    fi
+
+    local TEMPLATEFILE="$TEMPLATEDIR/${TAG:l}"
+    if [[ -e "$TEMPLATEFILE"  && -s "$TEMPLATEFILE" ]]; then
+      cat $TEMPLATEFILE > $RESULT
+    else
       echo "---" > $RESULT
       echo "title: $NAME" >> $RESULT
       echo "date: $TIMESTAMP" >> $RESULT
       echo "author: $AUTHOR" >> $RESULT
       echo "tag: $TAG" >> $RESULT
       echo "---" >> $RESULT
-    else
-      echo "Info: $RESULT already exists."
     fi
 
     if [[ "$NOEDITFLAG" -eq 0 ]]; then
