@@ -84,19 +84,19 @@ __grep () {
       return 0
       ;;
     --state | -s )
-      $GREPPRG --smart-case --type $NOTESFORMAT "^#+.$2.*" $NOTESDIR ${@:3}
+      $GREPPRG --smart-case --no-ignore --type $NOTESFORMAT "^#+.$2.*" $NOTESDIR ${@:3}
       ;;
     --State | -S )
-      $GREPPRG --smart-case "^#+.$2.*" $NOTESDIR ${@:3}
+      $GREPPRG --smart-case --no-ignore "^#+.$2.*" $NOTESDIR ${@:3}
       ;;
     --tag | -t )
-      $GREPPRG --smart-case --type $NOTESFORMAT "^#+.*\{[.#]$2\}$" $NOTESDIR ${@:3}
+      $GREPPRG --smart-case --no-ignore --type $NOTESFORMAT "^#+.*\{[.#]$2\}$" $NOTESDIR ${@:3}
       ;;
     --Tag | -T )
-      $GREPPRG --smart-case "^#+.*\{\.$2\}" $NOTESDIR ${@:3}
+      $GREPPRG --smart-case --no-ignore "^#+.*\{\.$2\}" $NOTESDIR ${@:3}
       ;;
     *)
-      $GREPPRG --smart-case $@ $NOTESDIR
+      $GREPPRG --smart-case --no-ignore $@ $NOTESDIR
       ;;
   esac
 
