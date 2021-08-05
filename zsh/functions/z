@@ -30,7 +30,7 @@ __capture () {
         ;;
       --state | -s)
         shift
-        local STATE="$1"
+        local STATE="${1:u}" # uppercase
         if [[ -z "$STATE" ]]; then
           echo "Error: state cannot be empty."
           return 1
@@ -38,7 +38,7 @@ __capture () {
         ;;
       --tag | -t)
         shift
-        local TAG="$1"
+        local TAG="${1:l}" # lowercase
         if [[ -z "$TAG" ]]; then
           echo "Error: tag cannot be empty."
           return 1
@@ -51,7 +51,6 @@ __capture () {
     esac; shift; done
 
     if [[ -n "$STATE" ]]; then
-      STATE=${STATE:u} # uppercase
       TEMPLATE="$TEMPLATE $STATE"
     fi
     if [[ "$STATE" == "IDEA" ]]; then
@@ -59,7 +58,6 @@ __capture () {
       TEMPLATE="$TEMPLATE $TIMESTAMP"
     fi
     if [[ -n "$TAG" ]]; then
-      TAG=${TAG:l} # lowercase
       TEMPLATE="$TEMPLATE {.$TAG}"
     fi
 
@@ -145,7 +143,7 @@ __new() {
         ;;
       --tag | -t )
         shift
-        local TAG="$1"
+        local TAG="${1:l}" # lowercase
         if [[ -z "$TAG" ]]; then
           echo "Error: tag cannot be empty."
           return 1
@@ -167,7 +165,7 @@ __new() {
     if [[ -n "$TAG" && -n "$NAME" ]]; then
       local FMTNAME=${NAME:l} # lowercase words
       local FMTNAME=${FMTNAME// /-} # substitute spaces with hyphens
-      RESULT="$RESULT--${TAG:l}--$FMTNAME"
+      RESULT="$RESULT--$TAG--$FMTNAME"
     else
       echo "Warning: Either tag or name or both missing, using default naming."
     fi
@@ -180,7 +178,7 @@ __new() {
       echo "Info: $RESULT already exists."
     fi
 
-    local TEMPLATEFILE="$TEMPLATEDIR/${TAG:l}"
+    local TEMPLATEFILE="$TEMPLATEDIR/$TAG"
     if [[ -e "$TEMPLATEFILE"  && -s "$TEMPLATEFILE" ]]; then
       cat $TEMPLATEFILE > $RESULT
     else
