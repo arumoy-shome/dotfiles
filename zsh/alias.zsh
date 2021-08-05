@@ -21,6 +21,8 @@ fi
 # Suffix aliases
 #
 
-alias -s md='open -a "iA Writer.app"'
+if (( $+commands[glow] )); then
+  alias -s md='glow'
+fi
 alias -s pdf='open -a "PDF Expert.app"'
-alias -s html='open -a "Google Chrome.app"'
+alias -s html='open -a "Firefox.app"'
