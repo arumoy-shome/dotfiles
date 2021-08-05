@@ -42,22 +42,13 @@ unalias run-help && autoload -U run-help
 [[ -d "$ZDOTDIR/zsh-syntax-highlighting" ]] && \
   source "$ZDOTDIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
-[[ -d "$ZDOTDIR/zsh-autosuggestions" ]] && \
+if [[ -d "$ZDOTDIR/zsh-autosuggestions" ]]; then
   source "$ZDOTDIR/zsh-autosuggestions/zsh-autosuggestions.zsh"
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=59'
+  ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=59'
+  ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd completion)
+fi
 
 [[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
-
-#
-# prompt
-#
-
-if [[ -d "$ZDOTDIR/pure" ]]; then
-  fpath+="$ZDOTDIR/pure"
-  autoload -U promptinit; promptinit
-  prompt pure
-  zstyle :prompt:pure:git:stash show yes
-fi
 
 # Base16 Shell (only when not in emacs)
 [[ -r "$XDG_DATA_HOME/base16/current-theme.sh" ]] && \
@@ -68,17 +59,12 @@ fi
 # Config
 #
 
-source $ZDOTDIR/path.zsh
+source $ZDOTDIR/path.zsh # must come first!
+source $ZDOTDIR/prompt.zsh
+source $ZDOTDIR/alias.zsh
 source $ZDOTDIR/bindings.zsh
 source $ZDOTDIR/completion.zsh
 source $ZDOTDIR/options.zsh
 source $ZDOTDIR/exports.zsh
-source $ZDOTDIR/alias.zsh
+source $ZDOTDIR/hooks.zsh
 
-#
-# hooks
-#
-
-# ls -FA after cd
-autoload -U add-zsh-hook
-add-zsh-hook -Uz chpwd (){ ls -FA; }
