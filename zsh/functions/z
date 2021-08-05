@@ -21,8 +21,10 @@ __capture () {
     case "$1" in
       --help | -h)
         echo "capture: open default notes file and start capture process."
-        echo "--state -s: add the specified state to the capture header."
-        echo "--tag -t: add the specified tag to the capture header."
+        echo "--state -s: specify a state for the capture header."
+        echo "--tag -t: specify a tag for the capture header."
+        echo "--name -n: specify a title for the capture header."
+        echo "--no-edit -x: just create the header, don't open it."
         echo "The default notes directory is: $NOTESDIR"
         echo "The default notes file is: $NOTESFILE"
         echo "The default notes format is: $NOTESFORMAT"
@@ -44,6 +46,17 @@ __capture () {
           return 1
         fi
         ;;
+      --name | -n)
+        shift
+        local NAME="$1"
+        if [[ -z "$NAME" ]]; then
+          echo "Error: name cannot be empty."
+          return 1
+        fi
+        ;;
+      --no-edit | -x)
+        local NOEDITFLAG=1
+        ;;
       *)
         echo "Error: unknown option $1."
         return 1
@@ -57,13 +70,18 @@ __capture () {
       local TIMESTAMP=$(date +'%Y-%m-%d %H:%M')
       TEMPLATE="$TEMPLATE $TIMESTAMP"
     fi
+    if [[ -n "$NAME" ]]; then
+      TEMPLATE="$TEMPLATE $NAME"
+    fi
     if [[ -n "$TAG" ]]; then
       TEMPLATE="$TEMPLATE {.$TAG}"
     fi
 
     echo "$TEMPLATE" >> $NOTESFILE
 
-    $EDITOR + $NOTESFILE # start at end of file (in insert mode)
+    if [[ "$NOEDITFLAG" -eq 0 ]]; then
+      $EDITOR + $NOTESFILE # start at end of file (in insert mode)
+    fi
   }
 # }}}
 
@@ -136,7 +154,7 @@ __new() {
         echo "new: create a new note file."
         echo "--no-edit -x: just create the file, don't open it."
         echo "--tag -t: specify the tag for the file. Must be a single word. Cannot be empty if used."
-        echo "--name -n: specify the name of the file. Must be a string. Cannot be empty if used."
+        echo "--name -n: specify the title of the file. Must be a string. Cannot be empty if used."
         echo "--tag and --name are mutually inclusive, one cannot be passed without the other."
         echo "When neither a tag nor a name is passed, a %Y-%m-%d timestamp is used to name the file."
         return 0
