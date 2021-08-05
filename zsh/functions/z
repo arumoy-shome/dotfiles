@@ -244,10 +244,17 @@ else
       cd $NOTESDIR
       ;;
     *)
-      if [[ -f "$NOTESDIR/$1" && -e "$NOTESDIR/$1" ]]; then
-        $EDITOR $NOTESDIR/$1
+      local PARTS=(${(s/:/)1}) # split at `:'
+      local NAME=${PARTS[1]}
+      local LINE=${PARTS[2]}
+      if [[ -f "$NOTESDIR/$NAME" && -e "$NOTESDIR/$NAME" ]]; then
+        if [[ -n "$LINE" ]]; then
+          $EDITOR +$LINE $NOTESDIR/$NAME
+        else
+          $EDITOR $NOTESDIR/$NAME
+        fi
       else
-        echo "Error: $1 does not exist."
+        echo "Error: $NAME does not exist."
         return 1
       fi
       ;;
