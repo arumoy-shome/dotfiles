@@ -93,6 +93,7 @@ __grep () {
       echo "grep: print a list of headers matching a specific state or tag."
       echo "--state -s: print headers matching the specified state. Limit search to notes format."
       echo "--tag -t: print headers matching the specified tag. Limit search to notes format."
+      echo "--show-tags: print all tags in notes files along with their count."
       echo "With any other arguments, invoke ripgrep with provided arguments."
       echo "All additional arguments are passed to ripgrep verbatim."
       return 0
@@ -102,6 +103,12 @@ __grep () {
       ;;
     --tag | -t )
       $GREPPRG --smart-case --type $NOTESFORMAT ${@:3} "^#+.+:${2:l}:$" $NOTESDIR # lowercase tag
+      ;;
+    --show-tags )
+      $GREPPRG --type $NOTESFORMAT --no-heading --no-filename --no-line-number '^#+.+:(.+):$' $NOTESDIR -r \$1 | \
+        sort | \
+        uniq -c | \
+        column
       ;;
     *)
       $GREPPRG --smart-case --type $NOTESFORMAT $@ $NOTESDIR
@@ -118,12 +125,19 @@ __find() {
     --help | -h )
       echo "find: print a list of files matching a specific tag."
       echo "--tag -t: print files matching the specified tag. Limit search to notes format."
+      echo "--show-tags: print all notes files tags along with their count."
       echo "With any other arguments, invoke fd with provided arguments."
       echo "All additional arguments are passed to fd verbatim."
       return 0
       ;;
     --tag | -t )
       $FINDPRG --extension $NOTESFORMAT "^\d+-\d+-\d+--${2:l}--\w+" ${@:3} $NOTESDIR # lowercase tags
+      ;;
+    --show-tags )
+      $FINDPRG . --extension $NOTESFORMAT $NOTESDIR | $GREPPRG '.+\d+-\d+-\d+--(.+)--.+' -r \$1 | \
+        sort | \
+        uniq -c | \
+        column
       ;;
     *)
       $FINDPRG --extension $NOTESFORMAT $@ $NOTESDIR
