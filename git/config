@@ -19,7 +19,8 @@
   cof = checkout --
   cob = checkout -b
   branches = for-each-ref --sort=-committerdate --format=\"%(color:blue)%(authordate:relative)\t%(color:red)%(authorname)\t%(color:white)%(color:bold)%(refname:short)\" refs/remotes
-  sla = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' -30 --abbrev-commit --
+  sla = log --color --graph --pretty=format:'%Cred%h%Creset %C(yellow)%d%Creset %s %Cgreen%cD %C(bold blue)%an%Creset'
+  standup = log --color --graph --pretty=format:'%Cred%h%Creset %C(yellow)%d%Creset %s' --since=yesterday --committer="Arumoy.Shome"
 	uncommit = reset --soft "HEAD^"
   glog = log -E -i --grep
   car = commit --amend --no-edit
@@ -42,3 +43,8 @@
   prune = true
 [rebase]
   autosquash = true
+[log]
+	abbrevCommit = true
+	decorate = true
+[format]
+	pretty = '%Cred%h%Creset %C(yellow)%d%Creset %s %Cgreen%cr %C(bold blue)%an%Creset'
