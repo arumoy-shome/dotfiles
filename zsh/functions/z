@@ -105,9 +105,13 @@ __grep () {
       $GREPPRG --smart-case --type $NOTESFORMAT ${@:3} "^#+.+:${2:l}:$" $NOTESDIR # lowercase tag
       ;;
     --show-tags )
+      # NOTE: we need two calls to sort, the first so that uniq works
+      # as expected and the second to sort based on count of tags
+      $FINDPRG . --extension $NOTESFORMAT $NOTESDIR | $GREPPRG '.+\d+-\d+-\d+--(.+)--.+' -r \$1 | \
       $GREPPRG --type $NOTESFORMAT --no-heading --no-filename --no-line-number '^#+.+:(.+):$' $NOTESDIR -r \$1 | \
         sort | \
         uniq -c | \
+        sort --reverse | \
         column
       ;;
     *)
@@ -134,9 +138,12 @@ __find() {
       $FINDPRG --extension $NOTESFORMAT "^\d+-\d+-\d+--${2:l}--\w+" ${@:3} $NOTESDIR # lowercase tags
       ;;
     --show-tags )
+      # NOTE: we need two calls to sort, the first so that uniq works
+      # as expected and the second to sort based on count of tags
       $FINDPRG . --extension $NOTESFORMAT $NOTESDIR | $GREPPRG '.+\d+-\d+-\d+--(.+)--.+' -r \$1 | \
         sort | \
         uniq -c | \
+        sort --reverse | \
         column
       ;;
     *)
