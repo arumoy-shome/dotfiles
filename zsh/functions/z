@@ -98,10 +98,10 @@ __grep () {
       return 0
       ;;
     --state | -s )
-      $GREPPRG --smart-case --type $NOTESFORMAT ${@:3} "^#+.${2:u}.*" $NOTESDIR # uppercase state
+      $GREPPRG --smart-case --type $NOTESFORMAT ${@:3} "^#+\s${2:u}\s.+" $NOTESDIR # uppercase state
       ;;
     --tag | -t )
-      $GREPPRG --smart-case --type $NOTESFORMAT ${@:3} "^#+.*:${2:l}:$" $NOTESDIR # lowercase tag
+      $GREPPRG --smart-case --type $NOTESFORMAT ${@:3} "^#+.+:${2:l}:$" $NOTESDIR # lowercase tag
       ;;
     *)
       $GREPPRG --smart-case --type $NOTESFORMAT $@ $NOTESDIR
@@ -123,7 +123,7 @@ __find() {
       return 0
       ;;
     --tag | -t )
-      $FINDPRG --extension $NOTESFORMAT "^\d+-\d+-\d+--${2:l}--.*" ${@:3} $NOTESDIR # lowercase tags
+      $FINDPRG --extension $NOTESFORMAT "^\d+-\d+-\d+--${2:l}--\w+" ${@:3} $NOTESDIR # lowercase tags
       ;;
     *)
       $FINDPRG --extension $NOTESFORMAT $@ $NOTESDIR
