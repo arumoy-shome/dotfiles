@@ -101,19 +101,19 @@ __grep () {
       return 0
       ;;
     --state | -s )
-      $GREPPRG --smart-case --no-ignore --type $NOTESFORMAT ${@:3} "^#+.${2:u}.*" $NOTESDIR # uppercase state
+      $GREPPRG --smart-case --type $NOTESFORMAT ${@:3} "^#+.${2:u}.*" $NOTESDIR # uppercase state
       ;;
     --State | -S )
-      $GREPPRG --smart-case --no-ignore ${@:3} "^#+.${2:u}.*" $NOTESDIR # uppercase state
+      $GREPPRG --smart-case ${@:3} "^#+.${2:u}.*" $NOTESDIR # uppercase state
       ;;
     --tag | -t )
-      $GREPPRG --smart-case --no-ignore --type $NOTESFORMAT ${@:3} "^#+.*:${2:l}:$" $NOTESDIR # lowercase tag
+      $GREPPRG --smart-case --type $NOTESFORMAT ${@:3} "^#+.*:${2:l}:$" $NOTESDIR # lowercase tag
       ;;
     --Tag | -T )
-      $GREPPRG --smart-case --no-ignore ${@:3} "^#+.*:${2:l}:" $NOTESDIR # lowercase tag
+      $GREPPRG --smart-case ${@:3} "^#+.*:${2:l}:" $NOTESDIR # lowercase tag
       ;;
     *)
-      $GREPPRG --smart-case --no-ignore $@ $NOTESDIR
+      $GREPPRG --smart-case $@ $NOTESDIR
       ;;
   esac
 
