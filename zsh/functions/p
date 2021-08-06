@@ -12,8 +12,16 @@ local SRCFILES="/tmp/src.txt"
 local PUBFILES="/tmp/pub.txt"
 # }}}
 
-# Published {{{
-__published() {
+# sync {{{
+__sync() {
+  emulate -L zsh
+  fd --extension $SRCFMT $FILESRX $SRCDIR --exec echo {/.} | sort > $SRCFILES
+  fd --extension $PUBFMT $FILESRX $PUBDIR --exec echo {/.} | sort > $PUBFILES
+}
+# }}}
+
+# ls {{{
+__ls() {
   emulate -L zsh
 
   while [[ "$1" =~ - && ! "$1" == "--" ]]; do
@@ -23,20 +31,41 @@ __published() {
         ;;
     esac; shift; done
 
-  fd --extension $SRCFMT $FILESRX $SRCDIR --exec echo {/.} | sort > $SRCFILES
-  fd --extension $PUBFMT $FILESRX $PUBDIR --exec echo {/.} | sort > $PUBFILES
+    __sync
 
-  if [[ "$INVERTFLAG" -eq 1 ]]; then
-    comm -23 $SRCFILES $PUBFILES # show what is in SRCFILES but not in PUBFILES ie. what is not published
-  else
-    comm -12 $SRCFILES $PUBFILES # show what is common ie. what is published
-  fi
+    if [[ "$INVERTFLAG" -eq 1 ]]; then
+      # show what is in SRCFILES but not in PUBFILES ie. what is not published
+      comm -23 $SRCFILES $PUBFILES | column
+    else
+      # show what is common ie. what is published
+      comm -12 $SRCFILES $PUBFILES | column
+    fi
 }
 # }}}
+
+# all {{{
+__all() {
+  emulate -L zsh
+  __sync
+  for NAME in $(comm -12 $SRCFILES $PUBFILES); do # published files
+    echo "pandoc --output $PUBDIR/$NAME.$PUBFMT $NAME.$SRCFMT"
+  done
+}
+# }}}
+
 # Main {{{
 case "$1" in
-  published )
-    __published "${@:2}"
+  ls )
+    __ls "${@:2}"
+    ;;
+  all )
+    __all "${@:2}"
+    ;;
+  * )
+    if [[ -e "$SRCDIR/$1" ]]; then
+      local NAME="${1:t:r}" # only the name
+      pandoc ${@:2} --output $PUBDIR/$NAME.$PUBFMT $1
+    fi
     ;;
 esac
 # }}}
