@@ -86,16 +86,13 @@ __capture () {
 # }}}
 
 # Grep {{{
-# TODO: Allow the ability to pipe results from previous invocation.
 __grep () {
   emulate -L zsh
   case "$1" in
     --help | -h )
       echo "grep: print a list of headers matching a specific state or tag."
       echo "--state -s: print headers matching the specified state. Limit search to notes format."
-      echo "--State -S: same as above but search in all files."
       echo "--tag -t: print headers matching the specified tag. Limit search to notes format."
-      echo "--Tag -T: same as above but search in all files."
       echo "With any other arguments, invoke ripgrep with provided arguments."
       echo "All additional arguments are passed to ripgrep verbatim."
       return 0
@@ -103,17 +100,11 @@ __grep () {
     --state | -s )
       $GREPPRG --smart-case --type $NOTESFORMAT ${@:3} "^#+.${2:u}.*" $NOTESDIR # uppercase state
       ;;
-    --State | -S )
-      $GREPPRG --smart-case ${@:3} "^#+.${2:u}.*" $NOTESDIR # uppercase state
-      ;;
     --tag | -t )
       $GREPPRG --smart-case --type $NOTESFORMAT ${@:3} "^#+.*:${2:l}:$" $NOTESDIR # lowercase tag
       ;;
-    --Tag | -T )
-      $GREPPRG --smart-case ${@:3} "^#+.*:${2:l}:" $NOTESDIR # lowercase tag
-      ;;
     *)
-      $GREPPRG --smart-case $@ $NOTESDIR
+      $GREPPRG --smart-case --type $NOTESFORMAT $@ $NOTESDIR
       ;;
   esac
 
@@ -127,7 +118,6 @@ __find() {
     --help | -h )
       echo "find: print a list of files matching a specific tag."
       echo "--tag -t: print files matching the specified tag. Limit search to notes format."
-      echo "--Tag -T: same as above but search all files."
       echo "With any other arguments, invoke fd with provided arguments."
       echo "All additional arguments are passed to fd verbatim."
       return 0
@@ -135,11 +125,8 @@ __find() {
     --tag | -t )
       $FINDPRG --extension $NOTESFORMAT "^\d+-\d+-\d+--${2:l}--.*" ${@:3} $NOTESDIR # lowercase tags
       ;;
-    --Tag | -T )
-      $FINDPRG "^\d+-\d+-\d+--${2:l}--.*" ${@:3} $NOTESDIR # lowercase tags
-      ;;
     *)
-      $FINDPRG $@ $NOTESDIR
+      $FINDPRG --extension $NOTESFORMAT $@ $NOTESDIR
   esac
 }
 # }}}
