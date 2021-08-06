@@ -1,0 +1,43 @@
+# vim: filetype=zsh foldmethod=marker
+# helper function for publishing content.
+
+# Init {{{
+local PUBPRG=pandoc
+local SRCFMT="md"
+local PUBFMT="html"
+local SRCDIR="$HOME/org"
+local PUBDIR="$SRCDIR/docs"
+local FILESRX='^\d+-\d+-\d+--\w+--\w+'
+local SRCFILES="/tmp/src.txt"
+local PUBFILES="/tmp/pub.txt"
+# }}}
+
+# Published {{{
+__published() {
+  emulate -L zsh
+
+  while [[ "$1" =~ - && ! "$1" == "--" ]]; do
+    case "$1" in
+      --invert | -v )
+        INVERTFLAG=1
+        ;;
+    esac; shift; done
+
+  fd --extension $SRCFMT $FILESRX $SRCDIR --exec echo {/.} | sort > $SRCFILES
+  fd --extension $PUBFMT $FILESRX $PUBDIR --exec echo {/.} | sort > $PUBFILES
+
+  if [[ "$INVERTFLAG" -eq 1 ]]; then
+    comm -23 $SRCFILES $PUBFILES # show what is in SRCFILES but not in PUBFILES ie. what is not published
+  else
+    comm -12 $SRCFILES $PUBFILES # show what is common ie. what is published
+  fi
+}
+# }}}
+# Main {{{
+case "$1" in
+  published )
+    __published "${@:2}"
+    ;;
+esac
+# }}}
+
