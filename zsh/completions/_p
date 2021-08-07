@@ -1,3 +1,0 @@
-#compdef p
-
-_values 'files' $(fd --extension md '^\d+-\d+-\d+--\w+--\w+' $HOME/org --exec echo {/.})
