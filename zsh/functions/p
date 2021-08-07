@@ -57,9 +57,15 @@ __ls() {
 # all {{{
 __all() {
   emulate -L zsh
+
   __sync
-  for NAME in $(comm -12 $SRCFILES $PUBFILES); do # published files
-    echo "pandoc --output $PUBDIR/$NAME.$PUBFMT $NAME.$SRCFMT"
+  echo -n "Info: publish $(cat $PUBFILES | wc -l) files? [y/n]: "
+  read ANS
+  [[ "${ANS:l}" != "y" ]] && return 1
+
+  for SRCNAME in $(comm -12 $SRCFILES $PUBFILES); do # published files
+    __get_template
+    pandoc ${@:2} $TEMPLATE --output $PUBDIR/$SRCNAME.$PUBFMT $SRCNAME.$SRCFMT
   done
 }
 # }}}
@@ -76,7 +82,7 @@ case "$1" in
     if [[ -e "$SRCDIR/$1" ]]; then
       SRCNAME="${1:t:r}" # only the name
       __get_template
-      pandoc ${@:2} $TEMPLATE --output $PUBDIR/$SRCNAME.$PUBFMT $1
+      echo "pandoc ${@:2} $TEMPLATE --output $PUBDIR/$SRCNAME.$PUBFMT $SRCNAME.$SRCFMT"
     fi
     ;;
 esac
