@@ -10,6 +10,17 @@ local PUBDIR="$SRCDIR/docs"
 local FILESRX='^\d+-\d+-\d+--\w+--\w+'
 local SRCFILES="/tmp/src.txt"
 local PUBFILES="/tmp/pub.txt"
+local SRCNAME
+local TEMPLATE
+# }}}
+
+# get_template {{{
+__get_template() {
+  # taken from https://github.com/jgm/pandoc/issues/1958#issuecomment-81978951
+  # extract the template from the SCRFILE else use default template
+  TEMPLATE=$(sed -n 's/^template:[ ][ ]*\(.*\)/\1/p' $SRCDIR/$SRCNAME.$SRCFMT | sed 's/^\(..*\)$/--template=\1/')
+  [[ -z "$TEMPLATE" ]] && TEMPLATE='--standalone'
+}
 # }}}
 
 # sync {{{
@@ -63,8 +74,9 @@ case "$1" in
     ;;
   * )
     if [[ -e "$SRCDIR/$1" ]]; then
-      local NAME="${1:t:r}" # only the name
-      pandoc ${@:2} --output $PUBDIR/$NAME.$PUBFMT $1
+      SRCNAME="${1:t:r}" # only the name
+      __get_template
+      pandoc ${@:2} $TEMPLATE --output $PUBDIR/$SRCNAME.$PUBFMT $1
     fi
     ;;
 esac
