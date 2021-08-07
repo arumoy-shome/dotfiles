@@ -67,10 +67,31 @@ __all() {
 }
 # }}}
 
+# browse {{{
+__browse() {
+  emulate -L zsh
+
+  if [[ -n "$1" ]]; then
+    local NAME="${1:t:r}"
+    if [[ -e "$PUBDIR/$NAME.$PUBFMT" ]]; then
+      open "https://arumoy.me/org/$NAME"
+    else
+      echo "Info: $1 is not published."
+      return 1
+    fi
+  else
+    open 'https://arumoy.me/org'
+  fi
+}
+# }}}
+
 # Main {{{
 case "$1" in
   ls )
     __ls "${@:2}"
+    ;;
+  browse )
+    __browse "${@:2}"
     ;;
   all )
     __all "${@:2}"
