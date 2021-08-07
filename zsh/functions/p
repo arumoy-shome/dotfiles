@@ -36,16 +36,15 @@ __sync() {
 __ls() {
   emulate -L zsh
 
-  __sync
-
-  if [[ -n "$2" ]]; then
-    local NAME="${2:t:r}"
+  if [[ -n "$1" ]]; then
+    local NAME="${1:t:r}"
     if [[ -e "$PUBDIR/$NAME.$PUBFMT" ]]; then
-      echo "$2 is published."
+      echo "$1 is published."
     else
-      echo "$2 is unpublished."
+      echo "$1 is unpublished."
     fi
   else
+    __sync
     # print all published files
     comm -12 $SRCFILES $PUBFILES | column
   fi
