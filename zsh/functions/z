@@ -222,6 +222,63 @@ __new() {
 }
 # }}}
 
+# Forward Links {{{
+__forward_links() {
+  echo "Info: forward links."
+  $GREPPRG '\[.+\]\((\d+-\d+-\d+--\w+--[\w-]+)\)' $NOTESDIR/$1 \
+    --no-line-number --only-matching --replace '$1'
+}
+# }}}
+
+# Backward Links {{{
+__backward_links() {
+  echo "Info: backward links."
+  $GREPPRG --files-with-matches --type $NOTESFORMAT "\[.+\]\($NAME\)" $NOTESDIR | \
+    $GREPPRG --no-line-number --only-matching "$NOTESDIR/(.+)\.$NOTESFORMAT" -r '$1'
+}
+# }}}
+
+# Link {{{
+__link() {
+  while [[ "$1" =~ - && ! "$1" == "--" ]]; do
+    case "$1" in
+      --help | -h )
+        echo "link: show links for note."
+        echo "--forward -f: show notes that given note links to."
+        echo "--backward -b: show notes which link to given note."
+        echo "--unlinked -u: show unlinked notes."
+        return 0
+        ;;
+      --forward | -f )
+        shift
+        local FORWARDFLAG=1
+        ;;
+      --backward | -b )
+        shift
+        local BACKWARDFLAG=1
+        ;;
+      *)
+        local NAME=${1:t:r}
+        break
+        ;;
+    esac; done
+
+    if [[ -z "$1" || ! -e "$NOTESDIR/$1" ]]; then
+      echo "Error: no or unexisting file specified."
+      return 1
+    fi
+
+    if [[ -n "$FORWARDFLAG" ]]; then
+      __forward_links $1
+    elif [[ -n "$BACKWARDFLAG" ]]; then
+      __backward_links $NAME
+    else
+      __forward_links $1
+      __backward_links $NAME
+    fi
+}
+# }}}
+
 # Main {{{
 if [[ "$#" -eq 0 ]]; then
   __capture && exit
@@ -250,6 +307,9 @@ else
       ;;
     cd)
       cd $NOTESDIR
+      ;;
+    link)
+      __link "${@:2}"
       ;;
     *)
       local PARTS=(${(s/:/)1}) # split at `:'
