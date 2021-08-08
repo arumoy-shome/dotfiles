@@ -19,8 +19,7 @@ local TEMPLATE
 __get_template() {
   # taken from https://github.com/jgm/pandoc/issues/1958#issuecomment-81978951
   # extract the template from the SCRFILE else use default template
-  TEMPLATE=$(sed -n 's/^template:[ ][ ]*\(.*\)/\1/p' $SRCDIR/$SRCNAME.$SRCFMT | sed 's/^\(..*\)$/--template=\1/')
-  [[ -z "$TEMPLATE" ]] && TEMPLATE='--standalone'
+  TEMPLATE=$(sed -n 's/^template:[ ][ ]*\(.*\)/\1/p' $SRCDIR/$SRCNAME.$SRCFMT | sed 's/^\(..*\)$/\1/')
 }
 # }}}
 
@@ -61,8 +60,7 @@ __all() {
   [[ "${ANS:l}" != "y" ]] && return 1
 
   for SRCNAME in $(comm -12 $SRCFILES $PUBFILES); do # published files
-    __get_template
-    pandoc ${@:2} $TEMPLATE --output $PUBDIR/$SRCNAME.$PUBFMT $SRCNAME.$SRCFMT
+    __publish
   done
 }
 # }}}
@@ -85,6 +83,20 @@ __browse() {
 }
 # }}}
 
+# __publish {{{
+__publish() {
+  __get_template
+  if [[ -z "$TEMPLATE" ]]; then
+    echo "Error: $SRCNAME.$SRCFMT does not specify a template."
+    echo "To publish, specify a template in the header."
+    return 1
+  fi
+
+  echo "Info: publishing $SRCNAME.$SRCFMT as $PUBDIR/$SRCNAME.$PUBFMT with template $TEMPLATE"
+  $PUBPRG ${@:2} --template=$TEMPLATE --output $PUBDIR/$SRCNAME.$PUBFMT $SRCNAME.$SRCFMT
+}
+# }}}
+
 # Main {{{
 case "$1" in
   ls )
@@ -99,8 +111,7 @@ case "$1" in
   * )
     if [[ -e "$SRCDIR/$1" ]]; then
       SRCNAME="${1:t:r}" # only the name
-      __get_template
-      echo "pandoc ${@:2} $TEMPLATE --output $PUBDIR/$SRCNAME.$PUBFMT $SRCNAME.$SRCFMT"
+      __publish
     fi
     ;;
 esac
