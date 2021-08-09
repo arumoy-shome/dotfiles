@@ -279,6 +279,16 @@ __link() {
 }
 # }}}
 
+# Standup {{{
+__standup() {
+  if [[ -n "$1" ]]; then
+    $FINDPRG . --changed-within $1 --extension $NOTESFORMAT $NOTESDIR
+  else
+    $FINDPRG . --changed-within 1d --extension $NOTESFORMAT $NOTESDIR
+  fi
+}
+# }}}
+
 # Main {{{
 if [[ "$#" -eq 0 ]]; then
   __capture && exit
@@ -291,6 +301,8 @@ else
       echo "find: subcommand to print a list of files. See z find --help for more info."
       echo "cd: subcommand to change current directory to default notes directory."
       echo "new: subcommand to create new note file. See z new --help for more info."
+      echo "link: subcommand to find links between notes. See z link --help for more info."
+      echo "standup: subcommand to show latest modified notes."
       return 0
       ;;
     grep)
@@ -310,6 +322,9 @@ else
       ;;
     link)
       __link "${@:2}"
+      ;;
+    standup)
+      __standup "${@:2}"
       ;;
     *)
       local PARTS=(${(s/:/)1}) # split at `:'
