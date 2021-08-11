@@ -105,22 +105,23 @@ __grep () {
       return 0
       ;;
     --state | -s )
-      $GREPPRG --smart-case --type $NOTESFORMAT ${@:3} $STATERX # uppercase state
+      $GREPPRG --smart-case --max-depth 1 --type $NOTESFORMAT ${@:3} $STATERX # uppercase state
       ;;
     --tag | -t )
-      $GREPPRG --smart-case --type $NOTESFORMAT ${@:3} $TAGRX # lowercase tag
+      $GREPPRG --smart-case --max-depth 1 --type $NOTESFORMAT ${@:3} $TAGRX # lowercase tag
       ;;
     --show-tags )
       # NOTE: we need two calls to sort, the first so that uniq works
       # as expected and the second to sort based on count of tags
-      $GREPPRG --type $NOTESFORMAT --no-heading --no-filename --no-line-number $SHOWTAGSRX -r '$1' | \
+      $GREPPRG --max-depth 1 --type $NOTESFORMAT --no-heading --no-filename \
+        --no-line-number $SHOWTAGSRX -r '$1' | \
         sort | \
         uniq -c | \
         sort --reverse | \
         column
       ;;
     *)
-      $GREPPRG --smart-case --type $NOTESFORMAT $@
+      $GREPPRG --smart-case --max-depth 1 --type $NOTESFORMAT $@
       ;;
   esac
   popd
@@ -145,19 +146,19 @@ __find() {
       return 0
       ;;
     --tag | -t )
-      $FINDPRG --extension $NOTESFORMAT $NOTENAMERX ${@:3} # lowercase tags
+      $FINDPRG --max-depth 1 --extension $NOTESFORMAT $NOTENAMERX ${@:3} # lowercase tags
       ;;
     --show-tags )
       # NOTE: we need two calls to sort, the first so that uniq works
       # as expected and the second to sort based on count of tags
-      $FINDPRG --extension $NOTESFORMAT | $GREPPRG $SHOWTAGSRX -r '$1' | \
+      $FINDPRG --max-depth 1 --extension $NOTESFORMAT | $GREPPRG $SHOWTAGSRX -r '$1' | \
         sort | \
         uniq -c | \
         sort --reverse | \
         column
       ;;
     *)
-      $FINDPRG --extension $NOTESFORMAT $@
+      $FINDPRG --max-depth 1 --extension $NOTESFORMAT $@
   esac
   popd
 }
@@ -252,7 +253,7 @@ __backward_links() {
   emulate -L zsh
 
   echo "Info: backward links."
-  $GREPPRG --files-with-matches --type $NOTESFORMAT "\[.+\]\($1\)" | \
+  $GREPPRG --max-depth 1 --files-with-matches --type $NOTESFORMAT "\[.+\]\($1\)" | \
     $GREPPRG --no-line-number --only-matching "^(.+)\.$NOTESFORMAT" -r '$1'
 }
 # }}}
@@ -309,9 +310,9 @@ __standup() {
   pushd $NOTESDIR
 
   if [[ -n "$1" ]]; then
-    $FINDPRG --changed-within $1 --extension $NOTESFORMAT
+    $FINDPRG --max-depth 1 --changed-within $1 --extension $NOTESFORMAT
   else
-    $FINDPRG --changed-within 1d --extension $NOTESFORMAT
+    $FINDPRG --max-depth 1 --changed-within 1d --extension $NOTESFORMAT
   fi
 
   popd
