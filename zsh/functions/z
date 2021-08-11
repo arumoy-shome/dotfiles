@@ -88,6 +88,12 @@ __capture () {
 # Grep {{{
 __grep () {
   emulate -L zsh
+  pushd $NOTESDIR
+
+  local STATERX="^#+\s${2:u}\s.+"
+  local TAGRX="^#+.+:${2:l}:$"
+  local SHOWTAGSRX='^#+.+:(.+):$'
+
   case "$1" in
     --help | -h )
       echo "grep: print a list of headers matching a specific state or tag."
@@ -99,26 +105,25 @@ __grep () {
       return 0
       ;;
     --state | -s )
-      $GREPPRG --smart-case --type $NOTESFORMAT ${@:3} "^#+\s${2:u}\s.+" $NOTESDIR # uppercase state
+      $GREPPRG --smart-case --type $NOTESFORMAT ${@:3} $STATERX # uppercase state
       ;;
     --tag | -t )
-      $GREPPRG --smart-case --type $NOTESFORMAT ${@:3} "^#+.+:${2:l}:$" $NOTESDIR # lowercase tag
+      $GREPPRG --smart-case --type $NOTESFORMAT ${@:3} $TAGRX # lowercase tag
       ;;
     --show-tags )
       # NOTE: we need two calls to sort, the first so that uniq works
       # as expected and the second to sort based on count of tags
-      $FINDPRG . --extension $NOTESFORMAT $NOTESDIR | $GREPPRG '.+\d+-\d+-\d+--(.+)--.+' -r \$1 | \
-      $GREPPRG --type $NOTESFORMAT --no-heading --no-filename --no-line-number '^#+.+:(.+):$' $NOTESDIR -r \$1 | \
+      $GREPPRG --type $NOTESFORMAT --no-heading --no-filename --no-line-number $SHOWTAGSRX -r '$1' | \
         sort | \
         uniq -c | \
         sort --reverse | \
         column
       ;;
     *)
-      $GREPPRG --smart-case --type $NOTESFORMAT $@ $NOTESDIR
+      $GREPPRG --smart-case --type $NOTESFORMAT $@
       ;;
   esac
-
+  popd
 }
 # }}}
 
