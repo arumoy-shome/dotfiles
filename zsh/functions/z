@@ -305,25 +305,25 @@ else
       echo "standup: subcommand to show latest modified notes."
       return 0
       ;;
-    grep)
+    grep | rg | g)
       __grep "${@:2}"
       ;;
-    find)
+    find | fd | f)
       __find "${@:2}"
       ;;
-    capture)
+    capture | c)
       __capture "${@:2}"
       ;;
-    new)
+    new | n)
       __new "${@:2}"
       ;;
     cd)
       cd $NOTESDIR
       ;;
-    link)
+    link | l)
       __link "${@:2}"
       ;;
-    standup)
+    standup | stand | s)
       __standup "${@:2}"
       ;;
     *)
