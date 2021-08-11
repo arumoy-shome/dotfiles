@@ -336,6 +336,8 @@ __edit() {
     else
       $EDITOR $NAME
     fi
+
+    [[ $(tail -n 1 "$NAME") != '' ]] && echo >> $NAME # add new line at eof if not present already
   else
     echo "Error: $NAME does not exist."
     return 1
