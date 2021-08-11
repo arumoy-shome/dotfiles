@@ -235,22 +235,29 @@ __new() {
 
 # Forward Links {{{
 __forward_links() {
+  emulate -L zsh
+
   echo "Info: forward links."
-  $GREPPRG '\[.+\]\((\d+-\d+-\d+--\w+--[\w-]+)\)' $NOTESDIR/$1 \
-    --no-line-number --only-matching --replace '$1'
+  $GREPPRG '\[.+\]\((\d+-\d+-\d+--\w+--[\w-]+)\)' $1 --no-line-number \
+    --only-matching --replace '$1'
 }
 # }}}
 
 # Backward Links {{{
 __backward_links() {
+  emulate -L zsh
+
   echo "Info: backward links."
-  $GREPPRG --files-with-matches --type $NOTESFORMAT "\[.+\]\($NAME\)" $NOTESDIR | \
-    $GREPPRG --no-line-number --only-matching "$NOTESDIR/(.+)\.$NOTESFORMAT" -r '$1'
+  $GREPPRG --files-with-matches --type $NOTESFORMAT "\[.+\]\($1\)" | \
+    $GREPPRG --no-line-number --only-matching "^(.+)\.$NOTESFORMAT" -r '$1'
 }
 # }}}
 
 # Link {{{
 __link() {
+  emulate -L zsh
+  pushd $NOTESDIR
+
   while [[ "$1" =~ - && ! "$1" == "--" ]]; do
     case "$1" in
       --help | -h )
@@ -274,7 +281,7 @@ __link() {
         ;;
     esac; done
 
-    if [[ -z "$1" || ! -e "$NOTESDIR/$1" ]]; then
+    if [[ -z "$1" || ! -e "$1" ]]; then
       echo "Error: no or unexisting file specified."
       return 1
     fi
@@ -287,6 +294,8 @@ __link() {
       __forward_links $1
       __backward_links $NAME
     fi
+
+    popd
 }
 # }}}
 
