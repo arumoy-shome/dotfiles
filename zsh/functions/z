@@ -311,7 +311,7 @@ __edit() {
 
 # Main {{{
 if [[ "$#" -eq 0 ]]; then
-  __capture && exit
+  __grep --state todo
 else
   case "$1" in
     help)
