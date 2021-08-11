@@ -80,7 +80,7 @@ __capture () {
     echo "$TEMPLATE" >> $NOTESFILE
 
     if [[ "$NOEDITFLAG" -eq 0 ]]; then
-      $EDITOR + $NOTESFILE # start at end of file (in insert mode)
+      __edit 1 $NOTESFILE
     fi
   }
 # }}}
@@ -231,7 +231,7 @@ __new() {
     fi
 
     if [[ "$NOEDITFLAG" -eq 0 ]]; then
-      $EDITOR + $RESULT
+      __edit 0 $RESULT
     fi
 
     popd
@@ -324,12 +324,15 @@ __edit() {
   emulate -L zsh
   pushd $NOTESDIR
 
-  local PARTS=(${(s/:/)1}) # split at `:'
+  local EDITTAIL=$1
+  local PARTS=(${(s/:/)2}) # split at `:'
   local NAME=${PARTS[1]}
   local LINE=${PARTS[2]}
   if [[ -f "$NAME" && -e "$NAME" ]]; then
     if [[ -n "$LINE" ]]; then
       $EDITOR +$LINE $NAME
+    elif [[ "$EDITTAIL" -eq 1 ]]; then
+      $EDITOR + $NAME
     else
       $EDITOR $NAME
     fi
@@ -380,7 +383,7 @@ else
       __standup "${@:2}"
       ;;
     *)
-      __edit $@
+      __edit 0 $@
       ;;
   esac
 fi
