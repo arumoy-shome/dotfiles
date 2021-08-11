@@ -166,6 +166,8 @@ __find() {
 # New {{{
 __new() {
   emulate -L zsh
+  pushd $NOTESDIR
+
   local TIMESTAMP=$(date +'%Y-%m-%d')
   while [[ "$1" =~ - && ! "$1" == "--" ]]; do
     case "$1" in
@@ -206,7 +208,7 @@ __new() {
     else
       echo "Warning: Either tag or name or both missing, using default naming."
     fi
-    RESULT="$NOTESDIR/$RESULT.$NOTESFORMAT"
+    RESULT="$RESULT.$NOTESFORMAT"
 
     if [[ ! -e "$RESULT" ]]; then
       echo "Info: $RESULT does not exist, creating file."
@@ -230,6 +232,8 @@ __new() {
     if [[ "$NOEDITFLAG" -eq 0 ]]; then
       $EDITOR + $RESULT
     fi
+
+    popd
 }
 # }}}
 
