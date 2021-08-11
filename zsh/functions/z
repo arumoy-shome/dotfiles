@@ -130,6 +130,11 @@ __grep () {
 # Find {{{
 __find() {
   emulate -L zsh
+  pushd $NOTESDIR
+
+  local NOTENAMERX="^\d+-\d+-\d+--${2:l}--[\w-]+"
+  local SHOWTAGSRX='.+\d+-\d+-\d+--(\w+)--[\w-]+'
+
   case "$1" in
     --help | -h )
       echo "find: print a list of files matching a specific tag."
@@ -140,20 +145,21 @@ __find() {
       return 0
       ;;
     --tag | -t )
-      $FINDPRG --extension $NOTESFORMAT "^\d+-\d+-\d+--${2:l}--\w+" ${@:3} $NOTESDIR # lowercase tags
+      $FINDPRG --extension $NOTESFORMAT $NOTENAMERX ${@:3} # lowercase tags
       ;;
     --show-tags )
       # NOTE: we need two calls to sort, the first so that uniq works
       # as expected and the second to sort based on count of tags
-      $FINDPRG . --extension $NOTESFORMAT $NOTESDIR | $GREPPRG '.+\d+-\d+-\d+--(.+)--.+' -r \$1 | \
+      $FINDPRG --extension $NOTESFORMAT | $GREPPRG $SHOWTAGSRX -r '$1' | \
         sort | \
         uniq -c | \
         sort --reverse | \
         column
       ;;
     *)
-      $FINDPRG --extension $NOTESFORMAT $@ $NOTESDIR
+      $FINDPRG --extension $NOTESFORMAT $@
   esac
+  popd
 }
 # }}}
 
