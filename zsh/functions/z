@@ -305,31 +305,39 @@ __link() {
 
 # Standup {{{
 __standup() {
+  emulate -L zsh
+  pushd $NOTESDIR
+
   if [[ -n "$1" ]]; then
-    $FINDPRG . --changed-within $1 --extension $NOTESFORMAT $NOTESDIR
+    $FINDPRG --changed-within $1 --extension $NOTESFORMAT
   else
-    $FINDPRG . --changed-within 1d --extension $NOTESFORMAT $NOTESDIR
+    $FINDPRG --changed-within 1d --extension $NOTESFORMAT
   fi
+
+  popd
 }
 # }}}
 
 # Edit {{{
 __edit() {
   emulate -L zsh
+  pushd $NOTESDIR
 
   local PARTS=(${(s/:/)1}) # split at `:'
   local NAME=${PARTS[1]}
   local LINE=${PARTS[2]}
-  if [[ -f "$NOTESDIR/$NAME" && -e "$NOTESDIR/$NAME" ]]; then
+  if [[ -f "$NAME" && -e "$NAME" ]]; then
     if [[ -n "$LINE" ]]; then
-      $EDITOR +$LINE $NOTESDIR/$NAME
+      $EDITOR +$LINE $NAME
     else
-      $EDITOR $NOTESDIR/$NAME
+      $EDITOR $NAME
     fi
   else
     echo "Error: $NAME does not exist."
     return 1
   fi
+
+  popd
 }
 # }}}
 
