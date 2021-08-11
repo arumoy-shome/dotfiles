@@ -289,6 +289,26 @@ __standup() {
 }
 # }}}
 
+# Edit {{{
+__edit() {
+  emulate -L zsh
+
+  local PARTS=(${(s/:/)1}) # split at `:'
+  local NAME=${PARTS[1]}
+  local LINE=${PARTS[2]}
+  if [[ -f "$NOTESDIR/$NAME" && -e "$NOTESDIR/$NAME" ]]; then
+    if [[ -n "$LINE" ]]; then
+      $EDITOR +$LINE $NOTESDIR/$NAME
+    else
+      $EDITOR $NOTESDIR/$NAME
+    fi
+  else
+    echo "Error: $NAME does not exist."
+    return 1
+  fi
+}
+# }}}
+
 # Main {{{
 if [[ "$#" -eq 0 ]]; then
   __capture && exit
@@ -327,19 +347,7 @@ else
       __standup "${@:2}"
       ;;
     *)
-      local PARTS=(${(s/:/)1}) # split at `:'
-      local NAME=${PARTS[1]}
-      local LINE=${PARTS[2]}
-      if [[ -f "$NOTESDIR/$NAME" && -e "$NOTESDIR/$NAME" ]]; then
-        if [[ -n "$LINE" ]]; then
-          $EDITOR +$LINE $NOTESDIR/$NAME
-        else
-          $EDITOR $NOTESDIR/$NAME
-        fi
-      else
-        echo "Error: $NAME does not exist."
-        return 1
-      fi
+      __edit $@
       ;;
   esac
 fi
