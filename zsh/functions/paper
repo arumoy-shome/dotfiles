@@ -1,0 +1,40 @@
+# vim: filetype=zsh foldmethod=marker
+# helper function for scientific papers.
+
+# Init {{{
+local PAPERDIR="$HOME/Documents/papers"
+local NOTESDIR="$HOME/org"
+# }}}
+
+# Browse {{{
+__browse() {
+  emulate -L zsh
+
+  if [[ -n "$1" ]]; then
+    pushd $PAPERDIR
+    if [[ -e "$1" ]]; then
+      open $1
+    else
+      echo "Error: $1 does not exist."
+      return 1
+    fi
+    popd
+  else
+    echo "Error: No paper provided."
+    return 1
+  fi
+}
+# }}}
+
+# Main {{{
+case "$1" in
+  browse | bro | b)
+    __browse "${@:2}"
+    ;;
+  *)
+    echo "Error: unknown command $1."
+    return 1
+    ;;
+esac
+# }}}
+

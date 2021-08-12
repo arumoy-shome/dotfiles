@@ -1,0 +1,3 @@
+#compdef paper
+
+_path_files -W ~/Documents/papers/
