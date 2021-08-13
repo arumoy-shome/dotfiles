@@ -219,8 +219,12 @@ __new() {
     fi
 
     local TEMPLATEFILE="$TEMPLATEDIR/$TAG"
-    if [[ -e "$TEMPLATEFILE"  && -s "$TEMPLATEFILE" ]]; then
-      cat $TEMPLATEFILE > $RESULT
+    if [[ -e "$TEMPLATEFILE" ]]; then
+      if [[ -x "$TEMPLATEFILE" ]]; then
+        $TEMPLATEFILE $RESULT
+      elif [[ -s "$TEMPLATEFILE" ]]; then
+        cat $TEMPLATEFILE > $RESULT
+      fi
     else
       echo "---" > $RESULT
       echo "title: $NAME" >> $RESULT
