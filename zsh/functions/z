@@ -134,7 +134,7 @@ __find() {
   pushd $NOTESDIR
 
   local NOTENAMERX="^\d+-\d+-\d+--${2:l}--[\w-]+"
-  local SHOWTAGSRX='.+\d+-\d+-\d+--(\w+)--[\w-]+'
+  local SHOWTAGSRX="^\d+-\d+-\d+--(\w+)--[\w-]+\.$NOTESFORMAT"
 
   case "$1" in
     --help | -h )
