@@ -25,6 +25,7 @@ __capture () {
         echo "--state -s: specify a state for the capture header."
         echo "--tag -t: specify a tag for the capture header."
         echo "--name -n: specify a title for the capture header."
+        echo "--priority -p: specify a priority for the capture header."
         echo "--no-edit -x: just create the header, don't open it."
         echo "The default notes directory is: $NOTESDIR"
         echo "The default notes file is: $NOTESFILE"
@@ -55,6 +56,14 @@ __capture () {
           return 1
         fi
         ;;
+      --priority | -p)
+        shift
+        local PRIORITY="${1:0:3}" # first 3 chars
+        if [[ -z "$PRIORITY" ]]; then
+          echo "Error: priority cannot be empty."
+          return 1
+        fi
+        ;;
       --no-edit | -x)
         local NOEDITFLAG=1
         ;;
@@ -64,6 +73,21 @@ __capture () {
         ;;
     esac; shift; done
 
+    # we have to do this outside of the args parsing above because the
+    # order of constructing TEMPLATE matters.
+    if [[ -n "$PRIORITY" ]]; then
+      case "$PRIORITY" in
+        low | l | !)
+          TEMPLATE="$TEMPLATE !"
+          ;;
+        medium | m | !!)
+          TEMPLATE="$TEMPLATE !!"
+          ;;
+        high | h | !!!)
+          TEMPLATE="$TEMPLATE !!!"
+          ;;
+      esac
+    fi
     if [[ -n "$STATE" ]]; then
       TEMPLATE="$TEMPLATE $STATE"
     fi
