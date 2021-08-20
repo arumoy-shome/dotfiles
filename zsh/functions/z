@@ -364,6 +364,14 @@ __cat() {
 }
 # }}}
 
+# Rm {{{
+__rm() {
+  pushd $NOTESDIR
+  rm $@
+  popd
+}
+# }}}
+
 # Main {{{
 if [[ "$#" -eq 0 ]]; then
   __grep --state todo
@@ -397,6 +405,9 @@ else
       ;;
     cat)
       __cat "${@:2}"
+      ;;
+    rm)
+      __rm "${@:2}"
       ;;
     link | l)
       __link "${@:2}"
