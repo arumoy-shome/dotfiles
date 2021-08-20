@@ -58,7 +58,7 @@ __capture () {
         ;;
       --priority | -p)
         shift
-        local PRIORITY="${1:0:3}" # first 3 chars
+        local PRIORITY="$1"
         if [[ -z "$PRIORITY" ]]; then
           echo "Error: priority cannot be empty."
           return 1
@@ -121,15 +121,17 @@ __capture () {
 __grep () {
   emulate -L zsh
 
-  local STATERX="^#+\s${2:u}\s.+" # uppercase state
+  local STATERX="^#+\s!*\s?${2:u}\s.+" # uppercase state
   local TAGRX="^#+.+:${2:l}:$" # lowercase tag
+  local PRIORITYRX='^#+\s(!{1,3})\s.+'
   local SHOWTAGSRX='^#+.+:(.+):$'
 
   case "$1" in
     --help | -h )
       echo "grep: print a list of headers matching a specific state or tag."
-      echo "--state -s: print headers matching the specified state. Limit search to notes format."
-      echo "--tag -t: print headers matching the specified tag. Limit search to notes format."
+      echo "--state -s: print headers matching the specified state."
+      echo "--tag -t: print headers matching the specified tag."
+      echo "--priority -p: print headers matching the specified priority."
       echo "--show-tags: print all tags in notes files along with their count."
       echo "With any other arguments, invoke ripgrep with provided arguments."
       echo "All additional arguments are passed to ripgrep verbatim."
@@ -142,6 +144,22 @@ __grep () {
     --tag | -t )
       $GREPPRG --no-heading --no-line-number --with-filename --smart-case \
         --max-depth 1 --type $NOTESFORMAT ${@:3} $TAGRX
+      ;;
+    --priority | -p )
+      case "$2" in
+        low | l | !)
+          PRIORITYRX='^#+\s(!)\s.+'
+          ;;
+        medium | m | !!)
+          PRIORITYRX='^#+\s(!!)\s.+'
+          ;;
+        high | h | !!!)
+          PRIORITYRX='^#+\s(!!!)\s.+'
+          ;;
+      esac
+
+      $GREPPRG --no-heading --no-line-number --with-filename --smart-case \
+        --max-depth 1 --type $NOTESFORMAT ${@:3} $PRIORITYRX
       ;;
     --show-tags )
       # NOTE: we need two calls to sort, the first so that uniq works
