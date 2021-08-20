@@ -5,6 +5,7 @@
 local GREPPRG=rg
 local FINDPRG=fd
 local AUTHOR="Arumoy Shome"
+local CATPRG=glow
 [[ -z $NOTESFORMAT ]] && local NOTESFORMAT="md"
 [[ -z $NOTESDIR ]] && local NOTESDIR="$HOME/org"
 [[ -z $TEMPLATEDIR ]] && local TEMPLATEDIR="$NOTESDIR/.templates"
@@ -354,6 +355,15 @@ __edit() {
 }
 # }}}
 
+# Cat {{{
+__cat() {
+  pushd $NOTESDIR
+  local BG=$(tail -n 1 ~/.vim/.background)
+  $CATPRG -s $BG $@
+  popd
+}
+# }}}
+
 # Main {{{
 if [[ "$#" -eq 0 ]]; then
   __grep --state todo
@@ -384,6 +394,9 @@ else
       ;;
     cd)
       cd $NOTESDIR
+      ;;
+    cat)
+      __cat "${@:2}"
       ;;
     link | l)
       __link "${@:2}"
