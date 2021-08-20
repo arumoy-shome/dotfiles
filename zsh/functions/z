@@ -97,8 +97,8 @@ __grep () {
   emulate -L zsh
   pushd $NOTESDIR
 
-  local STATERX="^#+\s${2:u}\s.+"
-  local TAGRX="^#+.+:${2:l}:$"
+  local STATERX="^#+\s${2:u}\s.+" # uppercase state
+  local TAGRX="^#+.+:${2:l}:$" # lowercase tag
   local SHOWTAGSRX='^#+.+:(.+):$'
 
   case "$1" in
@@ -112,10 +112,12 @@ __grep () {
       return 0
       ;;
     --state | -s )
-      $GREPPRG --smart-case --max-depth 1 --type $NOTESFORMAT ${@:3} $STATERX # uppercase state
+      $GREPPRG --no-heading --no-line-number --with-filename --smart-case \
+        --max-depth 1 --type $NOTESFORMAT ${@:3} $STATERX
       ;;
     --tag | -t )
-      $GREPPRG --smart-case --max-depth 1 --type $NOTESFORMAT ${@:3} $TAGRX # lowercase tag
+      $GREPPRG --no-heading --no-line-number --with-filename --smart-case \
+        --max-depth 1 --type $NOTESFORMAT ${@:3} $TAGRX
       ;;
     --show-tags )
       # NOTE: we need two calls to sort, the first so that uniq works
