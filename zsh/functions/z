@@ -96,7 +96,6 @@ __capture () {
 # Grep {{{
 __grep () {
   emulate -L zsh
-  pushd $NOTESDIR
 
   local STATERX="^#+\s${2:u}\s.+" # uppercase state
   local TAGRX="^#+.+:${2:l}:$" # lowercase tag
@@ -134,14 +133,12 @@ __grep () {
       $GREPPRG --smart-case --max-depth 1 --type $NOTESFORMAT $@
       ;;
   esac
-  popd
 }
 # }}}
 
 # Find {{{
 __find() {
   emulate -L zsh
-  pushd $NOTESDIR
 
   local NOTENAMERX="^\d+-\d+-\d+--${2:l}--[\w-]+"
   local SHOWTAGSRX="^\d+-\d+-\d+--(\w+)--[\w-]+\.$NOTESFORMAT"
@@ -170,14 +167,12 @@ __find() {
     *)
       $FINDPRG --max-depth 1 --extension $NOTESFORMAT $@
   esac
-  popd
 }
 # }}}
 
 # New {{{
 __new() {
   emulate -L zsh
-  pushd $NOTESDIR
 
   local TIMESTAMP=$(date +'%Y-%m-%d')
   while [[ "$1" =~ - && ! "$1" == "--" ]]; do
@@ -247,8 +242,6 @@ __new() {
     if [[ "$NOEDITFLAG" -eq 0 ]]; then
       __edit 0 $RESULT
     fi
-
-    popd
 }
 # }}}
 
@@ -275,7 +268,6 @@ __backward_links() {
 # Link {{{
 __link() {
   emulate -L zsh
-  pushd $NOTESDIR
 
   while [[ "$1" =~ - && ! "$1" == "--" ]]; do
     case "$1" in
@@ -313,30 +305,24 @@ __link() {
       __forward_links $1
       __backward_links $NAME
     fi
-
-    popd
 }
 # }}}
 
 # Standup {{{
 __standup() {
   emulate -L zsh
-  pushd $NOTESDIR
 
   if [[ -n "$1" ]]; then
     $FINDPRG --max-depth 1 --changed-within $1 --extension $NOTESFORMAT
   else
     $FINDPRG --max-depth 1 --changed-within 1d --extension $NOTESFORMAT
   fi
-
-  popd
 }
 # }}}
 
 # Edit {{{
 __edit() {
   emulate -L zsh
-  pushd $NOTESDIR
 
   local EDITTAIL=$1
   local NAME=$2
@@ -350,29 +336,22 @@ __edit() {
     echo "Error: $NAME does not exist."
     return 1
   fi
-
-  popd
 }
 # }}}
 
 # Cat {{{
 __cat() {
-  pushd $NOTESDIR
   local BG=$(tail -n 1 ~/.vim/.background)
   $CATPRG -s $BG $@
-  popd
-}
-# }}}
-
-# Rm {{{
-__rm() {
-  pushd $NOTESDIR
-  rm $@
-  popd
 }
 # }}}
 
 # Main {{{
+if [[ "$PWD" != "$NOTESDIR" ]]; then
+  pushd $NOTESDIR
+  local PUSHDFLAG=1
+fi
+
 if [[ "$#" -eq 0 ]]; then
   __grep --state todo
 else
@@ -407,7 +386,7 @@ else
       __cat "${@:2}"
       ;;
     rm)
-      __rm "${@:2}"
+      rm $@
       ;;
     link | l)
       __link "${@:2}"
@@ -420,4 +399,6 @@ else
       ;;
   esac
 fi
+
+[[ "$PUSHDFLAG" -eq 1 ]] && popd
 # }}}
