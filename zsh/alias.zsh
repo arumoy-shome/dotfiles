@@ -1,7 +1,7 @@
 # Unix
 if (( $+commands[exa] )); then
   alias ls="exa -Fa" # --classify --all
-  alias ll="exa -Falh" # --classify --all --list --header
+  alias ll="exa -Falrh" # --classify --all --list --reverse --header
 fi
 if (( $+commands[fd] )); then
   alias find="fd"
