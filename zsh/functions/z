@@ -123,7 +123,7 @@ __grep () {
 
   local STATERX="^#+\s!*\s?${2:u}\s.+" # uppercase state
   local TAGRX="^#+.+:${2:l}:$" # lowercase tag
-  local PRIORITYRX='^#+\s(!{1,3})\s.+'
+  local PRIORITYRX='^#+\s!{1,3}\s.+'
   local SHOWTAGSRX='^#+.+:(.+):$'
 
   case "$1" in
@@ -148,13 +148,13 @@ __grep () {
     --priority | -p )
       case "$2" in
         low | l | !)
-          PRIORITYRX='^#+\s(!)\s.+'
+          PRIORITYRX='^#+\s!\s.+'
           ;;
         medium | m | !!)
-          PRIORITYRX='^#+\s(!!)\s.+'
+          PRIORITYRX='^#+\s!!\s.+'
           ;;
         high | h | !!!)
-          PRIORITYRX='^#+\s(!!!)\s.+'
+          PRIORITYRX='^#+\s!!!\s.+'
           ;;
       esac
 
