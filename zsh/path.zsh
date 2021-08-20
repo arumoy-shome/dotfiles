@@ -71,9 +71,6 @@ prepend_to PATH /usr/local/sbin
 if [[ -d "/usr/local/opt/python@3.8/libexec/bin" ]]; then
   prepend_to PATH "/usr/local/opt/python@3.8/libexec/bin"
 fi
-if [[ -d "/usr/local/opt/coreutils/libexec/gnubin" ]]; then
-  prepend_to PATH "/usr/local/opt/coreutils/libexec/gnubin"
-fi
 
 # On ARM Macs, Homebrew will use this instead of /usr/local.
 test -d /opt/homebrew/sbin && prepend_to PATH /opt/homebrew/sbin
