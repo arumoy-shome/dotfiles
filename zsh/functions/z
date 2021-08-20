@@ -77,10 +77,14 @@ __capture () {
       TEMPLATE="$TEMPLATE :$TAG:"
     fi
 
-    echo "$TEMPLATE" >> $NOTESFILE
+    local CAPTUREFILE="$NOTESDIR/$(date +'%Y-%m-%d')--capture--$(date +'%H:%M:%S').$NOTESFORMAT"
+
+    [[ ! -e "$CAPTUREFILE" ]] && touch $CAPTUREFILE
+
+    echo "$TEMPLATE" > $CAPTUREFILE
 
     if [[ "$NOEDITFLAG" -eq 0 ]]; then
-      __edit 1 $NOTESFILE
+      __edit 1 $CAPTUREFILE
     fi
   }
 # }}}
@@ -337,13 +341,9 @@ __edit() {
   pushd $NOTESDIR
 
   local EDITTAIL=$1
-  local PARTS=(${(s/:/)2}) # split at `:'
-  local NAME=${PARTS[1]}
-  local LINE=${PARTS[2]}
+  local NAME=$2
   if [[ -f "$NAME" && -e "$NAME" ]]; then
-    if [[ -n "$LINE" ]]; then
-      $EDITOR +$LINE $NAME
-    elif [[ "$EDITTAIL" -eq 1 ]]; then
+    if [[ "$EDITTAIL" -eq 1 ]]; then
       $EDITOR + $NAME
     else
       $EDITOR $NAME
