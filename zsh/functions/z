@@ -103,17 +103,17 @@ __capture () {
     fi
 
     local UUID=$(uuidgen)
-    local UUID=${UUID:l} # lowercase
-    local UUID=${UUID: -12} # last 12 chars
-    local CAPTUREFILE="$NOTESDIR/$(date +'%Y-%m-%d')--capture--${UUID}.$NOTESFORMAT"
+    UUID=${UUID:l} # lowercase
+    UUID=${UUID: -12} # last 12 chars
+    local CAPTUREFILE="$(date +'%Y-%m-%d')--capture--${UUID}.$NOTESFORMAT"
 
-    [[ ! -e "$CAPTUREFILE" ]] && touch $CAPTUREFILE
-
-    echo "$TEMPLATE" > $CAPTUREFILE
-
-    if [[ "$NOEDITFLAG" -eq 0 ]]; then
-      __edit 1 $CAPTUREFILE
+    if [[ ! -e "$CAPTUREFILE" ]]; then
+      echo "Info: $CAPTUREFILE does not exist, creating file."
+      touch $CAPTUREFILE
+      echo "$TEMPLATE" > $CAPTUREFILE
     fi
+
+    [[ ! "$NOEDITFLAG" ]] && __edit $CAPTUREFILE
   }
 # }}}
 
@@ -261,29 +261,25 @@ __new() {
     if [[ ! -e "$RESULT" ]]; then
       echo "Info: $RESULT does not exist, creating file."
       touch $RESULT
-    else
-      echo "Info: $RESULT already exists."
-    fi
 
-    local TEMPLATEFILE="$TEMPLATEDIR/$TAG"
-    if [[ -e "$TEMPLATEFILE" ]]; then
-      if [[ -x "$TEMPLATEFILE" ]]; then
-        $TEMPLATEFILE $RESULT
-      elif [[ -s "$TEMPLATEFILE" ]]; then
-        cat $TEMPLATEFILE > $RESULT
+      local TEMPLATEFILE="$TEMPLATEDIR/$TAG"
+      if [[ -e "$TEMPLATEFILE" ]]; then
+        if [[ -x "$TEMPLATEFILE" ]]; then
+          $TEMPLATEFILE $RESULT
+        elif [[ -s "$TEMPLATEFILE" ]]; then
+          cat $TEMPLATEFILE > $RESULT
+        fi
+      else
+        echo "---" > $RESULT
+        echo "title: $NAME" >> $RESULT
+        echo "date: $TIMESTAMP" >> $RESULT
+        echo "author: $AUTHOR" >> $RESULT
+        echo "tag: $TAG" >> $RESULT
+        echo "---" >> $RESULT
       fi
-    else
-      echo "---" > $RESULT
-      echo "title: $NAME" >> $RESULT
-      echo "date: $TIMESTAMP" >> $RESULT
-      echo "author: $AUTHOR" >> $RESULT
-      echo "tag: $TAG" >> $RESULT
-      echo "---" >> $RESULT
     fi
 
-    if [[ "$NOEDITFLAG" -eq 0 ]]; then
-      __edit 0 $RESULT
-    fi
+    [[ ! "$NOEDITFLAG" ]] && __edit $RESULT
 }
 # }}}
 
@@ -366,16 +362,10 @@ __standup() {
 __edit() {
   emulate -L zsh
 
-  local EDITTAIL=$1
-  local NAME=$2
-  if [[ -f "$NAME" && -e "$NAME" ]]; then
-    if [[ "$EDITTAIL" -eq 1 ]]; then
-      $EDITOR + $NAME
-    else
-      $EDITOR $NAME
-    fi
+  if [[ -f "$1" && -e "$1" ]]; then
+      $EDITOR $1
   else
-    echo "Error: $NAME does not exist."
+    echo "Error: $1 does not exist."
     return 1
   fi
 }
@@ -422,7 +412,7 @@ else
       __new "${@:2}"
       ;;
     cd)
-      cd $NOTESDIR
+      return 0 # already in NOTESDIR
       ;;
     cat)
       __cat "${@:2}"
@@ -437,10 +427,12 @@ else
       __standup "${@:2}"
       ;;
     *)
-      __edit 0 $@
+      __edit $1
       ;;
   esac
 fi
 
-[[ "$PUSHDFLAG" -eq 1 ]] && popd
+if [[ "$PUSHDFLAG" ]]; then
+  popd
+fi
 # }}}
