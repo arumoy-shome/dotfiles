@@ -323,6 +323,14 @@ __standup() {
 }
 # }}}
 
+# Newline EOF {{{
+__newline_eof() {
+  if [[ -e "$1" ]]; then
+    [[ $(tail -n 1 "$1") != '' ]] && echo >> $NAME # add new line at eof if not present already
+  fi
+}
+# }}}
+
 # Edit {{{
 __edit() {
   emulate -L zsh
@@ -341,7 +349,7 @@ __edit() {
       $EDITOR $NAME
     fi
 
-    [[ $(tail -n 1 "$NAME") != '' ]] && echo >> $NAME # add new line at eof if not present already
+    __newline_eof $NAME
   else
     echo "Error: $NAME does not exist."
     return 1
