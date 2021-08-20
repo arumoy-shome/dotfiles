@@ -77,7 +77,10 @@ __capture () {
       TEMPLATE="$TEMPLATE :$TAG:"
     fi
 
-    local CAPTUREFILE="$NOTESDIR/$(date +'%Y-%m-%d')--capture--$(date +'%H:%M:%S').$NOTESFORMAT"
+    local UUID=$(uuidgen)
+    local UUID=${UUID:l} # lowercase
+    local UUID=${UUID: -12} # last 12 chars
+    local CAPTUREFILE="$NOTESDIR/$(date +'%Y-%m-%d')--capture--${UUID}.$NOTESFORMAT"
 
     [[ ! -e "$CAPTUREFILE" ]] && touch $CAPTUREFILE
 
