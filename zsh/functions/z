@@ -387,6 +387,7 @@ __edit() {
 # Cat {{{
 __cat() {
   local BG=$(tail -n 1 ~/.vim/.background)
+  echo "Info: showing $@."
   $CATPRG -s $BG $@
 }
 # }}}
