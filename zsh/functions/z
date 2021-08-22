@@ -419,7 +419,7 @@ else
     find | fd | f)
       __find "${@:2}"
       ;;
-    capture | c)
+    capture | cap | c)
       __capture "${@:2}"
       ;;
     new | n)
