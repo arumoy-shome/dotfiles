@@ -359,10 +359,14 @@ __link() {
 __standup() {
   emulate -L zsh
 
+  local CAPTUREGLOB="*capture*.$NOTESFORMAT"
+
   if [[ -n "$1" ]]; then
-    $FINDPRG --max-depth 1 --changed-within $1 --extension $NOTESFORMAT
+    $FINDPRG --max-depth 1 --changed-within $1 --extension $NOTESFORMAT \
+      --exclude $CAPTUREGLOB
   else
-    $FINDPRG --max-depth 1 --changed-within 1d --extension $NOTESFORMAT
+    $FINDPRG --max-depth 1 --changed-within 1d --extension $NOTESFORMAT \
+      --exclude $CAPTUREGLOB
   fi
 }
 # }}}
