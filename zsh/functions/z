@@ -9,9 +9,7 @@ local CATPRG=glow
 [[ -z $NOTESFORMAT ]] && local NOTESFORMAT="md"
 [[ -z $NOTESDIR ]] && local NOTESDIR="$HOME/org"
 [[ -z $TEMPLATEDIR ]] && local TEMPLATEDIR="$NOTESDIR/.templates"
-[[ -z $NOTESFILE ]] && local NOTESFILE="$NOTESDIR/inbox.$NOTESFORMAT"
 [[ ! -d $NOTESDIR ]]  && mkdir -p $NOTESDIR
-[[ ! -e $NOTESFILE ]] && touch $NOTESFILE
 # }}}
 
 # Capture {{{
@@ -28,7 +26,6 @@ __capture () {
         echo "--priority -p: specify a priority for the capture header."
         echo "--no-edit -x: just create the header, don't open it."
         echo "The default notes directory is: $NOTESDIR"
-        echo "The default notes file is: $NOTESFILE"
         echo "The default notes format is: $NOTESFORMAT"
         return 0
         ;;
