@@ -68,9 +68,14 @@ fi
 
 prepend_to PATH /usr/local/bin
 prepend_to PATH /usr/local/sbin
+prepend_to PATH $XDG_DATA_BIN
 if [[ -d "/usr/local/opt/python@3.8/libexec/bin" ]]; then
   prepend_to PATH "/usr/local/opt/python@3.8/libexec/bin"
 fi
+if [[ -d "/usr/local/opt/coreutils/libexec/gnubin" ]]; then
+  prepend_to PATH "/usr/local/opt/coreutils/libexec/gnubin"
+fi
+
 
 # On ARM Macs, Homebrew will use this instead of /usr/local.
 test -d /opt/homebrew/sbin && prepend_to PATH /opt/homebrew/sbin
