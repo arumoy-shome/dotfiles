@@ -18,10 +18,6 @@ shopt -s direxpand
 export PAGER=less
 export MANPAGER=$PAGER
 export EDITOR=vim
-[[ -d $HOME/Documents/notes ]] && \
-  export NOTESDIR="$HOME/Documents/notes"
-[[ -r $NOTESDIR/slipbox.md ]] && \
-  export SLIPBOX="$NOTESDIR/slipbox.md"
 
 # filename (if known), line number if known, falling back to percent if known,
 # falling back to byte offset, falling back to dash
@@ -125,8 +121,3 @@ cd() {
   fi
 }
 
-z() {
-  if [[ -r $NOTESDIR/inbox.md ]]; then
-    $EDITOR $NOTESDIR/inbox.md
-  fi
-}
