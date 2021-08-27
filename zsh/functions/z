@@ -131,7 +131,7 @@ __grep () {
   # 5: state
   # 6: title
   # 7: tag
-  local PRETTYRX="(\d+-\d+-\d+)--(\w+)--(.+)\.$NOTESFORMAT:#+\s(!{1,3}\s)?(\W+\s)?(.+)(\s:.+:)$"
+  local PRETTYRX="(\d+-\d+-\d+)--(\w+)--(.+)\.$NOTESFORMAT:#+\s(!{1,3}\s)?([[:upper:]]+\s)?(.+)(\s:.+:)$"
   local PRETTYPRINT=' $4,$1,$3,$5,$6,$7 '
 
   case "$1" in
