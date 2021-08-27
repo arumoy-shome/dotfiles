@@ -9,7 +9,9 @@ local CATPRG=glow
 [[ -z $NOTESFORMAT ]] && local NOTESFORMAT="md"
 [[ -z $NOTESDIR ]] && local NOTESDIR="$HOME/org"
 [[ -z $TEMPLATEDIR ]] && local TEMPLATEDIR="$NOTESDIR/.templates"
+[[ -z $ARCHIVEDIR ]] && local ARCHIVEDIR="$NOTESDIR/.archive"
 [[ ! -d $NOTESDIR ]]  && mkdir -p $NOTESDIR
+[[ ! -d $ARCHIVEDIR ]]  && mkdir -p $ARCHIVEDIR
 # }}}
 
 # Capture {{{
@@ -432,8 +434,8 @@ else
     cat)
       __cat "${@:2}"
       ;;
-    rm)
-      rm ${@:2}
+    rm | mv)
+      mv ${@:2} $ARCHIVEDIR
       ;;
     link | l)
       __link "${@:2}"
