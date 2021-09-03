@@ -5,6 +5,7 @@
 	user = arumoy-shome
 [init]
   templatedir = ~/.config/git/template
+	defaultBranch = master
 [push]
   default = upstream
 [color]
