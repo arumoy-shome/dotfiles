@@ -299,7 +299,7 @@ __forward_links() {
   emulate -L zsh
 
   echo "Info: forward links."
-  $GREPPRG '\[.+\]\((\d+-\d+-\d+--\w+--[\w-]+)\)' $1 --no-line-number \
+  $GREPPRG '\((\d+-\d+-\d+--\w+--[\w-]+)\)' $1 --no-line-number \
     --only-matching --replace '$1'
 }
 # }}}
@@ -309,7 +309,7 @@ __backward_links() {
   emulate -L zsh
 
   echo "Info: backward links."
-  $GREPPRG --max-depth 1 --files-with-matches --type $NOTESFORMAT "\[.+\]\($1\)" | \
+  $GREPPRG --max-depth 1 --files-with-matches --type $NOTESFORMAT "\($1\)" | \
     $GREPPRG --no-line-number --only-matching "^(.+)\.$NOTESFORMAT" -r '$1'
 }
 # }}}
