@@ -120,9 +120,9 @@ __capture () {
 __grep () {
   emulate -L zsh
 
-  local STATERX="^#+\s!*\s?${2:u}\s.+" # uppercase state
-  local TAGRX="^#+.+:${2:l}:$" # lowercase tag
-  local PRIORITYRX='^#+\s!{1,3}\s.+'
+  local STATERX='[[:upper:]]+'
+  local TAGRX='.+'
+  local PRIORITYRX='!{0,3}'
   local SHOWTAGSRX='^#+.+:(.+):$'
   # 1: timestamp
   # 2: file tag
@@ -134,59 +134,77 @@ __grep () {
   local PRETTYRX="(\d+-\d+-\d+)--(\w+)--(.+)\.$NOTESFORMAT:#+\s(!{1,3}\s)?([[:upper:]]+\s)?(.+)(\s:.+:)$"
   local PRETTYPRINT=' $4,$1,$3,$5,$6,$7 '
 
-  case "$1" in
-    --help | -h )
-      echo "grep: print a list of headers matching a specific state or tag."
-      echo "--state -s: print headers matching the specified state."
-      echo "--tag -t: print headers matching the specified tag."
-      echo "--priority -p: print headers matching the specified priority."
-      echo "--show-tags: print all tags in notes files along with their count."
-      echo "With any other arguments, invoke ripgrep with provided arguments."
-      echo "All additional arguments are passed to ripgrep verbatim."
-      return 0
-      ;;
-    --state | -s )
-      $GREPPRG --no-heading --no-line-number --with-filename --smart-case \
-        --max-depth 1 --type $NOTESFORMAT ${@:3} $STATERX | \
-        $GREPPRG $PRETTYRX -r $PRETTYPRINT | column -t -s ,
-      ;;
-    --tag | -t )
-      $GREPPRG --no-heading --no-line-number --with-filename --smart-case \
-        --max-depth 1 --type $NOTESFORMAT ${@:3} $TAGRX | \
-        $GREPPRG $PRETTYRX -r $PRETTYPRINT | column -t -s ,
-      ;;
-    --priority | -p )
-      case "$2" in
-        low | l | !)
-          PRIORITYRX='^#+\s!\s.+'
-          ;;
-        medium | m | !!)
-          PRIORITYRX='^#+\s!!\s.+'
-          ;;
-        high | h | !!!)
-          PRIORITYRX='^#+\s!!!\s.+'
-          ;;
-      esac
+  while [[ "$1" =~ - && ! "$1" == "--" ]]; do
+    case "$1" in
+      --help | -h )
+        echo "grep: print a list of headers matching a specific state or tag."
+        echo "--state -s: print headers matching the specified state."
+        echo "--tag -t: print headers matching the specified tag."
+        echo "--priority -p: print headers matching the specified priority."
+        echo "--show-tags: print all tags in notes files along with their count."
+        echo "With any other arguments, invoke ripgrep with provided arguments."
+        echo "All additional arguments are passed to ripgrep verbatim."
+        return 0
+        ;;
+      --state | -s)
+        shift
+        if [[ -n "$1" ]]; then
+          STATERX="${1:u}" # uppercase
+        else
+          echo 'Error: state cannot be empty.'
+          return 1
+        fi
+        ;;
+      --tag | -t)
+        shift
+        if [[ -n "$1" ]]; then
+          TAGRX="${1:l}" # lowercase
+        else
+          echo 'Error: tag cannot be empty.'
+          return 1
+        fi
+        ;;
+      --priority | -p )
+        shift
+        if [[ -n "$1" ]]; then
+          PRIORITYRX=$1
+        else
+          echo 'Error: priority cannot be empty.'
+          return 1
+        fi
+        ;;
+      --show-tags )
+        # NOTE: we need two calls to sort, the first so that uniq works
+        # as expected and the second to sort based on count of tags
+        $GREPPRG --max-depth 1 --type $NOTESFORMAT --no-heading --no-filename \
+          --no-line-number $SHOWTAGSRX -r '$1' | \
+          sort | \
+          uniq -c | \
+          sort --reverse | \
+          column
 
-      $GREPPRG --no-heading --no-line-number --with-filename --smart-case \
-        --max-depth 1 --type $NOTESFORMAT ${@:3} $PRIORITYRX | \
-        $GREPPRG $PRETTYRX -r $PRETTYPRINT | column -t -s ,
-      ;;
-    --show-tags )
-      # NOTE: we need two calls to sort, the first so that uniq works
-      # as expected and the second to sort based on count of tags
-      $GREPPRG --max-depth 1 --type $NOTESFORMAT --no-heading --no-filename \
-        --no-line-number $SHOWTAGSRX -r '$1' | \
-        sort | \
-        uniq -c | \
-        sort --reverse | \
-        column
-      ;;
-    *)
-      $GREPPRG --smart-case --max-depth 1 --type $NOTESFORMAT $@
-      ;;
-  esac
+        return 0
+        ;;
+      *)
+        echo "Error: unknown flag $1"
+        return 1
+        ;;
+    esac; shift
+  done
+
+  local QUERYRX='^#+\s' # one or more # followed by whitespace
+  QUERYRX+=$PRIORITYRX # zero or more !
+  QUERYRX+='\s?' # optional whitespace
+  QUERYRX+=$STATERX
+  QUERYRX+='\s' # whitespace
+  QUERYRX+='.+' # match all
+  QUERYRX+=":$TAGRX:$" # end tag
+
+  $GREPPRG --no-heading --no-line-number --with-filename --smart-case \
+    --max-depth 1 --type $NOTESFORMAT $@ $QUERYRX | \
+    $GREPPRG $PRETTYRX -r $PRETTYPRINT | column -t -s ,
 }
+
 # }}}
 
 # Find {{{
