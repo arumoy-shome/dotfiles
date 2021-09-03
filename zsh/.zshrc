@@ -61,10 +61,10 @@ fi
 
 source $ZDOTDIR/path.zsh # must come first!
 source $ZDOTDIR/prompt.zsh
-source $ZDOTDIR/alias.zsh
 source $ZDOTDIR/bindings.zsh
 source $ZDOTDIR/completion.zsh
 source $ZDOTDIR/options.zsh
 source $ZDOTDIR/exports.zsh
+source $ZDOTDIR/alias.zsh # must come after exports
 source $ZDOTDIR/hooks.zsh
 
