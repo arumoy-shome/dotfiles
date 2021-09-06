@@ -143,7 +143,6 @@ __grep () {
         echo "--priority -p: print headers matching the specified priority."
         echo "--show-tags: print all tags in notes files along with their count."
         echo "With any other arguments, invoke ripgrep with provided arguments."
-        echo "All additional arguments are passed to ripgrep verbatim."
         return 0
         ;;
       --state | -s)
@@ -192,19 +191,22 @@ __grep () {
     esac; shift
   done
 
-  local QUERYRX='^#+\s' # one or more # followed by whitespace
-  QUERYRX+=$PRIORITYRX # zero or more !
-  QUERYRX+='\s?' # optional whitespace
-  QUERYRX+=$STATERX
-  QUERYRX+='\s' # whitespace
-  QUERYRX+='.+' # match all
-  QUERYRX+=":$TAGRX:$" # end tag
+  if [[ $# -gt 0 ]]; then
+    $GREPPRG --smart-case --max-depth 1 --type $NOTESFORMAT $@
+  else
+    local QUERYRX='^#+\s' # one or more # followed by whitespace
+    QUERYRX+=$PRIORITYRX # zero or more !
+    QUERYRX+='\s?' # optional whitespace
+    QUERYRX+=$STATERX
+    QUERYRX+='\s' # whitespace
+    QUERYRX+='.+' # match all
+    QUERYRX+=":$TAGRX:$" # end tag
 
-  $GREPPRG --no-heading --no-line-number --with-filename --smart-case \
-    --max-depth 1 --type $NOTESFORMAT $@ $QUERYRX | \
-    $GREPPRG $PRETTYRX -r $PRETTYPRINT | column -t -s ,
+    $GREPPRG --no-heading --no-line-number --with-filename --smart-case \
+      --max-depth 1 --type $NOTESFORMAT $@ $QUERYRX | \
+      $GREPPRG $PRETTYRX -r $PRETTYPRINT | column -t -s ,
+  fi
 }
-
 # }}}
 
 # Find {{{
