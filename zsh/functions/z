@@ -314,29 +314,29 @@ __new() {
 }
 # }}}
 
-# Forward Links {{{
-__forward_links() {
-  emulate -L zsh
-
-  echo "Info: forward links."
-  $GREPPRG '\((\d+-\d+-\d+--\w+--[\w-]+)\)' $1 --no-line-number \
-    --only-matching --replace '$1'
-}
-# }}}
-
-# Backward Links {{{
-__backward_links() {
-  emulate -L zsh
-
-  echo "Info: backward links."
-  $GREPPRG --max-depth 1 --files-with-matches --type $NOTESFORMAT "\($1\)" | \
-    $GREPPRG --no-line-number --only-matching "^(.+)\.$NOTESFORMAT" -r '$1'
-}
-# }}}
-
 # Link {{{
 __link() {
   emulate -L zsh
+
+  # Backward Links {{{
+  __backward_links() {
+    emulate -L zsh
+
+    echo "Info: backward links."
+    $GREPPRG --max-depth 1 --files-with-matches --type $NOTESFORMAT "\($1\)" | \
+      $GREPPRG --no-line-number --only-matching "^(.+)\.$NOTESFORMAT" -r '$1'
+  }
+  # }}}
+
+  # Forward Links {{{
+  __forward_links() {
+    emulate -L zsh
+
+    echo "Info: forward links."
+    $GREPPRG '\((\d+-\d+-\d+--\w+--[\w-]+)\)' $1 --no-line-number \
+      --only-matching --replace '$1'
+    }
+  # }}}
 
   while [[ "$1" =~ - && ! "$1" == "--" ]]; do
     case "$1" in
@@ -356,10 +356,11 @@ __link() {
         local BACKWARDFLAG=1
         ;;
       *)
-        local NAME=${1:t:r}
+        local NAME=${1:t:r} # file name without extension and absolute path
         break
         ;;
-    esac; done
+    esac
+  done
 
     if [[ -z "$1" || ! -e "$1" ]]; then
       echo "Error: no or unexisting file specified."
