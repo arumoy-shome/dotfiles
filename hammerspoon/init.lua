@@ -1,4 +1,7 @@
 local hyper = {"ctrl", "cmd", "alt", "shift"}
+local terminalPrg = "iTerm"
+local browserPrg = "Firefox"
+local editorPrg = "Emacs"
 
 -- reload config
 hs.loadSpoon("ReloadConfiguration")
@@ -43,14 +46,18 @@ end)
 
 -- hotkey for terminal
 hs.hotkey.bind(hyper, "Return", function()
-  hs.application.launchOrFocus("Kitty")
+  if hs.application.frontmostApplication():name() == editorPrg then
+    hs.application.launchOrFocus(terminalPrg)
+  else
+    hs.application.launchOrFocus(editorPrg)
+  end
 end)
 
 -- editor and browser 50-50 layout
 hs.hotkey.bind(hyper, "1", function()
   local mainScreen = "Color LCD"
-  local terminal = hs.application.find("iTerm")
-  local browser = hs.application.find("qutebrowser")
+  local terminal = hs.application.find(terminalPrg)
+  local browser = hs.application.find(browserPrg)
   local layout = {
     {terminal, nil, mainScreen, hs.layout.left50, nil, nil},
     {browser, nil, mainScreen, hs.layout.right50, nil, nil}
