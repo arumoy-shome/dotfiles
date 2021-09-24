@@ -3,7 +3,7 @@
 # With arguments: acts like `git`
 
 if [[ $# -gt 0 ]]; then
-  hub "$@"
+  git "$@"
 else
-  hub status
+  git status
 fi
