@@ -134,6 +134,7 @@ __find() {
   local CAPTURERX='capture@(\w+)?--[\w-]+'
   local SHOWTYPESRX='^(\w+)@\w+--.+'
   local SHOWPROJECTSRX='^\w+@(\w+)--.+'
+  local COMMAND="$FINDPRG --max-depth 1 --extension $NOTESFORMAT"
 
   while [[ "$1" =~ - && ! "$1" == "--" ]]; do
     case "$1" in
@@ -141,6 +142,7 @@ __find() {
         echo "find: find files matching a specific type or project."
         echo "--type -t: print files matching the specified type."
         echo "--project -p: print files matching the specified project."
+        echo "--all -a: bypass above filters."
         echo "--show-types: print types."
         echo "--show-projects: print projects."
         echo "With any other arguments, invoke fd with provided arguments."
@@ -162,6 +164,15 @@ __find() {
           echo "Error: project cannot be empty."
           return 1
         fi
+        ;;
+      --all | -a)
+        shift
+        local QUERYRX=$1
+        if [[ -n $QUERYRX ]]; then
+          COMMAND="$COMMAND $QUERYRX"
+          eval $COMMAND
+        fi
+        return 0
         ;;
       --edit | -e)
         local EDITFLAG=1
@@ -185,7 +196,6 @@ __find() {
   local TYPERX="^${TYPE}@(\w+)?--[\w-]+"
   local PROJECTRX="^\w+@${PROJECT}--[\w-]+"
   local TYPEPROJECTRX="^${TYPE}@${PROJECT}--[\w-]+"
-  local COMMAND="$FINDPRG --max-depth 1 --extension $NOTESFORMAT"
 
   # pass the appropriate regex.
   # NOTE that we have to quote the regex expression in single quotes
