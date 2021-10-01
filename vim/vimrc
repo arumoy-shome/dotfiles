@@ -23,6 +23,7 @@ Plug 'vim-pandoc/vim-pandoc-syntax'
 Plug 'wincent/loupe'
 Plug 'wincent/pinnacle'
 Plug 'wincent/terminus'
+Plug 'jamessan/vim-gnupg'
 call plug#end()
 
 " vim-plug handles the following, kept here for reference
