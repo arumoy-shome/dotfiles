@@ -9,203 +9,79 @@ local CATPRG=glow
 [[ -z $NOTESFORMAT ]] && local NOTESFORMAT="md"
 [[ -z $NOTESDIR ]] && local NOTESDIR="$HOME/org"
 [[ -z $TEMPLATEDIR ]] && local TEMPLATEDIR="$NOTESDIR/.templates"
-[[ -z $ARCHIVEDIR ]] && local ARCHIVEDIR="$NOTESDIR/.archive"
 [[ ! -d $NOTESDIR ]]  && mkdir -p $NOTESDIR
-[[ ! -d $ARCHIVEDIR ]]  && mkdir -p $ARCHIVEDIR
+# }}}
+
+# Agenda {{{
+__agenda () {
+  emulate -L zsh
+
+  # 1: type
+  # 2: project
+  # 3: file name
+  # 4: title
+  local PRETTYRX="(\w+)@(\w+)--(.+)\.$NOTESFORMAT:#+\s(.+)$"
+  local PRETTYPRINT=' $1|$2|$3|$4 '
+  local QUERYRX='^#+\s.+'
+
+  $GREPPRG --no-heading --no-line-number --with-filename --smart-case \
+    --max-depth 1 --type $NOTESFORMAT $@ $QUERYRX | \
+    $GREPPRG $PRETTYRX -r $PRETTYPRINT | column -t -s '|'
+}
 # }}}
 
 # Capture {{{
 __capture () {
   emulate -L zsh
-  local TEMPLATE="#"
+
   while [[ "$1" =~ - && ! "$1" == "--" ]]; do
     case "$1" in
       --help | -h)
-        echo "capture: open default notes file and start capture process."
-        echo "--state -s: specify a state for the capture header."
-        echo "--tag -t: specify a tag for the capture header."
-        echo "--name -n: specify a title for the capture header."
-        echo "--priority -p: specify a priority for the capture header."
-        echo "--no-edit -x: just create the header, don't open it."
-        echo "The default notes directory is: $NOTESDIR"
-        echo "The default notes format is: $NOTESFORMAT"
+        echo "capture: convenient wrapper around new."
+        echo "--project -p: specify a project."
         return 0
         ;;
-      --state | -s)
+      --project | -p)
         shift
-        local STATE="${1:u}" # uppercase
-        if [[ -z "$STATE" ]]; then
-          echo "Error: state cannot be empty."
+        PROJECT="${1:l}" #lowercase
+        if [[ -z "$PROJECT" ]]; then
+          echo "Error: project cannot be empty."
           return 1
         fi
-        ;;
-      --tag | -t)
-        shift
-        local TAG="${1:l}" # lowercase
-        if [[ -z "$TAG" ]]; then
-          echo "Error: tag cannot be empty."
-          return 1
-        fi
-        ;;
-      --name | -n)
-        shift
-        local NAME="$1"
-        if [[ -z "$NAME" ]]; then
-          echo "Error: name cannot be empty."
-          return 1
-        fi
-        ;;
-      --priority | -p)
-        shift
-        local PRIORITY="$1"
-        if [[ -z "$PRIORITY" ]]; then
-          echo "Error: priority cannot be empty."
-          return 1
-        fi
-        ;;
-      --no-edit | -x)
-        local NOEDITFLAG=1
         ;;
       *)
         echo "Error: unknown option $1."
         return 1
         ;;
-    esac; shift; done
+    esac; shift
+  done
 
-    # we have to do this outside of the args parsing above because the
-    # order of constructing TEMPLATE matters.
-    if [[ -n "$PRIORITY" ]]; then
-      case "$PRIORITY" in
-        low | l | !)
-          TEMPLATE="$TEMPLATE !"
-          ;;
-        medium | m | !!)
-          TEMPLATE="$TEMPLATE !!"
-          ;;
-        high | h | !!!)
-          TEMPLATE="$TEMPLATE !!!"
-          ;;
-      esac
-    fi
-    if [[ -n "$STATE" ]]; then
-      TEMPLATE="$TEMPLATE $STATE"
-    fi
-    if [[ "$STATE" == "IDEA" ]]; then
-      local TIMESTAMP=$(date +'%Y-%m-%d %H:%M')
-      TEMPLATE="$TEMPLATE $TIMESTAMP"
-    fi
-    if [[ -n "$NAME" ]]; then
-      TEMPLATE="$TEMPLATE $NAME"
-    fi
-    if [[ -n "$TAG" ]]; then
-      TEMPLATE="$TEMPLATE :$TAG:"
-    fi
+  local UUID=$(uuidgen)
+  UUID=${UUID:l} # lowercase
+  UUID=${UUID: -12} # last 12 chars
 
-    local UUID=$(uuidgen)
-    UUID=${UUID:l} # lowercase
-    UUID=${UUID: -12} # last 12 chars
-    local CAPTUREFILE="$(date +'%Y-%m-%d')--capture--${UUID}.$NOTESFORMAT"
-
-    if [[ ! -e "$CAPTUREFILE" ]]; then
-      echo "Info: $CAPTUREFILE does not exist, creating file."
-      touch $CAPTUREFILE
-      echo "$TEMPLATE" > $CAPTUREFILE
-    fi
-
-    [[ ! "$NOEDITFLAG" ]] && __edit $CAPTUREFILE
-  }
+  if [[ "$PROJECT" ]]; then
+    __new --type capture --name $UUID --project $PROJECT
+  else
+    __new --type capture --name $UUID
+  fi
+}
 # }}}
 
 # Grep {{{
 __grep () {
   emulate -L zsh
 
-  local STATERX='[[:upper:]]+'
-  local TAGRX='.+'
-  local PRIORITYRX='!{0,3}'
-  local SHOWTAGSRX='^#+.+:(.+):$'
-  # 1: timestamp
-  # 2: file tag
-  # 3: file name
-  # 4: priority
-  # 5: state
-  # 6: title
-  # 7: tag
-  local PRETTYRX="(\d+-\d+-\d+)--(\w+)--(.+)\.$NOTESFORMAT:#+\s(!{1,3}\s)?([[:upper:]]+\s)?(.+)(\s:.+:)$"
-  local PRETTYPRINT=' $4,$1,$3,$5,$6,$7 '
-
-  while [[ "$1" =~ - && ! "$1" == "--" ]]; do
-    case "$1" in
-      --help | -h )
-        echo "grep: print a list of headers matching a specific state or tag."
-        echo "--state -s: print headers matching the specified state."
-        echo "--tag -t: print headers matching the specified tag."
-        echo "--priority -p: print headers matching the specified priority."
-        echo "--show-tags: print all tags in notes files along with their count."
-        echo "With any other arguments, invoke ripgrep with provided arguments."
-        return 0
-        ;;
-      --state | -s)
-        shift
-        if [[ -n "$1" ]]; then
-          STATERX="${1:u}" # uppercase
-        else
-          echo 'Error: state cannot be empty.'
-          return 1
-        fi
-        ;;
-      --tag | -t)
-        shift
-        if [[ -n "$1" ]]; then
-          TAGRX="${1:l}" # lowercase
-        else
-          echo 'Error: tag cannot be empty.'
-          return 1
-        fi
-        ;;
-      --priority | -p )
-        shift
-        if [[ -n "$1" ]]; then
-          PRIORITYRX=$1
-        else
-          echo 'Error: priority cannot be empty.'
-          return 1
-        fi
-        ;;
-      --show-tags )
-        # NOTE: we need two calls to sort, the first so that uniq works
-        # as expected and the second to sort based on count of tags
-        $GREPPRG --max-depth 1 --type $NOTESFORMAT --no-heading --no-filename \
-          --no-line-number $SHOWTAGSRX -r '$1' | \
-          sort | \
-          uniq -c | \
-          sort --reverse | \
-          column
-
-        return 0
-        ;;
-      *)
-        echo "Error: unknown flag $1"
-        return 1
-        ;;
-    esac; shift
-  done
-
-  if [[ $# -gt 0 ]]; then
-    $GREPPRG --smart-case --max-depth 1 --type $NOTESFORMAT $@
-  else
-    local QUERYRX='^#+\s' # one or more # followed by whitespace
-    QUERYRX+=$PRIORITYRX # zero or more !
-    QUERYRX+='\s?' # optional whitespace
-    QUERYRX+=$STATERX
-    QUERYRX+='\s' # whitespace
-    QUERYRX+='.+' # match all
-    QUERYRX+=":$TAGRX:$" # end tag
-
-    $GREPPRG --no-heading --no-line-number --with-filename --smart-case \
-      --max-depth 1 --type $NOTESFORMAT $@ $QUERYRX | \
-      $GREPPRG $PRETTYRX -r $PRETTYPRINT | column -t -s ,
-  fi
+  case "$1" in
+    --help | -h )
+      echo "grep: grep wrapper for notes files."
+      echo "Invoke ripgrep with provided arguments."
+      return 0
+      ;;
+    *)
+      $GREPPRG --smart-case --max-depth 1 --type $NOTESFORMAT $@
+      ;;
+  esac
 }
 # }}}
 
@@ -458,7 +334,7 @@ else
       __cat "${@:2}"
       ;;
     rm | mv)
-      mv ${@:2} $ARCHIVEDIR
+      rm ${@:2}
       ;;
     link | l)
       __link "${@:2}"
