@@ -120,6 +120,17 @@ __grep () {
 __find() {
   emulate -L zsh
 
+  # Show Tags {{{
+  __show_tags () {
+    $FINDPRG --max-depth 1 --extension $NOTESFORMAT | \
+      $GREPPRG $1 -r '$1' | \
+      sort | \
+      uniq -c | \
+      sort --reverse | \
+      column
+  }
+  #}}}
+
   local CAPTURERX='capture@(\w+)?--[\w-]+'
   local SHOWTYPESRX='^(\w+)@\w+--.+'
   local SHOWPROJECTSRX='^\w+@(\w+)--.+'
@@ -156,26 +167,16 @@ __find() {
         local EDITFLAG=1
         ;;
       --show-types)
-        $FINDPRG --max-depth 1 --extension $NOTESFORMAT | \
-          $GREPPRG $SHOWTYPESRX -r '$1' | \
-          sort | \
-          uniq -c | \
-          sort --reverse | \
-          column
+        __show_tags $SHOWTYPESRX
         return 0
         ;;
       --show-projects)
-        $FINDPRG --max-depth 1 --extension $NOTESFORMAT | \
-          $GREPPRG $SHOWPROJECTSRX -r '$1' | \
-          sort | \
-          uniq -c | \
-          sort --reverse | \
-          column
+        __show_tags $SHOWPROJECTSRX
         return 0
         ;;
       *)
-        echo "Error: unknown option $1."
-        return 1
+        # NOTE Do nothing! This is intensional since we may pass
+        # additional flags for FINDPRG.
     esac; shift
   done
 
