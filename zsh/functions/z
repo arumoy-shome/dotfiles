@@ -89,47 +89,94 @@ __grep () {
 __find() {
   emulate -L zsh
 
-  local TYPERX="^${2:l}@(\w+)?--[\w-]+"
-  local PROJECTRX="^\w+@${2:l}--[\w-]+"
+  local CAPTURERX='capture@(\w+)?--[\w-]+'
   local SHOWTYPESRX='^(\w+)@\w+--.+'
   local SHOWPROJECTSRX='^\w+@(\w+)--.+'
 
-  case "$1" in
-    --help | -h )
-      echo "find: find files matching a specific type or project."
-      echo "--type -t: print files matching the specified type."
-      echo "--project -p: print files matching the specified project."
-      echo "--show-types: print types."
-      echo "--show-projects: print projects."
-      echo "With any other arguments, invoke fd with provided arguments."
-      echo "All additional arguments are passed to fd verbatim."
-      return 0
-      ;;
-    --type | -t)
-      $FINDPRG --max-depth 1 --extension $NOTESFORMAT $TYPERX ${@:3}
-      ;;
-    --project | -p)
-      $FINDPRG --max-depth 1 --extension $NOTESFORMAT $PROJECTRX ${@:3}
-      ;;
-    --show-types)
-      $FINDPRG --max-depth 1 --extension $NOTESFORMAT | \
-        $GREPPRG $SHOWTYPESRX -r '$1' | \
-        sort | \
-        uniq -c | \
-        sort --reverse | \
-        column
-      ;;
-    --show-projects)
-      $FINDPRG --max-depth 1 --extension $NOTESFORMAT | \
-        $GREPPRG $SHOWPROJECTSRX -r '$1' | \
-        sort | \
-        uniq -c | \
-        sort --reverse | \
-        column
-      ;;
-    *)
-      $FINDPRG --max-depth 1 --extension $NOTESFORMAT $@
-  esac
+  while [[ "$1" =~ - && ! "$1" == "--" ]]; do
+    case "$1" in
+      --help | -h )
+        echo "find: find files matching a specific type or project."
+        echo "--type -t: print files matching the specified type."
+        echo "--project -p: print files matching the specified project."
+        echo "--show-types: print types."
+        echo "--show-projects: print projects."
+        echo "With any other arguments, invoke fd with provided arguments."
+        echo "All additional arguments are passed to fd verbatim."
+        return 0
+        ;;
+      --type | -t)
+        shift
+        local TYPE="${1:l}" # lowercase
+        if [[ -z "$TYPE" ]]; then
+          echo "Error: type cannot be empty."
+          return 1
+        fi
+        ;;
+      --project | -p)
+        shift
+        local PROJECT="${1:l}" # lowercase
+        if [[ -z "$PROJECT" ]]; then
+          echo "Error: project cannot be empty."
+          return 1
+        fi
+        ;;
+      --edit | -e)
+        local EDITFLAG=1
+        ;;
+      --show-types)
+        $FINDPRG --max-depth 1 --extension $NOTESFORMAT | \
+          $GREPPRG $SHOWTYPESRX -r '$1' | \
+          sort | \
+          uniq -c | \
+          sort --reverse | \
+          column
+        return 0
+        ;;
+      --show-projects)
+        $FINDPRG --max-depth 1 --extension $NOTESFORMAT | \
+          $GREPPRG $SHOWPROJECTSRX -r '$1' | \
+          sort | \
+          uniq -c | \
+          sort --reverse | \
+          column
+        return 0
+        ;;
+      *)
+        echo "Error: unknown option $1."
+        return 1
+    esac; shift
+  done
+
+  # NOTE: these cannot be define at the top since they depend on the
+  # values extracted from the arguments.
+  local TYPERX="^${TYPE}@(\w+)?--[\w-]+"
+  local PROJECTRX="^\w+@${PROJECT}--[\w-]+"
+  local TYPEPROJECTRX="^${TYPE}@${PROJECT}--[\w-]+"
+  local COMMAND="$FINDPRG --max-depth 1 --extension $NOTESFORMAT"
+
+  # pass the appropriate regex.
+  # NOTE that we have to quote the regex expression in single quotes
+  # since we are using eval later.
+  if [[ "$TYPE" && "$PROJECT" ]]; then
+    COMMAND="$COMMAND '$TYPEPROJECTRX'"
+  elif [[ "$TYPE" ]]; then
+    COMMAND="$COMMAND '$TYPERX'"
+  elif [[ "$PROJECT" ]]; then
+    COMMAND="$COMMAND '$PROJECTRX'"
+  else
+    COMMAND="$COMMAND '$CAPTURERX'"
+  fi
+
+  # pass any additional args
+  COMMAND="$COMMAND ${@:3}"
+
+  # handle --edit flag
+  if [[ "$EDITFLAG" ]]; then
+    COMMAND="$COMMAND --exec-batch $EDITOR"
+  fi
+
+  eval $COMMAND
 }
 # }}}
 
