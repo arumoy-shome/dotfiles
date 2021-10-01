@@ -4,11 +4,11 @@
 while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do
   case $1 in
     -l | --long)
-      command date +'%Y-%m-%d %H:%M' && return
+      echo "[$(command date +'%Y-%m-%d %a %H:%M')]" && return
       ;;
     -h | --human)
-      command date +'%b %d, %Y' && return
+      command date +'%a %b %d, %Y' && return
       ;;
   esac; shift;
 done
-command date +'%Y-%m-%d'
+echo "[$(command date +'%Y-%m-%d %a')]"
