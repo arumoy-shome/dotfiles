@@ -223,6 +223,10 @@ __new() {
       --no-edit | -x )
         local NOEDITFLAG=1
         ;;
+      *)
+        echo "Error: unknown option $1."
+        return 1
+        ;;
     esac; shift
   done
 
@@ -255,7 +259,7 @@ __new() {
     fi
   fi
 
-  [[ ! "$NOEDITFLAG" ]] && __edit $RESULT
+  [[ ! "$NOEDITFLAG" ]] && __edit + $RESULT
 }
 # }}}
 
@@ -345,7 +349,7 @@ __standup() {
 __edit() {
   emulate -L zsh
 
-  $EDITOR + $@
+  $EDITOR $@
 }
 # }}}
 
