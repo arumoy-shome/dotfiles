@@ -23,10 +23,42 @@ __agenda () {
   local PRETTYRX="(\w+)@(\w+)--(.+)\.$NOTESFORMAT:#+\s(.+)$"
   local PRETTYPRINT=' $1|$2|$3|$4 '
   local QUERYRX='^#+\s.+'
+  local TMP='/tmp/z-find-results.txt'
 
-  $GREPPRG --no-heading --no-line-number --with-filename --smart-case \
-    --max-depth 1 --type $NOTESFORMAT $@ $QUERYRX | \
-    $GREPPRG $PRETTYRX -r $PRETTYPRINT | column -t -s '|'
+  while [[ "$1" =~ - && ! "$1" == "--" ]]; do
+    case "$1" in
+      --type | -t)
+        shift
+        local TYPE="${1:l}" # lowercase
+        if [[ -z "$TYPE" ]]; then
+          echo "Error: type cannot be empty."
+          return 1
+        fi
+        ;;
+      --project | -p)
+        shift
+        local PROJECT="${1:l}" # lowercase
+        if [[ -z "$PROJECT" ]]; then
+          echo "Error: project cannot be empty."
+          return 1
+        fi
+        ;;
+      *)
+        ;;
+    esac; shift
+  done
+
+  local FINDCMD='__find' # open braces
+  [[ "$TYPE" ]] && FINDCMD="$FINDCMD --type $TYPE"
+  [[ "$PROJECT" ]] && FINDCMD="$FINDCMD --project $PROJECT"
+  eval $FINDCMD > $TMP
+
+  if [[ -s "$TMP" ]]; then
+    $GREPPRG --no-heading --no-line-number --with-filename --smart-case --max-depth 1 \
+      $QUERYRX $(cat $TMP) | \
+      $GREPPRG $PRETTYRX -r $PRETTYPRINT | \
+      column -t -s '|'
+  fi
 }
 # }}}
 
@@ -361,7 +393,7 @@ if [[ "$PWD" != "$NOTESDIR" ]]; then
 fi
 
 if [[ "$#" -eq 0 ]]; then
-  __grep --state todo
+  __agenda
 else
   case "$1" in
     help)
@@ -403,7 +435,7 @@ else
       __standup "${@:2}"
       ;;
     agenda | age | a)
-      __agenda
+      __agenda "${@:2}"
       ;;
     *)
       __edit $@
