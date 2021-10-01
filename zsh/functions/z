@@ -89,25 +89,39 @@ __grep () {
 __find() {
   emulate -L zsh
 
-  local NOTENAMERX="^\d+-\d+-\d+--${2:l}--[\w-]+"
-  local SHOWTAGSRX="^\d+-\d+-\d+--(\w+)--[\w-]+\.$NOTESFORMAT"
+  local TYPERX="^${2:l}@(\w+)?--[\w-]+"
+  local PROJECTRX="^\w+@${2:l}--[\w-]+"
+  local SHOWTYPESRX='^(\w+)@\w+--.+'
+  local SHOWPROJECTSRX='^\w+@(\w+)--.+'
 
   case "$1" in
     --help | -h )
-      echo "find: print a list of files matching a specific tag."
-      echo "--tag -t: print files matching the specified tag. Limit search to notes format."
-      echo "--show-tags: print all notes files tags along with their count."
+      echo "find: find files matching a specific type or project."
+      echo "--type -t: print files matching the specified type."
+      echo "--project -p: print files matching the specified project."
+      echo "--show-types: print types."
+      echo "--show-projects: print projects."
       echo "With any other arguments, invoke fd with provided arguments."
       echo "All additional arguments are passed to fd verbatim."
       return 0
       ;;
-    --tag | -t )
-      $FINDPRG --max-depth 1 --extension $NOTESFORMAT $NOTENAMERX ${@:3} # lowercase tags
+    --type | -t)
+      $FINDPRG --max-depth 1 --extension $NOTESFORMAT $TYPERX ${@:3}
       ;;
-    --show-tags )
-      # NOTE: we need two calls to sort, the first so that uniq works
-      # as expected and the second to sort based on count of tags
-      $FINDPRG --max-depth 1 --extension $NOTESFORMAT | $GREPPRG $SHOWTAGSRX -r '$1' | \
+    --project | -p)
+      $FINDPRG --max-depth 1 --extension $NOTESFORMAT $PROJECTRX ${@:3}
+      ;;
+    --show-types)
+      $FINDPRG --max-depth 1 --extension $NOTESFORMAT | \
+        $GREPPRG $SHOWTYPESRX -r '$1' | \
+        sort | \
+        uniq -c | \
+        sort --reverse | \
+        column
+      ;;
+    --show-projects)
+      $FINDPRG --max-depth 1 --extension $NOTESFORMAT | \
+        $GREPPRG $SHOWPROJECTSRX -r '$1' | \
         sort | \
         uniq -c | \
         sort --reverse | \
@@ -123,28 +137,37 @@ __find() {
 __new() {
   emulate -L zsh
 
-  local TIMESTAMP=$(date +'%Y-%m-%d')
   while [[ "$1" =~ - && ! "$1" == "--" ]]; do
     case "$1" in
-      --help | -h )
+      --help | -h)
         echo "new: create a new note file."
         echo "--no-edit -x: just create the file, don't open it."
-        echo "--tag -t: specify the tag for the file. Must be a single word. Cannot be empty if used."
-        echo "--name -n: specify the title of the file. Must be a string. Cannot be empty if used."
-        echo "--tag and --name are mutually inclusive, one cannot be passed without the other."
-        echo "When neither a tag nor a name is passed, a %Y-%m-%d timestamp is used to name the file."
+        echo "--type -t: specify the type."
+        echo "--project -p: specify a project."
+        echo "--name -n: specify the title."
         return 0
         ;;
-      --tag | -t )
+      --type | -t)
         shift
-        local TAG="${1:l}" # lowercase
-        if [[ -z "$TAG" ]]; then
-          echo "Error: tag cannot be empty."
+        local TYPE="${1:l}" # lowercase
+        if [[ -z "$TYPE" ]]; then
+          echo "Error: type cannot be empty."
+          return 1
+        fi
+        ;;
+      --project | -p)
+        shift
+        local PROJECT="${1:l}" # lowercase
+        if [[ -z "$PROJECT" ]]; then
+          echo "Error: project cannot be empty."
           return 1
         fi
         ;;
       --name | -n )
-        shift; local NAME="$1"
+        shift
+        local NAME="$1"
+        NAME=${NAME:l} # lowercase words
+        NAME=${NAME// /-} # substitute spaces with hyphens
         if [[ -z "$NAME" ]]; then
           echo "Error: name cannot be empty."
           return 1
@@ -153,40 +176,39 @@ __new() {
       --no-edit | -x )
         local NOEDITFLAG=1
         ;;
-    esac; shift; done
+    esac; shift
+  done
 
-    local RESULT="$TIMESTAMP"
-    if [[ -n "$TAG" && -n "$NAME" ]]; then
-      local FMTNAME=${NAME:l} # lowercase words
-      local FMTNAME=${FMTNAME// /-} # substitute spaces with hyphens
-      RESULT="$RESULT--$TAG--$FMTNAME"
-    else
-      echo "Warning: Either tag or name or both missing, using default naming."
-    fi
-    RESULT="$RESULT.$NOTESFORMAT"
+  # NOTE: we build the file name outside the while loop above because
+  # the arguments may be passed in random order however we want to
+  # construct the name in a specific order.
+  local RESULT="$TYPE"
+  if [[ "$PROJECT" ]]; then
+    RESULT="$RESULT@$PROJECT"
+  fi
+  RESULT="$RESULT--$NAME.$NOTESFORMAT"
 
-    if [[ ! -e "$RESULT" ]]; then
-      echo "Info: $RESULT does not exist, creating file."
-      touch $RESULT
+  if [[ ! -e "$RESULT" ]]; then
+    echo "Info: $RESULT does not exist, creating file."
+    touch $RESULT
 
-      local TEMPLATEFILE="$TEMPLATEDIR/$TAG"
-      if [[ -e "$TEMPLATEFILE" ]]; then
-        if [[ -x "$TEMPLATEFILE" ]]; then
-          $TEMPLATEFILE $RESULT
-        elif [[ -s "$TEMPLATEFILE" ]]; then
-          cat $TEMPLATEFILE > $RESULT
-        fi
-      else
-        echo "---" > $RESULT
-        echo "title: $NAME" >> $RESULT
-        echo "date: $TIMESTAMP" >> $RESULT
-        echo "author: $AUTHOR" >> $RESULT
-        echo "tag: $TAG" >> $RESULT
-        echo "---" >> $RESULT
+    local TEMPLATEFILE="$TEMPLATEDIR/$TYPE"
+    if [[ -e "$TEMPLATEFILE" ]]; then
+      if [[ -x "$TEMPLATEFILE" ]]; then
+        $TEMPLATEFILE $RESULT
+      elif [[ -s "$TEMPLATEFILE" ]]; then
+        cat $TEMPLATEFILE > $RESULT
       fi
+    else
+      echo "---" > $RESULT
+      echo "title: $NAME" >> $RESULT
+      echo "date: [$(date +'%Y-%m-%d')]" >> $RESULT
+      echo "author: $AUTHOR" >> $RESULT
+      echo "---" >> $RESULT
     fi
+  fi
 
-    [[ ! "$NOEDITFLAG" ]] && __edit $RESULT
+  [[ ! "$NOEDITFLAG" ]] && __edit $RESULT
 }
 # }}}
 
@@ -211,7 +233,7 @@ __link() {
     echo "Info: forward links."
     $GREPPRG '\((\d+-\d+-\d+--\w+--[\w-]+)\)' $1 --no-line-number \
       --only-matching --replace '$1'
-    }
+  }
   # }}}
 
   while [[ "$1" =~ - && ! "$1" == "--" ]]; do
@@ -238,19 +260,19 @@ __link() {
     esac
   done
 
-    if [[ -z "$1" || ! -e "$1" ]]; then
-      echo "Error: no or unexisting file specified."
-      return 1
-    fi
+  if [[ -z "$1" || ! -e "$1" ]]; then
+    echo "Error: no or unexisting file specified."
+    return 1
+  fi
 
-    if [[ -n "$FORWARDFLAG" ]]; then
-      __forward_links $1
-    elif [[ -n "$BACKWARDFLAG" ]]; then
-      __backward_links $NAME
-    else
-      __forward_links $1
-      __backward_links $NAME
-    fi
+  if [[ -n "$FORWARDFLAG" ]]; then
+    __forward_links $1
+  elif [[ -n "$BACKWARDFLAG" ]]; then
+    __backward_links $NAME
+  else
+    __forward_links $1
+    __backward_links $NAME
+  fi
 }
 # }}}
 
@@ -276,19 +298,14 @@ __standup() {
 __edit() {
   emulate -L zsh
 
-  if [[ -f "$1" && -e "$1" ]]; then
-      $EDITOR $1
-  else
-    echo "Error: $1 does not exist."
-    return 1
-  fi
+  $EDITOR + $@
 }
 # }}}
 
 # Cat {{{
 __cat() {
   local BG=$(tail -n 1 ~/.vim/.background)
-  local WIDTH=70
+  local WIDTH=72
   echo "Info: showing $@."
   $CATPRG -w $WIDTH -s $BG $@
 }
@@ -342,8 +359,11 @@ else
     standup | stand | s)
       __standup "${@:2}"
       ;;
+    agenda | age | a)
+      __agenda
+      ;;
     *)
-      __edit $1
+      __edit $@
       ;;
   esac
 fi
