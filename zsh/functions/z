@@ -59,12 +59,11 @@ __capture () {
   local UUID=$(uuidgen)
   UUID=${UUID:l} # lowercase
   UUID=${UUID: -12} # last 12 chars
+  local COMMAND="__new --type capture --name $UUID"
 
-  if [[ "$PROJECT" ]]; then
-    __new --type capture --name $UUID --project $PROJECT
-  else
-    __new --type capture --name $UUID
-  fi
+  [[ "$PROJECT" ]] && COMMAND="$COMMAND --project $PROJECT"
+
+  eval $COMMAND
 }
 # }}}
 
@@ -172,9 +171,7 @@ __find() {
   COMMAND="$COMMAND ${@:3}"
 
   # handle --edit flag
-  if [[ "$EDITFLAG" ]]; then
-    COMMAND="$COMMAND --exec-batch $EDITOR"
-  fi
+  [[ "$EDITFLAG" ]] && COMMAND="$COMMAND --exec-batch $EDITOR"
 
   eval $COMMAND
 }
@@ -234,9 +231,7 @@ __new() {
   # the arguments may be passed in random order however we want to
   # construct the name in a specific order.
   local RESULT="$TYPE"
-  if [[ "$PROJECT" ]]; then
-    RESULT="$RESULT@$PROJECT"
-  fi
+  [[ "$PROJECT" ]] && RESULT="$RESULT@$PROJECT"
   RESULT="$RESULT--$NAME.$NOTESFORMAT"
 
   if [[ ! -e "$RESULT" ]]; then
@@ -331,17 +326,14 @@ __link() {
 __standup() {
   emulate -L zsh
 
-  local CAPTUREGLOB="*capture*.$NOTESFORMAT"
+  local CAPTUREGLOB="capture@*.$NOTESFORMAT"
+  local PERIOD='1w'
 
-  if [[ -n "$1" ]]; then
-    echo "Info: showing notes changed within $1."
-    $FINDPRG --max-depth 1 --changed-within $1 --extension $NOTESFORMAT \
-      --exclude $CAPTUREGLOB
-  else
-    echo "Info: showing notes changed within 1d."
-    $FINDPRG --max-depth 1 --changed-within 1d --extension $NOTESFORMAT \
-      --exclude $CAPTUREGLOB
-  fi
+  [[ "$1" ]] && PERIOD=$1
+
+  echo "Info: showing notes changed within $PERIOD."
+  $FINDPRG --max-depth 1 --changed-within $PERIOD --extension $NOTESFORMAT \
+    --exclude $CAPTUREGLOB
 }
 # }}}
 
