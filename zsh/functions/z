@@ -359,12 +359,15 @@ else
   case "$1" in
     help)
       echo "z: knowledge management using standard unix tools."
-      echo "grep: subcommand to print a list of headers. See z grep --help for more info."
-      echo "find: subcommand to print a list of files. See z find --help for more info."
-      echo "cd: subcommand to change current directory to default notes directory."
-      echo "new: subcommand to create new note file. See z new --help for more info."
-      echo "link: subcommand to find links between notes. See z link --help for more info."
-      echo "standup: subcommand to show latest modified notes."
+      echo "grep: $GREPPRG wrapper for notes files. See z grep --help for more info."
+      echo "find: $FINDPRG for notes files. See z find --help for more info."
+      echo "new: create new note file. See z new --help for more info."
+      echo "link: show links for note. See z link --help for more info."
+      echo "agenda: pretty print markdown headers. See z agenda --help for more info."
+      echo "standup: show latest modified notes."
+      echo "cd: change current directory to $NOTESDIR."
+      echo "mv: mv wrapper for notes files."
+      echo "cat: $CATPRG wrapper for notes files."
       return 0
       ;;
     grep | rg | g)
