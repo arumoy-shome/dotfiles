@@ -4,8 +4,8 @@
 # Init {{{
 local GREPPRG=rg
 local FINDPRG=fd
+local CATPRG=bat
 local AUTHOR="Arumoy Shome"
-local CATPRG=glow
 [[ -z $NOTESFORMAT ]] && local NOTESFORMAT="md"
 [[ -z $NOTESDIR ]] && local NOTESDIR="$HOME/org"
 [[ -z $TEMPLATEDIR ]] && local TEMPLATEDIR="$NOTESDIR/.templates"
@@ -347,15 +347,6 @@ __edit() {
 }
 # }}}
 
-# Cat {{{
-__cat() {
-  local BG=$(tail -n 1 ~/.vim/.background)
-  local WIDTH=72
-  echo "Info: showing $@."
-  $CATPRG -w $WIDTH -s $BG $@
-}
-# }}}
-
 # Main {{{
 if [[ "$PWD" != "$NOTESDIR" ]]; then
   pushd $NOTESDIR
@@ -389,7 +380,7 @@ else
       return 0 # already in NOTESDIR
       ;;
     cat)
-      __cat "${@:2}"
+      $CATPRG "${@:2}"
       ;;
     rm | mv)
       rm ${@:2}
