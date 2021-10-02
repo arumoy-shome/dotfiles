@@ -24,6 +24,8 @@ Plug 'wincent/loupe'
 Plug 'wincent/pinnacle'
 Plug 'wincent/terminus'
 Plug 'jamessan/vim-gnupg'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 call plug#end()
 
 " vim-plug handles the following, kept here for reference
