@@ -62,59 +62,50 @@ __agenda () {
 }
 # }}}
 
-# Capture {{{
-__capture () {
-  emulate -L zsh
-
-  while [[ "$1" =~ - && ! "$1" == "--" ]]; do
-    case "$1" in
-      --help | -h)
-        echo "capture: convenient wrapper around new."
-        echo "--project -p: specify a project."
-        return 0
-        ;;
-      --project | -p)
-        shift
-        PROJECT="${1:l}" #lowercase
-        if [[ -z "$PROJECT" ]]; then
-          echo "Error: project cannot be empty."
-          return 1
-        fi
-        ;;
-      *)
-        echo "Error: unknown option $1."
-        return 1
-        ;;
-    esac; shift
-  done
-
-  local UUID=$(uuidgen)
-  UUID=${UUID:l} # lowercase
-  UUID=${UUID: -12} # last 12 chars
-  local COMMAND="__new --type capture --name $UUID"
-
-  [[ "$PROJECT" ]] && COMMAND="$COMMAND --project $PROJECT"
-
-  eval $COMMAND
-}
-# }}}
-
 # Grep {{{
 __grep () {
   emulate -L zsh
 
-  case "$1" in
-    --help | -h )
-      echo "grep: grep wrapper for notes files."
-      echo "Invoke ripgrep with provided arguments."
-      return 0
-      ;;
-    *)
-      $GREPPRG --smart-case --max-depth 1 --type $NOTESFORMAT $@
-      ;;
-  esac
+  local CMD="$GREPPRG --smart-case --max-depth 1 --type $NOTESFORMAT"
+  local FINDCMD='__find'
+
+  while [[ "$1" =~ - && ! "$1" == "--" ]]; do
+    case "$1" in
+      --help | -h )
+        echo "grep: grep wrapper for notes files."
+        echo "--type -t: limit to files matching specified type."
+        echo "--project -p: limit to files matching specified project."
+        echo "All additional arguments are passed to $GREPPRG verbatim."
+        return 0
+        ;;
+      --type | -t)
+        shift
+        local TYPEFLAG=1
+        FINDCMD="$FINDCMD --type ${1:l}" # lowercase
+        ;;
+      --project | -p)
+        shift
+        local PROJECTFLAG=1
+        FINDCMD="$FINDCMD --project ${1:l}" #lowercase
+        ;;
+      *)
+        # NOTE: similar to what we do in find, assume that the rest of
+        # the args are to be passed along to GREPPRG.
+        break
+        ;;
+    esac; shift
+  done
+
+  if [[ "$TYPEFLAG" || "$PROJECTFLAG" ]]; then
+    CMD="$FINDCMD --exec-batch $CMD"
+  fi
+
+  # pass any additional args
+  [[ "$@" ]] && CMD="$CMD $@"
+
+  eval $CMD
 }
-# }}}
+# end Grep }}}
 
 # Find {{{
 __find() {
