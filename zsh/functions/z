@@ -21,46 +21,42 @@ __agenda () {
   # 3: file name
   # 4: title
   local PRETTYRX="(\w+)@(\w+)--(.+)\.$NOTESFORMAT:#+\s(.+)$"
-  local PRETTYPRINT=' $1|$2|$3|$4 '
-  local QUERYRX='^#+\s.+'
-  local TMP='/tmp/z-find-results.txt'
+  local PRETTYPRINT='$1|$2|$3|$4'
+  local QUERYRX='^#.+'
+  local GREPCMD='__grep'
+  local CMD="--no-heading --no-line-number --with-filename"
 
   while [[ "$1" =~ - && ! "$1" == "--" ]]; do
     case "$1" in
+      --help | -h)
+        echo "agenda: pretty print markdown headers."
+        echo "--type -t: limit to files matching specified type."
+        echo "--project -p: limit to files matching specified project."
+        ;;
       --type | -t)
         shift
-        local TYPE="${1:l}" # lowercase
-        if [[ -z "$TYPE" ]]; then
-          echo "Error: type cannot be empty."
-          return 1
-        fi
+        GREPCMD="$GREPCMD --type ${1:l}" # lowercase
         ;;
       --project | -p)
         shift
-        local PROJECT="${1:l}" # lowercase
-        if [[ -z "$PROJECT" ]]; then
-          echo "Error: project cannot be empty."
-          return 1
-        fi
+        GREPCMD="$GREPCMD --project ${1:l}" # lowercase
         ;;
       *)
+        # NOTE: similar to grep and find, assume that the rest of the
+        # args are to be passed along to grep and/or find.
+        break
         ;;
     esac; shift
   done
 
-  local FINDCMD='__find' # open braces
-  [[ "$TYPE" ]] && FINDCMD="$FINDCMD --type $TYPE"
-  [[ "$PROJECT" ]] && FINDCMD="$FINDCMD --project $PROJECT"
-  eval $FINDCMD > $TMP
+  CMD="$GREPCMD '$QUERYRX' $CMD"
 
-  if [[ -s "$TMP" ]]; then
-    $GREPPRG --no-heading --no-line-number --with-filename --smart-case --max-depth 1 \
-      $QUERYRX $(cat $TMP) | \
-      $GREPPRG $PRETTYRX -r $PRETTYPRINT | \
-      column -t -s '|'
-  fi
+  eval $CMD | \
+    $GREPPRG $PRETTYRX -r $PRETTYPRINT | \
+    column -t -s '|'
+
 }
-# }}}
+# end Agenda }}}
 
 # Grep {{{
 __grep () {
