@@ -129,50 +129,35 @@ __find() {
       sort --reverse | \
       column
   }
-  #}}}
+  # end Show Tags }}}
 
-  local CAPTURERX='capture@(\w+)?--[\w-]+'
   local SHOWTYPESRX='^(\w+)@\w+--.+'
   local SHOWPROJECTSRX='^\w+@(\w+)--.+'
-  local COMMAND="$FINDPRG --max-depth 1 --extension $NOTESFORMAT"
+  local CMD="$FINDPRG --max-depth 1 --extension $NOTESFORMAT"
+  local TYPE='\w+'
+  local PROJECT='(\w+)?'
 
   while [[ "$1" =~ - && ! "$1" == "--" ]]; do
     case "$1" in
       --help | -h )
         echo "find: find files matching a specific type or project."
-        echo "--type -t: print files matching the specified type."
-        echo "--project -p: print files matching the specified project."
-        echo "--all -a: bypass above filters."
+        echo "--type -t: find files matching the specified type."
+        echo "--project -p: find files matching the specified project."
+        echo "--edit -e: edit matching files with $EDITOR."
         echo "--show-types: print types."
         echo "--show-projects: print projects."
-        echo "With any other arguments, invoke fd with provided arguments."
-        echo "All additional arguments are passed to fd verbatim."
+        echo "All additional arguments are passed to $FINDPRG verbatim."
         return 0
         ;;
       --type | -t)
         shift
+        local TYPEFLAG=1
         local TYPE="${1:l}" # lowercase
-        if [[ -z "$TYPE" ]]; then
-          echo "Error: type cannot be empty."
-          return 1
-        fi
         ;;
       --project | -p)
         shift
+        local PROJECTFLAG=1
         local PROJECT="${1:l}" # lowercase
-        if [[ -z "$PROJECT" ]]; then
-          echo "Error: project cannot be empty."
-          return 1
-        fi
-        ;;
-      --all | -a)
-        shift
-        local QUERYRX=$1
-        if [[ -n $QUERYRX ]]; then
-          COMMAND="$COMMAND $QUERYRX"
-          eval $COMMAND
-        fi
-        return 0
         ;;
       --edit | -e)
         local EDITFLAG=1
@@ -186,39 +171,26 @@ __find() {
         return 0
         ;;
       *)
-        # NOTE Do nothing! This is intensional since we may pass
-        # additional flags for FINDPRG.
+        # NOTE: assume that we are done with our args and the rest are
+        # to be passed to FINDPRG verbatim.
+        break
     esac; shift
   done
 
-  # NOTE: these cannot be define at the top since they depend on the
-  # values extracted from the arguments.
-  local TYPERX="^${TYPE}@(\w+)?--[\w-]+"
-  local PROJECTRX="^\w+@${PROJECT}--[\w-]+"
-  local TYPEPROJECTRX="^${TYPE}@${PROJECT}--[\w-]+"
-
-  # pass the appropriate regex.
-  # NOTE that we have to quote the regex expression in single quotes
-  # since we are using eval later.
-  if [[ "$TYPE" && "$PROJECT" ]]; then
-    COMMAND="$COMMAND '$TYPEPROJECTRX'"
-  elif [[ "$TYPE" ]]; then
-    COMMAND="$COMMAND '$TYPERX'"
-  elif [[ "$PROJECT" ]]; then
-    COMMAND="$COMMAND '$PROJECTRX'"
-  else
-    COMMAND="$COMMAND '$CAPTURERX'"
+  if [[ "$TYPEFLAG" || "$PROJECTFLAG" ]]; then
+    local QUERYRX="^${TYPE}@${PROJECT}--[\w-]+"
+    CMD="$CMD '$QUERYRX'"
   fi
 
   # pass any additional args
-  COMMAND="$COMMAND ${@:3}"
+  [[ "$@" ]] && CMD="$CMD $@"
 
   # handle --edit flag
-  [[ "$EDITFLAG" ]] && COMMAND="$COMMAND --exec-batch $EDITOR"
+  [[ "$EDITFLAG" ]] && CMD="$CMD --exec-batch $EDITOR"
 
-  eval $COMMAND
+  eval $CMD
 }
-# }}}
+# end Find }}}
 
 # New {{{
 __new() {
