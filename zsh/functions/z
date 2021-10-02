@@ -382,11 +382,14 @@ else
     cd)
       return 0 # already in NOTESDIR
       ;;
+    mv)
+      mv "${@:2}"
+      ;;
     cat)
       $CATPRG "${@:2}"
       ;;
     rm | mv)
-      rm ${@:2}
+      rm "${@:2}"
       ;;
     link | l)
       __link "${@:2}"
@@ -398,7 +401,7 @@ else
       __agenda "${@:2}"
       ;;
     *)
-      __edit $@
+      __edit "$@"
       ;;
   esac
 fi
