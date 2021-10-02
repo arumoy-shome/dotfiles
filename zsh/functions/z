@@ -183,41 +183,41 @@ __find() {
 __new() {
   emulate -L zsh
 
+  # Uuid {{{
+  __uuid () {
+    local UUID=$(uuidgen)
+    UUID=${UUID:l} # lowercase
+    UUID=${UUID: -12} # last 12 chars
+    echo $UUID
+  }
+  # End Uuid }}}
+
+  local TYPE='capture'
+  local NAME=$(__uuid)
+
   while [[ "$1" =~ - && ! "$1" == "--" ]]; do
     case "$1" in
       --help | -h)
         echo "new: create a new note file."
         echo "--no-edit -x: just create the file, don't open it."
-        echo "--type -t: specify the type."
+        echo "--type -t: specify the type, defaults to 'capture'."
         echo "--project -p: specify a project."
-        echo "--name -n: specify the title."
+        echo "--name -n: specify the title, defaults to a 12 char uuid."
         return 0
         ;;
       --type | -t)
         shift
-        local TYPE="${1:l}" # lowercase
-        if [[ -z "$TYPE" ]]; then
-          echo "Error: type cannot be empty."
-          return 1
-        fi
+        TYPE=$1
         ;;
       --project | -p)
         shift
         local PROJECT="${1:l}" # lowercase
-        if [[ -z "$PROJECT" ]]; then
-          echo "Error: project cannot be empty."
-          return 1
-        fi
         ;;
       --name | -n )
         shift
         local NAME="$1"
         NAME=${NAME:l} # lowercase words
         NAME=${NAME// /-} # substitute spaces with hyphens
-        if [[ -z "$NAME" ]]; then
-          echo "Error: name cannot be empty."
-          return 1
-        fi
         ;;
       --no-edit | -x )
         local NOEDITFLAG=1
@@ -258,7 +258,7 @@ __new() {
 
   [[ ! "$NOEDITFLAG" ]] && __edit + $RESULT
 }
-# }}}
+# End New }}}
 
 # Link {{{
 __link() {
@@ -368,7 +368,6 @@ else
   case "$1" in
     help)
       echo "z: knowledge management using standard unix tools."
-      echo "capture: subcommand to open the default notes file and start capture process."
       echo "grep: subcommand to print a list of headers. See z grep --help for more info."
       echo "find: subcommand to print a list of files. See z find --help for more info."
       echo "cd: subcommand to change current directory to default notes directory."
@@ -382,9 +381,6 @@ else
       ;;
     find | fd | f)
       __find "${@:2}"
-      ;;
-    capture | cap | c)
-      __capture "${@:2}"
       ;;
     new | n)
       __new "${@:2}"
