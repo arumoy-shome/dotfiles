@@ -64,21 +64,9 @@ vmap <Enter> <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 " }}}
 
-" vim-slime {{{1
-"""""""""""""""
-let g:slime_target = "tmux"
-let g:slime_default_config = {"socket_name": "default", "target_pane": "{last}"}
-" }}}
-
-" ctrlp {{{1
-"""""""""""
-let g:ctrlp_show_hidden=1
-nmap <leader>b :CtrlPBuffer<CR>
-" }}}
-
 " vim-pandoc {{{1
 """"""""""""""""
-let g:pandoc#formatting#mode = 'h' " use hard wraps
+let g:pandoc#formatting#mode = 'hA' " use hard wraps
 let g:pandoc#folding#fdc = 0 " do not enable foldcolumn
 let g:pandoc#formatting#textwidth = 70
 let g:pandoc#spell#enabled = 0
