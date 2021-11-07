@@ -76,6 +76,12 @@ let g:pandoc#modules#disabled = ['command', 'templates', 'menu', 'bibliographies
 " vim-pandoc-syntax {{{1
 let g:pandoc#syntax#conceal#use = 0 " do not use conceal
 " }}}
+
+" vim-slime {{{
+let g:slime_target = "tmux"
+let g:slime_default_config = {"socket_name": "default", "target_pane": "{last}"}
+" }}}
+
 " goyo.vim {{{
 " turn off my custom autocmds when entering goyo and subsequently turn
 " then back of when leaving goyo

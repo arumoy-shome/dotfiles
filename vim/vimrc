@@ -1,4 +1,5 @@
 call plug#begin('~/.vim/bundle')
+Plug 'jpalardy/vim-slime'
 Plug 'SirVer/ultisnips'
 Plug 'chriskempson/base16-vim'
 Plug 'junegunn/vim-easy-align'
