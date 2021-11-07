@@ -19,11 +19,14 @@ set statusline+=%1*
 set statusline+=
 set statusline+=%*
 
-augroup AruStatusline
-  autocmd!
-  autocmd ColorScheme,BufWinEnter,BufWritePost,FileWritePost,TextChanged,TextChangedI,WinEnter * call aru#statusline_update()
-  autocmd FocusLost,WinLeave * call aru#blur_statusline()
-  autocmd BufEnter,BufWinEnter,FocusGained,VimEnter,WinEnter * call aru#focus_statusline()
-augroup END
+function! AruStatuslineAutocmds() abort
+  augroup AruStatusline
+    autocmd!
+    autocmd ColorScheme,BufWinEnter,BufWritePost,FileWritePost,TextChanged,TextChangedI,WinEnter * call aru#statusline_update()
+    autocmd FocusLost,WinLeave * call aru#blur_statusline()
+    autocmd BufEnter,BufWinEnter,FocusGained,VimEnter,WinEnter * call aru#focus_statusline()
+  augroup END
+endfunction
+call AruStatuslineAutocmds()
 
 set tabline=%!aru#tabline()

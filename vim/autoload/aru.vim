@@ -1,7 +1,3 @@
-function! aru#zap() abort
-  echohl WarningMsg | echo "aru#zap() not implemented yet! | echohl None
-endfunction
-
 function! aru#statusline_update() abort
   call aru#statusline_update_highlight()
   call aru#statusline_wrap()

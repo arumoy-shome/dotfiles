@@ -76,3 +76,24 @@ let g:pandoc#modules#disabled = ['command', 'templates', 'menu', 'bibliographies
 " vim-pandoc-syntax {{{1
 let g:pandoc#syntax#conceal#use = 0 " do not use conceal
 " }}}
+" goyo.vim {{{
+" turn off my custom autocmds when entering goyo and subsequently turn
+" then back of when leaving goyo
+function! s:goyo_enter() abort
+  autocmd! AruStatusline
+  autocmd! AruWindow
+endfunction
+
+function! s:goyo_leave() abort
+  call AruStatuslineAutocmds()
+  call AruWindowAutocmds()
+  call aru#focus_statusline()
+  call aru#statusline_update()
+endfunction
+
+augroup AruGoyo
+  autocmd!
+  autocmd User GoyoEnter nested call <SID>goyo_enter()
+  autocmd User GoyoLeave nested call <SID>goyo_leave()
+augroup END
+" }}}
