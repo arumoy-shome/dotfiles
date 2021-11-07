@@ -66,7 +66,7 @@ nmap ga <Plug>(EasyAlign)
 
 " vim-pandoc {{{1
 """"""""""""""""
-let g:pandoc#formatting#mode = 'hA' " use hard wraps
+let g:pandoc#formatting#mode = 'h' " use hard wraps
 let g:pandoc#folding#fdc = 0 " do not enable foldcolumn
 let g:pandoc#formatting#textwidth = 70
 let g:pandoc#spell#enabled = 0
