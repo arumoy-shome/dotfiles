@@ -68,8 +68,6 @@ local BASE="$ZDOTDIR/base16-shell/scripts"
 
 case "$1" in
   ls)
-    echo 'Available colorschemes:'
-    echo
     find "$BASE" -name 'base16-*.sh' | \
     sed -E 's|.+/base16-||' | \
     sed -E 's/\.sh//' | \

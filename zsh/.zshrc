@@ -51,12 +51,10 @@ fi
 
 # Base16 Shell (only when not in emacs)
 [[ -r "$XDG_DATA_HOME/base16/current-theme.sh" ]] && \
-    [[ $TERM != "eterm-color" ]] && \
     sh "$XDG_DATA_HOME/base16/current-theme.sh"
 # End Plugins }}}
 
 # Config {{{
-source $ZDOTDIR/path.zsh # must come first!
 source $ZDOTDIR/prompt.zsh
 source $ZDOTDIR/bindings.zsh
 source $ZDOTDIR/completion.zsh
