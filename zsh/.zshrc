@@ -49,7 +49,6 @@ if [[ -f ~/.fzf.zsh ]]; then
   fi
 fi
 
-# Base16 Shell (only when not in emacs)
 [[ -r "$XDG_DATA_HOME/base16/current-theme.sh" ]] && \
     sh "$XDG_DATA_HOME/base16/current-theme.sh"
 # End Plugins }}}

@@ -1,17 +1,22 @@
 # vim: foldmethod=marker
 
 # Unix {{{
-if (( $+commands[exa] )); then
-  alias ls="exa -Fa --group-directories-first" # --classify --all
-  alias ll="exa -Falrh --group-directories-first" # --classify --all --list --reverse --header
-fi
+alias cp='cp -iv'
+alias mv='mv -iv'
+alias rm='rm -iv'
+alias ls="ls -FA"
+alias ll="ls -FAlrh"
 alias ln="ln -v"
 alias mkdir="mkdir -p"
-alias v="$EDITOR" #nvim when available else vim (see $ZDOTDIR/exports)
+alias v="$EDITOR" # nvim when available else vim (see $ZDOTDIR/exports)
 alias help=run-help
-alias e="emacsclient -nq"       # --no-wait --quiet
-alias E="emacsclient -nqc"      # --no-wait --quiet --create-frame
+if (( $+commands[emacs] )); then
+  alias e="emacsclient -nq"       # --no-wait --quiet
+  alias E="emacsclient -nqc"      # --no-wait --quiet --create-frame
+fi
 alias path='echo $PATH | tr -s ":" "\n"' # Pretty print the path
+alias grep='grep -inE --color' # --case-insensitive --line-number --extended-regexp
+alias rgrep='grep -inE --color --exclude-dir ".git" -R' # --recursive
 # End Unix }}}
 
 # Brew {{{
