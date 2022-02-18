@@ -35,11 +35,19 @@ def add_row(snip):
 
 endglobal
 
+snippet cite "citation" i
+\cite{${1:${VISUAL:text}}}$0
+endsnippet
+
+snippet ref "reference" i
+\ref{${1:${VISUAL:text}}}$0
+endsnippet
+
 snippet txt "text inside math exp" i
 \text{${1:${VISUAL:text}}}$0
 endsnippet
 
-snippet tbo "bold text" i
+snippet tbf "bold text" i
 \textbf{${1:${VISUAL:text}}}$0
 endsnippet
 
@@ -47,7 +55,7 @@ snippet tit "italic text" i
 \textit{${1:${VISUAL:text}}}$0
 endsnippet
 
-snippet tco "monospaced text" i
+snippet ttt "monospaced text" i
 \texttt{${1:${VISUAL:text}}}$0
 endsnippet
 
@@ -256,8 +264,6 @@ snippet acl "Acroynm expanded" b
 \acl{${1:acronym}}
 $0
 endsnippet
-
-
 
 snippet ni "Non-indented paragraph" b
 \noindent
