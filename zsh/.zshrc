@@ -48,9 +48,6 @@ if [[ -f ~/.fzf.zsh ]]; then
     export FZF_DEFAULT_COMMAND='fd --type file --hidden --follow --exclude .git'
   fi
 fi
-
-[[ -r "$XDG_DATA_HOME/base16/current-theme.sh" ]] && \
-    sh "$XDG_DATA_HOME/base16/current-theme.sh"
 # End Plugins }}}
 
 # Config {{{
