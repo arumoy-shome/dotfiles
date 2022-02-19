@@ -7,16 +7,6 @@ function! aru#statusline_update_highlight() abort
   execute 'highlight User2 ' . pinnacle#decorate('italic,bold', 'ColorColumn')
   execute 'highlight User3 ' . pinnacle#decorate('italic', 'Visual')
 
-  let l:bg=pinnacle#extract_bg('ColorColumn')
-  let l:fg=pinnacle#extract_fg('ModeMsg')
-  let l:flag_fg=pinnacle#extract_fg('Identifier')
-
-  if &modified
-    execute 'highlight User1 ' . pinnacle#highlight({'fg': l:flag_fg, 'bg': l:bg})
-  else
-    execute 'highlight User1 ' . pinnacle#highlight({'fg': l:fg, 'bg': l:bg})
-  endif
-
   highlight clear StatusLine
   highlight link Statusline ColorColumn
   highlight clear StatusLineNC
@@ -86,19 +76,6 @@ function! aru#colorscheme_update_highlight() abort
   execute 'highlight SpellCap ' . pinnacle#underline('Special')
   highlight clear SpellRare
   execute 'highlight Comment ' . pinnacle#italicize('Comment')
-endfunction
-
-function aru#colorscheme() abort
-  let s:config_file = expand('~/.vim/.background')
-
-  if filereadable(s:config_file)
-    let s:config = readfile(s:config_file, '', 2)
-    execute 'set background=' . s:config[1]
-    execute 'colorscheme ' . s:config[0]
-  else " default
-    set background=dark
-    colorscheme base16-default-dark
-  endif
 endfunction
 
 function! aru#spell() abort

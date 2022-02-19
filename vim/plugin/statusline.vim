@@ -1,7 +1,4 @@
-set statusline+=%1*
-set statusline+=
-set statusline+=%*
-set statusline+=\ 
+set statusline=\ 
 set statusline+=%{aru#statusline_wrap()}
 set statusline+=\ 
 set statusline+=%<
@@ -9,15 +6,12 @@ set statusline+=%{aru#statusline_fileprefix()}
 set statusline+=%2*
 set statusline+=%t
 set statusline+=\ 
-set statusline+=%([%{aru#statusline_ft()}%{aru#statusline_fenc()}%R]%)
+set statusline+=%([%{aru#statusline_ft()}%{aru#statusline_fenc()}%R%M]%)
 set statusline+=%*
 set statusline+=%=
 set statusline+=\ 
 set statusline+=%l:%L:%P
 set statusline+=\ 
-set statusline+=%1*
-set statusline+=
-set statusline+=%*
 
 function! AruStatuslineAutocmds() abort
   augroup AruStatusline

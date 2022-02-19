@@ -7,7 +7,4 @@ augroup AruColorscheme
 augroup END
 
 " colors
-let base16colorspace=256
-call aru#colorscheme()
-
-
+colorscheme default
