@@ -1,5 +1,5 @@
 local hyper = {"ctrl", "cmd", "alt", "shift"}
-local terminalPrg = "iTerm"
+local terminalPrg = "Kitty"
 local browserPrg = "Firefox"
 local editorPrg = "Emacs"
 
