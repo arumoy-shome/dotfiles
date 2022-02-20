@@ -13,3 +13,24 @@ function! AruYankAutocmds() abort
   augroup END
 endfunction
 call AruYankAutocmds()
+
+function! AruStatuslineAutocmds() abort
+  augroup AruStatusline
+    autocmd!
+    autocmd ColorScheme,BufWinEnter,BufWritePost,FileWritePost,TextChanged,TextChangedI,WinEnter * call aru#sync_statusline()
+    autocmd FocusLost,WinLeave * call aru#blur_statusline()
+    autocmd BufEnter,BufWinEnter,FocusGained,VimEnter,WinEnter * call aru#focus_statusline()
+  augroup END
+endfunction
+call AruStatuslineAutocmds()
+
+function! AruHighlightAutocmds() abort
+  augroup AruHighlight
+    autocmd!
+    autocmd FocusGained * call aru#sync_background()
+    autocmd FocusGained * call aru#sync_highlights()
+    autocmd FocusGained * call aru#sync_statusline()
+  augroup END
+endfunction
+call AruHighlightAutocmds()
+

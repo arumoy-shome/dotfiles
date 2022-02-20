@@ -94,7 +94,7 @@ function! s:goyo_leave() abort
   call AruStatuslineAutocmds()
   call AruWindowAutocmds()
   call aru#focus_statusline()
-  call aru#statusline_update()
+  call aru#sync_statusline()
 endfunction
 
 augroup AruGoyo

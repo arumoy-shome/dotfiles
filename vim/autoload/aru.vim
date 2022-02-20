@@ -1,8 +1,4 @@
-function! aru#statusline_update() abort
-  call aru#statusline_update_highlight()
-endfunction
-
-function! aru#statusline_update_highlight() abort
+function! aru#sync_statusline() abort
   execute 'highlight User2 ' . pinnacle#decorate('italic,bold', 'ColorColumn')
   execute 'highlight User3 ' . pinnacle#decorate('italic', 'Visual')
 
@@ -102,4 +98,35 @@ function! aru#foldtext() abort
   let l:first=substitute(getline(v:foldstart), '\v *', '', '')
   let l:dashes=substitute(v:folddashes, '-', s:middot, 'g')
   return s:raquo . s:middot . s:middot . l:lines . l:dashes . ': ' . l:first
+endfunction
+
+function! aru#sync_background() abort
+  let s:bg_file = expand('~/.local/share/modus/background')
+
+  if filereadable(s:bg_file)
+    let s:bg = readfile(s:bg_file, '', 1)
+    execute 'set background=' . s:bg[0]
+  else
+    set background=dark
+  endif
+endfunction
+
+function! aru#sync_highlights() abort
+  highlight clear VertSplit " make the split visible
+  highlight clear CursorLineNr " cleaner CursorLineNr
+  highlight link CursorLineNr LineNr
+
+  execute 'highlight Folded ' . pinnacle#italicize('Folded')
+
+  highlight clear SignColumn " for better lsp signs
+  execute 'highlight DiagnosticError ' . pinnacle#decorate('italic,bold', 'DiagnosticError')
+  execute 'highlight DiagnosticWarn ' . pinnacle#decorate('italic,bold', 'DiagnosticWarn')
+  execute 'highlight DiagnosticInfo ' . pinnacle#decorate('italic,bold', 'DiagnosticInfo')
+  execute 'highlight DiagnosticHint ' . pinnacle#decorate('italic,bold', 'DiagnosticHint')
+
+  highlight clear SpellBad
+  execute 'highlight SpellBad ' . pinnacle#underline('DiagnosticError')
+  highlight clear SpellCap
+  execute 'highlight SpellCap ' . pinnacle#underline('DiagnosticInfo')
+  execute 'highlight Comment ' . pinnacle#italicize('Comment')
 endfunction
