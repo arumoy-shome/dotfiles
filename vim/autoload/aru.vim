@@ -65,19 +65,6 @@ function! aru#statusline_fenc() abort
   endif
 endfunction
 
-function! aru#colorscheme_update_highlight() abort
-  highlight clear VertSplit " make the split visible
-  highlight Folded gui=italic " make folds italic
-  highlight clear CursorLineNr " cleaner CursorLineNr
-  highlight link CursorLineNr LineNr
-  highlight clear SpellBad
-  execute 'highlight SpellBad ' . pinnacle#underline('Constant')
-  highlight clear SpellCap
-  execute 'highlight SpellCap ' . pinnacle#underline('Special')
-  highlight clear SpellRare
-  execute 'highlight Comment ' . pinnacle#italicize('Comment')
-endfunction
-
 function! aru#spell() abort
   setlocal spell
   setlocal spellfile=~/.vim/spell/en.utf-8.add

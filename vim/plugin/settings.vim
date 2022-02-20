@@ -82,10 +82,9 @@ set ignorecase            " case insensitive search
 set smartcase             " unless case present in search
 set infercase             " adjust case during ins-completion
 set path=.,**             " search relative to file, cwd and recursively
-set cursorline            " highlight the current line
-
-" indent by 2 spaces by default, later overriden by vim-sleuth
-set expandtab      " use spaces instead of tabs
-set tabstop=2      " spaces per tab
-set shiftwidth=2   " spaces per tab (when shifting)
-set softtabstop=-1 " use 'shiftwidth' for tab/bs at eol
+set nocursorline          " do not highlight the current line
+set signcolumn=yes        " always show sign column
+set expandtab             " use spaces instead of tabs
+set tabstop=2             " spaces per tab
+set shiftwidth=2          " spaces per tab (when shifting)
+set softtabstop=-1        " use 'shiftwidth' for tab/bs at eol
