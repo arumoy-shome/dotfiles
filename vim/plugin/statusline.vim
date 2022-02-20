@@ -1,6 +1,4 @@
 set statusline=\ 
-set statusline+=%{aru#statusline_wrap()}
-set statusline+=\ 
 set statusline+=%<
 set statusline+=%{aru#statusline_fileprefix()}
 set statusline+=%2*
