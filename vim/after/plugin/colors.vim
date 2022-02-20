@@ -6,9 +6,10 @@ colorscheme default
 
 function! AruHighlights() abort
   highlight clear VertSplit " make the split visible
-  highlight Folded gui=italic " make folds italic
   highlight clear CursorLineNr " cleaner CursorLineNr
   highlight link CursorLineNr LineNr
+
+  execute 'highlight Folded ' . pinnacle#italicize('Folded')
 
   highlight clear SignColumn " for better lsp signs
   execute 'highlight DiagnosticError ' . pinnacle#decorate('italic,bold', 'DiagnosticError')
