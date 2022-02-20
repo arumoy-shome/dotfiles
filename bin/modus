@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+
+[[ ! -d "$XDG_DATA_HOME/modus" ]] && mkdir -p "$XDG_DATA_HOME/modus"
+MODUS_CURRENT_BG_FILE="$XDG_DATA_HOME/modus/background"
+KITTY_LIGHT_THEME="$XDG_CONFIG_HOME/kitty/light-theme.conf"
+KITTY_DARK_THEME="$XDG_CONFIG_HOME/kitty/dark-theme.conf"
+KITTY_CURRENT_THEME="$XDG_CONFIG_HOME/kitty/current-theme.conf"
+
+__light() {
+  if [[ ! -f $KITTY_LIGHT_THEME ]]; then
+    echo "Error: $KITTY_LIGHT_THEME does not exist."
+    echo "Info: Use kitty +kitten themes to save the theme first."
+    return 1
+  fi
+
+  ln -sf $KITTY_LIGHT_THEME $KITTY_CURRENT_THEME
+  kitty +kitten themes --config-file-name=$(mktemp) Modus Operandi
+  emacsclient --suppress-output --eval '(modus-themes-load-operandi)'
+  echo light > $MODUS_CURRENT_BG_FILE
+}
+
+__dark() {
+  if [[ ! -f $KITTY_DARK_THEME ]]; then
+    echo "Error: $KITTY_DARK_THEME does not exist."
+    echo "Info: Use kitty +kitten themes to save the theme first."
+    return 1
+  fi
+
+  ln -sf $KITTY_DARK_THEME $KITTY_CURRENT_THEME
+  kitty +kitten themes --config-file-name=$(mktemp) Modus Vivendi
+  emacsclient --suppress-output --eval '(modus-themes-load-vivendi)'
+  echo dark > $MODUS_CURRENT_BG_FILE
+}
+
+__toggle() {
+  if [[ ! -f $MODUS_CURRENT_BG_FILE ]]; then
+    echo "Error: $MODUS_CURRENT_BG_FILE does not exist."
+    echo "Info: set a colorscheme using modus {light,dark} first."
+    return 1
+  fi
+
+  if [[ ! -r $MODUS_CURRENT_BG_FILE || ! -s $MODUS_CURRENT_BG_FILE ]]; then
+    echo "Error: Something is not right with $MODUS_CURRENT_BG_FILE."
+    echo "Info: Make sure that it is readable & not empty."
+    return 1
+  fi
+
+  local CURRENT_BG=$(head -n 1 $MODUS_CURRENT_BG_FILE)
+  case "$CURRENT_BG" in
+    light)
+      __dark
+      ;;
+    dark)
+      __light
+      ;;
+    *)
+      echo "Error: Something is not right with $MODUS_CURRENT_BG_FILE."
+      echo "Info: Make sure it is valid & try again."
+      ;;
+  esac
+}
+
+if [[ "$#" -eq 0 ]]; then
+  __toggle
+else
+  case "$1" in
+    light)
+      __light
+      ;;
+    dark)
+      __dark
+      ;;
+    *)
+      # Do nothing
+      ;;
+  esac
+fi
