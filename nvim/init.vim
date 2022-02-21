@@ -56,7 +56,7 @@ end
 -- map buffer local keybindings when the language server attaches
 -- refer to https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 -- for server installation
-local servers = { 'pyright', 'texlab', 'vimls' }
+local servers = { 'pyright', 'texlab', 'vimls', 'bashls' }
 for _, lsp in pairs(servers) do
   require('lspconfig')[lsp].setup {
     on_attach = on_attach,
