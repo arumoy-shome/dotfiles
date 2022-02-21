@@ -108,6 +108,10 @@ function! aru#sync_highlights() abort
   highlight clear CursorLineNr " cleaner CursorLineNr
   highlight link CursorLineNr LineNr
 
+  " remove the ugly background color
+  let l:folded_fg=pinnacle#extract_fg('Folded')
+  highlight clear Folded
+  execute 'highlight Folded ' . pinnacle#highlight({'fg': l:folded_fg })
   execute 'highlight Folded ' . pinnacle#italicize('Folded')
 
   highlight clear SignColumn " for better lsp signs
