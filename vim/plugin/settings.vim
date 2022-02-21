@@ -1,9 +1,6 @@
 " settings
 set laststatus=2          " always show statusline
 set guioptions-=e         " disable gui tabline in favour of plain text version
-if has ('textprop')
-  set completeopt+=popup  " use popup instead of preview window
-endif
 set belloff=all           " do not ring the bell for any reason
 set shortmess=A           " avoid all hit-enter prompts
 set shortmess+=I
@@ -46,36 +43,26 @@ set wildignore+=*/__pycache__/
 set wildignore+=.git
 set wildignore+=*/node_modules/*
 set wildignore+=*/venv/*
-if has('wildmenu')
-  set wildmenu            " enhanced command line completion with <Tab>
-endif
+set wildmenu            " enhanced command line completion with <Tab>
 set wildmode=longest:full " shell like autocomplete to unambiguous portion
 set wildmode+=full
-if has('folding')
-  set fillchars=diff:∙    " BULLET OPERATOR (U+2219, UTF-8: E2 88 99)
-  set fillchars+=fold:·   " MIDDLE DOT (U+00B7, UTF-8: C2 B7)
-  set fillchars+=vert:┆   " from Yggdroot/indentLine
-endif
+set fillchars=diff:∙    " BULLET OPERATOR (U+2219, UTF-8: E2 88 99)
+set fillchars+=fold:·   " MIDDLE DOT (U+00B7, UTF-8: C2 B7)
+set fillchars+=vert:┆   " from Yggdroot/indentLine
 set foldlevelstart=99     " start unfolded, override per ft (or file using modeline)
 set foldtext=aru#foldtext()
-if has ('linebreak')
-  set linebreak           " wrap long lines at characters in 'breakat'
-  set nobreakindent       " do not indent wrapped lines
-endif
+set linebreak           " wrap long lines at characters in 'breakat'
+set nobreakindent       " do not indent wrapped lines
 set smarttab              " <tab>/<bs> indent/dedent in leading whitespace
 set formatoptions+=n      " options when formatting text
 set formatoptions+=1
 set formatoptions+=j
 set formatoptions+=p
 set modelineexpr          " allow expressions to be set in modeline
-if has('conceal')
-  set concealcursor=i     " use `V` (linewise-visual) to see concealed characters
-  set concealcursor+=n
-  set concealcursor+=c
-endif
-if has('cmdline_info')
-  set ruler               " show line and column number
-endif
+set concealcursor=i     " use `V` (linewise-visual) to see concealed characters
+set concealcursor+=n
+set concealcursor+=c
+set ruler               " show line and column number
 set tags+=./.git/tags     " read tags file inside .git directory
 set ignorecase            " case insensitive search
 set smartcase             " unless case present in search
