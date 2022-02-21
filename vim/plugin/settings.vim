@@ -87,3 +87,5 @@ set expandtab             " use spaces instead of tabs
 set tabstop=2             " spaces per tab
 set shiftwidth=2          " spaces per tab (when shifting)
 set softtabstop=-1        " use 'shiftwidth' for tab/bs at eol
+setlocal spellfile=~/.vim/spell/en.utf-8.add
+setlocal spelllang=en

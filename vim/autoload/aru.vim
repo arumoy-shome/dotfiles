@@ -43,18 +43,10 @@ function! aru#statusline_fenc() abort
   endif
 endfunction
 
-function! aru#spell() abort
-  setlocal spell
-  setlocal spellfile=~/.vim/spell/en.utf-8.add
-  setlocal spelllang=en
-endfunction
-
 function! aru#pros() abort
   " navigate by display lines since we softwrap
   nmap <buffer> j gj
   nmap <buffer> k gk
-
-  call aru#spell()
 endfunction
 
 function! aru#tabline() abort
