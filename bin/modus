@@ -1,12 +1,70 @@
 #!/usr/bin/env bash
 
+# modus: switch between modus light (operandi) & dark (vivendi)
+# themes.
+
+# This script makes a few assumptions:
+# 1. You are using kitty as your terminal <https://sw.kovidgoyal.net/kitty/>
+# 2. You have a light & dark theme for kitty stored in kitty's config
+#    dir (which is $XDG_CONFIG_HOME/kitty by default)
+# 3. You exclusively use the wonderful modus themes by Protesilaos
+#    Stravrou for your shell <https://protesilaos.com/emacs/modus-themes>
+# 4. You have some plumbing on the vim side to automatically update
+#    the `background' setting using autocommands. See
+#    <https://github.com/arumoy-shome/dotfiles/blob/c3b172dc05446aff20a5660f09699ffcc89e0379/vim/autoload/aru.vim#L95>
+#    and
+#    <https://github.com/arumoy-shome/dotfiles/blob/c3b172dc05446aff20a5660f09699ffcc89e0379/vim/plugin/autocmds.vim#L27>
+#    for examples.
+
+# Usage: modus [COLOR]
+# This script is meant to be called from the command line. Without any
+# arguments, modus switches between the light & dark themes. It does
+# so by looking at the first line of the
+# $XDG_DATA_HOME/modus/background file which should contain the word
+# `light' or `dark'.
+# With the optional argument COLOR---which can be `light' or
+# `dark'---it switches to the specified colorscheme.
+
 [[ ! -d "$XDG_DATA_HOME/modus" ]] && mkdir -p "$XDG_DATA_HOME/modus"
 MODUS_CURRENT_BG_FILE="$XDG_DATA_HOME/modus/background"
 KITTY_LIGHT_THEME="$XDG_CONFIG_HOME/kitty/light-theme.conf"
 KITTY_DARK_THEME="$XDG_CONFIG_HOME/kitty/dark-theme.conf"
 KITTY_CURRENT_THEME="$XDG_CONFIG_HOME/kitty/current-theme.conf"
 
+__update_emacs() {
+  # update the colorscheme in Emacs. Assumes that the modus-themes
+  # package <https://github.com/protesilaos/modus-themes> is installed
+  # and in the load-path. The output is redirected to /dev/null to
+  # avoid printing error messages if no emacs server is running.
+
+  if [[ "$1" == "light" ]]; then
+    emacsclient --eval '(modus-themes-load-operandi)' > /dev/null
+  else
+    emacsclient --eval '(modus-themes-load-vivendi)' > /dev/null
+  fi
+}
+
+__update_kitty() {
+  # Update the colorscheme in kitty. Assumes that you are using
+  # a recent version of kitty with the `themes' kitten available & the
+  # colorschemes are installed.
+  # Note that we use a temp file to redirect the config output. This
+  # is to avoid changing the kitty.conf file (causes false positive in
+  # the vcs). Your kitty.conf should contain the following line:
+  #
+  #     include current-theme.conf
+
+  if [[ "$1" == "light" ]]; then
+    kitty +kitten themes --config-file-name=$(mktemp) Modus Operandi
+  else
+    kitty +kitten themes --config-file-name=$(mktemp) Modus Vivendi
+  fi
+}
+
 __light() {
+  # Switch to the light (operandi) theme. Some preliminary error
+  # handling is done when $KITTY_LIGHT_THEME does not exist.
+
   if [[ ! -f $KITTY_LIGHT_THEME ]]; then
     echo "Error: $KITTY_LIGHT_THEME does not exist."
     echo "Info: Use kitty +kitten themes to save the theme first."
@@ -14,12 +72,15 @@ __light() {
   fi
 
   ln -sf $KITTY_LIGHT_THEME $KITTY_CURRENT_THEME
-  kitty +kitten themes --config-file-name=$(mktemp) Modus Operandi
-  emacsclient --suppress-output --eval '(modus-themes-load-operandi)'
+  __update_kitty light
+  __update_emacs light
   echo light > $MODUS_CURRENT_BG_FILE
 }
 
 __dark() {
+  # Switch to the dark (vivendi) theme. Some preliminary error
+  # handling is done when $KITTY_DARK_THEME does not exist.
+
   if [[ ! -f $KITTY_DARK_THEME ]]; then
     echo "Error: $KITTY_DARK_THEME does not exist."
     echo "Info: Use kitty +kitten themes to save the theme first."
@@ -27,12 +88,16 @@ __dark() {
   fi
 
   ln -sf $KITTY_DARK_THEME $KITTY_CURRENT_THEME
-  kitty +kitten themes --config-file-name=$(mktemp) Modus Vivendi
-  emacsclient --suppress-output --eval '(modus-themes-load-vivendi)'
+  __update_kitty dark
+  __update_emacs dark
   echo dark > $MODUS_CURRENT_BG_FILE
 }
 
 __toggle() {
+  # Toggle between light and dark themes. Some preliminary error
+  # handling is done when $MODUS_CURRENT_BG_FILE does not exist or is
+  # not in the expected format.
+
   if [[ ! -f $MODUS_CURRENT_BG_FILE ]]; then
     echo "Error: $MODUS_CURRENT_BG_FILE does not exist."
     echo "Info: set a colorscheme using modus {light,dark} first."
@@ -60,6 +125,7 @@ __toggle() {
   esac
 }
 
+main() {
 if [[ "$#" -eq 0 ]]; then
   __toggle
 else
@@ -75,3 +141,6 @@ else
       ;;
   esac
 fi
+}
+
+main
