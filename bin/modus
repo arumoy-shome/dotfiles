@@ -55,9 +55,9 @@ __update_kitty() {
   #     include current-theme.conf
 
   if [[ "$1" == "light" ]]; then
-    kitty +kitten themes --config-file-name=$(mktemp) Modus Operandi
+    kitty +kitten themes --config-file-name="$(mktemp)" Modus Operandi
   else
-    kitty +kitten themes --config-file-name=$(mktemp) Modus Vivendi
+    kitty +kitten themes --config-file-name="$(mktemp)" Modus Vivendi
   fi
 }
 
@@ -71,10 +71,10 @@ __light() {
     return 1
   fi
 
-  ln -sf $KITTY_LIGHT_THEME $KITTY_CURRENT_THEME
+  ln -sf "$KITTY_LIGHT_THEME" "$KITTY_CURRENT_THEME"
   __update_kitty light
   __update_emacs light
-  echo light > $MODUS_CURRENT_BG_FILE
+  echo light > "$MODUS_CURRENT_BG_FILE"
 }
 
 __dark() {
@@ -87,10 +87,10 @@ __dark() {
     return 1
   fi
 
-  ln -sf $KITTY_DARK_THEME $KITTY_CURRENT_THEME
+  ln -sf "$KITTY_DARK_THEME" "$KITTY_CURRENT_THEME"
   __update_kitty dark
   __update_emacs dark
-  echo dark > $MODUS_CURRENT_BG_FILE
+  echo dark > "$MODUS_CURRENT_BG_FILE"
 }
 
 __toggle() {
@@ -110,7 +110,7 @@ __toggle() {
     return 1
   fi
 
-  local CURRENT_BG=$(head -n 1 $MODUS_CURRENT_BG_FILE)
+  local CURRENT_BG="$(head -n 1 $MODUS_CURRENT_BG_FILE)"
   case "$CURRENT_BG" in
     light)
       __dark
@@ -126,21 +126,21 @@ __toggle() {
 }
 
 main() {
-if [[ "$#" -eq 0 ]]; then
-  __toggle
-else
-  case "$1" in
-    light)
-      __light
-      ;;
-    dark)
-      __dark
-      ;;
-    *)
-      # Do nothing
-      ;;
-  esac
-fi
+  if [[ "$#" -eq 0 ]]; then
+    __toggle
+  else
+    case "$1" in
+      light)
+        __light
+        ;;
+      dark)
+        __dark
+        ;;
+      *)
+        # Do nothing
+        ;;
+    esac
+  fi
 }
 
-main
+main "$@"
