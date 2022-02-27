@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+# aims: Aru's Information Management System
+
+# A set of unix shellscripts to manage information. This is tuned
+# specifically for my workflow as a researcher.
+
+NOTESDIR="$HOME/org"
+INBOX="$NOTESDIR/inbox.md"
+TEMPLATESDIR="$XDG_DATA_HOME/aims"
+[[ ! -e "$INBOX" ]] && touch "$INBOX"
+
+__capture() {
+  # Capture info quickly. All items are appended to INBOX which
+  # defaults to `inbox.md' in NOTESDIR. The default template is
+  # inserted everytime capture is envoked (see
+  # $XDG_DATA_HOME/aims/default).
+  local ITEM=$(mktemp)
+  local TEMPLATE="$TEMPLATESDIR/default"
+
+  if [[ -e "$TEMPLATE" && -x "$TEMPLATE" ]]; then
+    eval "$TEMPLATE $ITEM"
+  fi
+
+  eval "$EDITOR -c 'set ft=markdown' $ITEM"
+
+  if [[ "$?" -eq 0 ]]; then
+    cat "$ITEM" >> "$INBOX"
+    echo "Info: capture successful."
+  fi
+}
+
+__capture
