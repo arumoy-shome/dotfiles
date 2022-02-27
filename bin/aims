@@ -35,8 +35,9 @@ __capture() {
   fi
 
   if eval "$EDITOR -c 'set ft=markdown' $ITEM"; then
+    [[ "$1" && -e "$NOTESDIR/$1" ]] && INBOX="$NOTESDIR/$1"
     cat "$ITEM" >> "$INBOX"
-    echo "Info: capture successful."
+    echo "Info: captured in $INBOX."
   fi
 
   echo "Info: cleaning up $(rm -v "$ITEM")"
