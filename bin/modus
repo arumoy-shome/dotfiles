@@ -54,11 +54,15 @@ __update_kitty() {
   #
   #     include current-theme.conf
 
+  TMPFILE="$(mktemp)"
+
   if [[ "$1" == "light" ]]; then
-    kitty +kitten themes --config-file-name="$(mktemp)" Modus Operandi
+    kitty +kitten themes --config-file-name="$TMPFILE" Modus Operandi
   else
-    kitty +kitten themes --config-file-name="$(mktemp)" Modus Vivendi
+    kitty +kitten themes --config-file-name="$TMPFILE" Modus Vivendi
   fi
+
+  rm -f "$TMPFILE" # cleanup
 }
 
 __light() {
@@ -110,7 +114,7 @@ __toggle() {
     return 1
   fi
 
-  local CURRENT_BG="$(head -n 1 $MODUS_CURRENT_BG_FILE)"
+  local CURRENT_BG="$(head -n 1 "$MODUS_CURRENT_BG_FILE")"
   case "$CURRENT_BG" in
     light)
       __dark
