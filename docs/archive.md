@@ -1,3 +1,20 @@
+# [2022-03-03 Thu 02:31] basename
+This script was rarely used as a zsh autoloaded function, and the
+optimisation isn't that useful since I rarely use `basename` from the
+shell itself (I generally use it within scripts).
+
+```bash
+# vim:filetype=zsh
+# No arguments: `basename $PWD`
+# With arguments: acts like `basename`
+
+if [[ $# -gt 0 ]]; then
+  command basename "$@"
+else
+  command basename "$PWD"
+fi
+```
+
 # base16-* config
 I used to use base16-vim along with base16-shell to sync the
 colorschemes between my shell & vim. However, I have since switched to
