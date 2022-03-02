@@ -19,8 +19,26 @@ $endif$
   <title>$if(title-prefix)$$title-prefix$ – $endif$$pagetitle$</title>
   <style>
     $styles.html()$
+    @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap');
+
+    body {
+      font-family: "Source Code Pro", monospace;
+      color: #566b78;
+    }
+
+    h1,h2,strong {
+      color: #333;
+    }
+
+    code {
+      vertical-align: text-bottom;
+    }
+
+    pre {
+      padding: 1em;
+      border-left: 2px solid #69c;
+    }
   </style>
-  <link rel="stylesheet" href="assets/css/main.css" type="text/css" />
 $if(math)$
   $math$
 $endif$
