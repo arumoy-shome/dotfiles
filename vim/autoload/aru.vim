@@ -97,9 +97,9 @@ function! aru#sync_background() abort
 
   if filereadable(s:bg_file)
     let s:bg = readfile(s:bg_file, '', 1)
-    execute 'set background=' . s:bg[0]
+    execute 'colorscheme ' . s:bg[0]
   else
-    set background=dark
+    colorscheme default
   endif
 endfunction
 
