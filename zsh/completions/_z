@@ -1,3 +1,0 @@
-#compdef z
-
-_path_files -W ~/org/
