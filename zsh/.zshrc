@@ -9,13 +9,6 @@ __ARU[ITALIC_ON]=$'\e[3m'
 __ARU[ITALIC_OFF]=$'\e[23m'
 # End Global }}}
 
-# Autoloads {{{
-fpath=("$ZDOTDIR/functions" $fpath)
-
-# NOTE: (double)quotes don't work here, probably because it's a glob pattern?
-for f in $ZDOTDIR/functions/*; do autoload -U ${f:t}; done
-# End Autoloads }}}
-
 # History {{{
 export HISTSIZE=100000
 export HISTFILE="$HOME/.history"

@@ -1,3 +1,178 @@
+# [2022-03-03 Thu 19:46] zsh autoloaded functions
+Snippet to load autoloaded functions in zsh.
+
+```zsh
+# Autoloads {{{
+fpath=("$ZDOTDIR/functions" $fpath)
+
+# NOTE: (double)quotes don't work here, probably because it's a glob pattern?
+for f in $ZDOTDIR/functions/*; do autoload -U ${f:t}; done
+# End Autoloads }}}
+```
+
+# [2022-03-03 Thu 19:32] zsh paper script
+Keeping for future reference.
+
+```zsh
+# vim: filetype=zsh foldmethod=marker
+# helper function for scientific papers.
+
+# Init {{{
+local PAPERDIR="$HOME/Documents/papers"
+local NOTESDIR="$HOME/org"
+local GREPPRG=rg
+# }}}
+
+# Browse {{{
+__browse() {
+  emulate -L zsh
+
+  if [[ -n "$1" ]]; then
+    pushd $PAPERDIR
+    if [[ -e "$1" ]]; then
+      open $1
+    else
+      echo "Error: $1 does not exist."
+      return 1
+    fi
+    popd
+  else
+    echo "Error: No paper provided."
+    return 1
+  fi
+}
+# }}}
+
+# Get Bibs {{{
+__get_bibs() {
+  emulate -L zsh
+
+  local NOTESFMT=md
+  local BIBRX='^```bibtex\n((.+\n)+)```$'
+  local BIBPRUNERX="^\d+-\d+-\d+--paper--(\w+)\.$NOTESFMT:\s+(.+)"
+
+  $GREPPRG --type $NOTESFMT --max-depth 1 --multiline $BIBRX | \
+    $GREPPRG $BIBPRUNERX -r '$1:$2'
+}
+# }}}
+
+# Get Titles {{{
+__get_titles() {
+  emulate -L zsh
+
+  local TITLERX='\w+:title=\{.+\}'
+  __get_bibs | $GREPPRG $TITLERX
+}
+# }}}
+
+# Get Authors {{{
+__get_authors() {
+  emulate -L zsh
+
+  local AUTHORRX='\w+:author=\{.+\}'
+  __get_bibs | $GREPPRG $AUTHORRX
+}
+# }}}
+
+# Get Sources {{{
+__get_sources() {
+  emulate -L zsh
+
+  local SOURCERX='\w+:(booktitle|journal)=\{.+\}'
+  __get_bibs | $GREPPRG $SOURCERX
+}
+# }}}
+
+# Get Years {{{
+__get_years() {
+  emulate -L zsh
+
+  local YEARRX='\w+:year=\{.+\}'
+  __get_bibs | $GREPPRG $YEARRX
+}
+# }}}
+
+# Grep {{{
+__grep() {
+  emulate -L zsh
+  pushd $NOTESDIR
+
+  while [[ "$1" =~ - && ! "$1" == "--" ]]; do
+    case "$1" in
+      --help | -h)
+        echo "grep: search for pattern in bibtex entries."
+        echo "--title -t: search for pattern in title field."
+        echo "--author -a: restrict search to the author field."
+        echo "--source -s: restrict search to the publication source field."
+        echo "--year -y: restrict search to the year field."
+        echo "without any flags search all fields."
+        return 0
+        ;;
+      --title | -t)
+        shift
+        local QUERY=$1
+        if [[ -z "$QUERY" ]]; then
+          echo "Error: title cannot be empty."
+          return 1
+        fi
+        __get_titles | $GREPPRG --smart-case $QUERY
+        ;;
+      --author | -a)
+        shift
+        local QUERY=$1
+        if [[ -z "$QUERY" ]]; then
+          echo "Error: author cannot be empty."
+          return 1
+        fi
+        __get_authors | $GREPPRG --smart-case $QUERY
+        ;;
+      --source | -s)
+        shift
+        local QUERY=$1
+        if [[ -z "$QUERY" ]]; then
+          echo "Error: source cannot be empty."
+          return 1
+        fi
+        __get_sources | $GREPPRG --smart-case $QUERY
+        ;;
+      --year | -y)
+        shift
+        local QUERY=$1
+        if [[ -z "$QUERY" ]]; then
+          echo "Error: year cannot be empty."
+          return 1
+        fi
+        __get_years | $GREPPRG --smart-case $QUERY
+        ;;
+      *)
+        if [[ -z "$1" ]]; then
+          echo "Error: query cannot be empty."
+          return 1
+        fi
+        __get_bibs | $GREPPRG --smart-case $1
+        ;;
+    esac; shift; done
+    popd
+}
+# }}}
+
+# Main {{{
+case "$1" in
+  browse | bro | b)
+    __browse "${@:2}"
+    ;;
+  grep | rg | g)
+    __grep "${@:2}"
+    ;;
+  *)
+    echo "Error: unknown command $1."
+    return 1
+    ;;
+esac
+# }}}
+
+```
+
 # [2022-03-03 Thu 19:24] zsh completion piggyback
 Following snippet can be used to piggyback off of existing commands to
 complete custom commands.

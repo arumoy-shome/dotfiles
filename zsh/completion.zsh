@@ -1,5 +1,3 @@
-fpath=("$ZDOTDIR/completions" $fpath)
-
 autoload -U compinit
 compinit -u
 

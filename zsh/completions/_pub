@@ -1,3 +1,0 @@
-#compdef p
-
-_path_files -W ~/org/
