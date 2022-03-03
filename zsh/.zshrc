@@ -48,6 +48,10 @@ if [[ -f ~/.fzf.zsh ]]; then
     export FZF_DEFAULT_COMMAND='fd --type file --hidden --follow --exclude .git'
   fi
 fi
+
+if [[ -d "$XDG_DATA_BIN" && ! "$PATH" == "*$XDG_DATA_BIN*" ]]; then
+  export PATH="${PATH:+${PATH}:}$XDG_DATA_BIN"
+fi
 # End Plugins }}}
 
 # Config {{{
