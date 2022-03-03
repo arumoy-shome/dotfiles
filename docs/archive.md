@@ -1,3 +1,12 @@
+# [2022-03-03 Thu 19:24] zsh completion piggyback
+Following snippet can be used to piggyback off of existing commands to
+complete custom commands.
+
+```zsh
+#compdef g
+compdef g=git
+```
+
 # [2022-03-03 Thu 15:27] zsh pub script
 The original `pub` autoloaded zsh function
 
