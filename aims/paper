@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+[[ -z "$1" ]] && return 1
+
+
+PAPERDIR="$HOME/Documents/papers"
+BIBKEY=$(pbpaste | grep '^@.*' | sed 's/^@.*{\(.*\),/\1/')
+
+{
+  echo
+  if [[ -n "$BIBKEY" ]]; then
+    echo "# [$(date +'%Y-%m-%d %a %H:%M')] $BIBKEY"
+    echo
+    echo '---'
+    echo "pdf: $PAPERDIR/$BIBKEY.pdf"
+    echo '---'
+  else
+    echo "# [$(date +'%Y-%m-%d %a %H:%M')]"
+  fi
+  echo
+  echo '+ **Problem Statement:**'
+  echo '+ **Solution:**'
+  echo '+ **Results:**'
+  echo '+ **Limitations:**'
+  echo '+ **Remarks:**'
+  echo
+  echo '```bibtex'
+  if [[ -n "$BIBKEY" ]]; then
+    pbpaste | sed '/^$/d' >> "$1" # remove empty lines
+    echo "$BIBKEY" | pbcopy
+  fi
+  echo '```'
+} >> "$1"
+
