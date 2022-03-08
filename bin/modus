@@ -38,9 +38,9 @@ __update_emacs() {
   # avoid printing error messages if no emacs server is running.
 
   if [[ "$1" == "light" ]]; then
-    emacsclient --eval '(modus-themes-load-operandi)' > /dev/null
+    emacsclient --quiet --eval '(modus-themes-load-operandi)' > /dev/null
   else
-    emacsclient --eval '(modus-themes-load-vivendi)' > /dev/null
+    emacsclient --quiet --eval '(modus-themes-load-vivendi)' > /dev/null
   fi
 }
 
