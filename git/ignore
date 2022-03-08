@@ -16,10 +16,6 @@ tmp/**/*
 # javascript
 node_modules/
 
-# emacs
-todo.org
-*.org_archive
-
 # vim
 .projections.json
 
