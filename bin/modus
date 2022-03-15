@@ -38,31 +38,23 @@ __update_emacs() {
   # avoid printing error messages if no emacs server is running.
 
   if [[ "$1" == "light" ]]; then
-    emacsclient --quiet --eval '(modus-themes-load-operandi)' > /dev/null
+    emacsclient --quiet --suppress-output --eval '(modus-themes-load-operandi)' > /dev/null
   else
-    emacsclient --quiet --eval '(modus-themes-load-vivendi)' > /dev/null
+    emacsclient --quiet --suppress-output --eval '(modus-themes-load-vivendi)' > /dev/null
   fi
 }
 
 __update_kitty() {
-  # Update the colorscheme in kitty. Assumes that you are using
-  # a recent version of kitty with the `themes' kitten available & the
-  # colorschemes are installed.
-  # Note that we use a temp file to redirect the config output. This
-  # is to avoid changing the kitty.conf file (causes false positive in
-  # the vcs). Your kitty.conf should contain the following line:
+  # Update the colorscheme in kitty. Your kitty.conf should contain
+  # the following line:
   #
   #     include current-theme.conf
 
-  TMPFILE="$(mktemp)"
-
   if [[ "$1" == "light" ]]; then
-    kitty +kitten themes --config-file-name="$TMPFILE" Modus Operandi
+    kitty @ set-colors --all --configured "$KITTY_LIGHT_THEME"
   else
-    kitty +kitten themes --config-file-name="$TMPFILE" Modus Vivendi
+    kitty @ set-colors --all --configured "$KITTY_DARK_THEME"
   fi
-
-  rm -f "$TMPFILE" # cleanup
 }
 
 __light() {
