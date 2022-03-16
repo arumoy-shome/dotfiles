@@ -39,6 +39,8 @@ __capture() {
     cat "$ITEM" >> "$INBOX"
     echo "Info: captured in $INBOX."
   fi
+
+  rm "$ITEM" # cleanup
 }
 
 __capture "$@"
