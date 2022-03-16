@@ -10,7 +10,7 @@ hi clear
 if exists('syntax_on')
   syntax reset
 endif
-let g:colors_name = 'modus_vivendi'
+let g:colors_name = 'dark'
 
 " General
 " -------
