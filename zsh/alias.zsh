@@ -11,8 +11,8 @@ alias mkdir="mkdir -p"
 alias v="$EDITOR" # nvim when available else vim (see $ZDOTDIR/exports)
 alias help=run-help
 if (( $+commands[emacs] )); then
-  alias e="emacsclient -anq"       # --alternate-editor --no-wait --quiet
-  alias E="emacsclient -anqc"      # --alternate-editor --no-wait --quiet --create-frame
+  alias e="emacsclient --alternate-editor '' --no-wait --quiet"
+  alias E="emacsclient --alternate-editor ''  --no-wait --quiet --create-frame"
 fi
 alias path='echo $PATH | tr -s ":" "\n"' # Pretty print the path
 alias grep='grep -inE --color' # --case-insensitive --line-number --extended-regexp

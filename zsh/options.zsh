@@ -20,3 +20,6 @@ setopt PRINT_EXIT_VALUE        # [default] for non-zero exit status
 setopt PUSHD_IGNORE_DUPS       # don't push multiple copies of same dir onto stack
 setopt PUSHD_SILENT            # [default] don't print dir stack after pushing/popping
 setopt SHARE_HISTORY           # share history across shells
+
+cdpath=($HOME)
+[[ -d "$HOME/code" ]] && cdpath+=("$HOME/code")
