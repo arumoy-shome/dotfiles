@@ -4,7 +4,6 @@ if has('nvim')
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
   Plug 'SirVer/ultisnips'
 end
-Plug 'jpalardy/vim-slime'
 Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/vim-plug'
 Plug 'junegunn/goyo.vim'

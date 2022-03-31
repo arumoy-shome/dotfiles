@@ -23,3 +23,4 @@ setopt SHARE_HISTORY           # share history across shells
 
 cdpath=($HOME)
 [[ -d "$HOME/code" ]] && cdpath+=("$HOME/code")
+[[ -d "$HOME/Documents" ]] && cdpath+=("$HOME/Documents")
