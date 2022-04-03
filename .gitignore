@@ -2,3 +2,4 @@
 *.org_archive
 .enabled_topics
 vim/spell/*.spl
+min/.vim/bundle

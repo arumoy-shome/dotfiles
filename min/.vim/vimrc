@@ -1,0 +1,146 @@
+
+filetype plugin indent on
+syntax on
+
+" {{{ settings
+set laststatus=2          " always show statusline
+set guioptions-=e         " disable gui tabline in favour of plain text version
+set belloff=all           " do not ring the bell for any reason
+set shortmess=A           " avoid all hit-enter prompts
+set shortmess+=I
+set shortmess+=O
+set shortmess+=T
+set shortmess+=W
+set shortmess+=a
+set shortmess+=c
+set shortmess+=o
+set shortmess+=s
+set shortmess+=t
+set backspace=indent      " allow backspacing over autoindent
+set backspace+=start      " allow backspaceing over the start of insert
+set backspace+=eol        " allow backspacing over line breaks
+set clipboard+=unnamed    " always use the * register for yank/put/delete
+set autoindent            " copy indent from previous line for new line
+set autowrite             " auto write buffers when jumping
+set list                  " show whitespace
+set listchars=nbsp:⦸      " CIRCLED REVERSE SOLIDUS (U+29B8, UTF-8: E2 A6 B8)
+set listchars+=tab:▷┅     " WHITE RIGHT-POINTING TRIANGLE (U+25B7, UTF-8: E2 96 B7)
+set listchars+=extends:»  " RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00BB, UTF-8: C2 BB)
+set listchars+=precedes:« " LEFT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00AB, UTF-8: C2 AB)
+set listchars+=trail:•    " BULLET (U+2022, UTF-8: E2 80 A2)
+set nobackup              " do not create root owned files
+set nowritebackup         " do not create root owned files
+set nojoinspaces          " insert one space when joining spaces
+set noswapfile            " do not create root owned files
+set sidescrolloff=3       " same as scrolloff, but for columns
+set scrolloff=3           " start scrolling 3 lines before edge of viewport
+set shiftround            " always indent by multiple of shiftwidth
+set splitbelow            " horizontal splits open below
+set splitright            " vertical splits open right
+set switchbuf=usetab      " reuse windows/tabs when switching buffers
+set textwidth=70          " hardwrap lines at 70 characters by default, override in ftplugin/
+set wildignore=*.o        " patterns to ignore while file navigation
+set wildignore+=*.obj
+set wildignore+=*.rbc
+set wildignore+=*.pyc
+set wildignore+=*/__pycache__/
+set wildignore+=.git
+set wildignore+=*/node_modules/*
+set wildignore+=*/venv/*
+set wildmenu            " enhanced command line completion with <Tab>
+set wildmode=longest:full " shell like autocomplete to unambiguous portion
+set wildmode+=full
+set fillchars=diff:∙    " BULLET OPERATOR (U+2219, UTF-8: E2 88 99)
+set fillchars+=fold:·   " MIDDLE DOT (U+00B7, UTF-8: C2 B7)
+set fillchars+=vert:┆   " from Yggdroot/indentLine
+set foldlevelstart=99     " start unfolded, override per ft (or file using modeline)
+set linebreak           " wrap long lines at characters in 'breakat'
+set nobreakindent       " do not indent wrapped lines
+set smarttab              " <tab>/<bs> indent/dedent in leading whitespace
+set formatoptions+=n      " options when formatting text
+set formatoptions+=1
+set formatoptions+=j
+set formatoptions+=p
+set modelineexpr          " allow expressions to be set in modeline
+set concealcursor=i     " use `V` (linewise-visual) to see concealed characters
+set concealcursor+=n
+set concealcursor+=c
+set ruler               " show line and column number
+set tags+=./.git/tags     " read tags file inside .git directory
+set ignorecase            " case insensitive search
+set smartcase             " unless case present in search
+set infercase             " adjust case during ins-completion
+set path=.,**             " search relative to file, cwd and recursively
+set nocursorline          " do not highlight the current line
+set expandtab             " use spaces instead of tabs
+set tabstop=2             " spaces per tab
+set shiftwidth=2          " spaces per tab (when shifting)
+set softtabstop=-1        " use 'shiftwidth' for tab/bs at eol
+setlocal spellfile=~/.vim/spell/en.utf-8.add
+setlocal spelllang=en
+" End settings }}}
+
+" {{{ plugins
+call plug#begin('~/.vim/bundle')
+Plug 'junegunn/vim-easy-align'
+Plug 'junegunn/vim-plug'
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-apathy'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-projectionist'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-rsi'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-vinegar'
+Plug 'tpope/vim-speeddating'
+Plug 'wincent/loupe'
+Plug 'wincent/terminus'
+call plug#end()
+" End plugins}}}
+
+" {{{ keybindings
+let mapleader = "\<Space>"
+let maplocalleader="\\"
+" End keybindings }}}
+
+" {{{ statusline
+set statusline=\ 
+set statusline+=%<
+set statusline+=%{aru#statusline_fileprefix()}
+set statusline+=%t
+set statusline+=\ 
+set statusline+=%([%{aru#statusline_ft()}%{aru#statusline_fenc()}%R%M]%)
+set statusline+=%=
+set statusline+=\ 
+set statusline+=%l:%L:%P
+set statusline+=\ 
+
+set tabline=%!aru#tabline()
+
+" End statusline }}}
+
+" autocommands {{{
+function! AruWindowAutocmds() abort
+  augroup AruWindow
+    autocmd!
+    autocmd VimResized * wincmd =
+  augroup END
+endfunction
+call AruWindowAutocmds()
+
+function! AruHighlightAutocmds() abort
+  augroup AruHighlight
+    autocmd!
+    autocmd FocusGained * call aru#sync_highlights()
+  augroup END
+endfunction
+call AruHighlightAutocmds()
+call aru#sync_highlights() " for initial load
+" End autocommands }}}
+
+" vim: foldmethod=marker
