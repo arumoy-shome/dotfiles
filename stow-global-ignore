@@ -1,7 +1,0 @@
-# taken from the stow user manual
-# https://www.gnu.org/software/stow/manual/html_node/Types-And-Syntax-Of-Ignore-Lists.html#Types-And-Sy# ntax-Of-Ignore-Lists
-
-^/README.*
-/_init
-/bin
-/conf.d
