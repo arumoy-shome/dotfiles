@@ -22,12 +22,6 @@ set backspace+=eol        " allow backspacing over line breaks
 set clipboard+=unnamed    " always use the * register for yank/put/delete
 set autoindent            " copy indent from previous line for new line
 set autowrite             " auto write buffers when jumping
-set list                  " show whitespace
-set listchars=nbsp:⦸      " CIRCLED REVERSE SOLIDUS (U+29B8, UTF-8: E2 A6 B8)
-set listchars+=tab:▷┅     " WHITE RIGHT-POINTING TRIANGLE (U+25B7, UTF-8: E2 96 B7)
-set listchars+=extends:»  " RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00BB, UTF-8: C2 BB)
-set listchars+=precedes:« " LEFT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00AB, UTF-8: C2 AB)
-set listchars+=trail:•    " BULLET (U+2022, UTF-8: E2 80 A2)
 set nobackup              " do not create root owned files
 set nowritebackup         " do not create root owned files
 set nojoinspaces          " insert one space when joining spaces
@@ -52,7 +46,6 @@ set wildmode=longest:full " shell like autocomplete to unambiguous portion
 set wildmode+=full
 set fillchars=diff:∙    " BULLET OPERATOR (U+2219, UTF-8: E2 88 99)
 set fillchars+=fold:·   " MIDDLE DOT (U+00B7, UTF-8: C2 B7)
-set fillchars+=vert:┆   " from Yggdroot/indentLine
 set foldlevelstart=99     " start unfolded, override per ft (or file using modeline)
 set linebreak           " wrap long lines at characters in 'breakat'
 set nobreakindent       " do not indent wrapped lines
@@ -66,16 +59,14 @@ set concealcursor=i     " use `V` (linewise-visual) to see concealed characters
 set concealcursor+=n
 set concealcursor+=c
 set ruler               " show line and column number
-set tags+=./.git/tags     " read tags file inside .git directory
 set ignorecase            " case insensitive search
 set smartcase             " unless case present in search
 set infercase             " adjust case during ins-completion
 set path=.,**             " search relative to file, cwd and recursively
-set nocursorline          " do not highlight the current line
-set expandtab             " use spaces instead of tabs
-set tabstop=2             " spaces per tab
-set shiftwidth=2          " spaces per tab (when shifting)
-set softtabstop=-1        " use 'shiftwidth' for tab/bs at eol
+set noexpandtab             " use tabs
+set tabstop=8             " [default]
+set shiftwidth=4          " spaces per tab (when shifting)
+set softtabstop=4        " use 'shiftwidth' for tab/bs at eol
 setlocal spellfile=~/.vim/spell/en.utf-8.add
 setlocal spelllang=en
 " End settings }}}
@@ -98,7 +89,10 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-speeddating'
+
 Plug 'wincent/loupe'
+let g:LoupeCenterResults = 0     " do not center current match
+
 Plug 'wincent/terminus'
 call plug#end()
 " End plugins}}}
@@ -132,15 +126,9 @@ function! AruWindowAutocmds() abort
   augroup END
 endfunction
 call AruWindowAutocmds()
-
-function! AruHighlightAutocmds() abort
-  augroup AruHighlight
-    autocmd!
-    autocmd FocusGained * call aru#sync_highlights()
-  augroup END
-endfunction
-call AruHighlightAutocmds()
-call aru#sync_highlights() " for initial load
 " End autocommands }}}
 
+" highlights {{{
+call aru#sync_highlights()
+" End highlights }}}
 " vim: foldmethod=marker

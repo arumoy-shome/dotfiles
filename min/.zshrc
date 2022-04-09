@@ -37,6 +37,7 @@ else
   export EDITOR=vim
 fi
 
+export CLICOLOR=true # color in ls output without -G, works across shells
 export LC_ALL=en_GB.UTF-8
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
@@ -47,8 +48,8 @@ export XDG_DATA_BIN="$HOME/.local/bin"
 alias cp='cp -v'
 alias mv='mv -v'
 alias rm='rm -v'
-alias ls="ls -FAG"
-alias ll="ls -FAGlrh"
+alias ls="ls -FA"
+alias ll="ls -FAlrh"
 alias ln="ln -v"
 alias vim="$EDITOR" # nvim when available else vim (see exports)
 alias mkdir="mkdir -p"
