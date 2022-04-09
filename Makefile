@@ -1,11 +1,11 @@
 stow:
-	stow -v --ignore tags --ignore Makefile --ignore bin -S .
+	stow -v --ignore tags --ignore Makefile --ignore bin --ignore .gitmodules -S .
 
 restow:
-	stow -v --ignore tags --ignore Makefile --ignore bin -R .
+	stow -v --ignore tags --ignore Makefile --ignore bin --ignore .gitmodules -R .
 
 delete:
-	stow -v --ignore tags --ignore Makefile --ignore bin -D .
+	stow -v --ignore tags --ignore Makefile --ignore bin --ignore .gitmodules -D .
 
 all: stow
 
