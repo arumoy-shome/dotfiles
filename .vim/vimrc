@@ -33,14 +33,6 @@ set splitbelow            " horizontal splits open below
 set splitright            " vertical splits open right
 set switchbuf=usetab      " reuse windows/tabs when switching buffers
 set textwidth=70          " hardwrap lines at 70 characters by default, override in ftplugin/
-set wildignore=*.o        " patterns to ignore while file navigation
-set wildignore+=*.obj
-set wildignore+=*.rbc
-set wildignore+=*.pyc
-set wildignore+=*/__pycache__/
-set wildignore+=.git
-set wildignore+=*/node_modules/*
-set wildignore+=*/venv/*
 set wildmenu            " enhanced command line completion with <Tab>
 set wildmode=longest:full " shell like autocomplete to unambiguous portion
 set wildmode+=full
@@ -49,7 +41,7 @@ set fillchars+=fold:·   " MIDDLE DOT (U+00B7, UTF-8: C2 B7)
 set foldlevelstart=99     " start unfolded, override per ft (or file using modeline)
 set linebreak           " wrap long lines at characters in 'breakat'
 set nobreakindent       " do not indent wrapped lines
-set smarttab              " <tab>/<bs> indent/dedent in leading whitespace
+set smarttab              " [default] <tab>/<bs> indent/dedent in leading whitespace
 set formatoptions+=n      " options when formatting text
 set formatoptions+=1
 set formatoptions+=j
@@ -62,7 +54,6 @@ set ruler               " show line and column number
 set ignorecase            " case insensitive search
 set smartcase             " unless case present in search
 set infercase             " adjust case during ins-completion
-set path=.,**             " search relative to file, cwd and recursively
 set noexpandtab             " use tabs
 set tabstop=8             " [default]
 set shiftwidth=4          " spaces per tab (when shifting)
@@ -70,32 +61,6 @@ set softtabstop=4        " use 'shiftwidth' for tab/bs at eol
 setlocal spellfile=~/.vim/spell/en.utf-8.add
 setlocal spelllang=en
 " End settings }}}
-
-" {{{ plugins
-call plug#begin('~/.vim/bundle')
-Plug 'junegunn/vim-easy-align'
-Plug 'junegunn/vim-plug'
-Plug 'tpope/vim-abolish'
-Plug 'tpope/vim-apathy'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-dispatch'
-Plug 'tpope/vim-endwise'
-Plug 'tpope/vim-eunuch'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-projectionist'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-rsi'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-unimpaired'
-Plug 'tpope/vim-vinegar'
-Plug 'tpope/vim-speeddating'
-
-Plug 'wincent/loupe'
-let g:LoupeCenterResults = 0     " do not center current match
-
-Plug 'wincent/terminus'
-call plug#end()
-" End plugins}}}
 
 " {{{ keybindings
 let mapleader = "\<Space>"
