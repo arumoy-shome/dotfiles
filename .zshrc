@@ -27,7 +27,7 @@ compinit
 # {{{ prompt
 autoload -Uz promptinit
 promptinit
-prompt bart
+prompt walters
 # End prompt }}}
 
 # {{{ exports
@@ -62,10 +62,6 @@ alias rgrep='grep -inE --color --exclude-dir ".git" -R' # --recursive
 
 alias -s pdf='open -a "PDF Expert.app"'
 alias -s html='open -a "Firefox.app"'
-
-alias python='python3'
-alias py='python3'
-alias pip='pip3'
 # End alias }}}
 
 # {{{ path

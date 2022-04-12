@@ -26,9 +26,10 @@ BIBKEY=$(pbpaste | grep '^@.*' | sed 's/^@.*{\(.*\),/\1/')
   echo
   echo '```bibtex'
   if [[ -n "$BIBKEY" ]]; then
-    pbpaste | sed '/^$/d' >> "$1" # remove empty lines
+    pbpaste | bibtool
     echo "$BIBKEY" | pbcopy
   fi
+  echo
   echo '```'
 } >> "$1"
 

@@ -3,8 +3,9 @@ filetype plugin indent on
 syntax on
 
 " {{{ settings
+set hlsearch " highlight current search
+set incsearch " highlight matches while searching
 set laststatus=2          " always show statusline
-set guioptions-=e         " disable gui tabline in favour of plain text version
 set belloff=all           " do not ring the bell for any reason
 set shortmess=A           " avoid all hit-enter prompts
 set shortmess+=I
