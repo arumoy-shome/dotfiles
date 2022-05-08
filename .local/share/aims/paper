@@ -10,10 +10,6 @@ BIBKEY=$(pbpaste | grep '^@.*' | sed 's/^@.*{\(.*\),/\1/')
   echo
   if [[ -n "$BIBKEY" ]]; then
     echo "# [$(date +'%Y-%m-%d %a %H:%M')] $BIBKEY"
-    echo
-    echo '---'
-    echo "pdf: $PAPERDIR/$BIBKEY.pdf"
-    echo '---'
   else
     echo "# [$(date +'%Y-%m-%d %a %H:%M')]"
   fi
