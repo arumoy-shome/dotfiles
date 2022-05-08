@@ -97,4 +97,9 @@ call AruWindowAutocmds()
 " highlights {{{
 call aru#sync_highlights()
 " End highlights }}}
+
+" plugins {{{
+let g:markdown_folding = 1
+" End plugins }}}
+
 " vim: foldmethod=marker
