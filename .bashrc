@@ -61,6 +61,5 @@ fi
 
 ###  prompt
 GIT_PS1_SHOWDIRTYSTATE=true
-# PS1='\[\033[37m\][\j \w$(__git_ps1 " (%s)")] \$ \[\033[00m\]'
 PROMPT_COMMAND='__git_ps1 "\u@\h:\w" "\\\$ "'
 
