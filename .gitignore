@@ -1,7 +1,2 @@
-*.bak
-*.org
-*.org_archive
-.enabled_topics
 vim/spell/*.spl
-min/.vim/bundle
-min/.config/kitty/current-theme.conf
+.vim/.netrwhist

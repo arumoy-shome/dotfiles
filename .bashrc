@@ -2,6 +2,9 @@
 HISTCONTROL=ignoreboth # no duplicates or lines starting with space in history
 HISTSIZE=1000
 HISTFILESIZE=2000
+CDPATH="$HOME"
+[[ -d "$HOME/code" ]] && CDPATH+=":$HOME/code"
+[[ -d "$HOME/Documents" ]] && CDPATH+=":$HOME/Documents"
 
 shopt -s histappend   # append to history file, don't overwrite it.
 shopt -s checkwinsize # [default] check window size after each command
@@ -13,11 +16,6 @@ shopt -s direxpand
 ###  exports
 export PAGER=less
 export MANPAGER=$PAGER
-if type nvim > /dev/null; then
-  export EDITOR=nvim
-else
-  export EDITOR=vim
-fi
 
 # filename (if known), line number if known, falling back to percent if known,
 # falling back to byte offset, falling back to dash
@@ -41,13 +39,14 @@ export CLICOLOR=true
 alias cp='cp -v'
 alias mv='mv -v'
 alias rm='rm -v'
+alias ln='ln -v'
+alias mkdir='mkdir -p'
 
-# G: enable colored output
 # F: append '/' after directory and '*' after executables
 # A: do not list '.' and '..'
-# @: with `l`, display extended attribute keys and size
 # h: with `l`, use unit siffixes for file size
 # T: with `l`, display complete time info
+# l: list format
 alias ls='ls -FA'
 alias ll='ls -FAlhT'
 
@@ -63,3 +62,6 @@ fi
 GIT_PS1_SHOWDIRTYSTATE=true
 PROMPT_COMMAND='__git_ps1 "\u@\h:\w" "\\\$ "'
 
+### path
+[[ -d "$HOME/dotfiles/bin" ]] &&
+    PATH+="$HOME/dotfiles/bin"
