@@ -31,12 +31,7 @@ prompt walters
 # End prompt }}}
 
 # {{{ exports
-if (( $+commands[nvim] )); then
-  export EDITOR=nvim
-else
-  export EDITOR=vim
-fi
-
+export EDITOR=vim
 export CLICOLOR=true # color in ls output without -G, works across shells
 export LC_ALL=en_GB.UTF-8
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -51,14 +46,13 @@ alias rm='rm -v'
 alias ls="ls -FA"
 alias ll="ls -FAlrh"
 alias ln="ln -v"
-alias vim="$EDITOR" # nvim when available else vim (see exports)
 alias mkdir="mkdir -p"
 if (( $+commands[emacs] )); then
-  alias e="emacsclient --alternate-editor '' --no-wait --quiet"
+  alias e="emacsclient -nw --alternate-editor '' --quiet"
   alias E="emacsclient --alternate-editor ''  --no-wait --quiet --create-frame"
 fi
-alias grep='grep -inE --color' # --case-insensitive --line-number --extended-regexp
-alias rgrep='grep -inE --color --exclude-dir ".git" -R' # --recursive
+alias grep='grep --ignore-case --line-number --extended-regexp --color'
+alias rgrep='grep --ignore-case --line-number --extended-regexp --color --exclude-dir ".git" --recursive'
 
 alias -s pdf='open -a "PDF Expert.app"'
 alias -s html='open -a "Firefox.app"'

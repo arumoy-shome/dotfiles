@@ -16,6 +16,12 @@ shopt -s direxpand
 ###  exports
 export PAGER=less
 export MANPAGER=$PAGER
+export EDITOR=vim
+export CLICOLOR=true # color in ls output without -G, works across shells
+export LC_ALL=en_GB.UTF-8
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_DATA_BIN="$HOME/.local/bin"
 
 # filename (if known), line number if known, falling back to percent if known,
 # falling back to byte offset, falling back to dash
@@ -49,19 +55,29 @@ alias mkdir='mkdir -p'
 # l: list format
 alias ls='ls -FA'
 alias ll='ls -FAlhT'
+alias E="emacsclient --alternate-editor '' --no-wait --quiet --create-frame"
 
 ###  completions
 if [[ -d /usr/local/etc/bash_completion.d ]]; then
   for completion in /usr/local/etc/bash_completion.d/*; do
-      # source "$(readlink completion)"
-      source $completion
+      source "$completion"
   done
 fi
 
 ###  prompt
-GIT_PS1_SHOWDIRTYSTATE=true
-PROMPT_COMMAND='__git_ps1 "\u@\h:\w" "\\\$ "'
+
+if [ -f "/usr/local/opt/bash-git-prompt/share/gitprompt.sh" ]; then
+    __GIT_PROMPT_DIR="/usr/local/opt/bash-git-prompt/share"
+    source "/usr/local/opt/bash-git-prompt/share/gitprompt.sh"
+else
+    GIT_PS1_SHOWDIRTYSTATE=true
+    PROMPT_COMMAND='__git_ps1 "\u@\h:\w" "\\\$ "'
+fi
 
 ### path
-[[ -d "$HOME/dotfiles/bin" ]] &&
-    PATH+="$HOME/dotfiles/bin"
+paths=("$HOME/dotfiles/bin")
+paths+=("$HOME/.emacs.d/bin")
+
+for p in "${paths[@]}"; do
+  [[ -d "$p" ]] && PATH+=":$p"
+done
