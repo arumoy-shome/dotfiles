@@ -35,6 +35,7 @@ set splitright            " vertical splits open right
 set switchbuf=usetab      " reuse windows/tabs when switching buffers
 set textwidth=70          " hardwrap lines at 70 characters by default, override in ftplugin/
 set wildmenu            " enhanced command line completion with <Tab>
+set wildoptions=pum
 set wildmode=longest:full " shell like autocomplete to unambiguous portion
 set wildmode+=full
 set fillchars=diff:∙    " BULLET OPERATOR (U+2219, UTF-8: E2 88 99)
