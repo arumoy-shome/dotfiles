@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-if [[ $# -gt 0 ]]; then
-  git log --color --graph --pretty=format:'%Cred%h%Creset %C(yellow)%d%Creset %s' --since="$@" --committer="Arumoy.Shome"
-else
-  git log --color --graph --pretty=format:'%Cred%h%Creset %C(yellow)%d%Creset %s' --since=yesterday --committer="Arumoy.Shome"
-fi
-

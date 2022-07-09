@@ -1,6 +1,33 @@
-[submodule "zsh-syntax-highlighting"]
-	path = zsh/zsh-syntax-highlighting
-	url = git@github.com:zsh-users/zsh-syntax-highlighting.git
-[submodule "zsh-autosuggestions"]
-	path = zsh/zsh-autosuggestions
-	url = git@github.com:zsh-users/zsh-autosuggestions.git
+[submodule ".vim/pack/bundle/vim-fugitive"]
+	path = .vim/pack/bundle/start/vim-fugitive
+	url = git@github.com:tpope/vim-fugitive.git
+[submodule ".vim/pack/bundle/vim-commentary"]
+	path = .vim/pack/bundle/start/vim-commentary
+	url = git@github.com:tpope/vim-commentary.git
+[submodule ".vim/pack/bundle/vim-endwise"]
+	path = .vim/pack/bundle/start/vim-endwise
+	url = git@github.com:tpope/vim-endwise.git
+[submodule ".vim/pack/bundle/vim-repeat"]
+	path = .vim/pack/bundle/start/vim-repeat
+	url = git@github.com:tpope/vim-repeat.git
+[submodule ".vim/pack/bundle/vim-surround"]
+	path = .vim/pack/bundle/start/vim-surround
+	url = git@github.com:tpope/vim-surround.git
+[submodule ".vim/pack/bundle/vim-unimpaired"]
+	path = .vim/pack/bundle/start/vim-unimpaired
+	url = git@github.com:tpope/vim-unimpaired.git
+[submodule ".vim/pack/bundle/vim-rsi"]
+	path = .vim/pack/bundle/start/vim-rsi
+	url = git@github.com:tpope/vim-rsi.git
+[submodule ".vim/pack/bundle/vim-vinegar"]
+	path = .vim/pack/bundle/start/vim-vinegar
+	url = git@github.com:tpope/vim-vinegar.git
+[submodule ".vim/pack/bundle/vim-speeddating"]
+	path = .vim/pack/bundle/start/vim-speeddating
+	url = git@github.com:tpope/vim-speeddating.git
+[submodule ".vim/pack/bundle/vim-apathy"]
+	path = .vim/pack/bundle/start/vim-apathy
+	url = git@github.com:tpope/vim-apathy.git
+[submodule ".vim/pack/bundle/vim-eunuch"]
+	path = .vim/pack/bundle/start/vim-eunuch
+	url = git@github.com:tpope/vim-eunuch.git

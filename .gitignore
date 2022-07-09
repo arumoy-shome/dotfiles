@@ -1,4 +1,2 @@
-*.org
-*.org_archive
-.enabled_topics
 vim/spell/*.spl
+.vim/.netrwhist
