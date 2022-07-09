@@ -60,8 +60,9 @@ set noexpandtab             " use tabs
 set tabstop=8             " [default]
 set shiftwidth=4          " spaces per tab (when shifting)
 set softtabstop=4        " use 'shiftwidth' for tab/bs at eol
-setlocal spellfile=~/.vim/spell/en.utf-8.add
-setlocal spelllang=en
+set spellfile=~/.vim/spell/en.utf-8.add
+set spelllang=en
+set mouse=a
 " End settings }}}
 
 " {{{ keybindings
@@ -87,12 +88,28 @@ set tabline=%!aru#tabline()
 
 " autocommands {{{
 function! AruWindowAutocmds() abort
+    " This function resizes all vim splits everytime the dimensions of
+    " the terminal window changes. This is useful since I often bounce
+    " my terminal window around. I do this using the VimResized
+    " autocmd which fires the `wincmd =' command.
   augroup AruWindow
     autocmd!
     autocmd VimResized * wincmd =
   augroup END
 endfunction
 call AruWindowAutocmds()
+
+function! AruHelptagsAutocmds() abort
+    " This function generates helptags from all *.txt files under the
+    " docs/ directories found in vim's runtimepath (:h rtp for
+    " details). I do this using the VimEnter autocmd (:h VimEnter for
+    " details) which fires the `helptags ALL' command.
+    augroup AruHelptags
+	autocmd!
+	autocmd VimEnter * helptags ALL
+    augroup END
+endfunction
+call AruHelptagsAutocmds()
 " End autocommands }}}
 
 " highlights {{{
