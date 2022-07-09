@@ -1,4 +1,5 @@
 local wezterm = require 'wezterm';
+local action = wezterm.action;
 
 -- status bar {{{
 -- Taken from https://wezfurlong.org/wezterm/config/lua/window/set_right_status.html
@@ -36,6 +37,18 @@ return {
     -- for more details, we don't want this since it may interfere
     -- with vim.
     use_dead_keys = false,
+    keys = {
+	-- panes {{{
+	{key="d", mods="CMD", action=action.SplitHorizontal{domain="CurrentPaneDomain"}},
+	{key="d", mods="CMD|SHIFT", action=action.SplitVertical{domain="CurrentPaneDomain"}},
+	{key="w", mods="CTRL|SHIFT", action=action.CloseCurrentPane{confirm=false}},
+	{key="z", mods="CTRL|SHIFT", action=action.TogglePaneZoomState},
+	--- }}}
+	-- shell integration {{{
+	{key="UpArrow", mods="SHIFT", action=action.ScrollToPrompt(-1)},
+	{key="DownArrow", mods="SHIFT", action=action.ScrollToPrompt(1)},
+	-- }}}
+    },
     -- }}}
 
     -- font {{{

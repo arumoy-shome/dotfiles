@@ -75,3 +75,8 @@ paths+=("$HOME/.emacs.d/bin")
 for p in "${paths[@]}"; do
   [[ -d "$p" ]] && PATH+=":$p"
 done
+
+# wezterm shell integration
+[[ -e "/Applications/WezTerm.app/Contents/Resources/wezterm.sh" ]] &&
+    source "/Applications/WezTerm.app/Contents/Resources/wezterm.sh"
+

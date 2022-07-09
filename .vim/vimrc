@@ -113,6 +113,7 @@ call AruHelptagsAutocmds()
 " End autocommands }}}
 
 " highlights {{{
+color slate
 call aru#sync_highlights()
 " End highlights }}}
 
