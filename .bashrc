@@ -65,14 +65,8 @@ if [[ -d /usr/local/etc/bash_completion.d ]]; then
 fi
 
 ###  prompt
-
-if [ -f "/usr/local/opt/bash-git-prompt/share/gitprompt.sh" ]; then
-    __GIT_PROMPT_DIR="/usr/local/opt/bash-git-prompt/share"
-    source "/usr/local/opt/bash-git-prompt/share/gitprompt.sh"
-else
-    GIT_PS1_SHOWDIRTYSTATE=true
-    PROMPT_COMMAND='__git_ps1 "\u@\h:\w" "\\\$ "'
-fi
+GIT_PS1_SHOWDIRTYSTATE=true
+PROMPT_COMMAND='__git_ps1 "\u@\h:\w" "\\\$ "'
 
 ### path
 paths=("$HOME/dotfiles/bin")
