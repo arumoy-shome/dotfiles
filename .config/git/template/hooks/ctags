@@ -3,7 +3,7 @@
 set -e
 
 PATH="/usr/local/bin:$PATH"
-trap 'rm -f "$$.tags"' EXIT
+trap 'rm -f "$$.TAGS"' EXIT
 git ls-files |
-    ctags --tag-relative -L - -f "$$.tags" --languages=-javascript,sql
-mv "$$.tags" "tags"
+    ctags -e --tag-relative -L - -f "$$.TAGS" --languages=-javascript,sql
+mv "$$.TAGS" "TAGS"
