@@ -71,6 +71,7 @@ PROMPT_COMMAND='__git_ps1 "\u@\h:\w" "\\\$ "'
 ### path
 paths=("$HOME/dotfiles/bin")
 paths+=("$HOME/.emacs.d/bin")
+paths+=("$HOME/.cargo/bin")
 
 for p in "${paths[@]}"; do
   [[ -d "$p" ]] && PATH+=":$p"
