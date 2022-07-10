@@ -81,9 +81,10 @@ return {
 	    action=action.OpenLinkAtMouseCursor,
 	},
     },
-    -- {{{
+    -- }}}
 
     -- font {{{
+    font = wezterm.font("Source Code Pro"),
     font_size = 16,
     bold_brightens_ansi_colors = true, -- default
     adjust_window_size_when_changing_font_size = false,
