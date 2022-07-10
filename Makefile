@@ -9,4 +9,7 @@ delete:
 
 all: stow
 
-.PHONY: stow restow delete
+ctags:
+	find . -type f -not -path '*git*' | ctags --tag-relative=yes -L -
+
+.PHONY: stow restow delete ctags

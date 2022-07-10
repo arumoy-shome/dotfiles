@@ -1,9 +1,0 @@
-#!/usr/bin/env sh
-
-set -e
-
-PATH="/usr/local/bin:$PATH"
-trap 'rm -f "$$.TAGS"' EXIT
-git ls-files |
-    ctags -e --tag-relative -L - -f "$$.TAGS" --languages=-javascript,sql
-mv "$$.TAGS" "TAGS"
