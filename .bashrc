@@ -65,8 +65,12 @@ if [[ -d /usr/local/etc/bash_completion.d ]]; then
 fi
 
 ###  prompt
-GIT_PS1_SHOWDIRTYSTATE=true
-PROMPT_COMMAND='__git_ps1 "\u@\h:\w" "\\\$ "'
+if [[ -e "$(brew --prefix starship)" ]]; then
+    eval "$(starship init bash)"
+else
+    GIT_PS1_SHOWDIRTYSTATE=true
+    PROMPT_COMMAND='__git_ps1 "\u@\h:\w" "\\\$ "'
+fi
 
 ### path
 paths=("$HOME/dotfiles/bin")
