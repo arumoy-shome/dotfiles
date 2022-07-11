@@ -1,4 +1,4 @@
-###  settings
+#  settings {{{
 HISTCONTROL=ignoreboth # no duplicates or lines starting with space in history
 HISTSIZE=1000
 HISTFILESIZE=2000
@@ -12,8 +12,9 @@ shopt -s autocd       # .. for cd ..
 shopt -s cdspell      # check minor file spell errors
 shopt -s dirspell     # check minor dir spell errors
 shopt -s direxpand
+# }}}
 
-###  exports
+#  exports {{{
 export PAGER=less
 export MANPAGER=$PAGER
 export EDITOR=vim
@@ -37,8 +38,9 @@ export LESS=iFMRX
 # colour ls listings, do not have to use -G flag
 # and works across shells
 export CLICOLOR=true
+# }}}
 
-###  alias
+#  alias {{{
 
 # safer defaults for cp, mv and rm
 # verbose output and ask for confirmation if existing file is affected
@@ -56,23 +58,26 @@ alias mkdir='mkdir -p'
 alias ls='ls -FA'
 alias ll='ls -FAlhT'
 alias E="emacsclient --alternate-editor '' --no-wait --quiet --create-frame"
+# }}}
 
-###  completions
+#  completions {{{
 if [[ -d /usr/local/etc/bash_completion.d ]]; then
   for completion in /usr/local/etc/bash_completion.d/*; do
       source "$completion"
   done
 fi
+# }}}
 
-###  prompt
+#  prompt {{{
 if [[ -e "$(brew --prefix starship)" ]]; then
     eval "$(starship init bash)"
 else
     GIT_PS1_SHOWDIRTYSTATE=true
     PROMPT_COMMAND='__git_ps1 "\u@\h:\w" "\\\$ "'
 fi
+# }}}
 
-### path
+# path {{{
 paths=("$HOME/dotfiles/bin")
 paths+=("$HOME/.emacs.d/bin")
 paths+=("$HOME/.cargo/bin")
@@ -80,8 +85,16 @@ paths+=("$HOME/.cargo/bin")
 for p in "${paths[@]}"; do
   [[ -d "$p" ]] && PATH+=":$p"
 done
+# }}}
 
+# plugins {{{
 # wezterm shell integration
 [[ -e "/Applications/WezTerm.app/Contents/Resources/wezterm.sh" ]] &&
     source "/Applications/WezTerm.app/Contents/Resources/wezterm.sh"
 
+# fzf
+[[ -f "$HOME/.fzf.bash" ]] &&
+    source "$HOME/.fzf.bash"
+# }}}
+
+# vim: foldmethod=marker

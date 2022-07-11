@@ -118,7 +118,21 @@ call aru#sync_highlights()
 " End highlights }}}
 
 " plugins {{{
+" Enable folding in markdown files.
 let g:markdown_folding = 1
+
+" fzf has two components that require setting up: 1. the main fzf cli
+" tool <https://github.com/junegunn/fzf/blob/master/README-VIM.md> and
+" the vim plugin <https://github.com/junegunn/fzf.vim>. Here I check
+" if fzf is installed on my machine and if so, add it to vim's
+" rtp. I also disable the preview window.
+if (isdirectory('/usr/local/opt/fzf'))
+    set rtp+=/usr/local/opt/fzf
+    let g:fzf_preview_window = []
+    imap <c-x><x-f> <plug>(fzf-complete-path)
+    nmap <c-.> :Lines<CR>
+    nmap <m-.> :Tags<CR>
+endif
 " End plugins }}}
 
 " vim: foldmethod=marker
