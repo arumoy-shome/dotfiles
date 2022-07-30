@@ -1,0 +1,18 @@
+# -*- mode:sh -*-
+
+# prompt
+[[ -e "$(brew --prefix starship)" ]] &&
+    eval "$(starship init bash)"
+
+# fzf
+if [[ -x "$(command -v fzf)" ]]; then
+
+    [[ -f "$HOME/.fzf.bash" ]] &&
+	source "$HOME/.fzf.bash"
+
+    if [[ -x "$(command -v fd)" ]]; then
+	export FZF_DEFAULT_COMMAND="fd --type f --hidden --no-ignore --exclude '.git'"
+    else
+	export FZF_DEFAULT_COMMAND="find . -type f -not -path '*git*'"
+    fi
+fi

@@ -1,0 +1,6 @@
+# -*- mode:sh -*-
+
+# prompt
+GIT_PS1_SHOWDIRTYSTATE=true
+PROMPT_COMMAND='__git_ps1 "\u@\h:\w" "\\\$ "'
+
