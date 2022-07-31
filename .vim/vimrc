@@ -113,8 +113,33 @@ call AruHelptagsAutocmds()
 " End autocommands }}}
 
 " highlights {{{
-color slate
-call aru#sync_highlights()
+" After years of experimenting with several colorschemes, within
+" various terminal emulators & trying to keep vim in sync with the
+" terminal colors, I have settled on this simple & dumb approach.
+"
+" I use osx terminal with tmux. I set the TERM to tmux-256color to as
+" to get nicer fonts & colors within vim (running inside tmux).
+"
+" I do not mess with the terminal colors. It automatically switches
+" between a light & dark theme based on the time of day. The themes
+" are high contrast and legible which is what matters at the end of
+" the day.
+"
+" On the vim end, I have settled on modus themes. They are not
+" available as a package, so I stole them from the original author's
+" dotfiles repo
+" <https://gitlab.com/protesilaos/dotfiles/-/tree/master/vim/.vim/colors>.
+"
+" I set the theme in a separate file (not tracked by git, since it
+" changes very often). I source this file in my config when available
+" else use the default colorscheme. 
+let s:bg_file = expand('~/.vim/background')
+if filereadable(s:bg_file)
+    let s:bg = readfile(s:bg_file, '', 1)
+    execute 'color ' . s:bg[0]
+else
+    color default
+endif
 " End highlights }}}
 
 " plugins {{{
