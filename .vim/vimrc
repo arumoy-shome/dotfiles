@@ -23,6 +23,7 @@ set backspace+=eol        " allow backspacing over line breaks
 set clipboard+=unnamed    " always use the * register for yank/put/delete
 set autoindent            " copy indent from previous line for new line
 set autowrite             " auto write buffers when jumping
+set autoread
 set nobackup              " do not create root owned files
 set nowritebackup         " do not create root owned files
 set nojoinspaces          " insert one space when joining spaces
