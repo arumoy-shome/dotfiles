@@ -2,16 +2,14 @@
 
 [[ -z "$1" ]] && return 1
 
-
-PAPERDIR="$HOME/Documents/papers"
 BIBKEY=$(pbpaste | grep '^@.*' | sed 's/^@.*{\(.*\),/\1/')
 
 {
     echo
     if [[ -n "$BIBKEY" ]]; then
-	echo "# [$(date +'%Y-%m-%d %a %H:%M')] $BIBKEY"
+	echo "# $(date +'%Y-%m-%d %a %H:%M') $BIBKEY"
     else
-	echo "# [$(date +'%Y-%m-%d %a %H:%M')]"
+	echo "# $(date +'%Y-%m-%d %a %H:%M')"
     fi
     echo
     echo '+ **Problem Statement:**'

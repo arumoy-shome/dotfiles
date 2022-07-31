@@ -4,5 +4,5 @@
 
 {
   echo
-  echo "# [$(date +'%Y-%m-%d %a %H:%M')] {#$(cut -c 1-8 <(uuidgen))}"
+  echo "# $(date +'%Y-%m-%d %a %H:%M') "
 } >> "$1"
