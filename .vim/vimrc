@@ -69,6 +69,7 @@ set mouse=a
 " {{{ keybindings
 let mapleader = "\<Space>"
 let maplocalleader="\\"
+nmap <leader>so :source $MYVIMRC<CR>
 " End keybindings }}}
 
 " {{{ statusline
@@ -155,9 +156,11 @@ let g:markdown_folding = 1
 if (isdirectory('/usr/local/opt/fzf'))
     set rtp+=/usr/local/opt/fzf
     let g:fzf_preview_window = []
-    imap <c-x><x-f> <plug>(fzf-complete-path)
-    nmap <c-.> :Lines<CR>
-    nmap <m-.> :Tags<CR>
+    nmap <leader>f :Files<CR>
+    nmap <leader>b :Buffers<CR>
+    nmap <leader>/ :BLines<CR>
+    nmap <leader>. :BTags<CR>
+    nmap <leader>> :Tags<CR>
 endif
 " End plugins }}}
 
