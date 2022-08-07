@@ -27,11 +27,16 @@ compinit
 # {{{ prompt
 autoload -Uz promptinit
 promptinit
-prompt walters
+# NOTE make sure to install using brew prior to sourcing
+prompt pure
 # End prompt }}}
 
 # {{{ exports
-export EDITOR=vim
+if [[ -x "$(command -v nvim)" ]]; then
+    export EDITOR=nvim
+else
+    export EDITOR=vim
+fi
 export CLICOLOR=true # color in ls output without -G, works across shells
 export LC_ALL=en_GB.UTF-8
 export XDG_CONFIG_HOME="$HOME/.config"
