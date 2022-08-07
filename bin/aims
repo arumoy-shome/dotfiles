@@ -6,8 +6,7 @@
 # specifically for my workflow as a researcher.
 
 NOTESDIR="$HOME/org"
-PROJECT="aru"
-TARGET="$NOTESDIR/$PROJECT/inbox.md"
+TARGET="$NOTESDIR/inbox.md"
 TEMPLATESDIR="$XDG_DATA_HOME/aims"
 
 __capture() {
@@ -22,14 +21,6 @@ __capture() {
 		shift
 		TEMPLATE="$TEMPLATESDIR/$1"
 		;;
-	    --project | -p)
-		shift
-		PROJECT="$1"
-		;;
-	    --file | -f)
-		shift
-		TARGET="$NOTESDIR/$PROJECT/$1"
-		;;
 	    *)
 		echo "Error: unknown option $1."
 		return 1
@@ -38,15 +29,14 @@ __capture() {
     done
 
     local ITEM=$(mktemp)
-    [[ -e "$TEMPLATE" && -x "$TEMPLATE" ]] &&
-	eval "$TEMPLATE $ITEM"
+    [[ -e "$TEMPLATE" && -x "$TEMPLATE" ]] && eval "$TEMPLATE $ITEM"
 
     if eval "$EDITOR -c 'set ft=markdown' $ITEM"; then
-	[[ ! -e "$NOTESDIR/$PROJECT" ]] &&
-	    mkdir -p "$NOTESDIR/$PROJECT"
-
-	[[ ! -e "$TARGET" ]] &&
+	[[ "$1" ]] && TARGET="$NOTESDIR/$1"
+	if [[ ! -e "$TARGET" ]]; then
+	    mkdir -p "$(dirname $TARGET)"
 	    touch "$TARGET"
+	fi
 
 	# we add a guard around cat just to be extra careful not to
 	# delete the original TARGET by accident.
