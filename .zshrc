@@ -63,4 +63,44 @@ alias -s html='open -a "Firefox.app"'
   path=($path "$HOME/dotfiles/bin")
 # End path }}}
 
+# plugins {{{
+# zsh-syntax-highlighting
+# NOTE must be the last plugin installed
+# NOTE make sure to install using brew prior to sourcing
+# NOTE zsh-history-substring should be the last plugin
+# <https://github.com/zsh-users/zsh-history-substring-search#usage>
+
+# early return if we are not operating in xterm
+[[ "$TERM" =~ 'dumb' ]] && exit
+
+plugins=(
+    "$(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+    "$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+    "$(brew --prefix)/share/zsh-history-substring-search/zsh-history-substring-search.zsh"
+)
+
+
+for plugin in $plugins; do
+    [[ -e $plugin ]] && source $plugin
+done
+
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+bindkey -M emacs '^P' history-substring-search-up
+bindkey -M emacs '^N' history-substring-search-down
+
+if [[ -x "$(command -v fzf)" ]]; then
+
+    # uncomment to enable default keybindings
+    # [[ -f "$HOME/.fzf.zsh" ]] &&
+	# source "$HOME/.fzf.zsh"
+
+    if [[ -x "$(command -v fd)" ]]; then
+	export FZF_DEFAULT_COMMAND="fd --type f --hidden --no-ignore --exclude '.git'"
+    else
+	export FZF_DEFAULT_COMMAND="find . -type f -not -path '*git*'"
+    fi
+fi
+# end plugins }}}
+
 # vim: foldmethod=marker
