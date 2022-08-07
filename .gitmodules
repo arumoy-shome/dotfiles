@@ -34,3 +34,9 @@
 [submodule ".vim/pack/bundle/start/vim-fzf"]
 	path = .vim/pack/bundle/start/vim-fzf
 	url = git@github.com:junegunn/fzf.vim.git
+[submodule ".vim/pack/bundle/start/vim-dispatch"]
+	path = .vim/pack/bundle/start/vim-dispatch
+	url = git@github.com:tpope/vim-dispatch.git
+[submodule ".vim/pack/bundle/start/vim-jellybeans"]
+	path = .vim/pack/bundle/start/vim-jellybeans
+	url = git@github.com:nanotech/jellybeans.vim.git
