@@ -89,10 +89,13 @@ endfunction
 call AruHelptagsAutocmds()
 " End autocommands }}}
 
+" keybindings {{{
 let mapleader = "\<Space>"
 let maplocalleader="\\"
 nnoremap <leader>so :source $MYVIMRC<CR>
+" End keybindings }}}
 
+" vim-plug {{{
 call plug#begin()
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-lua/plenary.nvim'
@@ -122,7 +125,11 @@ Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'wincent/loupe'
 Plug 'folke/zen-mode.nvim'
 call plug#end()
+" End vim-plug }}}
 
+" plugins {{{1
+
+" nvim-cmp {{{2
 lua <<EOF
   -- Set up nvim-cmp.
   local cmp = require'cmp'
@@ -178,7 +185,9 @@ lua <<EOF
     })
   })
 EOF
+" End nvim-cmp 2}}}
 
+" nvim-treesitter 2{{{
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
     ensure_installed = "all",
@@ -198,7 +207,9 @@ require'nvim-treesitter.configs'.setup {
 EOF
 set foldmethod=expr
 set foldexpr=nvim_treesitter#foldexpr()
+" End nvim-treesitter 2}}}
 
+" lualine 2{{{
 lua <<EOF
 require('lualine').setup {
   options = {
@@ -222,10 +233,9 @@ require('lualine').setup {
   }
 }
 EOF
+" End lualine 2}}}
 
-color lunaperche
-hi clear VertSplit
-
+" lsp {{{2
 lua <<EOF
 -- Mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
@@ -280,7 +290,9 @@ require('lspconfig')['texlab'].setup{
   capabilities = capabilities,
 }
 EOF
+" End lsp 2}}}
 
+" telescope {{{2
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fd <cmd>Telescope fd<cr>
 nnoremap <leader>fg <cmd>Telescope git_files<cr>
@@ -288,12 +300,26 @@ nnoremap <leader>b <cmd>Telescope buffers<cr>
 nnoremap <leader>hh <cmd>Telescope help_tags<cr>
 nnoremap <leader>hm <cmd>Telescope man_pages<cr>
 nnoremap <leader>. <cmd>Telescope current_buffer_tags<cr>
+" End telescope 2}}}
 
+" zen-mode {{{2
 lua << EOF
   require("zen-mode").setup{}
 EOF
+" End zen-mode 2}}}
 
+" neovide {{{2
 if exists("g:neovide")
     " Put anything you want to happen only in Neovide here
     let g:neovide_cursor_animation_length=0.01
 endif
+" End neovide 2}}}
+
+" End plugins 1}}}
+
+" highlights {{{
+color base16-ayu-dark
+hi clear VertSplit
+" End highlights }}}
+
+" vim: foldmethod=marker
