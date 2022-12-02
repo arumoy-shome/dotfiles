@@ -28,7 +28,7 @@ compinit
 autoload -Uz promptinit
 promptinit
 # NOTE make sure to install using brew prior to sourcing
-prompt pure
+eval "$(starship init zsh)"
 # End prompt }}}
 
 # {{{ exports
@@ -64,8 +64,15 @@ alias -s html='open -a "Firefox.app"'
 # End alias }}}
 
 # {{{ path
-[[ -d "$HOME/dotfiles/bin" ]] &&
-  path=($path "$HOME/dotfiles/bin")
+paths=(
+    "$HOME/dotfiles/bin"
+    "$HOME/.emacs.d/bin"
+)
+
+for p in $paths; do
+    [[ -d $p ]] && path=($path $p)
+done
+
 # End path }}}
 
 # plugins {{{
@@ -75,37 +82,43 @@ alias -s html='open -a "Firefox.app"'
 # NOTE zsh-history-substring should be the last plugin
 # <https://github.com/zsh-users/zsh-history-substring-search#usage>
 
-# early return if we are not operating in xterm
-[[ "$TERM" =~ 'dumb' ]] && exit
+# load plugins if not in dumb terminal
+if [[ ! "$TERM" =~ 'dumb' ]]; then
 
-plugins=(
-    "$(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
-    "$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-    "$(brew --prefix)/share/zsh-history-substring-search/zsh-history-substring-search.zsh"
-)
+    plugins=(
+	"$(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+	"$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+	"$(brew --prefix)/share/zsh-history-substring-search/zsh-history-substring-search.zsh"
+    )
 
 
-for plugin in $plugins; do
-    [[ -e $plugin ]] && source $plugin
-done
+    for plugin in $plugins; do
+	[[ -e $plugin ]] && source $plugin
+    done
 
-bindkey '^[[A' history-substring-search-up
-bindkey '^[[B' history-substring-search-down
-bindkey -M emacs '^P' history-substring-search-up
-bindkey -M emacs '^N' history-substring-search-down
+    bindkey '^[[A' history-substring-search-up
+    bindkey '^[[B' history-substring-search-down
+    bindkey -M emacs '^P' history-substring-search-up
+    bindkey -M emacs '^N' history-substring-search-down
 
-if [[ -x "$(command -v fzf)" ]]; then
+    if [[ -x "$(command -v fzf)" ]]; then
 
     # uncomment to enable default keybindings
     # [[ -f "$HOME/.fzf.zsh" ]] &&
-	# source "$HOME/.fzf.zsh"
+    # source "$HOME/.fzf.zsh"
 
     if [[ -x "$(command -v fd)" ]]; then
 	export FZF_DEFAULT_COMMAND="fd --type f --hidden --no-ignore --exclude '.git'"
     else
 	export FZF_DEFAULT_COMMAND="find . -type f -not -path '*git*'"
     fi
+    fi
+
+    if [[ -x "$(command -v direnv)" ]]; then
+        eval "$(direnv hook zsh)"
+    fi
 fi
+
 # end plugins }}}
 
 # vim: foldmethod=marker

@@ -1,3 +1,4 @@
 vim/spell/*.spl
 .vim/.netrwhist
 .vim/background
+.vim/plugged

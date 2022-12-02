@@ -1,5 +1,5 @@
 install:
-	brew install git zsh zsh-syntax-highlighting zsh-autosuggestions zsh-history-substring-search stow make fd fzf node pandoc glow pure tldr tmux tree
+	brew install git zsh zsh-syntax-highlighting zsh-autosuggestions zsh-history-substring-search stow make fd fzf node pandoc glow pure starship tldr tmux tree
 
 install-cask:
 	brew instal --cask 1password karabiner-elements alfred logitech-camera-settings logitech-options firefox nordvpn pdf-expert font-source-code-pro spotify transmission hammerspoon iterm2-beta vlc

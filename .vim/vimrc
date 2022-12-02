@@ -114,54 +114,9 @@ endfunction
 call AruHelptagsAutocmds()
 " End autocommands }}}
 
-" highlights {{{
-" After years of experimenting with several colorschemes, within
-" various terminal emulators & trying to keep vim in sync with the
-" terminal colors, I have settled on this simple & dumb approach.
-"
-" I use osx terminal with tmux. I set the TERM to tmux-256color to as
-" to get nicer fonts & colors within vim (running inside tmux).
-"
-" I do not mess with the terminal colors. It automatically switches
-" between a light & dark theme based on the time of day. The themes
-" are high contrast and legible which is what matters at the end of
-" the day.
-"
-" On the vim end, I have settled on modus themes. They are not
-" available as a package, so I stole them from the original author's
-" dotfiles repo
-" <https://gitlab.com/protesilaos/dotfiles/-/tree/master/vim/.vim/colors>.
-"
-" I set the theme in a separate file (not tracked by git, since it
-" changes very often). I source this file in my config when available
-" else use the default colorscheme. 
-let s:bg_file = expand('~/.vim/background')
-if filereadable(s:bg_file)
-    let s:bg = readfile(s:bg_file, '', 1)
-    execute 'color ' . s:bg[0]
-else
-    color default
-endif
-" End highlights }}}
-
 " plugins {{{
 " Enable folding in markdown files.
 let g:markdown_folding = 1
-
-" fzf has two components that require setting up: 1. the main fzf cli
-" tool <https://github.com/junegunn/fzf/blob/master/README-VIM.md> and
-" the vim plugin <https://github.com/junegunn/fzf.vim>. Here I check
-" if fzf is installed on my machine and if so, add it to vim's
-" rtp. I also disable the preview window.
-if (isdirectory('/usr/local/opt/fzf'))
-    set rtp+=/usr/local/opt/fzf
-    let g:fzf_preview_window = []
-    nmap <leader>f :Files<CR>
-    nmap <leader>b :Buffers<CR>
-    nmap <leader>/ :BLines<CR>
-    nmap <leader>. :BTags<CR>
-    nmap <leader>> :Tags<CR>
-endif
 " End plugins }}}
 
 " vim: foldmethod=marker

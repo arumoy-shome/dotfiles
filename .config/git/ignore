@@ -12,6 +12,7 @@ tmp/**/*
 
 # python
 *.pyc
+.ipynb_checkpoints/
 
 # javascript
 node_modules/
@@ -40,3 +41,7 @@ GSYMS
 !.vscode/extensions.json
 *.code-workspace
 .history/
+
+# direnv
+.direnv/
+.envrc
