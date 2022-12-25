@@ -13,6 +13,7 @@ tmp/**/*
 # python
 *.pyc
 .ipynb_checkpoints/
+.venv/
 
 # javascript
 node_modules/

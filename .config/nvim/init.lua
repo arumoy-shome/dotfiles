@@ -81,15 +81,16 @@ vim.opt.listchars = {
 vim.g.mapleader = ' '
 vim.g.maplocalleader = '\\'
 -- FIXME this does not work
-vim.keymap.set('n', '<leader>so', vim.cmd.source({args = vim.env.MYVIMCR}))
+vim.keymap.set('n', '<leader>so', ':source $MYVIMRC<cr>')
 -- end keybindings }}}
 
 -- packer {{{
 local use = require('package').use
 require('packer').startup(function(use)
 	use 'wbthomason/packer.nvim'
-	use {'nvim-telescope/telescope.nvim', tag = '0.1.0', requires
-	= {{'nvim-lua/plenary.nvim'}}}
+	-- use {'nvim-telescope/telescope.nvim', tag = '0.1.0', requires
+	-- = {{'nvim-lua/plenary.nvim'}}}
+	use 'junegunn/fzf.vim'
 	use 'neovim/nvim-lspconfig'
 	use 'hrsh7th/nvim-cmp'
 	use 'hrsh7th/cmp-nvim-lsp'
@@ -114,6 +115,13 @@ require('packer').startup(function(use)
 	use 'lukas-reineke/indent-blankline.nvim'
 	use 'wincent/loupe'
 	use 'folke/zen-mode.nvim'
+	use {
+		'nvim-treesitter/nvim-treesitter',
+		run = function()
+			local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
+			ts_update()
+		end,
+	}
 end)
 -- end packer }}}
 
@@ -184,7 +192,7 @@ require('lualine').setup {
 	},
 	sections = {
 		lualine_a = {'mode'},
-		lualine_b = {'filename'},
+		lualine_b = {{'filename', path = 3 }}, -- relative path
 		lualine_c = {},
 	},
 	tabline = {
@@ -254,25 +262,50 @@ require('lspconfig')['texlab'].setup{
 -- End lsp 2}}}
 
 -- telescope {{{2
-local builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
-vim.keymap.set('n', '<leader>fd', builtin.fd, {})
-vim.keymap.set('n', '<leader>fg', builtin.git_files, {})
-vim.keymap.set('n', '<leader>fl', builtin.current_buffer_fuzzy_find, {})
-vim.keymap.set('n', '<leader>b', builtin.buffers, {})
-vim.keymap.set('n', '<leader>hh', builtin.help_tags, {})
-vim.keymap.set('n', '<leader>hm', builtin.man_pages, {})
-vim.keymap.set('n', '<leader>.', builtin.current_buffer_tags, {})
+-- local builtin = require('telescope.builtin')
+-- vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
+-- vim.keymap.set('n', '<leader>fd', builtin.fd, {})
+-- vim.keymap.set('n', '<leader>fg', builtin.git_files, {})
+-- vim.keymap.set('n', '<leader>fl', builtin.current_buffer_fuzzy_find, {})
+-- vim.keymap.set('n', '<leader>b', builtin.buffers, {})
+-- vim.keymap.set('n', '<leader>hh', builtin.help_tags, {})
+-- vim.keymap.set('n', '<leader>hm', builtin.man_pages, {})
+-- vim.keymap.set('n', '<leader>.', builtin.current_buffer_tags, {})
 -- End telescope 2}}}
+
+-- fzf {{{
+vim.opt.rtp = vim.opt.rtp + "/usr/local/opt/fzf"
+vim.keymap.set('n', '<leader>p', ":Files<cr>")
+vim.keymap.set('n', '<leader>b', ":Buffers<cr>")
+vim.keymap.set('n', '<leader>.', ":BTags<cr>")
+vim.keymap.set('n', '<leader>l', ":Lines<cr>")
+vim.keymap.set('n', '<leader>h', ":Helptags<cr>")
+-- }}}
 
 -- zen-mode {{{2
 require("zen-mode").setup{}
 -- End zen-mode 2}}}
 
+-- treesitter {{{
+require'nvim-treesitter.configs'.setup{
+	ensure_installed = "all",
+	highlight = {
+		enable = true,
+	},
+}
+
+vim.api.nvim_create_autocmd({'BufEnter', 'BufAdd', 'BufNew', 'BufNewFile', 'BufWinEnter'}, {
+	group = vim.api.nvim_create_augroup('TS_FOLD_WORKAROUND', {}),
+	callback = function()
+		vim.opt.foldmethod = 'expr'
+		vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
+	end
+})
+-- end treesitter }}}
 -- end plugins }}}
 
 -- highlights {{{
-vim.cmd.colorscheme('base16-ayu-dark')
+vim.cmd.colorscheme('lunaperche')
 -- end highlights }}}
 
 -- vim: foldmethod=marker
