@@ -10,46 +10,46 @@ TARGET="$NOTESDIR/inbox.md"
 TEMPLATESDIR="$XDG_DATA_HOME/aims"
 
 __capture() {
-    # Capture incoming info quickly. All items are appended to TARGET
-    # which defaults to `inbox.md' in NOTESDIR. Optionally a template
-    # can be specified using the --template| -t flag.
-    local TEMPLATE="$TEMPLATESDIR/default"
+  # Capture incoming info quickly. All items are appended to TARGET
+  # which defaults to `inbox.md' in NOTESDIR. Optionally a template
+  # can be specified using the --template| -t flag.
+  local TEMPLATE="$TEMPLATESDIR/default"
 
-    while [[ "$1" =~ ^-+.* && ! "$1" == "--" ]]; do
-	case "$1" in
-	    --template | -t)
-		shift
-		TEMPLATE="$TEMPLATESDIR/$1"
-		;;
-	    *)
-		echo "Error: unknown option $1."
-		return 1
-		;;
-	esac; shift
-    done
+  while [[ "$1" =~ ^-+.* && ! "$1" == "--" ]]; do
+    case "$1" in
+      --template | -t)
+        shift
+        TEMPLATE="$TEMPLATESDIR/$1"
+        ;;
+      *)
+        echo "Error: unknown option $1."
+        return 1
+        ;;
+    esac; shift
+  done
 
-    local ITEM=$(mktemp)
-    [[ -e "$TEMPLATE" && -x "$TEMPLATE" ]] && eval "$TEMPLATE $ITEM"
+  local ITEM=$(mktemp)
+  [[ -e "$TEMPLATE" && -x "$TEMPLATE" ]] && eval "$TEMPLATE $ITEM"
 
-    if eval "$EDITOR -c 'set ft=markdown' $ITEM"; then
-	[[ "$1" ]] && TARGET="$NOTESDIR/$1"
-	if [[ ! -e "$TARGET" ]]; then
-	    mkdir -p "$(dirname $TARGET)"
-	    touch "$TARGET"
-	fi
-
-	# we add a guard around cat just to be extra careful not to
-	# delete the original TARGET by accident.
-	local BUFFER=$(mktemp)
-	if eval "cat $ITEM $TARGET > $BUFFER"; then
-	    mv "$BUFFER" "$TARGET"
-	fi
-	
-	echo "Info: captured in $TARGET."
+  if eval "$EDITOR -c 'set ft=markdown' $ITEM"; then
+    [[ "$1" ]] && TARGET="$NOTESDIR/$1"
+    if [[ ! -e "$TARGET" ]]; then
+      mkdir -p "$(dirname $TARGET)"
+      touch "$TARGET"
     fi
+
+  # we add a guard around cat just to be extra careful not to
+  # delete the original TARGET by accident.
+  local BUFFER=$(mktemp)
+  if eval "cat $ITEM $TARGET > $BUFFER"; then
+    mv "$BUFFER" "$TARGET"
+  fi
+
+  echo "Info: captured in $TARGET."
+  fi
 
     # cleanup
     rm "$ITEM"
-}
+  }
 
-__capture "$@"
+  __capture "$@"
