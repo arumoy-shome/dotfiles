@@ -20,8 +20,7 @@ BIBKEY=$(pbpaste | grep '^@.*' | sed 's/^@.*{\(.*\),/\1/')
   echo
   echo '```bibtex'
   if [[ -n "$BIBKEY" ]]; then
-
-    pbpaste | bibtool
+    pbpaste
     echo "$BIBKEY" | pbcopy
   fi
   echo
