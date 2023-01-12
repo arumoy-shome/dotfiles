@@ -56,13 +56,10 @@ vim.opt.ruler = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.infercase = true
--- NOTE I now use editorconfig to set the following settings
--- automatically across all editors
--- vim.opt.textwidth = 70 -- hardwrap sentences at given length
--- vim.opt.expandtab = true -- use spaces to indent (not tabs)
--- vim.opt.tabstop = 2 -- width of a tab
--- vim.opt.shiftwidth = 2 -- width when shifting text
--- vim.opt.softtabstop = -1
+vim.opt.textwidth = 70 -- hardwrap sentences at given length
+vim.opt.expandtab = true -- use spaces to indent (not tabs)
+vim.opt.tabstop = 2 -- width of a tab
+vim.opt.shiftwidth = 2 -- width when shifting text
 vim.opt.termguicolors = true
 vim.opt.spellfile = '~/.vim/spell/en.utf-8.add'
 vim.opt.spelllang = 'en'
@@ -97,20 +94,6 @@ vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = tr
 -- end keybindings }}}
 
 -- packer {{{
-
--- install packer
--- local install_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
--- local is_bootstrap = false
--- if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
---   is_bootstrap = true
---   vim.fn.system {
---     'git',
---     'clone',
---     '--depth', '1',
---     'https://github.com/wbthomason/packer.nvim', install_path
---   }
---   vim.cmd [[packadd packer.nvim]]
--- end
 require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
   -- Fuzzy Finder (files, lsp, etc)
@@ -119,14 +102,11 @@ require('packer').startup(function(use)
     branch = '0.1.x',
     requires = { 'nvim-lua/plenary.nvim' }
   }
-
-  -- Fuzzy Finder Algorithm which requires local dependencies to be built. Only load if `make` is available
   use {
     'nvim-telescope/telescope-fzf-native.nvim',
     run = 'make',
     cond = vim.fn.executable 'make' == 1,
   }
-  -- use 'junegunn/fzf.vim'
   use { -- LSP config and plugins
     'neovim/nvim-lspconfig',
     requires = {
@@ -137,9 +117,9 @@ require('packer').startup(function(use)
       'j-hui/fidget.nvim',
       -- Additional lua configuration, makes nvim stuff amazing
       'folke/neodev.nvim',
+      { 'glepnir/lspsaga.nvim', branch = 'main' },
     }
   }
-  -- DAP
   use 'mfussenegger/nvim-dap'
   use { -- autocompletion
     'hrsh7th/nvim-cmp',
@@ -153,24 +133,19 @@ require('packer').startup(function(use)
       use 'L3MON4D3/LuaSnip',
       use 'rafamadriz/friendly-snippets',
     }
-
   }
-  use 'nvim-lualine/lualine.nvim'
   use 'RRethy/nvim-base16'
   use 'navarasu/onedark.nvim' -- Theme inspired by Atom
   use 'tpope/vim-fugitive'
-  -- use 'lewis6991/gitsigns.nvim'
   use 'tpope/vim-rsi'
   use 'tpope/vim-commentary'
   use 'tpope/vim-apathy'
   use 'tpope/vim-unimpaired'
   use 'tpope/vim-surround'
   use 'tpope/vim-eunuch'
-  -- use 'tpope/vim-sleuth'
   use 'gpanders/editorconfig.nvim'
   use 'tpope/vim-vinegar'
   use 'tpope/vim-dispatch'
-  -- use 'lervag/vimtex'
   use 'lukas-reineke/indent-blankline.nvim'
   use 'wincent/loupe'
   use 'folke/zen-mode.nvim'
@@ -191,33 +166,7 @@ require('packer').startup(function(use)
   if has_plugins then
     plugins(use)
   end
-
-  -- if is_bootstrap then
-  --   require('packer').sync()
-  -- end
 end)
-
--- When we are bootstrapping a configuration, it doesn't
--- make sense to execute the rest of the init.lua.
---
--- You'll need to restart nvim, and then it will work.
--- if is_bootstrap then
---   print '=================================='
---   print '    Plugins are being installed'
---   print '    Wait until Packer completes,'
---   print '       then restart nvim'
---   print '=================================='
---   return
--- end
-
--- Automatically source and re-compile packer whenever you save this init.lua
--- local packer_group = vim.api.nvim_create_augroup('Packer', { clear = true })
--- vim.api.nvim_create_autocmd('BufWritePost', {
---   command = 'source <afile> | PackerCompile',
---   group = packer_group,
---   pattern = vim.fn.expand '$MYVIMRC',
--- })
-
 -- end packer }}}
 
 -- plugins {{{1
@@ -275,30 +224,6 @@ cmp.setup {
 require("luasnip.loaders.from_vscode").lazy_load()
 -- }}}
 
--- lualine {{{2
-require('lualine').setup {
-  options = {
-    icons_enabled = false,
-    theme = 'onedark',
-    component_separators = '',
-    section_separators = '',
-  },
-  sections = {
-    lualine_a = { 'mode' },
-    lualine_b = { { 'filename', path = 3 } }, -- relative path
-    lualine_c = {},
-  },
-  tabline = {
-    lualine_a = { 'branch' },
-    lualine_b = { 'diff' },
-    lualine_c = { 'diagnostics' },
-    lualine_x = { 'hostname' },
-    lualine_y = {},
-    lualine_z = { 'tabs' },
-  }
-}
--- End lualine 2}}}
-
 -- diagnostics {{{2
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 local opts = { noremap = true, silent = true }
@@ -310,6 +235,17 @@ vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
 
 -- lsp {{{2
 --  This function gets run when an LSP connects to a particular buffer.
+require('lspsaga').init_lsp_saga({
+  code_action_lightbulb = {
+    enable = false,
+    -- enable_in_insert = true,
+    -- cache_code_action = true,
+    -- sign = true,
+    -- update_time = 150,
+    -- sign_priority = 20,
+    -- virtual_text = true,
+  },
+})
 local on_attach = function(_, bufnr)
   -- NOTE: Remember that lua is a real programming language, and as such it is possible
   -- to define small helper and utility functions so you don't have to repeat yourself
@@ -336,7 +272,8 @@ local on_attach = function(_, bufnr)
   nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
 
   -- See `:help K` for why this keymap
-  nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
+  -- nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
+  nmap('K', '<cmd>Lspsaga hover_doc<CR>', 'Hover Documentation')
   nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
 
   -- Lesser used LSP functionality
@@ -346,6 +283,20 @@ local on_attach = function(_, bufnr)
   nmap('<leader>wl', function()
     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
   end, '[W]orkspace [L]ist Folders')
+
+  -- lspsaga
+  -- vim.keymap.set("n", "<leader>ld", "<cmd>Lspsaga show_line_diagnostics<CR>", { silent = true })
+  -- vim.keymap.set("n", "<leader>cd", "<cmd>Lspsaga show_cursor_diagnostics<CR>", { silent = true })
+  -- Diagnostic jump can use `<c-o>` to jump back
+  vim.keymap.set("n", "[d", "<cmd>Lspsaga diagnostic_jump_prev<CR>", { silent = true })
+  vim.keymap.set("n", "]d", "<cmd>Lspsaga diagnostic_jump_next<CR>", { silent = true })
+  -- Only jump to error
+  vim.keymap.set("n", "[e", function()
+    require("lspsaga.diagnostic").goto_prev({ severity = vim.diagnostic.severity.ERROR })
+  end, { silent = true })
+  vim.keymap.set("n", "]e", function()
+    require("lspsaga.diagnostic").goto_next({ severity = vim.diagnostic.severity.ERROR })
+  end, { silent = true })
 
   -- Create a command `:Format` local to the LSP buffer
   vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
@@ -408,6 +359,7 @@ require('fidget').setup()
 -- See `:help telescope` and `:help telescope.setup()`
 require('telescope').setup {
   defaults = {
+    winblend = 10,
     mappings = {
       i = {
         ['<C-u>'] = false,
@@ -421,33 +373,42 @@ require('telescope').setup {
 pcall(require('telescope').load_extension, 'fzf')
 
 -- See `:help telescope.builtin`
-vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
-vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
+local builtin = require('telescope.builtin')
+local themes = require('telescope.themes')
+vim.keymap.set('n', '<leader>?', function()
+  builtin.oldfiles(themes.get_dropdown {
+    previewer = false,
+  })
+  end,  { desc = '[?] Find recently opened files' })
+vim.keymap.set('n', '<leader><space>', function()
+  builtin.buffers(
+    themes.get_dropdown {
+      previewer = false,
+    })
+end, { desc = '[ ] Find existing buffers' })
 vim.keymap.set('n', '<leader>/', function()
   -- You can pass additional configuration to telescope to change theme, layout, etc.
-  require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-    winblend = 10,
+  builtin.current_buffer_fuzzy_find(themes.get_dropdown {
     previewer = false,
   })
 end, { desc = '[/] Fuzzily search in current buffer]' })
 
-vim.keymap.set('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
-vim.keymap.set('n', '<leader>gf', require('telescope.builtin').git_files, { desc = '[G]it [F]iles' })
-vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
-vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
-vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
-vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
+vim.keymap.set('n', '<leader>sf', function()
+  builtin.find_files(themes.get_dropdown {
+    previewer = false,
+  })
+end, { desc = '[S]earch [F]iles' })
+vim.keymap.set('n', '<leader>gf', function()
+  builtin.git_files(themes.get_dropdown {
+    previewer = false,
+  })
+end, { desc = '[G]it [F]iles' })
+vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
+vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
+vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
+vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
 
 -- End telescope 2}}}
-
--- fzf {{{
--- vim.opt.rtp = vim.opt.rtp + "/usr/local/opt/fzf"
--- vim.keymap.set('n', '<leader>p', ":Files<cr>")
--- vim.keymap.set('n', '<leader>b', ":Buffers<cr>")
--- vim.keymap.set('n', '<leader>.', ":BTags<cr>")
--- vim.keymap.set('n', '<leader>l', ":Lines<cr>")
--- vim.keymap.set('n', '<leader>h', ":Helptags<cr>")
--- }}}
 
 -- zen-mode {{{2
 require("zen-mode").setup {}
@@ -538,13 +499,13 @@ require('nvim-treesitter.configs').setup {
 -- end plugins }}}
 
 -- highlights {{{
--- vim.cmd.colorscheme('onedark')
-require('onedark').setup {
-  style = 'darker',
-  toggle_style_key = '<leader>t',
-  toggle_style_list = {'darker', 'light'}
-}
-require('onedark').load()
+-- minimal diagnostics icons
+local signs = { Error = "!!", Warn = "!!", Hint = "!", Info = "!" }
+for type, icon in pairs(signs) do
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+end
+
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })

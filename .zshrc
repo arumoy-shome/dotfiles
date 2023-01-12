@@ -61,6 +61,7 @@ alias rgrep='grep --ignore-case --line-number --extended-regexp --color --exclud
 
 alias -s pdf='open -a "PDF Expert.app"'
 alias -s html='open -a "Firefox.app"'
+alias -s md='glow --pager --width 70'
 alias neovide='neovide --frame=none'
 # End alias }}}
 
@@ -68,10 +69,11 @@ alias neovide='neovide --frame=none'
 paths=(
   "$HOME/dotfiles/bin"
   "$HOME/.emacs.d/bin"
+  "/usr/local/opt/coreutils/libexec/gnubin"
 )
 
 for p in $paths; do
-  [[ -d $p ]] && path=($path $p)
+  [[ -d $p ]] && path=($p $path)
 done
 
 # End path }}}
@@ -180,4 +182,4 @@ function -update-window-title-preexec() {
 add-zsh-hook preexec -update-window-title-preexec
 # }}}
 
-# vim: foldmethod=marker
+# vim: foldmethod=marker ts=2 sw=2 et

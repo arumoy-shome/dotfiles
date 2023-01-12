@@ -31,8 +31,10 @@ Following are the packages & software that must be installed on the
 system. I do this manually using Homebrew.
 
 + git: my preferred vcs
-+ vim: my preferred editor; used to be emacs for a while.
-+ bash: my preferred shell; used to be zsh
++ emacs: preferred editor of choice
++ vim: on days I relapse, I use vim for a while...
++ zsh: preferred shell of choice
++ bash: backup shell; I keep the config around for remote servers
 + pandoc: file format conversion cli; plays a cental role in my
   information management & publication system
 + stow: symlink management cli; required to manage files in this repo
@@ -54,6 +56,11 @@ system. I do this manually using Homebrew.
 + tldr: cli cheatsheet (optional)
 + tmux: terminal multiplexer (optional)
 + tree: pretty-print directory structure (optional)
++ language servers:
+  + python-language-server (pylsp)
+  + bash-language-server
+  + marksman (markdown)
+  + texlab (latex)
 
 Following are the GUI applications I use. I install them manually
 using Homebrew Cask.
@@ -63,7 +70,9 @@ using Homebrew Cask.
 + dash: documentation reader
 + hammerspoon: osx automation; primarily (under)utilised for window management
 + firefox: web browser of choice
-+ font-jetbrains-mono: proportional font of choice
++ fonts:
+  + font-jetbrains-mono: proportional font of choice
+  + font-source-code-pro: proportional font for life
 + karabiner-elements: keyboard manipulation; space cadet shifts, hyper
   key, capslock as control & the likes
 + mactex: full latex distribution for osx
