@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-LIGHT_THEME="Base16-default-light"
-DARK_THEME="Base16-default-dark"
+LIGHT_THEME="Base16-tomorrow"
+DARK_THEME="Base16-tomorrow-night"
 VIM_BG_FILE="$HOME/.vim/background"
 [[ ! -e "$VIM_BG_FILE" ]] && touch "$VIM_BG_FILE"
 
@@ -28,7 +28,7 @@ __toggle() {
   # not in the expected format.
 
   local CURRENT_BG="$(head -n 1 "$VIM_BG_FILE")"
-  if [[ "$CURRENT_BG" =~ "light" ]]; then
+  if [[ "$CURRENT_BG" =~ "LIGHT_THEME" ]]; then
     __update "dark"
   else
     __update "light"

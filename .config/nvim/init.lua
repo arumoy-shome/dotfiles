@@ -89,8 +89,10 @@ vim.keymap.set('n', '<leader><tab>', 'zA')
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 
 -- Remap for dealing with word wrap
-vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
-vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'",
+  { expr = true, silent = true })
+vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'",
+  { expr = true, silent = true })
 -- end keybindings }}}
 
 -- packer {{{
@@ -120,7 +122,6 @@ require('packer').startup(function(use)
       { 'glepnir/lspsaga.nvim', branch = 'main' },
     }
   }
-  use 'mfussenegger/nvim-dap'
   use { -- autocompletion
     'hrsh7th/nvim-cmp',
     requires = {
@@ -265,11 +266,15 @@ local on_attach = function(_, bufnr)
   nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
 
   nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
-  nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
+  nmap('gr', require('telescope.builtin').lsp_references,
+    '[G]oto [R]eferences')
   nmap('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
   nmap('<leader>D', vim.lsp.buf.type_definition, 'Type [D]efinition')
-  nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
-  nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
+  nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols
+    , '[D]ocument [S]ymbols')
+  nmap('<leader>ws',
+    require('telescope.builtin').lsp_dynamic_workspace_symbols,
+    '[W]orkspace [S]ymbols')
 
   -- See `:help K` for why this keymap
   -- nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
@@ -278,8 +283,10 @@ local on_attach = function(_, bufnr)
 
   -- Lesser used LSP functionality
   nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-  nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
-  nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, '[W]orkspace [R]emove Folder')
+  nmap('<leader>wa', vim.lsp.buf.add_workspace_folder,
+    '[W]orkspace [A]dd Folder')
+  nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder,
+    '[W]orkspace [R]emove Folder')
   nmap('<leader>wl', function()
     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
   end, '[W]orkspace [L]ist Folders')
@@ -288,14 +295,18 @@ local on_attach = function(_, bufnr)
   -- vim.keymap.set("n", "<leader>ld", "<cmd>Lspsaga show_line_diagnostics<CR>", { silent = true })
   -- vim.keymap.set("n", "<leader>cd", "<cmd>Lspsaga show_cursor_diagnostics<CR>", { silent = true })
   -- Diagnostic jump can use `<c-o>` to jump back
-  vim.keymap.set("n", "[d", "<cmd>Lspsaga diagnostic_jump_prev<CR>", { silent = true })
-  vim.keymap.set("n", "]d", "<cmd>Lspsaga diagnostic_jump_next<CR>", { silent = true })
+  vim.keymap.set("n", "[d", "<cmd>Lspsaga diagnostic_jump_prev<CR>",
+    { silent = true })
+  vim.keymap.set("n", "]d", "<cmd>Lspsaga diagnostic_jump_next<CR>",
+    { silent = true })
   -- Only jump to error
   vim.keymap.set("n", "[e", function()
-    require("lspsaga.diagnostic").goto_prev({ severity = vim.diagnostic.severity.ERROR })
+    require("lspsaga.diagnostic").goto_prev({ severity = vim.diagnostic
+        .severity.ERROR })
   end, { silent = true })
   vim.keymap.set("n", "]e", function()
-    require("lspsaga.diagnostic").goto_next({ severity = vim.diagnostic.severity.ERROR })
+    require("lspsaga.diagnostic").goto_next({ severity = vim.diagnostic
+        .severity.ERROR })
   end, { silent = true })
 
   -- Create a command `:Format` local to the LSP buffer
@@ -379,7 +390,7 @@ vim.keymap.set('n', '<leader>?', function()
   builtin.oldfiles(themes.get_dropdown {
     previewer = false,
   })
-  end,  { desc = '[?] Find recently opened files' })
+end, { desc = '[?] Find recently opened files' })
 vim.keymap.set('n', '<leader><space>', function()
   builtin.buffers(
     themes.get_dropdown {
@@ -403,10 +414,14 @@ vim.keymap.set('n', '<leader>gf', function()
     previewer = false,
   })
 end, { desc = '[G]it [F]iles' })
-vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
-vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
-vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
-vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
+vim.keymap.set('n', '<leader>sh', builtin.help_tags,
+  { desc = '[S]earch [H]elp' })
+vim.keymap.set('n', '<leader>sw', builtin.grep_string,
+  { desc = '[S]earch current [W]ord' })
+vim.keymap.set('n', '<leader>sg', builtin.live_grep,
+  { desc = '[S]earch by [G]rep' })
+vim.keymap.set('n', '<leader>sd', builtin.diagnostics,
+  { desc = '[S]earch [D]iagnostics' })
 
 -- End telescope 2}}}
 
@@ -416,6 +431,16 @@ require("zen-mode").setup {}
 
 -- treesitter {{{
 -- See `:help nvim-treesitter`
+
+local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
+parser_config.org = {
+  install_info = {
+    url = 'https://github.com/milisims/tree-sitter-org',
+    revision = 'main',
+    files = { 'src/parser.c', 'src/scanner.cc' },
+  },
+  filetype = 'org',
+}
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
   ensure_installed = {
@@ -427,7 +452,8 @@ require('nvim-treesitter.configs').setup {
     'rust',
     'typescript',
     'help',
-    'latex'
+    'latex',
+    'org',
   },
 
   highlight = { enable = true },
@@ -488,14 +514,16 @@ require('nvim-treesitter.configs').setup {
 }
 
 -- TODO treesitter folds dont work that well yet...
--- vim.api.nvim_create_autocmd({'BufEnter', 'BufAdd', 'BufNew', 'BufNewFile', 'BufWinEnter'}, {
---  group = vim.api.nvim_create_augroup('TS_FOLD_WORKAROUND', {}),
---  callback = function()
---    vim.opt.foldmethod = 'expr'
---    vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
---  end
+-- vim.api.nvim_create_autocmd({ 'BufEnter', 'BufAdd', 'BufNew',
+--   'BufNewFile', 'BufWinEnter' }, {
+--   group = vim.api.nvim_create_augroup('TS_FOLD_WORKAROUND', {}),
+--   callback = function()
+--     vim.opt.foldmethod = 'expr'
+--     vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
+--   end
 -- })
 -- end treesitter }}}
+
 -- end plugins }}}
 
 -- highlights {{{
@@ -508,7 +536,8 @@ end
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
-local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
+local highlight_group = vim.api.nvim_create_augroup('YankHighlight',
+  { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {
   callback = function()
     vim.highlight.on_yank()
