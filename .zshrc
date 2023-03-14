@@ -10,7 +10,7 @@ unsetopt beep
 
 cdpath=($HOME)
 [[ -d "$HOME/code" ]] && cdpath+=("$HOME/code")
-[[ -d "$HOME/Documents" ]] && cdpath+=("$HOME/Documents")
+[[ -d "$HOME/Documents/phd" ]] && cdpath+=("$HOME/Documents/phd")
 # End options}}}
 
 # {{{ keybindings
@@ -27,8 +27,7 @@ compinit
 # {{{ prompt
 autoload -Uz promptinit
 promptinit
-# NOTE make sure to install using brew prior to sourcing
-eval "$(starship init zsh)"
+prompt walters
 # End prompt }}}
 
 # {{{ exports
@@ -120,6 +119,10 @@ if [[ ! "$TERM" =~ 'dumb' ]]; then
   if [[ -x "$(command -v direnv)" ]]; then
     eval "$(direnv hook zsh)"
   fi
+
+  # starship prompt when the terminal supports it
+  # NOTE make sure to install using brew prior to sourcing
+  eval "$(starship init zsh)"
 fi
 
 # end plugins }}}
@@ -157,7 +160,6 @@ function -update-window-title-precmd() {
     fi
   fi
 }
-add-zsh-hook precmd -update-window-title-precmd
 
 # Executed before executing a command: $2 is one-line (truncated) version of
 # the command.
@@ -179,7 +181,12 @@ function -update-window-title-preexec() {
     -set-tab-and-window-title "$(basename $PWD) > $TRIMMED"
   fi
 }
-add-zsh-hook preexec -update-window-title-preexec
+
+if [[ ! "$TERM" =~ 'dumb' ]]; then
+  add-zsh-hook preexec -update-window-title-preexec
+  add-zsh-hook precmd -update-window-title-precmd
+fi
+
 # }}}
 
 # vim: foldmethod=marker ts=2 sw=2 et
