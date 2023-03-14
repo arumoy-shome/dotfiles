@@ -122,6 +122,12 @@ require('packer').startup(function(use)
       { 'glepnir/lspsaga.nvim', branch = 'main' },
     }
   }
+  use {
+    'mfussenegger/nvim-dap',
+    requires = {
+      'mfussenegger/nvim-dap-python'
+    }
+  }
   use { -- autocompletion
     'hrsh7th/nvim-cmp',
     requires = {
@@ -365,6 +371,33 @@ mason_lspconfig.setup_handlers {
 -- Turn on lsp status information
 require('fidget').setup()
 -- End lsp 2}}}
+
+-- DAP {{{2
+local dap = require("dap")
+vim.keymap.set('n', '<F5>', function() dap.continue() end)
+vim.keymap.set('n', '<F10>', function() dap.step_over() end)
+vim.keymap.set('n', '<F11>', function() dap.step_into() end)
+vim.keymap.set('n', '<F12>', function() dap.step_out() end)
+vim.keymap.set('n', '<leader>b', function() dap.toggle_breakpoint() end)
+vim.keymap.set('n', '<leader>B', function() dap.set_breakpoint() end)
+vim.keymap.set('n', '<leader>dr', function() dap.repl.open() end)
+vim.keymap.set('n', '<leader>dl', function() dap.run_last() end)
+vim.keymap.set({'n', 'v'}, '<leader>dh', function()
+  dap.hover()
+end)
+vim.keymap.set({'n', 'v'}, '<Leader>dp', function()
+  dap.preview()
+end)
+vim.keymap.set('n', '<Leader>df', function()
+  local widgets = require('dap.ui.widgets')
+  widgets.centered_float(widgets.frames)
+end)
+vim.keymap.set('n', '<Leader>ds', function()
+  local widgets = require('dap.ui.widgets')
+  widgets.centered_float(widgets.scopes)
+end)
+require('dap-python').setup('~/.local/share/nvim/mason/packages/debugpy/venv/bin/python')
+-- End DAP }}}
 
 -- telescope {{{2
 -- See `:help telescope` and `:help telescope.setup()`
