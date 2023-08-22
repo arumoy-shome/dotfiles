@@ -49,6 +49,7 @@ GSYMS
 
 # drawio
 *.drawio
+*.drawio.bkp
 
 # latex
 *.bcf
