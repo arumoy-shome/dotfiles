@@ -57,7 +57,8 @@ function! aru#tabline() abort
 endfunction
 
 function! aru#sync_highlights() abort
-  highlight clear VertSplit " make the split visible
-  highlight clear CursorLineNr " cleaner CursorLineNr
+  highlight clear VertSplit
+  highlight clear CursorLineNr
+  highlight clear Folded
   highlight link CursorLineNr LineNr
 endfunction

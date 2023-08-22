@@ -3,7 +3,6 @@ filetype plugin indent on
 syntax on
 
 " {{{ settings
-set hlsearch " highlight current search
 set incsearch " highlight matches while searching
 set laststatus=2          " always show statusline
 set belloff=all           " do not ring the bell for any reason
@@ -64,6 +63,15 @@ set softtabstop=4        " use 'shiftwidth' for tab/bs at eol
 set spellfile=~/.vim/spell/en.utf-8.add
 set spelllang=en
 set mouse=a
+set list
+set listchars=nbsp:⦸
+set listchars+=extends:»
+set listchars+=precedes:«
+set listchars+=tab:▷⋯
+set listchars+=trail:•
+set number
+set relativenumber
+set path+=~/org
 " End settings }}}
 
 " {{{ keybindings
@@ -84,7 +92,7 @@ set statusline+=\
 set statusline+=%l:%L:%P
 set statusline+=\ 
 
-set tabline=%!aru#tabline()
+" set tabline=%!aru#tabline()
 
 " End statusline }}}
 
@@ -119,4 +127,29 @@ call AruHelptagsAutocmds()
 let g:markdown_folding = 1
 " End plugins }}}
 
+" colors {{{
+colorscheme default
+call aru#sync_highlights()
+set termguicolors
+" End colors }}}
+
+" packages {{{
+" pandoc {{{2
+" disable fold column
+let g:pandoc#folding#fdc = 0
+let g:pandoc#formatting#textwidth = 70
+" smarter hard wrap (does not wrap headers)
+let g:pandoc#formatting#mode = 'h'
+" disable spell
+let g:pandoc#spell#enabled = 0
+" 2}}}
+
+" ycm {{{2
+if !exists('g:ycm_semantic_triggers')
+    let g:ycm_semantic_triggers = {}
+endif
+let g:ycm_semantic_triggers.pandoc = ['@']
+let g:ycm_filetype_blacklist = {}
+" 2}}}
+" End packages
 " vim: foldmethod=marker

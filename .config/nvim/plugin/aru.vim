@@ -3,18 +3,6 @@
 
 " functions {{{
 
-function! aru#sync_background() abort
-  let s:bg_file = expand('~/.vim/background')
-
-  if filereadable(s:bg_file)
-    let s:bg = readfile(s:bg_file, '', 1)
-    execute 'colorscheme ' . s:bg[0]
-  else
-    execute 'colorscheme base16-default-dark'
-  endif
-endfunction
-call aru#sync_background()
-
 function! aru#statusline_fileprefix() abort
   let l:basename=expand('%:h')
   if l:basename ==# '' || l:basename ==# '.'
@@ -75,30 +63,26 @@ endfunction
 " }}}
 
 " {{{ statusline
-set statusline=\ 
-set statusline+=%<
-set statusline+=%{aru#statusline_fileprefix()}
-set statusline+=%t
-set statusline+=\ 
-set statusline+=%([%{aru#statusline_ft()}%{aru#statusline_fenc()}%R%M]%)
-set statusline+=%=
-set statusline+=\ 
-set statusline+=%l:%L:%P
-set statusline+=\ 
+function! aru#set_statusline() abort
+  set statusline=\ 
+  set statusline+=%<
+  set statusline+=%{aru#statusline_fileprefix()}
+  set statusline+=%t
+  set statusline+=\ 
+  set statusline+=%([%{aru#statusline_ft()}%{aru#statusline_fenc()}%R%M]%)
+  set statusline+=%=
+  set statusline+=\ 
+  set statusline+=%l:%L:%P
+  set statusline+=\ 
+endfunction
 
-set tabline=%!aru#tabline()
+function! aru#set_tabline() abort
+  set tabline=%!aru#tabline()
+endfunction
 
 " End statusline }}}
 
 " autocommands {{{
-
-function! AruHighlightAutocmds() abort
-  augroup AruHighlight
-    autocmd!
-    autocmd FocusGained * call aru#sync_background()
-  augroup END
-endfunction
-call AruHighlightAutocmds()
 
 function! AruWindowAutocmds() abort
   " This function resizes all vim splits everytime the dimensions of

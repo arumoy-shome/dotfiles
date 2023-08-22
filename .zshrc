@@ -2,6 +2,11 @@
 HISTFILE=~/.histfile
 HISTSIZE=1000
 SAVEHIST=1000
+setopt SHARE_HISTORY
+setopt HIST_VERIFY
+setopt HIST_IGNORE_DUPS
+setopt NO_HIST_IGNORE_ALL_DUPS
+
 # End history }}}
 
 # {{{ options
@@ -18,16 +23,43 @@ bindkey -e
 # End keybindings }}}
 
 # {{{ completion
-zstyle :compinstall filename '/Users/aru/.zshrc'
 
 autoload -Uz compinit
 compinit
+
+zstyle :compinstall filename '/Users/aru/.zshrc'
+
+# Make completion:
+# - Try exact (case-sensitive) match first.
+# - Then fall back to case-insensitive.
+# - Accept abbreviations after . or _ or - (ie. f.b -> foo.bar).
+# - Substring complete (ie. bar -> foobar).
+zstyle ':completion:*' matcher-list '' '+m:{[:lower:]}={[:upper:]}' '+m:{[:upper:]}={[:lower:]}' '+m:{_-}={-_}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+
+# Colorize completions using default `ls` colors.
+zstyle ':completion:*' list-colors ''
+
+# Allow completion of ..<Tab> to ../ and beyond.
+zstyle -e ':completion:*' special-dirs '[[ $PREFIX = (../)#(..) ]] && reply=(..)'
+
+# $CDPATH is overpowered (can allow us to jump to 100s of directories) so tends
+# to dominate completion; exclude path-directories from the tag-order so that
+# they will only be used as a fallback if no completions are found.
+zstyle ':completion:*:complete:(cd|pushd):*' tag-order 'local-directories named-directories'
+
+# Categorize completion suggestions with headings:
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*:descriptions' format %F{default}%B--- %d ---%b%f
+
+# Enable keyboard navigation of completions in menu
+# (not just tab/shift-tab but cursor keys as well):
+zstyle ':completion:*' menu select
 # End completion }}}
 
 # {{{ prompt
 autoload -Uz promptinit
 promptinit
-prompt walters
+# prompt walters
 # End prompt }}}
 
 # {{{ exports
@@ -47,8 +79,8 @@ export XDG_DATA_BIN="$HOME/.local/bin"
 alias cp='cp -v'
 alias mv='mv -v'
 alias rm='rm -v'
-alias ls="ls -FA"
-alias ll="ls -FAlrh"
+alias ls="ls -FA --color"
+alias ll="ls -FAlh --color"
 alias ln="ln -v"
 alias mkdir="mkdir -p"
 if (( $+commands[emacs] )); then
@@ -57,6 +89,7 @@ if (( $+commands[emacs] )); then
 fi
 alias grep='grep --ignore-case --line-number --extended-regexp --color'
 alias rgrep='grep --ignore-case --line-number --extended-regexp --color --exclude-dir ".git" --recursive'
+alias rsync='rsync -azvhP'
 
 alias -s pdf='open -a "PDF Expert.app"'
 alias -s html='open -a "Firefox.app"'
@@ -66,9 +99,9 @@ alias neovide='neovide --frame=none'
 
 # {{{ path
 paths=(
-  "$HOME/dotfiles/bin"
   "$HOME/.emacs.d/bin"
   "/usr/local/opt/coreutils/libexec/gnubin"
+  "$HOME/dotfiles/bin"
 )
 
 for p in $paths; do
@@ -106,8 +139,8 @@ if [[ ! "$TERM" =~ 'dumb' ]]; then
   if [[ -x "$(command -v fzf)" ]]; then
 
     # uncomment to enable default keybindings
-    # [[ -f "$HOME/.fzf.zsh" ]] &&
-    # source "$HOME/.fzf.zsh"
+    [[ -f "$HOME/.fzf.zsh" ]] &&
+    source "$HOME/.fzf.zsh"
 
     if [[ -x "$(command -v fd)" ]]; then
       export FZF_DEFAULT_COMMAND="fd --type f --hidden --no-ignore --exclude '.git'"

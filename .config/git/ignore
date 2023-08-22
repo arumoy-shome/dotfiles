@@ -6,9 +6,12 @@
 .env
 db/*.sqlite3
 log/*.log
+*.log
 rerun.txt
 tmp/**/*
 !tmp/cache/.keep
+*.zip
+*.tar.bz2
 
 # python
 *.pyc
@@ -35,14 +38,28 @@ GPATH
 GSYMS
 
 # vscode
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
+.vscode/
 *.code-workspace
 .history/
+.devcontainer/
 
 # direnv
 .direnv/
 .envrc
+
+# drawio
+*.drawio
+
+# latex
+*.bcf
+*.blg
+*.bbl
+*.nav
+*.xml
+*.snm
+*.toc
+*.xdv
+*.aux
+*.out
+*.fls
+*.fdb_latexmk

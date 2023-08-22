@@ -3,3 +3,5 @@
 .vim/background
 .vim/plugged
 .config/nvim/plugin/packer_compiled.lua
+.luarc.json
+.vim/pack

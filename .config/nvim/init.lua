@@ -56,10 +56,10 @@ vim.opt.ruler = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.infercase = true
-vim.opt.textwidth = 70 -- hardwrap sentences at given length
+vim.opt.textwidth = 70   -- hardwrap sentences at given length
 vim.opt.expandtab = true -- use spaces to indent (not tabs)
-vim.opt.tabstop = 2 -- width of a tab
-vim.opt.shiftwidth = 2 -- width when shifting text
+vim.opt.tabstop = 2      -- width of a tab
+vim.opt.shiftwidth = 2   -- width when shifting text
 vim.opt.termguicolors = true
 vim.opt.spellfile = '~/.vim/spell/en.utf-8.add'
 vim.opt.spelllang = 'en'
@@ -76,6 +76,8 @@ vim.opt.listchars = {
   trail = '•',
 }
 vim.wo.signcolumn = 'yes'
+vim.opt.number = true
+vim.opt.relativenumber = true
 -- end settings }}}
 
 -- keybindings {{{
@@ -115,11 +117,26 @@ require('packer').startup(function(use)
       -- automatically install LSPs to stdpath for neovim
       'williamboman/mason.nvim',
       'williamboman/mason-lspconfig.nvim',
-      -- useful status updates for LSP
-      'j-hui/fidget.nvim',
       -- Additional lua configuration, makes nvim stuff amazing
       'folke/neodev.nvim',
-      { 'glepnir/lspsaga.nvim', branch = 'main' },
+    }
+  }
+  -- useful status updates for LSP
+  use {
+    'j-hui/fidget.nvim',
+    tag = "legacy",
+  }
+  use {
+    'glepnir/lspsaga.nvim',
+    opt = true,
+    branch = 'main',
+    event = "LspAttach",
+    config = function()
+      require("lspsaga").setup({})
+    end,
+    requires = {
+      "nvim-tree/nvim-web-devicons",
+      "nvim-treesitter/nvim-treesitter",
     }
   }
   use {
@@ -141,7 +158,6 @@ require('packer').startup(function(use)
       use 'rafamadriz/friendly-snippets',
     }
   }
-  use 'RRethy/nvim-base16'
   use 'navarasu/onedark.nvim' -- Theme inspired by Atom
   use 'tpope/vim-fugitive'
   use 'tpope/vim-rsi'
@@ -150,11 +166,16 @@ require('packer').startup(function(use)
   use 'tpope/vim-unimpaired'
   use 'tpope/vim-surround'
   use 'tpope/vim-eunuch'
-  use 'gpanders/editorconfig.nvim'
+  use 'tpope/vim-endwise'
   use 'tpope/vim-vinegar'
   use 'tpope/vim-dispatch'
-  use 'lukas-reineke/indent-blankline.nvim'
-  use 'wincent/loupe'
+  use 'jpalardy/vim-slime'
+  use {
+    'lukas-reineke/indent-blankline.nvim',
+    config = function()
+      require("indent_blankline").setup()
+    end,
+  }
   use 'folke/zen-mode.nvim'
   use {
     'nvim-treesitter/nvim-treesitter',
@@ -167,6 +188,17 @@ require('packer').startup(function(use)
     after = 'nvim-treesitter',
   }
   use "fladson/vim-kitty"
+  use {
+    "nvim-orgmode/orgmode",
+    config = function()
+      require("orgmode").setup {}
+    end
+  }
+  use "junegunn/vim-easy-align"
+  use {
+    'nvim-lualine/lualine.nvim',
+    requires = { 'nvim-tree/nvim-web-devicons', opt = true },
+  }
 
   -- Add custom plugins to packer from ~/.config/nvim/lua/custom/plugins.lua
   local has_plugins, plugins = pcall(require, 'custom.plugins')
@@ -242,17 +274,6 @@ vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
 
 -- lsp {{{2
 --  This function gets run when an LSP connects to a particular buffer.
-require('lspsaga').init_lsp_saga({
-  code_action_lightbulb = {
-    enable = false,
-    -- enable_in_insert = true,
-    -- cache_code_action = true,
-    -- sign = true,
-    -- update_time = 150,
-    -- sign_priority = 20,
-    -- virtual_text = true,
-  },
-})
 local on_attach = function(_, bufnr)
   -- NOTE: Remember that lua is a real programming language, and as such it is possible
   -- to define small helper and utility functions so you don't have to repeat yourself
@@ -277,7 +298,7 @@ local on_attach = function(_, bufnr)
   nmap('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
   nmap('<leader>D', vim.lsp.buf.type_definition, 'Type [D]efinition')
   nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols
-    , '[D]ocument [S]ymbols')
+  , '[D]ocument [S]ymbols')
   nmap('<leader>ws',
     require('telescope.builtin').lsp_dynamic_workspace_symbols,
     '[W]orkspace [S]ymbols')
@@ -307,12 +328,16 @@ local on_attach = function(_, bufnr)
     { silent = true })
   -- Only jump to error
   vim.keymap.set("n", "[e", function()
-    require("lspsaga.diagnostic").goto_prev({ severity = vim.diagnostic
-        .severity.ERROR })
+    require("lspsaga.diagnostic").goto_prev({
+      severity = vim.diagnostic
+          .severity.ERROR
+    })
   end, { silent = true })
   vim.keymap.set("n", "]e", function()
-    require("lspsaga.diagnostic").goto_next({ severity = vim.diagnostic
-        .severity.ERROR })
+    require("lspsaga.diagnostic").goto_next({
+      severity = vim.diagnostic
+          .severity.ERROR
+    })
   end, { silent = true })
 
   -- Create a command `:Format` local to the LSP buffer
@@ -332,13 +357,6 @@ local servers = {
   -- pyright = {},
   -- rust_analyzer = {},
   -- tsserver = {},
-
-  sumneko_lua = {
-    Lua = {
-      workspace = { checkThirdParty = false },
-      telemetry = { enable = false },
-    },
-  },
 }
 
 -- Setup neovim lua configuration
@@ -346,7 +364,8 @@ require('neodev').setup()
 --
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+capabilities = require('cmp_nvim_lsp').default_capabilities(
+capabilities)
 
 -- Setup mason so it can manage external tooling
 require('mason').setup()
@@ -382,10 +401,10 @@ vim.keymap.set('n', '<leader>b', function() dap.toggle_breakpoint() end)
 vim.keymap.set('n', '<leader>B', function() dap.set_breakpoint() end)
 vim.keymap.set('n', '<leader>dr', function() dap.repl.open() end)
 vim.keymap.set('n', '<leader>dl', function() dap.run_last() end)
-vim.keymap.set({'n', 'v'}, '<leader>dh', function()
+vim.keymap.set({ 'n', 'v' }, '<leader>dh', function()
   dap.hover()
 end)
-vim.keymap.set({'n', 'v'}, '<Leader>dp', function()
+vim.keymap.set({ 'n', 'v' }, '<Leader>dp', function()
   dap.preview()
 end)
 vim.keymap.set('n', '<Leader>df', function()
@@ -396,7 +415,8 @@ vim.keymap.set('n', '<Leader>ds', function()
   local widgets = require('dap.ui.widgets')
   widgets.centered_float(widgets.scopes)
 end)
-require('dap-python').setup('~/.local/share/nvim/mason/packages/debugpy/venv/bin/python')
+require('dap-python').setup(
+'~/.local/share/nvim/mason/packages/debugpy/venv/bin/python')
 -- End DAP }}}
 
 -- telescope {{{2
@@ -465,7 +485,8 @@ require("zen-mode").setup {}
 -- treesitter {{{
 -- See `:help nvim-treesitter`
 
-local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
+local parser_config = require "nvim-treesitter.parsers"
+.get_parser_configs()
 parser_config.org = {
   install_info = {
     url = 'https://github.com/milisims/tree-sitter-org',
@@ -487,9 +508,17 @@ require('nvim-treesitter.configs').setup {
     'help',
     'latex',
     'org',
+    'yaml',
+    'json',
+    'markdown',
+    'bash',
+    'comment',
+    'diff',
+    'vim'
   },
 
   highlight = { enable = true },
+  additional_vim_regex_highlighting = { 'org' },
   indent = { enable = true, disable = { 'python' } },
   incremental_selection = {
     enable = true,
@@ -547,16 +576,24 @@ require('nvim-treesitter.configs').setup {
 }
 
 -- TODO treesitter folds dont work that well yet...
--- vim.api.nvim_create_autocmd({ 'BufEnter', 'BufAdd', 'BufNew',
---   'BufNewFile', 'BufWinEnter' }, {
---   group = vim.api.nvim_create_augroup('TS_FOLD_WORKAROUND', {}),
---   callback = function()
---     vim.opt.foldmethod = 'expr'
---     vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
---   end
--- })
+vim.api.nvim_create_autocmd({ 'BufEnter', 'BufAdd', 'BufNew',
+  'BufNewFile', 'BufWinEnter' }, {
+  group = vim.api.nvim_create_augroup('TS_FOLD_WORKAROUND', {}),
+  callback = function()
+    vim.opt.foldmethod = 'expr'
+    vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
+  end
+})
 -- end treesitter }}}
 
+-- orgmode {{{1
+require('orgmode').setup_ts_grammar()
+-- end orgmode }}}
+
+-- vim-slime {{{1
+vim.g.slime_target = "kitty"
+vim.g.slime_python_ipython = 1
+-- end vim-slime}}}
 -- end plugins }}}
 
 -- highlights {{{
@@ -578,6 +615,10 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   group = highlight_group,
   pattern = '*',
 })
+
+vim.cmd("colorscheme onedark")
+
+require('lualine').setup()
 -- end highlights }}}
 
 -- vim: foldmethod=marker
