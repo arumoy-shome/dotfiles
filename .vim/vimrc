@@ -1,86 +1,121 @@
+" see :h defaults.vim for more details
+unlet! skip_default_vim
+source $VIMRUNTIME/defaults.vim
 
-filetype plugin indent on
-syntax on
+set background=dark
+set termguicolors
+color retrobox
 
-" {{{ settings
-set incsearch " highlight matches while searching
-set laststatus=2          " always show statusline
-set belloff=all           " do not ring the bell for any reason
-set shortmess=A           " avoid all hit-enter prompts
-set shortmess+=I
-set shortmess+=O
-set shortmess+=T
-set shortmess+=W
-set shortmess+=a
-set shortmess+=c
-set shortmess+=o
-set shortmess+=s
-set shortmess+=t
-set backspace=indent      " allow backspacing over autoindent
-set backspace+=start      " allow backspaceing over the start of insert
-set backspace+=eol        " allow backspacing over line breaks
-set clipboard+=unnamed    " always use the * register for yank/put/delete
-set autoindent            " copy indent from previous line for new line
-set autowrite             " auto write buffers when jumping
+" settings {{{
+set laststatus=2
+
+set number
+set relativenumber
+
+set ignorecase
+set smartcase
+set infercase
+
+set splitright
+set splitbelow
+
+set noswapfile
+
+set clipboard+=unnamed
+
+set breakindent
+set linebreak
+set nojoinspaces
+set autoindent
+
+set autowrite
 set autoread
-set nobackup              " do not create root owned files
-set nowritebackup         " do not create root owned files
-set nojoinspaces          " insert one space when joining spaces
-set noswapfile            " do not create root owned files
-set sidescrolloff=3       " same as scrolloff, but for columns
-set scrolloff=3           " start scrolling 3 lines before edge of viewport
-set shiftround            " always indent by multiple of shiftwidth
-set splitbelow            " horizontal splits open below
-set splitright            " vertical splits open right
-set switchbuf=usetab      " reuse windows/tabs when switching buffers
-set textwidth=70          " hardwrap lines at 70 characters by default, override in ftplugin/
-set wildmenu            " enhanced command line completion with <Tab>
-set wildoptions=pum
-set wildmode=longest:full " shell like autocomplete to unambiguous portion
-set wildmode+=full
-set fillchars=diff:∙    " BULLET OPERATOR (U+2219, UTF-8: E2 88 99)
-set fillchars+=fold:·   " MIDDLE DOT (U+00B7, UTF-8: C2 B7)
-set foldlevelstart=99     " start unfolded, override per ft (or file using modeline)
-set linebreak           " wrap long lines at characters in 'breakat'
-set nobreakindent       " do not indent wrapped lines
-set smarttab              " [default] <tab>/<bs> indent/dedent in leading whitespace
-set formatoptions+=n      " options when formatting text
+
+" NOTE see :h fo-table for more details
+" I prefer to wrap the text automatically, but not comments
+set formatoptions=t
+set formatoptions+=r
+set formatoptions+=o
+set formatoptions+=/
+set formatoptions+=q
+set formatoptions+=n
+set formatoptions+=l
 set formatoptions+=1
 set formatoptions+=j
-set formatoptions+=p
-set modelineexpr          " allow expressions to be set in modeline
-set concealcursor=i     " use `V` (linewise-visual) to see concealed characters
-set concealcursor+=n
-set concealcursor+=c
-set ruler               " show line and column number
-set ignorecase            " case insensitive search
-set smartcase             " unless case present in search
-set infercase             " adjust case during ins-completion
-set noexpandtab             " use tabs
-set tabstop=8             " [default]
-set shiftwidth=4          " spaces per tab (when shifting)
-set softtabstop=4        " use 'shiftwidth' for tab/bs at eol
-set spellfile=~/.vim/spell/en.utf-8.add
-set spelllang=en
-set mouse=a
+" set textwidth=70
+
+" XXX see :help sortmess for more info
+set shortmess=a " short for shortmess=filmnrwx
+set shortmess+=o
+set shortmess+=O
+set shortmess+=s
+set shortmess+=t
+set shortmess+=T
+set shortmess+=W
+set shortmess+=I
+
+set wildmenu
+set wildoptions=pum
+set wildmode=longest:full
+set wildmode+=full
+
 set list
 set listchars=nbsp:⦸
 set listchars+=extends:»
 set listchars+=precedes:«
 set listchars+=tab:▷⋯
 set listchars+=trail:•
-set number
-set relativenumber
-set path+=~/org
-" End settings }}}
 
-" {{{ keybindings
+set spelllang=en_GB
+" end settings }}}
+
+" autocommands {{{
+" Indicate insert mode using cursorline
+function! AruInsertModeAutocmds() abort
+  augroup AruInsertMode
+    autocmd!
+    autocmd InsertEnter,InsertLeave * set cursorline!
+  augroup END
+endfunction
+call AruInsertModeAutocmds()
+
+function! AruWindowAutocmds() abort
+  augroup AruWindow
+    autocmd!
+    autocmd VimResized * wincmd =
+  augroup END
+endfunction
+call AruWindowAutocmds()
+
+function! AruHelptagsAutocmds() abort
+  augroup AruHelptags
+    autocmd!
+    autocmd VimEnter * helptags ALL
+  augroup END
+endfunction
+call AruHelptagsAutocmds()
+
+" end autocommands }}}
+
+" keybindings {{{
 let mapleader = "\<Space>"
-let maplocalleader="\\"
-nmap <leader>so :source $MYVIMRC<CR>
-" End keybindings }}}
+nmap <leader>so :source $MYVIMRC<cr>
+nmap j gj
+nmap k gk
 
-" {{{ statusline
+function! AruFiletypeKeybindings() abort
+  augroup AruFiletypeKeys
+    autocmd!
+    autocmd FileType help nmap <buffer> q :close<cr>
+    autocmd FileType qf nmap <buffer> q :close<cr>
+    autocmd FileType fugitive nmap <buffer> q gq
+  augroup END
+endfunction
+call AruFiletypeKeybindings()
+
+" end keybindings }}}
+
+" statusline {{{1
 set statusline=\ 
 set statusline+=%<
 set statusline+=%{aru#statusline_fileprefix()}
@@ -91,65 +126,16 @@ set statusline+=%=
 set statusline+=\ 
 set statusline+=%l:%L:%P
 set statusline+=\ 
+" }}}
 
-" set tabline=%!aru#tabline()
+" spacing {{{1
+" XXX Uncomment the following settings to indent using (two) spaces if vim does
+" not ship with editorconfig plugin
+" set expandtab
+" set tabstop=2
+" set shiftwidth=2
+" set smarttab
+packadd editorconfig
+" }}}
 
-" End statusline }}}
-
-" autocommands {{{
-function! AruWindowAutocmds() abort
-    " This function resizes all vim splits everytime the dimensions of
-    " the terminal window changes. This is useful since I often bounce
-    " my terminal window around. I do this using the VimResized
-    " autocmd which fires the `wincmd =' command.
-  augroup AruWindow
-    autocmd!
-    autocmd VimResized * wincmd =
-  augroup END
-endfunction
-call AruWindowAutocmds()
-
-function! AruHelptagsAutocmds() abort
-    " This function generates helptags from all *.txt files under the
-    " docs/ directories found in vim's runtimepath (:h rtp for
-    " details). I do this using the VimEnter autocmd (:h VimEnter for
-    " details) which fires the `helptags ALL' command.
-    augroup AruHelptags
-	autocmd!
-	autocmd VimEnter * helptags ALL
-    augroup END
-endfunction
-call AruHelptagsAutocmds()
-" End autocommands }}}
-
-" plugins {{{
-" Enable folding in markdown files.
-let g:markdown_folding = 1
-" End plugins }}}
-
-" colors {{{
-colorscheme default
-call aru#sync_highlights()
-set termguicolors
-" End colors }}}
-
-" packages {{{
-" pandoc {{{2
-" disable fold column
-let g:pandoc#folding#fdc = 0
-let g:pandoc#formatting#textwidth = 70
-" smarter hard wrap (does not wrap headers)
-let g:pandoc#formatting#mode = 'h'
-" disable spell
-let g:pandoc#spell#enabled = 0
-" 2}}}
-
-" ycm {{{2
-if !exists('g:ycm_semantic_triggers')
-    let g:ycm_semantic_triggers = {}
-endif
-let g:ycm_semantic_triggers.pandoc = ['@']
-let g:ycm_filetype_blacklist = {}
-" 2}}}
-" End packages
-" vim: foldmethod=marker
+" vim:foldmethod=marker

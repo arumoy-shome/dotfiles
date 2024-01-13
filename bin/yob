@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
-LIGHT_THEME="Base16-tomorrow"
-DARK_THEME="Base16-tomorrow-night"
-VIM_BG_FILE="$HOME/.vim/background"
+LIGHT_THEME="Modus Operandi"
+DARK_THEME="Modus Vivendi"
+LOCATION="$HOME/.local/share/yob"
+VIM_BG_FILE="$LOCATION/background"
+[[ ! -d "$LOCATION" ]] && mkdir -p "$LOCATION"
 [[ ! -e "$VIM_BG_FILE" ]] && touch "$VIM_BG_FILE"
 
 __update() {
@@ -10,13 +12,12 @@ __update() {
   TMPFILE="$(mktemp)"
   if [[ "$1" == "light" ]]; then
     kitty +kitten themes --config-file-name="$TMPFILE" "$LIGHT_THEME"
-    echo "${LIGHT_THEME,,}" >"$VIM_BG_FILE" # lowercase all
-  elif [[ "$1" == "dark" ]]; then
-    kitty +kitten themes --config-file-name="$TMPFILE" "$DARK_THEME"
-    echo "${DARK_THEME,,}" >"$VIM_BG_FILE" # lowercase all
+    echo "base16-classic-light" >"$VIM_BG_FILE" # lowercase all
+    echo "light" >>"$VIM_BG_FILE"
   else
-    kitty +kitten themes --config-file-name="$TMPFILE" "$1"
-    echo "${1,,}" >"$VIM_BG_FILE" # lowercase all
+    kitty +kitten themes --config-file-name="$TMPFILE" "$DARK_THEME"
+    echo "base16-classic-dark" >"$VIM_BG_FILE" # lowercase all
+    echo "dark" >>"$VIM_BG_FILE"
   fi
 
   rm -f "$TMPFILE" # cleanup
@@ -24,11 +25,10 @@ __update() {
 
 __toggle() {
   # Toggle between light and dark themes. Some preliminary error
-  # handling is done when $MODUS_CURRENT_BG_FILE does not exist or is
-  # not in the expected format.
 
-  local CURRENT_BG="$(head -n 1 "$VIM_BG_FILE")"
-  if [[ "$CURRENT_BG" =~ "LIGHT_THEME" ]]; then
+  local CURRENT_BG
+  CURRENT_BG="$(head -n 1 "$VIM_BG_FILE")"
+  if [[ "$CURRENT_BG" =~ "light" ]]; then
     __update "dark"
   else
     __update "light"

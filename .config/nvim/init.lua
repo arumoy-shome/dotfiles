@@ -1,3 +1,5 @@
+-- vim: foldmethod=marker
+
 -- settings {{{
 vim.opt.hlsearch = false
 vim.opt.incsearch = true
@@ -56,10 +58,10 @@ vim.opt.ruler = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.infercase = true
-vim.opt.textwidth = 70   -- hardwrap sentences at given length
-vim.opt.expandtab = true -- use spaces to indent (not tabs)
-vim.opt.tabstop = 2      -- width of a tab
-vim.opt.shiftwidth = 2   -- width when shifting text
+-- vim.opt.textwidth = 70   -- hardwrap sentences at given length
+-- vim.opt.expandtab = true -- use spaces to indent (not tabs)
+-- vim.opt.tabstop = 2      -- width of a tab
+-- vim.opt.shiftwidth = 2   -- width when shifting text
 vim.opt.termguicolors = true
 vim.opt.spellfile = '~/.vim/spell/en.utf-8.add'
 vim.opt.spelllang = 'en'
@@ -74,12 +76,14 @@ vim.opt.listchars = {
   precedes = '«',
   tab = '▷⋯',
   trail = '•',
+  space = '·',
 }
 vim.wo.signcolumn = 'yes'
 vim.opt.number = true
 vim.opt.relativenumber = true
+vim.opt.path:append("~/code/annotated-bibliography/bibliography.bib")
+vim.g.markdown_folding = true
 -- end settings }}}
-
 -- keybindings {{{
 vim.g.mapleader = ' '
 vim.g.maplocalleader = '\\'
@@ -96,119 +100,128 @@ vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'",
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'",
   { expr = true, silent = true })
 -- end keybindings }}}
+-- lazy {{{1
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
+end
+vim.opt.rtp:prepend(lazypath)
 
--- packer {{{
-require('packer').startup(function(use)
-  use 'wbthomason/packer.nvim'
-  -- Fuzzy Finder (files, lsp, etc)
-  use {
-    'nvim-telescope/telescope.nvim',
-    branch = '0.1.x',
-    requires = { 'nvim-lua/plenary.nvim' }
-  }
-  use {
-    'nvim-telescope/telescope-fzf-native.nvim',
-    run = 'make',
-    cond = vim.fn.executable 'make' == 1,
-  }
-  use { -- LSP config and plugins
-    'neovim/nvim-lspconfig',
-    requires = {
-      -- automatically install LSPs to stdpath for neovim
-      'williamboman/mason.nvim',
-      'williamboman/mason-lspconfig.nvim',
-      -- Additional lua configuration, makes nvim stuff amazing
-      'folke/neodev.nvim',
+require("lazy").setup({
+  {
+    "nvim-lualine/lualine.nvim",
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+    },
+    config = function()
+      require("lualine").setup()
+    end,
+  },
+  {
+    "nvim-telescope/telescope.nvim",
+    branch = "0.1.x",
+    dependencies = {
+      "nvim-lua/plenary.nvim"
     }
-  }
-  -- useful status updates for LSP
-  use {
-    'j-hui/fidget.nvim',
-    tag = "legacy",
-  }
-  use {
-    'glepnir/lspsaga.nvim',
-    opt = true,
-    branch = 'main',
-    event = "LspAttach",
+  },
+  {
+    "nvimdev/lspsaga.nvim",
     config = function()
       require("lspsaga").setup({})
     end,
-    requires = {
-      "nvim-tree/nvim-web-devicons",
+    dependencies = {
       "nvim-treesitter/nvim-treesitter",
+      "nvim-tree/nvim-web-devicons",
+    },
+  },
+  {
+    "neovim/nvim-lspconfig",
+    dependencies = {
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
+      "folke/neodev.nvim",
     }
-  }
-  use {
-    'mfussenegger/nvim-dap',
-    requires = {
-      'mfussenegger/nvim-dap-python'
-    }
-  }
-  use { -- autocompletion
-    'hrsh7th/nvim-cmp',
-    requires = {
-      use 'hrsh7th/cmp-nvim-lsp',
-      use 'hrsh7th/cmp-buffer',
-      use 'hrsh7th/cmp-path',
-      use 'hrsh7th/cmp-cmdline',
-      use 'saadparwaiz1/cmp_luasnip',
-      -- snippets
-      use 'L3MON4D3/LuaSnip',
-      use 'rafamadriz/friendly-snippets',
-    }
-  }
-  use 'navarasu/onedark.nvim' -- Theme inspired by Atom
-  use 'tpope/vim-fugitive'
-  use 'tpope/vim-rsi'
-  use 'tpope/vim-commentary'
-  use 'tpope/vim-apathy'
-  use 'tpope/vim-unimpaired'
-  use 'tpope/vim-surround'
-  use 'tpope/vim-eunuch'
-  use 'tpope/vim-endwise'
-  use 'tpope/vim-vinegar'
-  use 'tpope/vim-dispatch'
-  use 'jpalardy/vim-slime'
-  use {
-    'lukas-reineke/indent-blankline.nvim',
+  },
+  {
+    "hrsh7th/nvim-cmp",
+    dependencies = {
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-cmdline",
+      "saadparwaiz1/cmp_luasnip",
+      "L3MON4D3/LuaSnip",
+      "rafamadriz/friendly-snippets",
+    },
+  },
+  {
+    "L3MON4D3/LuaSnip",
     config = function()
-      require("indent_blankline").setup()
+      require("luasnip.loaders.from_vscode").lazy_load()
     end,
-  }
-  use 'folke/zen-mode.nvim'
-  use {
-    'nvim-treesitter/nvim-treesitter',
-    run = function()
-      pcall(require('nvim-treesitter.install').update { with_sync = true })
-    end,
-  }
-  use { -- Additional text objects via treesitter
-    'nvim-treesitter/nvim-treesitter-textobjects',
-    after = 'nvim-treesitter',
-  }
-  use "fladson/vim-kitty"
-  use {
-    "nvim-orgmode/orgmode",
+  },
+  "tpope/vim-commentary",
+  "tpope/vim-unimpaired",
+  "tpope/vim-surround",
+  "tpope/vim-rsi",
+  "tpope/vim-vinegar",
+  "tpope/vim-fugitive",
+  "tpope/vim-eunuch",
+  "tpope/vim-dispatch",
+  "tpope/vim-abolish",
+  {
+    "lukas-reineke/indent-blankline.nvim",
+    main = "ibl",
     config = function()
-      require("orgmode").setup {}
-    end
-  }
-  use "junegunn/vim-easy-align"
-  use {
-    'nvim-lualine/lualine.nvim',
-    requires = { 'nvim-tree/nvim-web-devicons', opt = true },
-  }
+      require("ibl").setup()
+    end,
+  },
+  {
+    "junegunn/vim-easy-align",
+    config = function()
+      vim.keymap.set("v", "<Enter>", "<Plug>(LiveEasyAlign)")
+      vim.keymap.set("n", "ga", "<Plug>(LiveEasyAlign)")
+    end,
+  },
+  {
+    "RRethy/nvim-base16",
+    config = function()
+      vim.cmd("colorscheme base16-classic-dark")
+    end,
+  },
+  {
+    "nvim-treesitter/nvim-treesitter",
+    init = function()
+      pcall(require("nvim-treesitter.install").update { with_sync = true })
+    end,
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter-textobjects",
+    },
+  },
+  "nvim-tree/nvim-tree.lua",
+})
 
-  -- Add custom plugins to packer from ~/.config/nvim/lua/custom/plugins.lua
-  local has_plugins, plugins = pcall(require, 'custom.plugins')
-  if has_plugins then
-    plugins(use)
-  end
-end)
--- end packer }}}
-
+-- end lazy }}}
 -- plugins {{{1
+-- diagnostics {{{2
+-- See `:help vim.diagnostic.*` for documentation on any of the below functions
+local opts = { noremap = true, silent = true }
+vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
+vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
+vim.diagnostic.config {
+  float = { border = "rounded" },
+}
+-- }}}
+
 -- nvim-cmp {{{2
 -- Set up nvim-cmp.
 
@@ -259,19 +272,6 @@ cmp.setup {
 }
 -- End nvim-cmp 2}}}
 
--- luasnip {{{2
-require("luasnip.loaders.from_vscode").lazy_load()
--- }}}
-
--- diagnostics {{{2
--- See `:help vim.diagnostic.*` for documentation on any of the below functions
-local opts = { noremap = true, silent = true }
-vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
-vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
--- }}}
-
 -- lsp {{{2
 --  This function gets run when an LSP connects to a particular buffer.
 local on_attach = function(_, bufnr)
@@ -303,11 +303,6 @@ local on_attach = function(_, bufnr)
     require('telescope.builtin').lsp_dynamic_workspace_symbols,
     '[W]orkspace [S]ymbols')
 
-  -- See `:help K` for why this keymap
-  -- nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-  nmap('K', '<cmd>Lspsaga hover_doc<CR>', 'Hover Documentation')
-  nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
-
   -- Lesser used LSP functionality
   nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
   nmap('<leader>wa', vim.lsp.buf.add_workspace_folder,
@@ -317,28 +312,6 @@ local on_attach = function(_, bufnr)
   nmap('<leader>wl', function()
     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
   end, '[W]orkspace [L]ist Folders')
-
-  -- lspsaga
-  -- vim.keymap.set("n", "<leader>ld", "<cmd>Lspsaga show_line_diagnostics<CR>", { silent = true })
-  -- vim.keymap.set("n", "<leader>cd", "<cmd>Lspsaga show_cursor_diagnostics<CR>", { silent = true })
-  -- Diagnostic jump can use `<c-o>` to jump back
-  vim.keymap.set("n", "[d", "<cmd>Lspsaga diagnostic_jump_prev<CR>",
-    { silent = true })
-  vim.keymap.set("n", "]d", "<cmd>Lspsaga diagnostic_jump_next<CR>",
-    { silent = true })
-  -- Only jump to error
-  vim.keymap.set("n", "[e", function()
-    require("lspsaga.diagnostic").goto_prev({
-      severity = vim.diagnostic
-          .severity.ERROR
-    })
-  end, { silent = true })
-  vim.keymap.set("n", "]e", function()
-    require("lspsaga.diagnostic").goto_next({
-      severity = vim.diagnostic
-          .severity.ERROR
-    })
-  end, { silent = true })
 
   -- Create a command `:Format` local to the LSP buffer
   vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
@@ -365,7 +338,7 @@ require('neodev').setup()
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(
-capabilities)
+  capabilities)
 
 -- Setup mason so it can manage external tooling
 require('mason').setup()
@@ -387,37 +360,7 @@ mason_lspconfig.setup_handlers {
   end,
 }
 
--- Turn on lsp status information
-require('fidget').setup()
 -- End lsp 2}}}
-
--- DAP {{{2
-local dap = require("dap")
-vim.keymap.set('n', '<F5>', function() dap.continue() end)
-vim.keymap.set('n', '<F10>', function() dap.step_over() end)
-vim.keymap.set('n', '<F11>', function() dap.step_into() end)
-vim.keymap.set('n', '<F12>', function() dap.step_out() end)
-vim.keymap.set('n', '<leader>b', function() dap.toggle_breakpoint() end)
-vim.keymap.set('n', '<leader>B', function() dap.set_breakpoint() end)
-vim.keymap.set('n', '<leader>dr', function() dap.repl.open() end)
-vim.keymap.set('n', '<leader>dl', function() dap.run_last() end)
-vim.keymap.set({ 'n', 'v' }, '<leader>dh', function()
-  dap.hover()
-end)
-vim.keymap.set({ 'n', 'v' }, '<Leader>dp', function()
-  dap.preview()
-end)
-vim.keymap.set('n', '<Leader>df', function()
-  local widgets = require('dap.ui.widgets')
-  widgets.centered_float(widgets.frames)
-end)
-vim.keymap.set('n', '<Leader>ds', function()
-  local widgets = require('dap.ui.widgets')
-  widgets.centered_float(widgets.scopes)
-end)
-require('dap-python').setup(
-'~/.local/share/nvim/mason/packages/debugpy/venv/bin/python')
--- End DAP }}}
 
 -- telescope {{{2
 -- See `:help telescope` and `:help telescope.setup()`
@@ -475,26 +418,16 @@ vim.keymap.set('n', '<leader>sg', builtin.live_grep,
   { desc = '[S]earch by [G]rep' })
 vim.keymap.set('n', '<leader>sd', builtin.diagnostics,
   { desc = '[S]earch [D]iagnostics' })
+vim.keymap.set('n', '<leader>st', builtin.tags,
+  { desc = '[S]earch [D]iagnostics' })
 
 -- End telescope 2}}}
-
--- zen-mode {{{2
-require("zen-mode").setup {}
--- End zen-mode 2}}}
 
 -- treesitter {{{
 -- See `:help nvim-treesitter`
 
 local parser_config = require "nvim-treesitter.parsers"
-.get_parser_configs()
-parser_config.org = {
-  install_info = {
-    url = 'https://github.com/milisims/tree-sitter-org',
-    revision = 'main',
-    files = { 'src/parser.c', 'src/scanner.cc' },
-  },
-  filetype = 'org',
-}
+    .get_parser_configs()
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
   ensure_installed = {
@@ -505,9 +438,7 @@ require('nvim-treesitter.configs').setup {
     'python',
     'rust',
     'typescript',
-    'help',
     'latex',
-    'org',
     'yaml',
     'json',
     'markdown',
@@ -518,7 +449,6 @@ require('nvim-treesitter.configs').setup {
   },
 
   highlight = { enable = true },
-  additional_vim_regex_highlighting = { 'org' },
   indent = { enable = true, disable = { 'python' } },
   incremental_selection = {
     enable = true,
@@ -576,26 +506,43 @@ require('nvim-treesitter.configs').setup {
 }
 
 -- TODO treesitter folds dont work that well yet...
-vim.api.nvim_create_autocmd({ 'BufEnter', 'BufAdd', 'BufNew',
-  'BufNewFile', 'BufWinEnter' }, {
-  group = vim.api.nvim_create_augroup('TS_FOLD_WORKAROUND', {}),
-  callback = function()
-    vim.opt.foldmethod = 'expr'
-    vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
-  end
-})
+
+-- vim.api.nvim_create_autocmd({ 'BufEnter', 'BufAdd', 'BufNew',
+--   'BufNewFile', 'BufWinEnter' }, {
+--   group = vim.api.nvim_create_augroup('TS_FOLD_WORKAROUND', {}),
+--   callback = function()
+--     vim.opt.foldmethod = 'expr'
+--     vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
+--   end
+-- })
 -- end treesitter }}}
 
--- orgmode {{{1
-require('orgmode').setup_ts_grammar()
--- end orgmode }}}
+--[[ yob {{{2
+local yob_group = vim.api.nvim_create_augroup('Yob', { clear = true })
+vim.api.nvim_create_autocmd('FocusGained', {
+  callback = function()
+    local config_file = vim.fn.expand("~/.local/share/yob/background")
+    if vim.fn.filereadable(config_file) then
+      local scheme, background = unpack(vim.fn.readfile(config_file, '', 2))
 
--- vim-slime {{{1
-vim.g.slime_target = "kitty"
-vim.g.slime_python_ipython = 1
--- end vim-slime}}}
+      if background == "dark" or background == "light" then
+        vim.opt.background = background
+      else
+        vim.api.nvim_err_writeln("Bad background " .. background .. " in " .. config_file)
+      end
+
+      vim.cmd("colorscheme " .. scheme)
+
+    else -- default
+      vim.opt.background = "dark"
+      vim.cmd("colorscheme base16-classic-dark")
+    end
+  end,
+  group = yob_group,
+  pattern = '*',
+})
+-- }}}]]
 -- end plugins }}}
-
 -- highlights {{{
 -- minimal diagnostics icons
 local signs = { Error = "!!", Warn = "!!", Hint = "!", Info = "!" }
@@ -616,9 +563,32 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
 })
 
-vim.cmd("colorscheme onedark")
-
-require('lualine').setup()
 -- end highlights }}}
+-- vscode {{{1
+if vim.g.vscode then
+-- Remap for dealing with word wrap
+vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'",
+  { expr = true, silent = true })
+vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'",
+  { expr = true, silent = true })
+end
+-- End vscode}}}
+-- neovide{{{1
+if vim.g.neovide then
+  vim.o.guifont = "Iosevka Term Curly:h15"
 
--- vim: foldmethod=marker
+  -- dynamically change the font scale (taken from neovide FAQ)
+  vim.g.neovide_scale_factor = 1.0
+  local change_scale_factor = function(delta)
+    vim.g.neovide_scale_factor = vim.g.neovide_scale_factor * delta
+  end
+
+  vim.keymap.set("n", "<D-=>", function()
+    change_scale_factor(1.25)
+  end)
+
+  vim.keymap.set("n", "<D-->", function()
+    change_scale_factor(1/1.25)
+  end)
+end
+-- end neovide}}}

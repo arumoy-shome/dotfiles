@@ -15,6 +15,7 @@ unsetopt beep
 
 cdpath=($HOME)
 [[ -d "$HOME/code" ]] && cdpath+=("$HOME/code")
+[[ -d "$HOME/phd" ]] && cdpath+=("$HOME/phd")
 [[ -d "$HOME/Documents/phd" ]] && cdpath+=("$HOME/Documents/phd")
 # End options}}}
 

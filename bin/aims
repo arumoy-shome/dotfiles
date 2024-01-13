@@ -28,10 +28,11 @@ __capture() {
     esac; shift
   done
 
-  local ITEM=$(mktemp)
+  # NOTE assumes gnu coreutils mktemp!
+  local ITEM=$(mktemp --suffix=.md)
   [[ -e "$TEMPLATE" && -x "$TEMPLATE" ]] && eval "$TEMPLATE $ITEM"
 
-  if eval "$EDITOR -c 'set ft=markdown' $ITEM"; then
+  if eval "$EDITOR $ITEM"; then
     [[ "$1" ]] && TARGET="$NOTESDIR/$1"
     if [[ ! -e "$TARGET" ]]; then
       mkdir -p "$(dirname $TARGET)"
@@ -52,4 +53,4 @@ __capture() {
     rm "$ITEM"
   }
 
-  __capture "$@"
+  __capture $@

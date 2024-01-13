@@ -1,1 +1,3 @@
 print.use.tab=off
+fmt.et.al=""
+key.format="%-1n(author)%4d(year)%-T(title)"
