@@ -5,20 +5,23 @@ install-cask:
 	brew instal --cask 1password karabiner-elements alfred logitech-camera-settings logitech-options firefox nordvpn pdf-expert font-source-code-pro spotify transmission hammerspoon iterm2-beta vlc
 
 stow:
-	stow -v --ignore tags --ignore Makefile --ignore bin --ignore .gitmodules -S .
+	stow -v --dir=files --target=${HOME} -S .
 
 restow:
-	stow -v --ignore tags --ignore Makefile --ignore bin --ignore .gitmodules -R .
+	stow -v --dir=files --target=${HOME} -R .
 
 delete:
-	stow -v --ignore tags --ignore Makefile --ignore bin --ignore .gitmodules -D .
+	stow -v --dir=files --target=${HOME} -D .
 
-all: stow
+simulate:
+	stow --no -v --dir=files --target=${HOME} -S .
+
+all:
+	stow
+	install
+	install-cask
 
 ctags:
 	find . -type f -not -path '*git*' | ctags --tag-relative=yes -L -
 
-lint: .bash_profile .bashrc .bashrc.dumb .bashrc.xterm .zshrc
-	shellcheck $<
-
-.PHONY: stow restow delete ctags install install-cask
+.PHONY: stow restow delete simulate ctags install install-cask

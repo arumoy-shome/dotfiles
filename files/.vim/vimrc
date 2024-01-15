@@ -2,9 +2,8 @@
 unlet! skip_default_vim
 source $VIMRUNTIME/defaults.vim
 
-set background=dark
 set termguicolors
-color retrobox
+color paige
 
 " settings {{{
 set laststatus=2
@@ -31,7 +30,7 @@ set autoindent
 set autowrite
 set autoread
 
-" NOTE see :h fo-table for more details
+" XXX see :h fo-table for more details
 " I prefer to wrap the text automatically, but not comments
 set formatoptions=t
 set formatoptions+=r
@@ -66,7 +65,7 @@ set listchars+=precedes:«
 set listchars+=tab:▷⋯
 set listchars+=trail:•
 
-set spelllang=en_GB
+set spelllang=en,nl
 " end settings }}}
 
 " autocommands {{{

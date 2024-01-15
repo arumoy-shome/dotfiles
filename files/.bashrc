@@ -4,7 +4,7 @@ HISTSIZE=1000
 HISTFILESIZE=2000
 CDPATH="$HOME"
 [[ -d "$HOME/code" ]] && CDPATH+=":$HOME/code"
-[[ -d "$HOME/Documents" ]] && CDPATH+=":$HOME/Documents"
+[[ -d "$HOME/phd" ]] && CDPATH+=":$HOME/phd"
 
 shopt -s histappend   # append to history file, don't overwrite it.
 shopt -s checkwinsize # [default] check window size after each command
@@ -18,7 +18,6 @@ shopt -s direxpand
 export PAGER=less
 export MANPAGER=$PAGER
 export EDITOR=vim
-export CLICOLOR=true # color in ls output without -G, works across shells
 export LC_ALL=en_GB.UTF-8
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
@@ -57,22 +56,10 @@ alias mkdir='mkdir -p'
 # l: list format
 alias ls='ls -FA'
 alias ll='ls -FAlhT'
-alias E="emacsclient --alternate-editor '' --no-wait --quiet --create-frame"
 # }}}
-
-#  completions {{{
-if [[ -d /usr/local/etc/bash_completion.d ]]; then
-  for completion in /usr/local/etc/bash_completion.d/*; do
-      source "$completion"
-  done
-fi
-# }}}
-
-#  prompt {{{
 
 # path {{{
 paths=("$HOME/dotfiles/bin")
-paths+=("$HOME/.emacs.d/bin")
 paths+=("$HOME/.cargo/bin")
 
 for p in "${paths[@]}"; do

@@ -1,7 +1,6 @@
 *.spl
-.vim/.netrwhist
-.vim/background
-.vim/plugged
-.config/nvim/plugin/packer_compiled.lua
+files/.vim/.netrwhist
+files/.vim/plugged
+files/.config/nvim/plugin/packer_compiled.lua
 .luarc.json
-.vim/pack
+files/.vim/pack
