@@ -4,6 +4,12 @@
 [[ -e "$(brew --prefix starship)" ]] &&
     eval "$(starship init bash)"
 
+# set tab/window title to current directory
+function set_win_title(){
+    echo -ne "\033]0; $(basename "$PWD") \007"
+}
+starship_precmd_user_func="set_win_title"
+
 # fzf
 if [[ -x "$(command -v fzf)" ]]; then
 
