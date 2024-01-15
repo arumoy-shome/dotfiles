@@ -4,3 +4,5 @@ files/.vim/plugged
 files/.config/nvim/plugin/packer_compiled.lua
 .luarc.json
 files/.vim/pack
+files/.config/nvim/plugin/packer_compiled.lua
+files/.config/nvim/lazy-lock.json
