@@ -66,15 +66,6 @@ set spelllang=en,nl
 " end settings }}}
 
 " autocommands {{{
-" Indicate insert mode using cursorline
-function! AruInsertModeAutocmds() abort
-  augroup AruInsertMode
-    autocmd!
-    autocmd InsertEnter,InsertLeave * set cursorline!
-  augroup END
-endfunction
-call AruInsertModeAutocmds()
-
 function! AruWindowAutocmds() abort
   augroup AruWindow
     autocmd!
@@ -98,6 +89,7 @@ let mapleader = "\<Space>"
 nmap <leader>so :source $MYVIMRC<cr>
 nmap j gj
 nmap k gk
+nmap <leader>q :quit<cr>
 
 function! AruFiletypeKeybindings() abort
   augroup AruFiletypeKeys
@@ -110,6 +102,17 @@ endfunction
 call AruFiletypeKeybindings()
 
 " end keybindings }}}
+
+" ftplugin {{{
+function! AruFiletypePlugins() abort
+  augroup AruFiletypePlugins
+    autocmd!
+    autocmd FileType gitcommit setlocal spell
+    autocmd FileType man,help let b:EditorConfig_disable = 1
+  augroup END
+endfunction
+call AruFiletypePlugins()
+" end ftplugin }}}
 
 " statusline {{{1
 set statusline=\ 
