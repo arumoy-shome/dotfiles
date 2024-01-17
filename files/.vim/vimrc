@@ -2,9 +2,6 @@
 unlet! skip_default_vim
 source $VIMRUNTIME/defaults.vim
 
-set termguicolors
-color paige
-
 " settings {{{
 set laststatus=2
 
@@ -138,3 +135,16 @@ packadd editorconfig
 " }}}
 
 " vim:foldmethod=marker
+
+" highlights {{{1
+set termguicolors
+color retrobox
+
+function! AruAutoBackground() abort
+  augroup AruAutoBackground
+    autocmd!
+    autocmd FocusGained,VimEnter * call aru#set_background()
+  augroup END
+endfunction
+call AruAutoBackground()
+" end highlights }}}

@@ -1,31 +1,31 @@
 #!/usr/bin/env bash
 
-LIGHT_THEME="Modus Operandi"
-DARK_THEME="Modus Vivendi"
+LIGHT_THEME="colors/gruvbox-light.conf"
+DARK_THEME="colors/gruvbox-dark.conf"
 LOCATION="$HOME/.local/share/yob"
 VIM_BG_FILE="$LOCATION/background"
-[[ ! -d "$LOCATION" ]] && mkdir -p "$LOCATION"
-[[ ! -e "$VIM_BG_FILE" ]] && touch "$VIM_BG_FILE"
+
+__init() {
+  [[ ! -d "$LOCATION" ]] && mkdir -p "$LOCATION"
+  [[ ! -e "$VIM_BG_FILE" ]] && touch "$VIM_BG_FILE"
+}
 
 __update() {
-
-  TMPFILE="$(mktemp)"
+  (
+  cd "$HOME/.config/kitty"
   if [[ "$1" == "light" ]]; then
-    kitty +kitten themes --config-file-name="$TMPFILE" "$LIGHT_THEME"
-    echo "base16-classic-light" >"$VIM_BG_FILE" # lowercase all
-    echo "light" >>"$VIM_BG_FILE"
+    ln -sf "$LIGHT_THEME" current-theme.conf
+    echo "light" >"$VIM_BG_FILE"
   else
-    kitty +kitten themes --config-file-name="$TMPFILE" "$DARK_THEME"
-    echo "base16-classic-dark" >"$VIM_BG_FILE" # lowercase all
-    echo "dark" >>"$VIM_BG_FILE"
+    ln -sf "$DARK_THEME" current-theme.conf
+    echo "dark" >"$VIM_BG_FILE"
   fi
+  )
 
-  rm -f "$TMPFILE" # cleanup
+  kitten @ set-colors --all --configured "$HOME/.config/kitty/current-theme.conf"
 }
 
 __toggle() {
-  # Toggle between light and dark themes. Some preliminary error
-
   local CURRENT_BG
   CURRENT_BG="$(head -n 1 "$VIM_BG_FILE")"
   if [[ "$CURRENT_BG" =~ "light" ]]; then
@@ -36,11 +36,18 @@ __toggle() {
 }
 
 main() {
-  if [[ "$#" -eq 0 ]]; then
-    __toggle
-  else
-    __update "$1"
+  if [[ ! "$TERM" =~ "kitty" ]]; then
+    echo "yob: not running kitty, doing nothing."
+    exit 1
   fi
+
+  if [[ ! -e "$VIM_BG_FILE" ]]; then
+    __init
+    __update "dark"
+    exit 0
+  fi
+
+  __toggle
 }
 
 main "$@"

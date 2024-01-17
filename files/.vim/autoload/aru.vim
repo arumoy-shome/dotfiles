@@ -23,3 +23,23 @@ function! aru#statusline_fenc() abort
     return ''
   endif
 endfunction
+
+function! aru#highlight_overrides() abort
+  execute 'highlight Comment ' .. pinnacle#italicize('Comment')
+  " TODO make folds italic & bold
+  " execute 'highlight Folded' pinnacle#decorate('Folded', ['bold', 'italic'])
+endfunction
+
+function! aru#set_background() abort
+  let config_file = expand('~/.local/share/yob/background')
+  if filereadable(config_file)
+    let bg = readfile(config_file, '', 1)[0]
+  endif
+
+  execute 'set background=' .. bg
+  " TODO comments are not italic everytime this function is called
+  " temporarily calling aru#highlight_overrides each time this
+  " function is called
+  " ideally, the highlight overrides should be set once
+  call aru#highlight_overrides()
+endfunction
