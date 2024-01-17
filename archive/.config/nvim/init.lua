@@ -193,7 +193,7 @@ require("lazy").setup({
   {
     "RRethy/nvim-base16",
     config = function()
-      vim.cmd("colorscheme base16-classic-dark")
+      vim.cmd("colorscheme base16-classic-light")
     end,
   },
   {
@@ -516,32 +516,6 @@ require('nvim-treesitter.configs').setup {
 --   end
 -- })
 -- end treesitter }}}
-
---[[ yob {{{2
-local yob_group = vim.api.nvim_create_augroup('Yob', { clear = true })
-vim.api.nvim_create_autocmd('FocusGained', {
-  callback = function()
-    local config_file = vim.fn.expand("~/.local/share/yob/background")
-    if vim.fn.filereadable(config_file) then
-      local scheme, background = unpack(vim.fn.readfile(config_file, '', 2))
-
-      if background == "dark" or background == "light" then
-        vim.opt.background = background
-      else
-        vim.api.nvim_err_writeln("Bad background " .. background .. " in " .. config_file)
-      end
-
-      vim.cmd("colorscheme " .. scheme)
-
-    else -- default
-      vim.opt.background = "dark"
-      vim.cmd("colorscheme base16-classic-dark")
-    end
-  end,
-  group = yob_group,
-  pattern = '*',
-})
--- }}}]]
 -- end plugins }}}
 -- highlights {{{
 -- minimal diagnostics icons
