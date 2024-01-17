@@ -37,6 +37,7 @@ export LESS=iFMRX
 # colour ls listings, do not have to use -G flag
 # and works across shells
 export CLICOLOR=true
+export RIPGREP_CONFIG_PATH="$HOME/.rgrc"
 # }}}
 
 #  alias {{{
