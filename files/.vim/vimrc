@@ -134,7 +134,65 @@ set statusline+=\
 packadd editorconfig
 " }}}
 
-" vim:foldmethod=marker
+" pack {{{1
+" vim-plug {{{2
+" XXX Use single quotes as per vim-plug README
+call plug#begin()
+Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-obsession'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-apathy'
+Plug 'tpope/vim-git'
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-markdown'
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-vinegar'
+Plug 'tpope/vim-projectionist'
+Plug 'tpope/vim-rsi'
+Plug 'tpope/vim-sensible'
+Plug 'tpope/vim-sleuth'
+Plug 'tpope/vim-commentary'
+Plug 'wincent/terminus'
+Plug 'wincent/loupe'
+Plug 'wincent/ferret'
+Plug 'wincent/pinnacle'
+Plug 'junegunn/vim-easy-align'
+if isdirectory('/usr/local/opt/fzf')
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
+endif
+Plug 'lervag/vimtex'
+Plug 'https://git.sr.ht/~leon_plickat/paige'
+call plug#end()
+" end vim-plug}}}
+" vimtex {{{2
+let g:vimtex_fold_enabled = 1 " turn on folding in tex files
+let g:vimtex_bib_fold_enabled = 1 " turn on folding in bib files
+" end vimtex}}}
+" fzf {{{2
+nmap <leader>t :Files<cr>
+nmap <leader><leader> :Buffers<cr>
+nmap <leader>h :Helptags<cr>
+nmap <leader>l :BLines<cr>
+
+" XXX stolen from fzf.vim README
+" Preview window is hidden by default. You can toggle it with ctrl-/.
+" It will show on the right with 50% width, but if the width is smaller
+" than 70 columns, it will show above the candidate list
+let g:fzf_vim = {}
+let g:fzf_vim.preview_window = []
+" end fzf}}}
+" markdown {{{2
+let g:markdown_folding = 1
+" end markdown}}}
+" ferret {{{2
+let g:FerretMap = 0 " do not create keybindings
+" end ferret }}}
+" end pack }}}
 
 " highlights {{{1
 set termguicolors
@@ -148,3 +206,5 @@ function! AruAutoBackground() abort
 endfunction
 call AruAutoBackground()
 " end highlights }}}
+
+" vim:foldmethod=marker foldlevelstart=99
