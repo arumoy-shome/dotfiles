@@ -193,7 +193,7 @@ require("lazy").setup({
   {
     "RRethy/nvim-base16",
     config = function()
-      vim.cmd("colorscheme base16-classic-light")
+      vim.cmd("colorscheme base16-darcula")
     end,
   },
   {
@@ -538,31 +538,3 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 -- end highlights }}}
--- vscode {{{1
-if vim.g.vscode then
--- Remap for dealing with word wrap
-vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'",
-  { expr = true, silent = true })
-vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'",
-  { expr = true, silent = true })
-end
--- End vscode}}}
--- neovide{{{1
-if vim.g.neovide then
-  vim.o.guifont = "Iosevka Term Curly:h15"
-
-  -- dynamically change the font scale (taken from neovide FAQ)
-  vim.g.neovide_scale_factor = 1.0
-  local change_scale_factor = function(delta)
-    vim.g.neovide_scale_factor = vim.g.neovide_scale_factor * delta
-  end
-
-  vim.keymap.set("n", "<D-=>", function()
-    change_scale_factor(1.25)
-  end)
-
-  vim.keymap.set("n", "<D-->", function()
-    change_scale_factor(1/1.25)
-  end)
-end
--- end neovide}}}
