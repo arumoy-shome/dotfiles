@@ -15,9 +15,18 @@ shopt -s direxpand
 # }}}
 
 #  exports {{{
+
+# export neovim as EDITOR when available, fall back to vim
+
+if [[ -x "$(command -v nvim)" ]]; then
+  export EDITOR=nvim
+  alias vim=nvim
+else
+  export EDITOR=vim
+fi
+
 export PAGER=less
 export MANPAGER=$PAGER
-export EDITOR=vim
 export LC_ALL=en_GB.UTF-8
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
