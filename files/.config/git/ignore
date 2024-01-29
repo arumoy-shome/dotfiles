@@ -56,7 +56,6 @@ GSYMS
 *.blg
 *.bbl
 *.nav
-*.xml
 *.snm
 *.toc
 *.xdv
