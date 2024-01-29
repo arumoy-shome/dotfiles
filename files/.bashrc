@@ -72,8 +72,8 @@ alias mkdir='mkdir -p'
 # h: with `l`, use unit siffixes for file size
 # T: with `l`, display complete time info
 # l: list format
-alias ls='ls -FA'
-alias ll='ls -FAlhT'
+alias ls='ls -FA --color'
+alias ll='ls -FAlh --color'
 # }}}
 
 # path {{{
