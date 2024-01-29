@@ -63,6 +63,9 @@ set listchars+=tab:▷⋯
 set listchars+=trail:•
 
 set spelllang=en,nl
+
+" start unfolded
+set foldlevelstart=99
 " end settings }}}
 
 " autocommands {{{
@@ -96,7 +99,7 @@ function! AruFiletypeKeybindings() abort
     autocmd!
     autocmd FileType help nmap <buffer> q :close<cr>
     autocmd FileType qf nmap <buffer> q :close<cr>
-    autocmd FileType fugitive nmap <buffer> q gq
+    autocmd FileType fugitive nmap <buffer> q :close<cr>
   augroup END
 endfunction
 call AruFiletypeKeybindings()
@@ -109,6 +112,7 @@ function! AruFiletypePlugins() abort
     autocmd!
     autocmd FileType gitcommit setlocal spell
     autocmd FileType man,help let b:EditorConfig_disable = 1
+    autocmd FileType quarto setlocal filetype=markdown.quarto
   augroup END
 endfunction
 call AruFiletypePlugins()
@@ -170,6 +174,7 @@ Plug 'junegunn/fzf.vim'
 endif
 Plug 'lervag/vimtex'
 Plug 'https://git.sr.ht/~leon_plickat/paige'
+Plug 'doums/darcula'
 call plug#end()
 " end vim-plug}}}
 " vimtex {{{2
@@ -195,11 +200,15 @@ let g:markdown_folding = 1
 " ferret {{{2
 let g:FerretMap = 0 " do not create keybindings
 " end ferret }}}
+" vim-easy-align {{{2
+vmap <Enter> <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
+" end vim-easy-align }}}
 " end pack }}}
 
 " highlights {{{1
 set termguicolors
-color retrobox
+color darcula
 
 function! AruAutoBackground() abort
   augroup AruAutoBackground
