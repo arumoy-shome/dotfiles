@@ -1,0 +1,13 @@
+import = ["~/.config/alacritty/current-theme.toml"]
+
+[window]
+decorations = "None"
+
+[font]
+normal = { family = "SauceCodePro Nerd Font", style = "Regular" }
+size = 14.0
+builtin_box_drawing = false
+
+[terminal]
+osc52 = "CopyPaste"
+
