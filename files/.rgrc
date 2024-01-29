@@ -1,3 +1,8 @@
 --hidden
 --glob=!.git/*
 --smart-case
+
+# add quarto filetype
+--type-add=quarto:*.qmd
+
+--type-add=yaml:*.{yaml,yml}*
