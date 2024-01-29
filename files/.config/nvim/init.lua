@@ -90,8 +90,6 @@ vim.g.maplocalleader = '\\'
 vim.keymap.set('n', '<leader>so', ':source $MYVIMRC<cr>')
 vim.keymap.set('n', '<leader><tab>', 'zA')
 
--- Keymaps for better default experience
--- See `:help vim.keymap.set()`
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 
 -- Remap for dealing with word wrap
