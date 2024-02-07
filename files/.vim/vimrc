@@ -62,6 +62,11 @@ set listchars+=precedes:«
 set listchars+=tab:▷⋯
 set listchars+=trail:•
 
+set fillchars=diff:∙
+set fillchars+=fold:∙
+set fillchars+=eob: 
+set fillchars+=vert:┃
+
 set spelllang=en,nl
 
 " start unfolded
@@ -169,12 +174,16 @@ Plug 'wincent/ferret'
 Plug 'wincent/pinnacle'
 Plug 'junegunn/vim-easy-align'
 if isdirectory('/usr/local/opt/fzf')
-Plug '/usr/local/opt/fzf'
-Plug 'junegunn/fzf.vim'
+  Plug '/usr/local/opt/fzf'
+else
+  " fzf does not exist on the device so install it
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 endif
+Plug 'junegunn/fzf.vim'
 Plug 'lervag/vimtex'
 Plug 'https://git.sr.ht/~leon_plickat/paige'
 Plug 'doums/darcula'
+Plug 'jpalardy/vim-slime'
 call plug#end()
 " end vim-plug}}}
 " vimtex {{{2
@@ -204,6 +213,10 @@ let g:FerretMap = 0 " do not create keybindings
 vmap <Enter> <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 " end vim-easy-align }}}
+" vim-slime {{{2
+let g:slime_target = 'tmux'
+let g:slime_bracketed_paste = 1
+" end vim-slime}}}
 " end pack }}}
 
 " highlights {{{1
