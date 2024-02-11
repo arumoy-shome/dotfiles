@@ -191,7 +191,12 @@ require("lazy").setup({
   {
     "RRethy/nvim-base16",
     config = function()
-      vim.cmd("colorscheme base16-darcula")
+      local color_file = vim.fn.expand('~/.config/nvim/colors.lua')
+      if vim.fn.filereadable(color_file) then
+        vim.cmd("source " .. color_file)
+      else
+        vim.cmd("colorscheme base16-classic-dark")
+      end
     end,
   },
   {

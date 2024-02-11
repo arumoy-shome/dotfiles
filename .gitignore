@@ -1,8 +1,10 @@
 *.spl
-files/.vim/.netrwhist
-files/.vim/plugged
-files/.config/nvim/plugin/packer_compiled.lua
 .luarc.json
-files/.vim/pack
-files/.config/nvim/plugin/packer_compiled.lua
+files/.config/kitty/font.conf
+files/.config/nvim/colors.lua
 files/.config/nvim/lazy-lock.json
+files/.config/nvim/plugin/packer_compiled.lua
+files/.vim/.netrwhist
+files/.vim/colors.vim
+files/.vim/pack
+files/.vim/plugged

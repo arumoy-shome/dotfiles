@@ -220,8 +220,14 @@ let g:slime_bracketed_paste = 1
 " end pack }}}
 
 " highlights {{{1
-set termguicolors
-color darcula
+if has('termguicolors')
+  set termguicolors
+endif
+if filereadable(expand('~/.vim/colors.vim'))
+  execute 'source ' .. expand('~/.vim/colors.vim')
+else
+  colorscheme base16-classic-dark
+endif
 
 function! AruAutoBackground() abort
   augroup AruAutoBackground
