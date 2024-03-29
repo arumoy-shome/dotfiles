@@ -71,6 +71,9 @@ set spelllang=en,nl
 
 " start unfolded
 set foldlevelstart=99
+
+" turn on signcolumn permanently
+set signcolumn=yes
 " end settings }}}
 
 " autocommands {{{
@@ -95,19 +98,13 @@ call AruHelptagsAutocmds()
 " keybindings {{{
 let mapleader = "\<Space>"
 nmap <leader>so :source $MYVIMRC<cr>
-nmap j gj
-nmap k gk
+" nmap j gj
+" nmap k gk
+if v:count == 0
+  nmap j gj
+  nmap k gk
+endif
 nmap <leader>q :quit<cr>
-
-function! AruFiletypeKeybindings() abort
-  augroup AruFiletypeKeys
-    autocmd!
-    autocmd FileType help nmap <buffer> q :close<cr>
-    autocmd FileType qf nmap <buffer> q :close<cr>
-    autocmd FileType fugitive nmap <buffer> q :close<cr>
-  augroup END
-endfunction
-call AruFiletypeKeybindings()
 
 " end keybindings }}}
 
@@ -181,8 +178,6 @@ else
 endif
 Plug 'junegunn/fzf.vim'
 Plug 'lervag/vimtex'
-Plug 'https://git.sr.ht/~leon_plickat/paige'
-Plug 'doums/darcula'
 Plug 'jpalardy/vim-slime'
 call plug#end()
 " end vim-plug}}}
@@ -195,8 +190,9 @@ nmap <leader>t :Files<cr>
 nmap <leader><leader> :Buffers<cr>
 nmap <leader>h :Helptags<cr>
 nmap <leader>l :BLines<cr>
+nmap <leader>. :BTags<cr>
 
-" XXX stolen from fzf.vim README
+" NOTE: stolen from fzf.vim README
 " Preview window is hidden by default. You can toggle it with ctrl-/.
 " It will show on the right with 50% width, but if the width is smaller
 " than 70 columns, it will show above the candidate list
@@ -223,19 +219,13 @@ let g:slime_bracketed_paste = 1
 if has('termguicolors')
   set termguicolors
 endif
-if filereadable(expand('~/.vim/colors.vim'))
-  execute 'source ' .. expand('~/.vim/colors.vim')
-else
-  colorscheme base16-classic-dark
-endif
-
-function! AruAutoBackground() abort
-  augroup AruAutoBackground
+function! AruHighlights() abort
+  augroup AruHighlights
     autocmd!
-    autocmd FocusGained,VimEnter * call aru#set_background()
+    autocmd VimEnter * call aru#highlight_overrides()
   augroup END
 endfunction
-call AruAutoBackground()
+call AruHighlights()
 " end highlights }}}
 
 " vim:foldmethod=marker foldlevelstart=99
