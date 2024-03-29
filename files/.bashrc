@@ -74,15 +74,22 @@ alias mkdir='mkdir -p'
 # l: list format
 alias ls='ls -FA --color'
 alias ll='ls -FAlh --color'
+if [[ "$TERM" =~ 'kitty' ]]; then
+  alias ssh='kitty +kitten ssh'
+fi
 # }}}
 
 # path {{{
+# append to path
 paths=("$HOME/dotfiles/bin")
 paths+=("$HOME/.cargo/bin")
 
 for p in "${paths[@]}"; do
   [[ -d "$p" ]] && PATH+=":$p"
 done
+
+## prepend to path
+PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 # }}}
 
 if [[ "$TERM" =~ 'dumb' ]]; then

@@ -1,3 +1,5 @@
+# vim: filetype=sh
+
 # prompt
 [[ -e "$(brew --prefix starship)" ]] &&
     eval "$(starship init bash)"
@@ -20,10 +22,32 @@ if [[ -x "$(command -v fzf)" ]]; then
     source "$HOME/.fzf.bash"
 
   if [[ -x "$(command -v fd)" ]]; then
-    export FZF_DEFAULT_COMMAND="fd --type f --hidden --no-ignore --exclude '.git'"
+    export FZF_DEFAULT_COMMAND="fd --type f --hidden --exclude '.git'"
+    # following stolen from fzf README
+    # Use fd instead of the default find command for listing path candidates.
+    # - The first argument to the function ($1) is the base path to start traversal
+    # - See the source code (completion.{bash,zsh}) for the details.
+    _fzf_compgen_path() {
+      fd --hidden --follow --exclude ".git" . "$1"
+    }
+
+    # Use fd to generate the list for directory completion
+    _fzf_compgen_dir() {
+      fd --type d --hidden --follow --exclude ".git" . "$1"
+    }
   else
     export FZF_DEFAULT_COMMAND="find . -type f -not -path '*git*'"
   fi
 
+  export FZF_COMPLETION_OPTS="--border --info=inline"
   export FZF_DEFAULT_OPTS="--reverse --height=~40% --no-scrollbar --color=gutter:-1"
 fi
+
+# functions
+
+function notes() {
+  local NOTESDIR="$HOME/code/www-arumoy/blogs"
+  local FILE=$(fd . "$NOTESDIR" --extension=qmd --extension=md |fzf)
+
+  [[ -n "$FILE" ]] && glow "$FILE"
+}

@@ -59,3 +59,11 @@
   cmd = kitten diff $LOCAL $REMOTE
 [difftool "kitty.gui"]
   cmd = kitten diff $LOCAL $REMOTE
+[rerere]
+  enabled = true
+[column]
+  ui = auto
+[branch]
+  sort = -committerdate
+[help]
+  autocorrect = 10 ; auto-correct command after 1 second
