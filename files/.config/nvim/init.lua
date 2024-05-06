@@ -409,16 +409,17 @@ require("lazy").setup({
       local servers = {
         -- clangd = {},
         -- gopls = {},
-        pyright = {
+        -- pyright = {
           -- NOTE: fix lag in python files, taken from <https://youtu.be/hp7FFr9oM1k?si=f-mY0WCFr2CP3266&t=698>
-          capabilities = {
-            workspace = {
-              didChangeWatchedFiles = {
-                dynamicRegistration = false,
-              },
-            },
-          },
-        },
+          -- capabilities = {
+            -- workspace = {
+              -- didChangeWatchedFiles = {
+                -- dynamicRegistration = false,
+              -- },
+            -- },
+          -- },
+        -- },
+        ruff_lsp = {},
         marksman = {
           filetypes = { "markdown", "quarto" },
         },
@@ -458,6 +459,9 @@ require("lazy").setup({
             },
           },
         },
+        texlab = {
+          bibtexFormatter = nil,
+        },
       }
 
       -- Ensure the servers and tools above are installed
@@ -474,6 +478,7 @@ require("lazy").setup({
       vim.list_extend(ensure_installed, {
         "stylua", -- Used to format lua code
         "black",  -- Used to format Python code
+        "latexindent", -- Used to format latex
       })
       require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
@@ -652,13 +657,14 @@ require("lazy").setup({
   -- nvim-treesitter {{{2
   { -- Highlight, edit, and navigate code
     "nvim-treesitter/nvim-treesitter",
+    enabled = false,
     build = ":TSUpdate",
     config = function()
       -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
 
       ---@diagnostic disable-next-line: missing-fields
       require("nvim-treesitter.configs").setup({
-        ensure_installed = { "bash", "c", "html", "lua", "markdown", "vim", "vimdoc" },
+        ensure_installed = { "bash", "c", "html", "lua", "markdown", "vim", "vimdoc", "python" },
         -- Autoinstall languages that are not installed
         auto_install = true,
         highlight = { enable = true },
@@ -681,9 +687,13 @@ require("lazy").setup({
       -- disable netrw
       vim.g.loaded_netrw = 1
       vim.g.loaded_netrwPlugin = 1
+      -- disable only netrw browser
     end,
     config = function()
-      require("nvim-tree").setup()
+      require("nvim-tree").setup({
+        disable_netrw = false,
+        hijack_netrw = true,
+      })
 
       vim.keymap.set("n", "<leader>b", ":NvimTreeToggle<cr>")
     end,
@@ -723,6 +733,14 @@ require("lazy").setup({
     end,
   },
   -- end mini 2}}}
+  -- vimtex {{{2
+  {
+    "lervag/vimtex",
+    config =  function()
+      vim.g.vimtex_fold_enabled = 1
+    end,
+  },
+  -- end vimtex 2}}}
 })
 -- end lazy }}}
 -- highlights {{{
