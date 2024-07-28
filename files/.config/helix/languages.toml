@@ -2,3 +2,8 @@
 name = "markdown"
 soft-wrap.enable = true
 soft-wrap.wrap-at-text-width = true
+
+[[language]]
+name = "latex"
+soft-wrap.enable = true
+soft-wrap.wrap-at-text-width = true

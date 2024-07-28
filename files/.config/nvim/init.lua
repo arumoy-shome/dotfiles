@@ -53,7 +53,7 @@ vim.opt.modelineexpr = true
 vim.opt.concealcursor = vim.opt.concealcursor + "i"
 vim.opt.concealcursor = vim.opt.concealcursor + "n"
 vim.opt.concealcursor = vim.opt.concealcursor + "c"
-vim.opt.cursorline = true
+vim.opt.cursorline = false
 vim.opt.ruler = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
@@ -62,13 +62,13 @@ vim.opt.infercase = true
 -- vim.opt.expandtab = true -- use spaces to indent (not tabs)
 -- vim.opt.tabstop = 2      -- width of a tab
 -- vim.opt.shiftwidth = 2   -- width when shifting text
-vim.opt.termguicolors = true
 vim.opt.spellfile = "~/.vim/spell/en.utf-8.add"
-vim.opt.spelllang = "en"
+vim.opt.spelllang = "en_gb,nl"
 vim.opt.mouse = "a"
 vim.opt.completeopt = vim.opt.completeopt + "menu"
 vim.opt.completeopt = vim.opt.completeopt + "menuone"
 vim.opt.completeopt = vim.opt.completeopt + "noselect"
+vim.opt.completeopt = vim.opt.completeopt + "popup"
 vim.opt.list = false
 vim.opt.listchars = {
   nbsp = "⦸",
@@ -87,6 +87,9 @@ vim.g.markdown_folding = true
 vim.opt.pumblend = 10
 vim.opt.pumheight = 10
 vim.opt.winblend = 10
+vim.opt.guifont = "SauceCodePro Nerd Font:h13"
+vim.opt.termguicolors = true
+vim.cmd.colorscheme("retrobox")
 -- end settings }}}
 -- keybindings {{{
 vim.g.mapleader = " "
@@ -138,33 +141,9 @@ require("lazy").setup({
     end,
   },
   -- end which-key}}}
-  -- gitsigns {{{2
-  { "lewis6991/gitsigns.nvim", opts = {} },
-  -- end gitsigns 2}}}
-  -- lualine {{{2
-  {
-    "nvim-lualine/lualine.nvim",
-    dependencies = {
-      -- "nvim-tree/nvim-web-devicons",
-    },
-    config = function()
-      require("lualine").setup({
-        options = {
-          theme = "auto",
-        },
-        sections = {
-          lualine_a = { "mode" },
-          lualine_b = { { "filename", path = 3 } }, -- relative path
-          lualine_c = { "filetype" },
-          lualine_x = { "branch", "diff", "diagnostics" },
-          lualine_y = { "progress" },
-          lualine_z = { "location" },
-        },
-        extensions = { "quickfix", "fugitive", "man", "nvim-tree" },
-      })
-    end,
-  },
-  -- end lualine 2}}}
+  -- devicons {{{2
+  "nvim-tree/nvim-web-devicons",
+  -- end devicons 2}}}
   -- telescope {{{2
   { -- Fuzzy Finder (files, lsp, etc)
     "nvim-telescope/telescope.nvim",
@@ -186,11 +165,6 @@ require("lazy").setup({
         end,
       },
       { "nvim-telescope/telescope-ui-select.nvim" },
-
-      -- Useful for getting pretty icons, but requires special font.
-      --  If you already have a Nerd Font, or terminal set up with fallback fonts
-      --  you can enable this
-      -- { 'nvim-tree/nvim-web-devicons' }
     },
     config = function()
       -- Telescope is a fuzzy finder that comes with a lot of different things that
@@ -281,10 +255,6 @@ require("lazy").setup({
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
       "WhoIsSethDaniel/mason-tool-installer.nvim",
-
-      -- Useful status updates for LSP.
-      -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { "j-hui/fidget.nvim", opts = {} },
     },
     config = function()
       -- Brief Aside: **What is LSP?**
@@ -419,10 +389,9 @@ require("lazy").setup({
             -- },
           -- },
         -- },
+        typst_lsp = {},
         ruff_lsp = {},
-        marksman = {
-          filetypes = { "markdown", "quarto" },
-        },
+        marksman = {},
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
@@ -460,7 +429,29 @@ require("lazy").setup({
           },
         },
         texlab = {
-          bibtexFormatter = nil,
+          settings = {
+            texlab = {
+              bibtexFormatter = nil,
+              build = {
+                executable = "tectonic",
+                onSave = true,
+                args = {
+                  "%f",
+                  "--synctex",
+                  "--keep-logs",
+                  "--keep-intermediates"
+                }
+              }
+            }
+          }
+        },
+        ltex = {
+          settings = {
+            ltex = {
+              language = "en-GB",
+              checkFrequency = "save",
+            }
+          }
         },
       }
 
@@ -497,29 +488,6 @@ require("lazy").setup({
     end,
   },
   -- end nvim-lspconfig}}}
-  -- conform {{{2
-  { -- Autoformat
-    "stevearc/conform.nvim",
-    enabled = false,
-    opts = {
-      notify_on_error = false,
-      format_on_save = {
-        timeout_ms = 500,
-        lsp_fallback = true,
-      },
-      formatters_by_ft = {
-        lua = { "stylua" },
-        python = { "black" },
-        -- Conform can also run multiple formatters sequentially
-        -- python = { "isort", "black" },
-        --
-        -- You can use a sub-list to tell conform to run *until* a formatter
-        -- is found.
-        -- javascript = { { "prettierd", "prettier" } },
-      },
-    },
-  },
-  -- end conform}}}
   -- nvim-cmp {{{2
   { -- Autocompletion
     "hrsh7th/nvim-cmp",
@@ -615,94 +583,48 @@ require("lazy").setup({
   },
   -- end nvim-cmp}}}
   -- tpope {{{2
-  "tpope/vim-commentary",
   "tpope/vim-unimpaired",
-  "tpope/vim-surround",
   "tpope/vim-rsi",
-  "tpope/vim-vinegar",
   "tpope/vim-fugitive",
   "tpope/vim-eunuch",
-  "tpope/vim-dispatch",
   "tpope/vim-abolish",
+  "tpope/vim-surround",
   -- end tpope 2}}}
   -- wincent {{{2
-  {
-    "wincent/loupe",
-    init = function()
-      vim.g.LoupeClearHighlightMap = 0 -- do not create mapping, we do this ourselves
-      vim.g.LoupeCenterResults = 0     -- do not center result
-    end,
-  },
   "wincent/pinnacle",
   -- end wincent 2}}}
-  -- indent-blankline {{{2
-  {
-    "lukas-reineke/indent-blankline.nvim",
-    main = "ibl",
-    opts = {},
-    config = function()
-      require("ibl").setup()
-    end,
-  },
-  -- end indent-blankline 2}}}
-  -- vim-easy-align {{{2
-  {
-    "junegunn/vim-easy-align",
-    config = function()
-      vim.keymap.set("v", "<Enter>", "<Plug>(LiveEasyAlign)")
-      vim.keymap.set("n", "ga", "<Plug>(LiveEasyAlign)")
-    end,
-  },
-  -- end vim-easy-align 2}}}
   -- nvim-treesitter {{{2
   { -- Highlight, edit, and navigate code
     "nvim-treesitter/nvim-treesitter",
-    enabled = false,
+    -- enabled = false,
     build = ":TSUpdate",
     config = function()
       -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
 
       ---@diagnostic disable-next-line: missing-fields
       require("nvim-treesitter.configs").setup({
-        ensure_installed = { "bash", "c", "html", "lua", "markdown", "vim", "vimdoc", "python" },
-        -- Autoinstall languages that are not installed
-        auto_install = true,
+        ensure_installed = {
+          "html",
+          "latex",
+          -- "bash",
+          -- "c",
+          -- "lua",
+          -- "markdown",
+          -- "markdown_inline",
+          -- "vim",
+          -- "vimdoc",
+          -- "python",
+        },
         highlight = { enable = true },
         indent = { enable = true },
       })
-
-      -- There are additional nvim-treesitter modules that you can use to interact
-      -- with nvim-treesitter. You should go explore a few and see what interests you:
-      --
-      --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
-      --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
-      --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
     end,
   },
   -- end nvim-treesitter 2}}}
-  -- nvim-tree {{{2
-  {
-    "nvim-tree/nvim-tree.lua",
-    init = function()
-      -- disable netrw
-      vim.g.loaded_netrw = 1
-      vim.g.loaded_netrwPlugin = 1
-      -- disable only netrw browser
-    end,
-    config = function()
-      require("nvim-tree").setup({
-        disable_netrw = false,
-        hijack_netrw = true,
-      })
-
-      vim.keymap.set("n", "<leader>b", ":NvimTreeToggle<cr>")
-    end,
-  },
-  -- end nvim-tree 2}}}
   -- diagnostics {{{2
   {
     dir = "vim.diagnostics",
-    init = function()
+    config = function()
       local opts = { noremap = true, silent = true }
       vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, opts)
       vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
@@ -727,9 +649,32 @@ require("lazy").setup({
   -- mini {{{2
   {
     "echasnovski/mini.nvim",
-    priority = 1000,
     config = function()
-      vim.cmd.colorscheme("minischeme")
+      require('mini.notify').setup()
+      require('mini.align').setup()
+      require('mini.sessions').setup()
+      require('mini.pairs').setup()
+      require('mini.indentscope').setup()
+      require('mini.diff').setup()
+      require('mini.git').setup()
+      require('mini.tabline').setup()
+      require('mini.statusline').setup()
+      require('mini.files').setup()
+      vim.keymap.set('n', '<leader>b', function()
+        if not MiniFiles.close() then MiniFiles.open() end
+      end,
+      { desc = "File Explorer" })
+      local hipatterns = require('mini.hipatterns')
+      hipatterns.setup({
+        highlighters = {
+          fixme = { pattern = '%f[%w]()FIXME()%f[%W]', group = 'MiniHipatternsFixme' },
+          hack = { pattern = '%f[%w]()HACK()%f[%W]', group = 'MiniHipatternsHack' },
+          todo = { pattern = '%f[%w]()TODO()%f[%W]', group = 'MiniHipatternsTodo' },
+          note = { pattern = '%f[%w]()NOTE()%f[%W]', group = 'MiniHipatternsNote' },
+          done = { pattern = '%f[%w]()DONE()%f[%W]', group = 'MiniHipatternsNote' },
+          hex_color = hipatterns.gen_highlighter.hex_color(),
+        },
+      })
     end,
   },
   -- end mini 2}}}
@@ -738,19 +683,9 @@ require("lazy").setup({
     "lervag/vimtex",
     config =  function()
       vim.g.vimtex_fold_enabled = 1
+      vim.g.vimtex_view_method = "sioyek"
     end,
   },
   -- end vimtex 2}}}
 })
 -- end lazy }}}
--- highlights {{{
--- See `:help vim.highlight.on_yank()`
-local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
-vim.api.nvim_create_autocmd("TextYankPost", {
-  callback = function()
-    vim.highlight.on_yank()
-  end,
-  group = highlight_group,
-  pattern = "*",
-})
--- end highlights }}}

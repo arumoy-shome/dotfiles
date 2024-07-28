@@ -1,4 +1,3 @@
-
 # Create a hash table for globally stashing variables without polluting main
 # scope with a bunch of identifiers.
 typeset -A __WINCENT
@@ -64,12 +63,10 @@ zstyle ':completion:*' menu select
 # {{{ prompt
 autoload -Uz promptinit
 promptinit
-# autoload -U colors
-# colors
-# use the original pure prompt; much faster than starship's implementation
-prompt pure
+autoload -U colors
+colors
 
-# prompt walters
+prompt walters
 # End prompt }}}
 # {{{ exports
 export PAGER=less
@@ -78,6 +75,7 @@ export MANPAGER=$PAGER
 if (( $+commands[nvim] )); then
   export EDITOR=nvim
   alias vim=nvim
+  alias mvim="NVIM_APPNAME=minimal nvim"
 else
   export EDITOR=vim
 fi
@@ -209,17 +207,6 @@ bindkey ' ' magic-space # do history expansion on space
 bindkey "^r" history-incremental-pattern-search-backward
 bindkey "^s" history-incremental-pattern-search-forward
 
-# Make CTRL-Z background things and unbackground them.
-function fg-bg() {
-  if [[ $#BUFFER -eq 0 ]]; then
-    fg
-  else
-    zle push-input
-  fi
-}
-zle -N fg-bg
-bindkey '^Z' fg-bg
-
 # Mac-like wordwise movement (Opt/Super plus left/right) in Kitty.
 bindkey "^[[1;3C" forward-word # For macOS.
 bindkey "^[[1;3D" backward-word # For macOS.
@@ -257,10 +244,6 @@ bindkey "^[[1;5D" backward-word # For Arch.
 # if [[ -x "$(command -v direnv)" ]]; then
 #   eval "$(direnv hook zsh)"
 # fi
-
-# starship prompt when the terminal supports it
-# NOTE make sure to install using brew prior to sourcing
-# eval "$(starship init zsh)"
 
 # end plugins }}}
 # hooks {{{

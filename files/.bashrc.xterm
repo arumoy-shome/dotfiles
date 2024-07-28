@@ -1,48 +1,5 @@
 # vim: filetype=sh
 
-# prompt
-[[ -e "$(brew --prefix starship)" ]] &&
-    eval "$(starship init bash)"
-
-# set tab/window title to current directory
-function set_win_title(){
-  if git rev-parse --show-toplevel &>/dev/null; then
-    local ROOT="$(git rev-parse --show-toplevel)"
-  else
-    local ROOT="$PWD"
-  fi
-  echo -ne "\033]0; $(basename "$ROOT") \007"
-}
-starship_precmd_user_func="set_win_title"
-
-# fzf
-if [[ -x "$(command -v fzf)" ]]; then
-
-  [[ -f "$HOME/.fzf.bash" ]] &&
-    source "$HOME/.fzf.bash"
-
-  if [[ -x "$(command -v fd)" ]]; then
-    export FZF_DEFAULT_COMMAND="fd --type f --hidden --exclude '.git'"
-    # following stolen from fzf README
-    # Use fd instead of the default find command for listing path candidates.
-    # - The first argument to the function ($1) is the base path to start traversal
-    # - See the source code (completion.{bash,zsh}) for the details.
-    _fzf_compgen_path() {
-      fd --hidden --follow --exclude ".git" . "$1"
-    }
-
-    # Use fd to generate the list for directory completion
-    _fzf_compgen_dir() {
-      fd --type d --hidden --follow --exclude ".git" . "$1"
-    }
-  else
-    export FZF_DEFAULT_COMMAND="find . -type f -not -path '*git*'"
-  fi
-
-  export FZF_COMPLETION_OPTS="--border --info=inline"
-  export FZF_DEFAULT_OPTS="--reverse --height=~40% --no-scrollbar --color=gutter:-1"
-fi
-
 # functions
 
 function notes() {
