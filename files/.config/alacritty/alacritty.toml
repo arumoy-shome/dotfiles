@@ -1,11 +1,8 @@
 import = ["~/.config/alacritty/current-theme.toml"]
 
-[window]
-decorations = "None"
-
 [font]
 normal = { family = "SauceCodePro Nerd Font", style = "Regular" }
-size = 14.0
+size = 13.5
 builtin_box_drawing = false
 
 [terminal]

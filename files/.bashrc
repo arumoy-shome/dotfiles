@@ -18,23 +18,40 @@ shopt -s direxpand
 
 # export neovim as EDITOR when available, fall back to vim
 
-if [[ -x "$(command -v nvim)" ]]; then
+if [[ -x  "$(command -v emacs)" ]]
+then
+    export VISUAL="emacsclient -c"
+    export EDITOR="emacsclient -t"
+fi
+
+if [[ -x "$(command -v nvim)" ]]
+then
   export EDITOR=nvim
-  alias vim=nvim
+  alias vim="nvim"
 else
   export EDITOR=vim
 fi
 
-export PAGER=less
+if [[ "$TERM" == "dumb-emacs-ansi" && "$INSIDE_EMACS" ]]
+then
+    PAGER="cat"
+    alias less="cat"
+    TERM=dumb-emacs-ansi
+    COLORTERM=1
+    EDITOR="emacsclient -a emacs -t r"
+    VISUAL="emacsclient -a emacs -t r"
+else
+    export PAGER=less
+    # filename (if known), line number if known, falling back to percent if known,
+    # falling back to byte offset, falling back to dash
+    export LESSPROMPT='?f%f .?ltLine %lt:?pt%pt\%:?btByte %bt:-...'
+
+fi
 export MANPAGER=$PAGER
 export LC_ALL=en_GB.UTF-8
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_DATA_BIN="$HOME/.local/bin"
-
-# filename (if known), line number if known, falling back to percent if known,
-# falling back to byte offset, falling back to dash
-export LESSPROMPT='?f%f .?ltLine %lt:?pt%pt\%:?btByte %bt:-...'
 
 # i: search case insensitive
 # M: show detailed prompt
@@ -48,13 +65,6 @@ export LESS=iFMRX
 export CLICOLOR=true
 export RIPGREP_CONFIG_PATH="$HOME/.rgrc"
 
-# Color man pages.
-export LESS_TERMCAP_mb=$'\E[01;31m'
-export LESS_TERMCAP_md=$'\E[01;38;5;208m'
-export LESS_TERMCAP_me=$'\E[0m'
-export LESS_TERMCAP_se=$'\E[0m'
-export LESS_TERMCAP_ue=$'\E[0m'
-export LESS_TERMCAP_us=$'\E[04;38;5;111m'
 # }}}
 
 #  alias {{{
@@ -92,10 +102,51 @@ done
 PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 # }}}
 
-if [[ "$TERM" =~ 'dumb' ]]; then
-    source "$HOME/.bashrc.dumb"
+# simple prompt (stolen from protesilaos)
+if [ -n "$SSH_CONNECTION" ]
+then
+    export PS1="\u@\h: \w \$ "
 else
-    source "$HOME/.bashrc.xterm"
+    export PS1="\w \$ "
+fi
+export PS2="> "
+
+if [[ "$TERM" =~ 'xterm' ]]
+then
+  # Color man pages.
+  export LESS_TERMCAP_mb=$'\E[01;31m'
+  export LESS_TERMCAP_md=$'\E[01;38;5;208m'
+  export LESS_TERMCAP_me=$'\E[0m'
+  export LESS_TERMCAP_se=$'\E[0m'
+  export LESS_TERMCAP_ue=$'\E[0m'
+  export LESS_TERMCAP_us=$'\E[04;38;5;111m'
+
+  # fzf
+  if [[ -x "$(command -v fzf)" ]]; then
+
+    eval "$(fzf --bash)"
+
+    if [[ -x "$(command -v fd)" ]]; then
+      export FZF_DEFAULT_COMMAND="fd --type f --hidden --exclude '.git'"
+      # following stolen from fzf README
+      # Use fd instead of the default find command for listing path candidates.
+      # - The first argument to the function ($1) is the base path to start traversal
+      # - See the source code (completion.{bash,zsh}) for the details.
+      _fzf_compgen_path() {
+        fd --hidden --follow --exclude ".git" . "$1"
+      }
+
+      # Use fd to generate the list for directory completion
+      _fzf_compgen_dir() {
+        fd --type d --hidden --follow --exclude ".git" . "$1"
+      }
+    else
+      export FZF_DEFAULT_COMMAND="find . -type f -not -path '*git*'"
+    fi
+
+    export FZF_COMPLETION_OPTS="--border --info=inline"
+    export FZF_DEFAULT_OPTS="--reverse --height=~40% --no-scrollbar --color=gutter:-1"
+  fi
 fi
 
-# vim: foldmethod=marker
+#vim: foldmethod=marker

@@ -4,4 +4,4 @@ set guioptions-=r " no right scrollbar
 set guioptions-=L " no left scrollbar
 set guioptions+=k " keep window size same when resizing font
 set guioptions+=! " use terminal window for shell commands
-color blue
+color macvim

@@ -53,4 +53,4 @@ __capture() {
     rm "$ITEM"
   }
 
-  __capture $@
+  __capture "$@"
