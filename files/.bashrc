@@ -1,3 +1,5 @@
+# vim: foldmethod=marker
+
 #  settings {{{
 HISTCONTROL=ignoreboth # no duplicates or lines starting with space in history
 HISTSIZE=1000
@@ -13,16 +15,9 @@ shopt -s cdspell      # check minor file spell errors
 shopt -s dirspell     # check minor dir spell errors
 shopt -s direxpand
 # }}}
-
 #  exports {{{
 
 # export neovim as EDITOR when available, fall back to vim
-
-if [[ -x  "$(command -v emacs)" ]]
-then
-    export VISUAL="emacsclient -c"
-    export EDITOR="emacsclient -t"
-fi
 
 if [[ -x "$(command -v nvim)" ]]
 then
@@ -32,21 +27,15 @@ else
   export EDITOR=vim
 fi
 
-if [[ "$TERM" == "dumb-emacs-ansi" && "$INSIDE_EMACS" ]]
+if [[ -x "$(command -v tectonic)" ]]
 then
-    PAGER="cat"
-    alias less="cat"
-    TERM=dumb-emacs-ansi
-    COLORTERM=1
-    EDITOR="emacsclient -a emacs -t r"
-    VISUAL="emacsclient -a emacs -t r"
-else
-    export PAGER=less
-    # filename (if known), line number if known, falling back to percent if known,
-    # falling back to byte offset, falling back to dash
-    export LESSPROMPT='?f%f .?ltLine %lt:?pt%pt\%:?btByte %bt:-...'
-
+  alias tectonic="tectonic -X" # always use the V2 API
 fi
+
+export PAGER=less
+# filename (if known), line number if known, falling back to percent if known,
+# falling back to byte offset, falling back to dash
+export LESSPROMPT='?f%f .?ltLine %lt:?pt%pt\%:?btByte %bt:-...'
 export MANPAGER=$PAGER
 export LC_ALL=en_GB.UTF-8
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -66,7 +55,6 @@ export CLICOLOR=true
 export RIPGREP_CONFIG_PATH="$HOME/.rgrc"
 
 # }}}
-
 #  alias {{{
 
 # safer defaults for cp, mv and rm
@@ -88,7 +76,6 @@ if [[ "$TERM" =~ 'kitty' ]]; then
   alias ssh='kitty +kitten ssh'
 fi
 # }}}
-
 # path {{{
 # append to path
 paths=("$HOME/dotfiles/bin")
@@ -149,4 +136,3 @@ then
   fi
 fi
 
-#vim: foldmethod=marker
