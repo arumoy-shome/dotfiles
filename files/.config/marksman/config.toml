@@ -1,0 +1,8 @@
+[core]
+markdown.file_extensions = ["md", "markdown", "qmd", "quarto"]
+
+[code_action]
+toc.enable = false
+
+[completion]
+wiki.style = "file-stem" # complete without file extension
