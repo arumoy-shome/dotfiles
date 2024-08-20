@@ -87,6 +87,12 @@ done
 
 ## prepend to path
 PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+
+## conda
+if [[ -x "$(command -v conda)" ]]
+then
+  eval "$(conda "shell.$(basename "${SHELL}")" hook)"
+fi
 # }}}
 
 # simple prompt (stolen from protesilaos)
