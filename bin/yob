@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-LIGHT_THEME="colors/gruvbox-light.conf"
-DARK_THEME="colors/gruvbox-dark.conf"
+LIGHT_THEME="colors/light.conf"
+DARK_THEME="colors/dark.conf"
 LOCATION="$HOME/.local/share/yob"
 VIM_BG_FILE="$LOCATION/background"
 
