@@ -6,8 +6,20 @@ setopt SHARE_HISTORY
 setopt HIST_VERIFY
 setopt HIST_IGNORE_DUPS
 setopt NO_HIST_IGNORE_ALL_DUPS
-
 # End history }}}
+# {{{ completion
+autoload -Uz compinit
+compinit -u
+
+zstyle :compinstall filename '/Users/aru/.zshrc'
+
+# Make completion:
+# - Try exact (case-sensitive) match first.
+# - Then fall back to case-insensitive.
+# - Accept abbreviations after . or _ or - (ie. f.b -> foo.bar).
+# - Substring complete (ie. bar -> foobar).
+zstyle ':completion:*' matcher-list '' '+m:{[:lower:]}={[:upper:]}' '+m:{[:upper:]}={[:lower:]}' '+m:{_-}={-_}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+# end completion}}}
 # {{{ options
 setopt autocd
 unsetopt beep
@@ -35,7 +47,6 @@ export MANPAGER=$PAGER
 if (( $+commands[nvim] )); then
   export EDITOR=nvim
   alias vim=nvim
-  alias mvim="NVIM_APPNAME=minimal nvim"
 else
   export EDITOR=vim
 fi
@@ -123,4 +134,36 @@ bindkey "^[[1;3D" backward-word # For macOS.
 bindkey "^[[1;5C" forward-word # For Arch.
 bindkey "^[[1;5D" backward-word # For Arch.
 
+if (( $+commands[fzf] ))
+then
+  eval "$(fzf --zsh)"
+  if (( $+commands[fd] )); then
+    export FZF_DEFAULT_COMMAND="fd --type f --hidden --exclude '.git'"
+    # following stolen from fzf README
+    # Use fd instead of the default find command for listing path candidates.
+    # - The first argument to the function ($1) is the base path to start traversal
+    # - See the source code (completion.{bash,zsh}) for the details.
+    _fzf_compgen_path() {
+      fd --hidden --follow --exclude ".git" . "$1"
+    }
+
+    # Use fd to generate the list for directory completion
+    _fzf_compgen_dir() {
+      fd --type d --hidden --follow --exclude ".git" . "$1"
+    }
+  else
+    export FZF_DEFAULT_COMMAND="find . -type f -not -path '*git*'"
+  fi
+
+  export FZF_COMPLETION_OPTS="--border --info=inline"
+  export FZF_DEFAULT_OPTS="--reverse --height=~40% --no-scrollbar --color=gutter:-1"
+fi
+
+if (( $+commands[conda] ))
+then
+  eval "$(conda "shell.$(basename "${SHELL}")" hook)"
+fi
+# End plugins}}}
+
+[[ -f "$HOME/.zshrc.local" ]] && source "$HOME/.zshrc.local"
 # vim: foldmethod=marker ts=2 sw=2 et

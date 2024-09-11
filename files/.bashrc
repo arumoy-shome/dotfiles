@@ -75,11 +75,14 @@ alias ll='ls -FAlh --color'
 if [[ "$TERM" =~ 'kitty' ]]; then
   alias ssh='kitty +kitten ssh'
 fi
+
+alias rsync='rsync -azvhP'
 # }}}
 # path {{{
 # append to path
 paths=("$HOME/dotfiles/bin")
 paths+=("$HOME/.cargo/bin")
+paths+=("$HOME/.config/emacs/bin")
 
 for p in "${paths[@]}"; do
   [[ -d "$p" ]] && PATH+=":$p"
@@ -142,3 +145,4 @@ then
   fi
 fi
 
+[[ -f $HOME/.bashrc.local  ]] && source $HOME/.bashrc.local
