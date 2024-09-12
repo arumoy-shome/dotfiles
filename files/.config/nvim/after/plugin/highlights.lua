@@ -36,7 +36,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   pattern = "*",
 })
 
-vim.api.nvim_create_autocmd({ "FocusGained"}, {
+vim.api.nvim_create_autocmd({ "FocusGained", "UIEnter"}, {
   group = group,
   pattern = "*",
   callback = function ()
