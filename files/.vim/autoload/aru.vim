@@ -29,3 +29,21 @@ function! aru#highlight_overrides() abort
   " TODO make folds italic & bold
   " execute 'highlight Folded' pinnacle#decorate('Folded', ['bold', 'italic'])
 endfunction
+
+function! aru#update_colors() abort
+  let l:config_file = expand('~/.local/share/yob/background')
+
+  if filereadable(l:config_file)
+    let l:background = readfile(l:config_file, '', 1)[0]
+
+    if l:background == 'dark'
+      colorscheme darkblue
+    elseif l:background == 'light'
+      colorscheme blue
+    else
+      echoerr "yob: Unknown color" .. l:background .. "in" .. l:config:file .. "using default"
+    endif
+  else
+      execute('colorscheme default')
+  endif
+endfunction

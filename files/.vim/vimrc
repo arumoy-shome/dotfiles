@@ -220,7 +220,12 @@ endif
 function! AruHighlights() abort
   augroup AruHighlights
     autocmd!
-    autocmd VimEnter * call aru#highlight_overrides()
+    autocmd VimEnter,ColorScheme * call aru#highlight_overrides()
+  augroup END
+
+  augroup AruColors
+    autocmd!
+    autocmd FocusGained,VimEnter * call aru#update_colors()
   augroup END
 endfunction
 call AruHighlights()
