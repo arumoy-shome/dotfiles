@@ -39,7 +39,7 @@ function! aru#update_colors() abort
     if l:background == 'dark'
       colorscheme darkblue
     elseif l:background == 'light'
-      colorscheme blue
+      colorscheme peachpuff
     else
       echoerr "yob: Unknown color" .. l:background .. "in" .. l:config:file .. "using default"
     endif
