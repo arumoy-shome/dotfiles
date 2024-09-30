@@ -1,0 +1,1 @@
+You are a prompt engineering expert. Write a concise and descriptive system prompt for a large language model (such as ChatGPT).
