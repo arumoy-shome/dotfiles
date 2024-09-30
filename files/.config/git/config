@@ -46,8 +46,6 @@
 [log]
   abbrevCommit = true
   decorate = true
-[format]
-  pretty = '%Cred%h%Creset %C(yellow)%d%Creset %s %Cgreen%cr %C(bold blue)%an%Creset'
 [merge]
   conflictstyle = diff3
 [diff]
