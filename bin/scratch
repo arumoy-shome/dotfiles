@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+# scratch: create a temporary file and open in EDITOR
+
+eval "$EDITOR $(mktemp --suffix=.md)"
