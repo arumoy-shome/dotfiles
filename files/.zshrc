@@ -136,7 +136,7 @@ bindkey "^[[1;5D" backward-word # For Arch.
 
 if (( $+commands[fzf] ))
 then
-  eval "$(fzf --zsh)"
+  source <(fzf --zsh)
   if (( $+commands[fd] )); then
     export FZF_DEFAULT_COMMAND="fd --type f --hidden --exclude '.git'"
     # following stolen from fzf README
