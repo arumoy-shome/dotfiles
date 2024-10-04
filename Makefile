@@ -1,5 +1,5 @@
 install:
-	brew install git zsh stow make fd fzf pandoc tldr tmux tree coreutils
+	brew install git zsh stow make fd ripgrep fzf pandoc tldr tmux tree coreutils
 
 install-cask:
 	brew instal --cask 1password karabiner-elements alfred pdf-expert font-sauce-code-pro-nerd-font spotify transmission hammerspoon vlc
