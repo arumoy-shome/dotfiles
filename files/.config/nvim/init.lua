@@ -337,16 +337,16 @@ require("lazy").setup({
       local servers = {
         -- clangd = {},
         -- gopls = {},
-        -- pyright = {
-        -- NOTE: fix lag in python files, taken from <https://youtu.be/hp7FFr9oM1k?si=f-mY0WCFr2CP3266&t=698>
-        -- capabilities = {
-        -- workspace = {
-        -- didChangeWatchedFiles = {
-        -- dynamicRegistration = false,
-        -- },
-        -- },
-        -- },
-        -- },
+        pyright = {
+          -- NOTE: fix lag in python files, taken from <https://youtu.be/hp7FFr9oM1k?si=f-mY0WCFr2CP3266&t=698>
+          capabilities = {
+            workspace = {
+              didChangeWatchedFiles = {
+                dynamicRegistration = false,
+              },
+            },
+          },
+        },
         typst_lsp = {},
         ruff_lsp = {},
         marksman = {},
