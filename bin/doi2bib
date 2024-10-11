@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 
-import sys
 import argparse
 from urllib import request, error
 
-def get_bibtex(doi,ispreprint):
+
+def get_bibtex(doi, ispreprint):
     if ispreprint:
         url = f"https://arxiv.org/bibtex/{doi}"
     else:
@@ -19,21 +19,17 @@ def get_bibtex(doi,ispreprint):
     except error.URLError as e:
         return f"URL Error: {e.reason}"
 
+
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(
-            description="Convert DOI or Arxiv ID to Bibtex"
-            )
+    parser = argparse.ArgumentParser(description="Convert DOI or Arxiv ID to Bibtex")
+    parser.add_argument("doi", help="DOI or Arxiv ID of paper")
     parser.add_argument(
-            "doi",
-            help="DOI or Arxiv ID of paper"
-            )
-    parser.add_argument(
-            "-p",
-            "--preprint",
-            help="Treat provided DOI as Arxiv ID",
-            action="store_true",
-            default=False,
-            )
+        "-p",
+        "--preprint",
+        help="Treat provided DOI as Arxiv ID",
+        action="store_true",
+        default=False,
+    )
     args = parser.parse_args()
 
     bibtex = get_bibtex(args.doi, args.preprint)
