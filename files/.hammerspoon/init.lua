@@ -46,11 +46,7 @@ end)
 
 -- hotkey for terminal
 hs.hotkey.bind(hyper, "Return", function()
-  if hs.application.frontmostApplication():name() == browserPrg then
-    hs.application.launchOrFocus(terminalPrg)
-  else
-    hs.application.launchOrFocus(browserPrg)
-  end
+  hs.application.launchOrFocus(terminalPrg)
 end)
 
 -- editor and browser 50-50 layout

@@ -44,11 +44,17 @@ prompt walters
 export PAGER=less
 export MANPAGER=$PAGER
 
-if (( $+commands[nvim] )); then
+if (( $+commands[nvim] ))
+then
   export EDITOR=nvim
   alias vim=nvim
 else
   export EDITOR=vim
+fi
+
+if (( $+commands[code] ))
+then
+  export VISUAL="code --reuse-window"
 fi
 
 # filename (if known), line number if known, falling back to percent if known,
@@ -101,6 +107,11 @@ alias -s md='glow --pager --width 70'
 
 if [[ "$TERM" =~ 'kitty' ]]; then
   alias ssh='kitty +kitten ssh'
+fi
+
+if (( $+commands[docker] ))
+then
+  alias drun='docker run -it --rm --v "$(pwd):/app"'
 fi
 # End alias }}}
 # {{{ path
