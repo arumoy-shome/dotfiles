@@ -117,7 +117,7 @@ fi
 # {{{ path
 paths=(
   "$HOME/.emacs.d/bin"
-  "/usr/local/opt/coreutils/libexec/gnubin"
+  "/opt/homebrew/opt/coreutils/libexec/gnubin"
   "$HOME/dotfiles/bin"
 )
 

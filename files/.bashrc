@@ -89,7 +89,7 @@ for p in "${paths[@]}"; do
 done
 
 ## prepend to path
-PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
 
 ## conda
 if [[ -x "$(command -v conda)" ]]
