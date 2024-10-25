@@ -1,6 +1,8 @@
 " see :h defaults.vim for more details
-unlet! skip_default_vim
-source $VIMRUNTIME/defaults.vim
+if v:version > 800
+  unlet! skip_default_vim
+  source $VIMRUNTIME/defaults.vim
+endif
 
 " settings {{{
 set laststatus=2
@@ -51,7 +53,9 @@ set shortmess+=W
 set shortmess+=I
 
 set wildmenu
-set wildoptions=pum
+if has('popupwin')
+  set wildoptions=pum
+endif
 set wildmode=longest:full
 set wildmode+=full
 
@@ -132,16 +136,20 @@ set statusline+=\
 " }}}
 
 " spacing {{{1
-" XXX Uncomment the following settings to indent using (two) spaces if vim does
-" not ship with editorconfig plugin
-" set expandtab
-" set tabstop=2
-" set shiftwidth=2
-" set smarttab
-packadd editorconfig
+if v:version > 900
+  packadd editorconfig
+else
+  set expandtab
+  set tabstop=2
+  set shiftwidth=2
+  set smarttab
+endif
 " }}}
 
-" pack {{{1
+" packages {{{1
+if v:version > 900
+  packadd matchit
+endif
 " vim-plug {{{2
 " XXX Use single quotes as per vim-plug README
 call plug#begin()
@@ -162,7 +170,11 @@ Plug 'tpope/vim-projectionist'
 Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-sleuth'
-Plug 'tpope/vim-commentary'
+if v:version > 900
+  packadd comment
+else
+  Plug 'tpope/vim-commentary'
+endif
 Plug 'wincent/terminus'
 Plug 'wincent/loupe'
 Plug 'wincent/ferret'
@@ -184,10 +196,10 @@ let g:vimtex_fold_enabled = 1 " turn on folding in tex files
 let g:vimtex_bib_fold_enabled = 1 " turn on folding in bib files
 " end vimtex}}}
 " fzf {{{2
-nmap <leader>t :Files<cr>
+nmap <leader>sf :Files<cr>
 nmap <leader><leader> :Buffers<cr>
-nmap <leader>h :Helptags<cr>
-nmap <leader>l :BLines<cr>
+nmap <leader>sh :Helptags<cr>
+nmap <leader>/ :BLines<cr>
 nmap <leader>. :BTags<cr>
 
 " NOTE: stolen from fzf.vim README
