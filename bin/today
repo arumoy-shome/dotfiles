@@ -1,59 +1,52 @@
-#!/usr/bin/env bash
+#!/usr/bin/env python3
 
-# today: return today's date in various formats
+import argparse
+import subprocess
+import os
 
-# Usage: today [OPTS]
-# Without any options, today will print today's date in %Y-%m-%d
-# format. Following are the supported options:
-#    --with-day: %Y-%m-%d %a
-#    --with-time: %Y-%m-%d %H:%M
-#    -l | --long: %Y-%m-%d %a %H:%M
-#    -h | --human: %a %b %d, %Y
-#    -s | --stamp: enclose the date in square braces
+def get_date(fmt: str) -> str:
+    out = subprocess.run(
+        [
+            "date",
+            f"+{fmt}"
+        ],
+        text=True,
+        capture_output=True
+    )
 
-# NOTE: when using both --with-day & --with-time, the order in which
-# the options are passed matters. For example:
-#
-# today --with-day --with-time will produce
-#    2022-03-03 Thu 02:20
-#
-# But today --with-time --with-day will produce
-# 2022-03-03 02:21 Thu
+    return out.stdout
 
-# NOTE: when using --human option, all other options are ignored.
 
-main() {
-  local FMT='%Y-%m-%d'
-  local STAMP_FLAG=1 # false
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--with-day", action="store_true", default=False)
+    parser.add_argument("--with-time", action="store_true", default=False)
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument("--stamp", action="store_true", default=False)
+    group.add_argument("--long", action="store_true", default=False)
+    group.add_argument("--human", action="store_true", default=False)
+    args = parser.parse_args()
 
-  while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do
-    case "$1" in
-      --with-day)
-        FMT="$FMT %a"
-        ;;
-      --with-time)
-        FMT="$FMT %H:%M"
-        ;;
-      -s | --stamp)
-        STAMP_FLAG=0 # true
-        ;;
-      -l | --long) # short for --with-day --with-time
-        FMT="$FMT %a %H:%M"
-        ;;
-      -h | --human) # alternate format, ignore other flags
-        FMT="%a %b %d, %Y"
-        ;;
-      *)
-        echo "Error: unknown option $1."
-        return 1
-    esac; shift # only shift here since we only pass flags
-  done
+    BASE_FMT = "%Y-%m-%d"
+    FMT = BASE_FMT
+    if args.with_day:
+        FMT = f"{FMT} %a"
 
-  local OUT=$(date +"$FMT")
+    if args.with_time:
+        FMT = f"{FMT} %H:%M"
 
-  [[ "$STAMP_FLAG" -eq 0 ]] && OUT="[$OUT]"
+    # args.stamp and FMT = "%Y%m%d" -- we have to handle this separately
 
-  echo "$OUT"
-}
+    if args.long:
+        FMT = f"{BASE_FMT} %a %H:%M"
 
-main "$@"
+    if args.human:
+        FMT = f"%a %b %d, %Y"
+
+    if args.stamp:
+        PREFIX_FMT = "%Y%m%d"
+        SUFFIX_FMT = "%H%M%S"
+        print(f"{get_date(PREFIX_FMT).rstrip('\n')}T{get_date(SUFFIX_FMT)}")
+    else:
+        print(get_date(FMT))
+
