@@ -1,9 +1,3 @@
-" see :h defaults.vim for more details
-if v:version > 800
-  unlet! skip_default_vim
-  source $VIMRUNTIME/defaults.vim
-endif
-
 " settings {{{
 set laststatus=2
 
@@ -76,7 +70,6 @@ set spelllang=en,nl
 " start unfolded
 set foldlevelstart=99
 " end settings }}}
-
 " autocommands {{{
 function! AruWindowAutocmds() abort
   augroup AruWindow
@@ -95,7 +88,6 @@ endfunction
 call AruHelptagsAutocmds()
 
 " end autocommands }}}
-
 " keybindings {{{
 let mapleader = "\<Space>"
 nmap <leader>so :source $MYVIMRC<cr>
@@ -109,7 +101,6 @@ nmap <leader>q :quit<cr>
 nmap <esc> :noh<cr>
 
 " end keybindings }}}
-
 " ftplugin {{{
 function! AruFiletypePlugins() abort
   augroup AruFiletypePlugins
@@ -117,11 +108,11 @@ function! AruFiletypePlugins() abort
     autocmd FileType gitcommit setlocal spell
     autocmd FileType man,help let b:EditorConfig_disable = 1
     autocmd FileType quarto setlocal filetype=markdown.quarto
+    autocmd FileType qf,help,git,fugitive nmap <buffer> q :close<CR>
   augroup END
 endfunction
 call AruFiletypePlugins()
 " end ftplugin }}}
-
 " statusline {{{1
 set statusline=\ 
 set statusline+=%<
@@ -134,7 +125,6 @@ set statusline+=\
 set statusline+=%l:%L:%P
 set statusline+=\ 
 " }}}
-
 " spacing {{{1
 if v:version > 900
   packadd editorconfig
@@ -145,7 +135,6 @@ else
   set smarttab
 endif
 " }}}
-
 " packages {{{1
 if v:version > 900
   packadd matchit
@@ -168,20 +157,29 @@ Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-projectionist'
 Plug 'tpope/vim-rsi'
-Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-sleuth'
 if v:version > 900
   packadd comment
 else
   Plug 'tpope/vim-commentary'
 endif
-Plug 'wincent/terminus'
+if !has("nvim")
+  if v:version > 800
+    " see :h defaults.vim for more details
+    unlet! skip_default_vim
+    source $VIMRUNTIME/defaults.vim
+  else
+    Plug 'tpope/vim-sensible'
+  endif
+
+  Plug 'wincent/terminus'
+endif
 Plug 'wincent/loupe'
 Plug 'wincent/ferret'
 Plug 'wincent/pinnacle'
 Plug 'junegunn/vim-easy-align'
-if isdirectory('/usr/local/opt/fzf')
-  Plug '/usr/local/opt/fzf'
+if isdirectory('/opt/homebrew/opt/fzf')
+  Plug '/opt/homebrew/opt/fzf'
 else
   " fzf does not exist on the device so install it
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -211,6 +209,7 @@ let g:fzf_vim.preview_window = []
 " end fzf}}}
 " markdown {{{2
 let g:markdown_folding = 1
+let g:markdown_fenced_languages = ["python", "sh", "bash"]
 " end markdown}}}
 " ferret {{{2
 let g:FerretMap = 0 " do not create keybindings
@@ -224,7 +223,6 @@ let g:slime_target = 'tmux'
 let g:slime_bracketed_paste = 1
 " end vim-slime}}}
 " end pack }}}
-
 " highlights {{{1
 if has('termguicolors')
   set termguicolors
