@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+__is_git_repo() {
+  git rev-parse &>/dev/null
+}
+
+__git_toplevel() {
+  git rev-parse --show-toplevel
+}
+
+__ctags() {
+  if [[ -x "$(command -v fd)" ]]
+  then
+    command ctags "$@" $(fd --type f --hidden --exclude '.git')
+  elif git rev-parse &>/dev/null
+  then
+    command ctags "$@" $(git ls-files --exclude-standard)
+  else
+    command ctags "$@" $(find . -type f -not -path '*git*')
+  fi
+}
+
+if ! __is_git_repo
+then
+  echo "mytags: not inside git repo."
+  exit 1
+fi
+
+(cd $(__git_toplevel) && __ctags "$@")
+
