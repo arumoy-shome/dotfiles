@@ -1,8 +1,17 @@
-install:
-	brew install git zsh stow make fd ripgrep fzf pandoc tldr tmux tree coreutils
+install-core:
+	brew install git zsh stow make fd ripgrep fzf pandoc tldr tmux tree coreutils aspell vim neovim universal-ctags
 
 install-cask:
 	brew instal --cask 1password karabiner-elements alfred pdf-expert font-sauce-code-pro-nerd-font spotify transmission hammerspoon vlc
+
+install-python:
+	brew install ruff
+
+install-latex:
+	brew install bib-tool texlive
+
+install-sh:
+	brew install shellcheck
 
 stow:
 	stow -v --dir=files --target=${HOME} -S .
@@ -18,7 +27,10 @@ simulate:
 
 all:
 	stow
-	install
+	install-core
+	install-python
+	install-latex
+	install-sh
 	install-cask
 
 ctags:
