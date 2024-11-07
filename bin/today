@@ -2,17 +2,10 @@
 
 import argparse
 import subprocess
-import os
+
 
 def get_date(fmt: str) -> str:
-    out = subprocess.run(
-        [
-            "date",
-            f"+{fmt}"
-        ],
-        text=True,
-        capture_output=True
-    )
+    out = subprocess.run(["date", f"+{fmt}"], text=True, capture_output=True)
 
     return out.stdout
 
@@ -35,13 +28,11 @@ if __name__ == "__main__":
     if args.with_time:
         FMT = f"{FMT} %H:%M"
 
-    # args.stamp and FMT = "%Y%m%d" -- we have to handle this separately
-
     if args.long:
         FMT = f"{BASE_FMT} %a %H:%M"
 
     if args.human:
-        FMT = f"%a %b %d, %Y"
+        FMT = "%a %b %d, %Y"
 
     if args.stamp:
         PREFIX_FMT = "%Y%m%d"
@@ -49,4 +40,3 @@ if __name__ == "__main__":
         print(f"{get_date(PREFIX_FMT).rstrip('\n')}T{get_date(SUFFIX_FMT)}")
     else:
         print(get_date(FMT))
-
