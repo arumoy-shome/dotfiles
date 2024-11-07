@@ -5,13 +5,17 @@ install-cask:
 	brew instal --cask 1password karabiner-elements alfred pdf-expert font-sauce-code-pro-nerd-font spotify transmission hammerspoon vlc
 
 install-python:
-	brew install ruff
+	brew install ruff python-language-server
 
 install-latex:
-	brew install bib-tool texlive
+	brew install bib-tool texlive texlab
 
 install-sh:
 	brew install shellcheck
+
+install-markdown:
+	brew install --cask glow
+	brew install marksman
 
 stow:
 	stow -v --adopt --dir=files --target=${HOME} -S .
@@ -31,9 +35,7 @@ all:
 	install-python
 	install-latex
 	install-sh
+	install-markdown
 	install-cask
-
-ctags:
-	find . -type f -not -path '*git*' | ctags --tag-relative=yes -L -
 
 .PHONY: stow restow delete simulate ctags install install-cask
