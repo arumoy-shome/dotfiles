@@ -169,11 +169,6 @@ then
   export FZF_COMPLETION_OPTS="--border --info=inline"
   export FZF_DEFAULT_OPTS="--reverse --height=~40% --no-scrollbar --color=gutter:-1"
 fi
-
-if (( $+commands[conda] ))
-then
-  eval "$(conda "shell.$(basename "${SHELL}")" hook)"
-fi
 # End plugins}}}
 
 [[ -f "$HOME/.zshrc.local" ]] && source "$HOME/.zshrc.local"
