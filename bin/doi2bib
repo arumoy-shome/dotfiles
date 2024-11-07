@@ -1,36 +1,99 @@
 #!/usr/bin/env python3
+# vim: sw=4
 
+import os
 import argparse
+import re
+import subprocess
 from urllib import request, error
 
 
-def get_bibtex(doi, ispreprint):
-    if ispreprint:
-        url = f"https://arxiv.org/bibtex/{doi}"
-    else:
+def get_bibtex(doi: str) -> str | None:
+    # NOTE: regex for crossref doi: https://www.crossref.org/blog/dois-and-matching-regular-expressions/
+    # I modified it to also accept any lowercase letters
+    match = re.search(r"^10.\d{4,9}/[-._;()/:a-zA-Z0-9]+$", doi)
+    if match:
         url = f"https://api.crossref.org/works/{doi}/transform/application/x-bibtex"
+    else:
+        url = f"https://arxiv.org/bibtex/{doi}"
     req = request.Request(url)
 
     try:
         with request.urlopen(req) as response:
             return response.read().decode()
     except error.HTTPError as e:
-        return f"HTTP Error: {e.code}"
+        print(f"doi2bib: HTTP Error {e.code}")
+        return None
     except error.URLError as e:
-        return f"URL Error: {e.reason}"
+        print(f"doi2bib: URL Error {e.reason}")
+        return None
+
+
+def save_bibtex(bibtex):
+    lines = bibtex.splitlines()
+    PATTERN = r"(@[\w]+\{[\s]+)([^,]+)(,)"
+    match = re.search(PATTERN, lines[0])
+    bibkey = match.group(2)
+    has_unicode = (
+        subprocess.run(
+            ["iconv", "-f", "UTF8", "-t", "US-ASCII//TRANSLIT"],
+            input=bibkey,
+            capture_output=True,
+            text=True,
+        ).returncode
+        != 0
+    )
+    if has_unicode:
+        print(f"doi2bib: the bibkey {bibkey} contains unicode characters")
+        print("doi2bib: Here is the bib entry for reference:")
+        print(f"{bibtex}")
+        bibkey = input("Please enter a bibkey: ")
+
+        lines[0] = re.sub(PATTERN, rf"\1{bibkey}\3", lines[0])
+
+        print("doi2bib: Here is the updated bib entry for reference:")
+        print(f"{'\n'.join(lines)}")
+
+    filename = f"{os.path.join(os.getenv("HOME"), "Documents/papers", bibkey)}.bib"
+
+    if os.path.exists(filename):
+        print(f"doi2bib: {filename} already exists.")
+        exit(1)
+
+    with open(filename, "w") as f:
+        f.write("\n".join(lines))
+
+    subprocess.run("pbcopy", input=bibkey, text=True)
+    print(f"doi2bib: {filename} successfully created.")
+
+
+def format_bibtex(bibtex: str) -> str:
+    lines = subprocess.run(
+        ["bibtool", "-k"],
+        input=bibtex,
+        text=True,
+        capture_output=True,
+    ).stdout.splitlines()
+    lines = [line for line in lines if line]  # remove empty lines
+    return "\n".join(lines)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Convert DOI or Arxiv ID to Bibtex")
     parser.add_argument("doi", help="DOI or Arxiv ID of paper")
     parser.add_argument(
-        "-p",
-        "--preprint",
-        help="Treat provided DOI as Arxiv ID",
+        "--save",
+        help="Save output as bib file",
         action="store_true",
         default=False,
     )
     args = parser.parse_args()
 
-    bibtex = get_bibtex(args.doi, args.preprint)
-    print(bibtex)
+    bibtex = get_bibtex(args.doi)
+    not bibtex and exit(1)
+    bibtex = format_bibtex(bibtex)
+
+    if args.save:
+        save_bibtex(bibtex)
+    else:
+        print(bibtex)
