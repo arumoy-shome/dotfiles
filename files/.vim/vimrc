@@ -109,6 +109,7 @@ function! AruFiletypePlugins() abort
     autocmd FileType man,help let b:EditorConfig_disable = 1
     autocmd FileType quarto setlocal filetype=markdown.quarto
     autocmd FileType qf,help,git,fugitive nmap <buffer> q :close<CR>
+    autocmd FileType qf,fugitive setlocal nonumber norelativenumber
   augroup END
 endfunction
 call AruFiletypePlugins()
