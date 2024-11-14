@@ -1,0 +1,25 @@
+#!/usr/bin/env python3
+# vim: shiftwidth=4
+
+import os
+import re
+import argparse
+import subprocess
+from collections import Counter
+
+HEADER_PATTERN = r"^#+\s(.*)"
+TAG_PATTERN = r"(@\w+)"
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("file", help="Markdown file")
+    args = parser.parse_args()
+    with open(args.file, "r") as f:
+        lines = f.readlines()
+
+    headers = [line for line in lines if re.search(HEADER_PATTERN, line)]
+    headers = [re.search(HEADER_PATTERN, header).group(1) for header in headers]
+    tags = [tag for header in headers for tag in re.findall(TAG_PATTERN, header)]
+    counts = Counter(tags).most_common()
+    for k, v in counts:
+        print(f"{k}: {v}")
