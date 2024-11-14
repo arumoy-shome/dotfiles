@@ -5,7 +5,7 @@
 # A set of unix shellscripts to manage information. This is tuned
 # specifically for my workflow as a researcher.
 
-NOTESDIR="$HOME/org"
+NOTESDIR="$HOME/Documents/aims"
 TARGET="$NOTESDIR/inbox.md"
 TEMPLATESDIR="$XDG_DATA_HOME/aims"
 
