@@ -1,19 +1,16 @@
 #!/usr/bin/env python3
 # vim: shiftwidth=4
 
-import os
 import re
-import argparse
 import subprocess
+import argparse
 from collections import Counter
 
 HEADER_PATTERN = r"^#+\s(.*)"
 TAG_PATTERN = r"(@\w+)"
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("file", help="Markdown file")
-    args = parser.parse_args()
+
+def count(args):
     with open(args.file, "r") as f:
         lines = f.readlines()
 
@@ -21,5 +18,43 @@ if __name__ == "__main__":
     headers = [re.search(HEADER_PATTERN, header).group(1) for header in headers]
     tags = [tag for header in headers for tag in re.findall(TAG_PATTERN, header)]
     counts = Counter(tags).most_common()
-    for k, v in counts:
-        print(f"{k}: {v}")
+
+    if args.headers:
+        print(f"mdtags: number of headers in {args.file}: {len(headers)}")
+
+    if args.tags:
+        print(f"mdtags: tags in {args.file}:")
+        for k, v in counts:
+            print(f"{k}: {v}")
+
+
+def grep(args):
+    headers = subprocess.run(
+        ["rg", "--vimgrep", "-uu", HEADER_PATTERN, args.file],
+        text=True,
+        capture_output=True,
+    )
+    if args.headers:
+        print(headers.stdout)
+
+    if args.todos:
+        todos = subprocess.run(
+            ["rg", "TODO"], input=headers.stdout, text=True, capture_output=True
+        )
+        print(todos.stdout)
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("file", help="Markdown file")
+    subparser = parser.add_subparsers(title="subcommands")
+    count_parser = subparser.add_parser("count", help="Count stuff")
+    count_parser.add_argument("--headers", action="store_true")
+    count_parser.add_argument("--tags", action="store_true")
+    count_parser.set_defaults(func=count)
+    grep_parser = subparser.add_parser("grep", help="Grep stuff")
+    grep_parser.add_argument("--headers", action="store_true")
+    grep_parser.add_argument("--todos", action="store_true")
+    grep_parser.set_defaults(func=grep)
+    args = parser.parse_args()
+    args.func(args)
