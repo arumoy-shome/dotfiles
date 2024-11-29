@@ -15,13 +15,16 @@ with open(
 
 def rename(src: str) -> str:
     dst = src
-    dst = re.sub(r"\s+", "-", dst) # replace 1 or more whitespace with hyphen
-    dst = re.sub(r"[^a-zA-Z0-9]+", "-", dst) # replace 1 or more punctuations with hyphen
-    dst = re.sub('([A-Z][a-z]+)', r'-\1', re.sub('([A-Z]+)', r'-\1', dst))
+    dst = dst.lower()
+    dst = re.sub(r"\s+", "-", dst)  # replace 1 or more whitespace with hyphen
+    dst = re.sub(
+        r"[^a-zA-Z0-9]+", "-", dst
+    )  # replace 1 or more punctuations with hyphen
+    dst = re.sub("([A-Z][a-z]+)", r"-\1", re.sub("([A-Z]+)", r"-\1", dst))
     dst = dst.split("-")
     dst = [word for word in dst if word]  # remove empty words
     dst = [word for word in dst if word not in STOPWORDS]
-    return "-".join(dst).lower()
+    return "-".join(dst)
 
 
 if __name__ == "__main__":
@@ -41,7 +44,6 @@ if __name__ == "__main__":
     src, ext = os.path.splitext(tail)
 
     dst = rename(src)
-    # TODO: what happens if the rename is empty ie. the filename was entirely made of stopwords?
     dst = os.path.join(head, dst)
     dst = f"{dst}{ext}"
 
@@ -52,11 +54,12 @@ if __name__ == "__main__":
     if not args.force:
         response = input(f"rename: {args.source} --> {dst}? [y, n]: ")
         match response:
-            case "y":
-                print(f"rename: {args.source} --> {dst}")
-                os.rename(src=args.source, dst=dst)
             case "n":
                 print("rename: aborted by user.")
+                exit(0)
             case _:
                 print("rename: incorrect response, please type one of [y, n]")
                 exit(1)
+
+    print(f"rename: {args.source} --> {dst}")
+    os.rename(src=args.source, dst=dst)
