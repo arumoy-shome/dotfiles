@@ -29,6 +29,13 @@ delete:
 simulate:
 	stow --no --adopt -v --dir=files --target=${HOME} -S .
 
+llm-system-prompt:
+	llm -s "$(shell cat files/.local/share/llm/git-commit.txt)" --save git-commit
+	llm -s "$(shell cat files/.local/share/llm/git.txt)" --save git
+	llm -s "$(shell cat files/.local/share/llm/prompting.txt)" --save prompting
+	llm -s "$(shell cat files/.local/share/llm/python.txt)" --save python
+	llm -s "$(shell cat files/.local/share/llm/social.txt)" --save social
+
 all:
 	stow
 	install-core
