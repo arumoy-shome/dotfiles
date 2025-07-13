@@ -78,6 +78,10 @@ def format_bibtex(bibtex: str) -> str:
     return "\n".join(lines)
 
 
+def to_clipboard(bibtex: str) -> None:
+    subprocess.run(["pbcopy"], input=bibtex, text=True)
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Convert DOI or Arxiv ID to Bibtex")
     parser.add_argument("doi", help="DOI or Arxiv ID of paper")
@@ -87,6 +91,13 @@ if __name__ == "__main__":
         action="store_true",
         default=False,
     )
+    parser.add_argument(
+        "-x",
+        "--to-clipboard",
+        action="store_true",
+        default=False,
+        help="Save to clipboard",
+    )
     args = parser.parse_args()
 
     bibtex = get_bibtex(args.doi)
@@ -95,5 +106,7 @@ if __name__ == "__main__":
 
     if args.save:
         save_bibtex(bibtex)
+    if args.to_clipboard:
+        to_clipboard(bibtex)
     else:
         print(bibtex)

@@ -37,24 +37,35 @@ def grep(args):
     if args.headers:
         print(headers.stdout)
 
+    if args.tags:
+        tags = subprocess.run(
+            ["rg", TAG_PATTERN], input=headers.stdout, text=True, capture_output=True
+        )
+        print(tags.stdout)
+
     if args.todos:
         todos = subprocess.run(
             ["rg", "TODO"], input=headers.stdout, text=True, capture_output=True
         )
         print(todos.stdout)
 
+    if args.triage:
+        triage = subprocess.run(
+            ["rg", "--invert-match", TAG_PATTERN],
+            input=headers.stdout,
+            text=True,
+            capture_output=True,
+        )
+        print(triage.stdout)
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("file", help="Markdown file")
-    subparser = parser.add_subparsers(title="subcommands")
-    count_parser = subparser.add_parser("count", help="Count stuff")
-    count_parser.add_argument("--headers", action="store_true")
-    count_parser.add_argument("--tags", action="store_true")
-    count_parser.set_defaults(func=count)
-    grep_parser = subparser.add_parser("grep", help="Grep stuff")
-    grep_parser.add_argument("--headers", action="store_true")
-    grep_parser.add_argument("--todos", action="store_true")
-    grep_parser.set_defaults(func=grep)
+    parser.add_argument("--headers", action="store_true")
+    parser.add_argument("--tags", action="store_true")
+    parser.add_argument("--todos", action="store_true")
+    parser.add_argument("--triage", action="store_true")
+
     args = parser.parse_args()
-    args.func(args)
+    grep(args)

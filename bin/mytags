@@ -12,11 +12,8 @@ __ctags() {
   if [[ -x "$(command -v fd)" ]]
   then
     command ctags "$@" $(fd --type f --hidden --exclude '.git')
-  elif git rev-parse &>/dev/null
-  then
-    command ctags "$@" $(git ls-files --exclude-standard)
   else
-    command ctags "$@" $(find . -type f -not -path '*git*')
+    command ctags "$@" $(git ls-files --exclude-standard)
   fi
 }
 
