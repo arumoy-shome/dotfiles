@@ -141,7 +141,10 @@ require("lazy").setup({
   },
   -- end which-key}}}
   -- devicons {{{2
-  "nvim-tree/nvim-web-devicons",
+  {
+    "nvim-tree/nvim-web-devicons",
+    lazy = true,
+  },
   -- end devicons 2}}}
   -- telescope {{{2
   { -- Fuzzy Finder (files, lsp, etc)
@@ -258,8 +261,6 @@ require("lazy").setup({
             },
           },
         },
-        typst_lsp = {},
-        ruff_lsp = {},
         marksman = {},
         lua_ls = {
           settings = {
@@ -303,6 +304,7 @@ require("lazy").setup({
             },
           },
         },
+        rust_analyzer = {},
       }
 
       -- Ensure the servers and tools above are installed
@@ -335,6 +337,24 @@ require("lazy").setup({
           end,
         },
       })
+
+      -- setup vim.diagnostic
+      local opts = { noremap = true, silent = true }
+      vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, opts)
+      vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
+      vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
+      vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, opts)
+      vim.diagnostic.config({
+        signs = false,
+        underline = false,
+        virtual_text = false,
+      })
+      -- better diagnostics signs (taken from wincent)
+      local signs = { Error = "✖", Warn = "⚠", Hint = "➤", Info = "ℹ" }
+      for type, icon in pairs(signs) do
+        local hl = "DiagnosticSign" .. type
+        vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+      end
     end,
   },
   -- end nvim-lspconfig}}}
@@ -433,25 +453,25 @@ require("lazy").setup({
   },
   -- end nvim-cmp}}}
   -- tpope {{{2
-  'tpope/vim-eunuch',
-  'tpope/vim-obsession',
-  'tpope/vim-surround',
-  'tpope/vim-endwise',
-  'tpope/vim-repeat',
-  'tpope/vim-apathy',
-  'tpope/vim-git',
-  'tpope/vim-unimpaired',
-  'tpope/vim-dispatch',
-  'tpope/vim-fugitive',
-  'tpope/vim-markdown',
-  'tpope/vim-abolish',
-  'tpope/vim-vinegar',
-  'tpope/vim-projectionist',
-  'tpope/vim-rsi',
-  'tpope/vim-sleuth',
+  { 'tpope/vim-eunuch',        event = "VeryLazy" },
+  { 'tpope/vim-obsession',     event = "VeryLazy" },
+  { 'tpope/vim-surround',      event = "VeryLazy" },
+  { 'tpope/vim-endwise',       event = "VeryLazy" },
+  { 'tpope/vim-repeat',        event = "VeryLazy" },
+  { 'tpope/vim-apathy',        event = "VeryLazy" },
+  { 'tpope/vim-git',           event = "VeryLazy" },
+  { 'tpope/vim-unimpaired',    event = "VeryLazy" },
+  { 'tpope/vim-dispatch',      event = "VeryLazy" },
+  { 'tpope/vim-fugitive',      event = "VeryLazy" },
+  { 'tpope/vim-markdown',      ft = "markdown" },
+  { 'tpope/vim-abolish',       event = "InsertEnter" },
+  { 'tpope/vim-vinegar',       event = "VeryLazy" },
+  { 'tpope/vim-projectionist', event = "VeryLazy" },
+  { 'tpope/vim-rsi',           event = "VeryLazy" },
+  { 'tpope/vim-sleuth',        event = "VeryLazy" },
   -- end tpope 2}}}
   -- wincent {{{2
-  "wincent/pinnacle",
+  { "wincent/pinnacle",        event = "VeryLazy" },
   -- end wincent 2}}}
   -- nvim-treesitter {{{2
   { -- Highlight, edit, and navigate code
@@ -482,27 +502,28 @@ require("lazy").setup({
   },
   -- end nvim-treesitter 2}}}
   -- diagnostics {{{2
-  {
-    dir = "vim.diagnostics",
-    config = function()
-      local opts = { noremap = true, silent = true }
-      vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, opts)
-      vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
-      vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
-      vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, opts)
-      vim.diagnostic.config({
-        signs = false,
-        underline = false,
-        virtual_text = false,
-      })
-      -- better diagnostics signs (taken from wincent)
-      local signs = { Error = "✖", Warn = "⚠", Hint = "➤", Info = "ℹ" }
-      for type, icon in pairs(signs) do
-        local hl = "DiagnosticSign" .. type
-        vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-      end
-    end,
-  },
+  -- TODO: fix vim.diagnostics no longer exists?
+  -- {
+  --   dir = "vim.diagnostics",
+  --   config = function()
+  --     local opts = { noremap = true, silent = true }
+  --     vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, opts)
+  --     vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
+  --     vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
+  --     vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, opts)
+  --     vim.diagnostic.config({
+  --       signs = false,
+  --       underline = false,
+  --       virtual_text = false,
+  --     })
+  --     -- better diagnostics signs (taken from wincent)
+  --     local signs = { Error = "✖", Warn = "⚠", Hint = "➤", Info = "ℹ" }
+  --     for type, icon in pairs(signs) do
+  --       local hl = "DiagnosticSign" .. type
+  --       vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+  --     end
+  --   end,
+  -- },
   --- end diagnostics 2}}}
   -- mini {{{2
   {
@@ -520,12 +541,21 @@ require("lazy").setup({
   -- vimtex {{{2
   {
     "lervag/vimtex",
+    ft = "tex",
     config = function()
       vim.g.vimtex_fold_enabled = 1
       vim.g.vimtex_quickfix_mode = 0 -- don't open/close qf automatically
-      vim.g.vimtex_view_method = "sioyek"
     end,
   },
   -- end vimtex 2}}}
+  -- vim-easy-align {{{2
+  {
+    "junegunn/vim-easy-align",
+    keys = {
+      { "ga", "<Plug>(EasyAlign)", "v", desc = "[G]o [A]lign visual selection" },
+      { "ga", "<Plug>(EasyAlign)", "n", desc = "[G]o [A]lign" },
+    },
+  },
+  -- end vim-easy-align }}}
 })
 -- end lazy }}}

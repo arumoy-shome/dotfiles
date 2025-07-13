@@ -29,4 +29,7 @@ if vim.fn.exists(":Abolish") > 0 then
   vim.cmd([[Abolish seperat{e,es,ed,ing,ely,ion,ions,or}  separat{}]])
   vim.cmd([[Abolish segument{,s,ed,ation}                 segment{}]])
   vim.cmd([[Abolish re{c,v}ieve                           receive]])
+  vim.cmd([[Abolish teh the]])
+  vim.cmd([[Abolish si is]])
+  vim.cmd([[Abolish reserach{,er,ing} research{}]])
 end

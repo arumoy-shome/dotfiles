@@ -1,9 +1,7 @@
-theme = "monokai"
-
 [editor]
 line-number = "relative"
 color-modes = true
-text-width = 80
+text-width = 72
 
 [editor.cursor-shape]
 insert = "bar"

@@ -33,12 +33,17 @@ cdpath=($HOME)
 bindkey -e
 # End keybindings }}}
 # {{{ prompt
-autoload -Uz promptinit
-promptinit
-autoload -U colors
-colors
+if (( $+commands[starship] ))
+then
+  eval "$(starship init zsh)"
+else
+  autoload -Uz promptinit
+  promptinit
+  autoload -U colors
+  colors
 
-prompt walters
+  prompt walters
+fi
 # End prompt }}}
 # {{{ exports
 export PAGER=less
@@ -50,11 +55,6 @@ then
   alias vim=nvim
 else
   export EDITOR=vim
-fi
-
-if (( $+commands[code] ))
-then
-  export VISUAL="code --reuse-window"
 fi
 
 # filename (if known), line number if known, falling back to percent if known,
@@ -122,7 +122,8 @@ paths=(
   "$HOME/dotfiles/bin"
 )
 
-for p in $paths; do
+for p in $paths
+do
   [[ -d $p ]] && path=($p $path)
 done
 
@@ -170,6 +171,18 @@ then
   export FZF_COMPLETION_OPTS="--border --info=inline"
   export FZF_DEFAULT_OPTS="--reverse --height=~40% --no-scrollbar --color=gutter:-1"
 fi
+
+plugins=(
+  "/opt/homebrew/opt/zsh-fast-syntax-highlighting/share/zsh-fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
+  "/opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+  # don't need this one anymore since I use fzf
+  # "/opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh"
+)
+
+for plugin in $plugins
+do
+  [[ -f $plugin ]] && source $plugin
+done
 # End plugins}}}
 
 [[ -f "$HOME/.zshrc.local" ]] && source "$HOME/.zshrc.local"

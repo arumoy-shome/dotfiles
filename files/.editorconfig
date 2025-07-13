@@ -1,6 +1,7 @@
 root = true
 
 [*]
+chatset = utf-8
 end_of_line = lf
 insert_final_newline = true
 indent_style = space
@@ -16,6 +17,7 @@ indent_size = 4
 
 [*.md]
 indent_size = 4
+max_line_length = 72
 
 [*.tex]
 max_line_length = 72
