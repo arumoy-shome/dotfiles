@@ -186,4 +186,6 @@ done
 # End plugins}}}
 
 [[ -f "$HOME/.zshrc.local" ]] && source "$HOME/.zshrc.local"
+
+true # exit code 0 at the very end
 # vim: foldmethod=marker ts=2 sw=2 et
