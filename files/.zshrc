@@ -120,6 +120,7 @@ paths=(
   "/usr/local/opt/coreutils/libexec/gnubin" # intel
   "/opt/homebrew/opt/coreutils/libexec/gnubin" # arm
   "$HOME/dotfiles/bin"
+  "$HOME/.local/bin"
 )
 
 for p in $paths
