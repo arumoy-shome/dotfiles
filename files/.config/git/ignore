@@ -64,3 +64,6 @@ GSYMS
 *.out
 *.fls
 *.fdb_latexmk
+
+# AI
+.claude/
