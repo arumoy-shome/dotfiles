@@ -129,7 +129,7 @@ do
 done
 
 # End path }}}
-# plugins {{{
+# {{{ plugins
 
 # NOTE: must come before zsh-history-substring-search & zsh-syntax-highlighting.
 autoload -U select-word-style
@@ -171,6 +171,12 @@ then
 
   export FZF_COMPLETION_OPTS="--border --info=inline"
   export FZF_DEFAULT_OPTS="--reverse --height=~40% --no-scrollbar --color=gutter:-1"
+fi
+
+if (( $+commands[zoxide]))
+then
+  eval "$(zoxide init zsh)"
+  alias cd='z'
 fi
 
 plugins=(
