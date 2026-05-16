@@ -1,1 +1,5 @@
 shell-integration-features = ssh-terminfo
+keybind = super+ctrl+arrow_down=resize_split:down,25
+keybind = super+ctrl+arrow_up=resize_split:up,25
+keybind = super+ctrl+arrow_left=resize_split:left,25
+keybind = super+ctrl+arrow_right=resize_split:right,25
