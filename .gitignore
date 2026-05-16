@@ -8,3 +8,6 @@ files/.vim/.netrwhist
 files/.vim/colors.vim
 files/.vim/pack
 files/.vim/plugged
+/files/.config/kitty/dark-theme.auto.conf
+/files/.config/ghostty/local
+/files/.config/kitty/local.conf
