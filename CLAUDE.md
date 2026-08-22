@@ -32,7 +32,7 @@ matching `uname -s`:
 | package | when            | holds                                              |
 |---------|-----------------|----------------------------------------------------|
 | common  | always          | shells, vim, tmux, git, and the CLI tool configs   |
-| macos   | Darwin          | hammerspoon, aerospace, ghostty                    |
+| macos   | Darwin          | ghostty, gvimrc                                    |
 | linux   | everything else | nothing yet                                        |
 
 Inside a package the tree mirrors `$HOME`, so `files/common/.config/git/config`
