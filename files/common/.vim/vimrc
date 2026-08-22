@@ -13,7 +13,7 @@ set splitbelow
 
 set noswapfile
 
-set clipboard+=unnamed
+set clipboard+=unnamedplus
 
 set breakindent
 set linebreak
@@ -181,6 +181,9 @@ Plug 'wincent/pinnacle'
 Plug 'junegunn/vim-easy-align'
 if isdirectory('/opt/homebrew/opt/fzf')
   Plug '/opt/homebrew/opt/fzf'
+elseif isdirectory('/usr/share/doc/fzf/examples/plugin')
+  " debian ships the vim plugin under the examples dir
+  Plug '/usr/share/doc/fzf/examples'
 else
   " fzf does not exist on the device so install it
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
