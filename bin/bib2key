@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-BIBKEY=$(pbpaste | grep '^@.*' | sed 's/^@.*{\(.*\),/\1/')
-
-[[ -n "$BIBKEY" ]] && echo "$BIBKEY"
-

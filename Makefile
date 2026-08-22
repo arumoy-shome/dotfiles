@@ -40,14 +40,8 @@ delete:
 simulate:
 	$(STOW) --no -S $(PACKAGES)
 
-llm-system-prompt:
-	llm -s "$(shell cat files/common/.local/share/llm/git-commit.txt)" --save git-commit
-	llm -s "$(shell cat files/common/.local/share/llm/git.txt)" --save git
-	llm -s "$(shell cat files/common/.local/share/llm/prompting.txt)" --save prompting
-	llm -s "$(shell cat files/common/.local/share/llm/python.txt)" --save python
-
 all: stow install-core install-python install-latex install-sh
 
-.PHONY: all stow restow delete simulate llm-system-prompt \
+.PHONY: all stow restow delete simulate \
 	install-core install-cask install-python install-latex \
 	install-sh
