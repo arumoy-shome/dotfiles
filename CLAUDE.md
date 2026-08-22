@@ -5,9 +5,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## What this is
 
 A personal dotfiles repo managed with GNU Stow. There is no build, no test
-suite, and no linter — `make` targets are the entire interface. (A stray
-`.pytest_cache/` may be present; it is an untracked leftover from `doi2bib`,
-which moved to its own repo in `1f9ea43`. Ignore it.)
+suite, and no linter — `make` targets are the entire interface.
+
+Removed config is listed in `ATTIC.md` with the sha to restore it from.
 
 ## Commands
 
