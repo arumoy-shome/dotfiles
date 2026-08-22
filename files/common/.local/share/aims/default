@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-[[ -z "$1" ]] && return 1
-
-{
-  echo
-  echo "# $(date +'%Y-%m-%d %a %H:%M') "
-} >> "$1"

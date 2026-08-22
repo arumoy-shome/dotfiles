@@ -37,6 +37,8 @@ no `^` arithmetic is needed. To see it before restoring:
 | `.vim/after/plugin/abolish.vim` | 28 `Abolish` lines needing vim-abolish; the one plugin-free line, `cabbrev grpe grep`, moved into the vimrc | `cf0f7e6` |
 | `files/macos/.vim/gvimrc` | MacVim not installed, and its `color macvim` resolves only inside MacVim. Emptied `files/macos/.vim/` | `cf0f7e6` |
 | `aru#highlight_overrides()` in `.vim/autoload/aru.vim` | called `pinnacle#italicize`; went with the plugins | `cf0f7e6` |
+| `bin/aims` | one 45-line `__capture` function behind a name that promised a system. Its `mktemp --suffix` is GNU-only, so it ran only where homebrew coreutils shadows BSD `mktemp` | `58f616c` |
+| `.local/share/aims/` (`default`, `paper`) | capture templates; `bin/aims` was the only consumer, and `paper` duplicated `bin/bib2key`, attic'd at `045b3d4` | `58f616c` |
 
 ## Earlier removals, before this file existed
 
