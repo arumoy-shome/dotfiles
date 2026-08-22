@@ -28,7 +28,16 @@ A set of files that begin with a dot and are updated quite frequently.
 # Dependencies
 
 Following are the packages & software that must be installed on the
-system. I do this manually using Homebrew.
+system. `make install-core` installs them; it uses Homebrew on macOS and
+apt on Ubuntu, picked automatically from `uname`.
+
+A few are unavailable in apt and must be installed by hand on Ubuntu:
+starship, glow, marksman and bat. Every one of them is optional — the
+shell config gates on `command -v` and degrades quietly (`bat` falls
+back to `cat`, `fd` to `find`, and the prompt to zsh's built-in
+`walters`). On Debian derivatives `fd` and `bat` are installed as
+`fdfind` and `batcat`; the shell config aliases them back rather than
+relying on symlinks in `~/.local/bin`.
 
 + git: my preferred vcs
 + emacs: preferred editor of choice
@@ -63,7 +72,7 @@ system. I do this manually using Homebrew.
   + texlab (latex)
 
 Following are the GUI applications I use. I install them manually
-using Homebrew Cask.
+using Homebrew Cask; macOS only (`make install-cask`).
 
 + 1password: password manager
 + alfred: spotlight alternative

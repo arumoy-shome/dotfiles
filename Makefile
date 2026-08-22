@@ -9,10 +9,15 @@ STOW := stow -v --adopt --dir=files --target=${HOME}
 PACKAGES := common $(PLATFORM)
 
 install-core:
+ifeq ($(PLATFORM),macos)
 	brew install git zsh stow make fd ripgrep fzf pandoc tldr tmux tree coreutils aspell vim neovim universal-ctags
+else
+	sudo apt install git zsh stow make fd-find ripgrep fzf pandoc tldr-py tmux tree aspell vim neovim universal-ctags zsh-syntax-highlighting zsh-autosuggestions bash-completion
+endif
 
+# GUI applications; macos only.
 install-cask:
-	brew instal --cask 1password karabiner-elements alfred pdf-expert font-sauce-code-pro-nerd-font spotify transmission hammerspoon vlc
+	brew install --cask 1password karabiner-elements alfred pdf-expert font-sauce-code-pro-nerd-font spotify transmission hammerspoon vlc
 
 install-python:
 	brew install ruff python-language-server
@@ -45,13 +50,8 @@ llm-system-prompt:
 	llm -s "$(shell cat files/common/.local/share/llm/prompting.txt)" --save prompting
 	llm -s "$(shell cat files/common/.local/share/llm/python.txt)" --save python
 
-all:
-	stow
-	install-core
-	install-python
-	install-latex
-	install-sh
-	install-markdown
-	install-cask
+all: stow install-core install-python install-latex install-sh install-markdown
 
-.PHONY: stow restow delete simulate ctags install install-cask
+.PHONY: all stow restow delete simulate llm-system-prompt \
+	install-core install-cask install-python install-latex \
+	install-sh install-markdown
