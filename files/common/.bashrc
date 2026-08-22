@@ -37,7 +37,6 @@ export PAGER=less
 # falling back to byte offset, falling back to dash
 export LESSPROMPT='?f%f .?ltLine %lt:?pt%pt\%:?btByte %bt:-...'
 export MANPAGER=$PAGER
-export LC_ALL=en_GB.UTF-8
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_DATA_BIN="$HOME/.local/bin"
@@ -77,19 +76,45 @@ if [[ "$TERM" =~ 'kitty' ]]; then
 fi
 
 alias rsync='rsync -azvhP'
+
+# Debian derivatives ship these under different binary names, and neither is
+# guaranteed to be present. Resolve fd once into $FD so the fzf config below
+# can use it without caring, and degrade to the posix equivalents when
+# missing: bat becomes cat, fd falls back to find.
+if [[ -x "$(command -v fd)" ]]; then
+  FD=fd
+elif [[ -x "$(command -v fdfind)" ]]; then
+  FD=fdfind
+  alias fd=fdfind
+fi
+
+if [[ -x "$(command -v bat)" ]]; then
+  :
+elif [[ -x "$(command -v batcat)" ]]; then
+  alias bat=batcat
+else
+  alias bat=cat
+fi
 # }}}
 # path {{{
 # append to path
 paths=("$HOME/dotfiles/bin")
 paths+=("$HOME/.cargo/bin")
 paths+=("$HOME/.config/emacs/bin")
+paths+=("$HOME/.local/bin")
 
 for p in "${paths[@]}"; do
   [[ -d "$p" ]] && PATH+=":$p"
 done
 
 ## prepend to path
-PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
+## gnu coreutils ahead of the bsd ones on macos; absent elsewhere.
+prepends=("/usr/local/opt/coreutils/libexec/gnubin") # intel
+prepends+=("/opt/homebrew/opt/coreutils/libexec/gnubin") # arm
+
+for p in "${prepends[@]}"; do
+  [[ -d "$p" ]] && PATH="$p:$PATH"
+done
 
 ## conda
 if [[ -x "$(command -v conda)" ]]
@@ -107,34 +132,32 @@ else
 fi
 export PS2="> "
 
-if [[ "$TERM" =~ 'xterm' ]]
-then
-  # Color man pages.
-  export LESS_TERMCAP_mb=$'\E[01;31m'
-  export LESS_TERMCAP_md=$'\E[01;38;5;208m'
-  export LESS_TERMCAP_me=$'\E[0m'
-  export LESS_TERMCAP_se=$'\E[0m'
-  export LESS_TERMCAP_ue=$'\E[0m'
-  export LESS_TERMCAP_us=$'\E[04;38;5;111m'
+# Color man pages.
+export LESS_TERMCAP_mb=$'\E[01;31m'
+export LESS_TERMCAP_md=$'\E[01;38;5;208m'
+export LESS_TERMCAP_me=$'\E[0m'
+export LESS_TERMCAP_se=$'\E[0m'
+export LESS_TERMCAP_ue=$'\E[0m'
+export LESS_TERMCAP_us=$'\E[04;38;5;111m'
 
-  # fzf
-  if [[ -x "$(command -v fzf)" ]]; then
+# fzf
+if [[ -x "$(command -v fzf)" ]]; then
 
     eval "$(fzf --bash)"
 
-    if [[ -x "$(command -v fd)" ]]; then
-      export FZF_DEFAULT_COMMAND="fd --type f --hidden --exclude '.git'"
+    if [[ -n "$FD" ]]; then
+      export FZF_DEFAULT_COMMAND="$FD --type f --hidden --exclude '.git'"
       # following stolen from fzf README
       # Use fd instead of the default find command for listing path candidates.
       # - The first argument to the function ($1) is the base path to start traversal
       # - See the source code (completion.{bash,zsh}) for the details.
       _fzf_compgen_path() {
-        fd --hidden --follow --exclude ".git" . "$1"
+        $FD --hidden --follow --exclude ".git" . "$1"
       }
 
       # Use fd to generate the list for directory completion
       _fzf_compgen_dir() {
-        fd --type d --hidden --follow --exclude ".git" . "$1"
+        $FD --type d --hidden --follow --exclude ".git" . "$1"
       }
     else
       export FZF_DEFAULT_COMMAND="find . -type f -not -path '*git*'"
@@ -142,7 +165,6 @@ then
 
     export FZF_COMPLETION_OPTS="--border --info=inline"
     export FZF_DEFAULT_OPTS="--reverse --height=~40% --no-scrollbar --color=gutter:-1"
-  fi
 fi
 
 [[ -f $HOME/.bashrc.local  ]] && source $HOME/.bashrc.local

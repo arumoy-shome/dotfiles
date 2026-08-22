@@ -11,7 +11,7 @@ setopt NO_HIST_IGNORE_ALL_DUPS
 autoload -Uz compinit
 compinit -u
 
-zstyle :compinstall filename '/Users/aru/.zshrc'
+zstyle :compinstall filename "$HOME/.zshrc"
 
 # Make completion:
 # - Try exact (case-sensitive) match first.
@@ -70,7 +70,6 @@ export LESS=iFMRX
 
 # color in ls output without -G, works across shells
 export CLICOLOR=true
-export LC_ALL=en_GB.UTF-8
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_DATA_BIN="$HOME/.local/bin"
@@ -129,6 +128,26 @@ do
 done
 
 # End path }}}
+# {{{ fd & bat
+# Debian derivatives ship these under different binary names, and neither is
+# guaranteed to be present. Resolve fd once into $FD so the fzf config below
+# can use it without caring, and degrade to the posix equivalents when
+# missing: bat becomes cat, fd falls back to find.
+if (( $+commands[fd] )); then
+  FD=fd
+elif (( $+commands[fdfind] )); then
+  FD=fdfind
+  alias fd=fdfind
+fi
+
+if (( $+commands[bat] )); then
+  :
+elif (( $+commands[batcat] )); then
+  alias bat=batcat
+else
+  alias bat=cat
+fi
+# End fd & bat }}}
 # {{{ plugins
 
 # NOTE: must come before zsh-history-substring-search & zsh-syntax-highlighting.
@@ -151,19 +170,19 @@ bindkey "^[[1;5D" backward-word # For Arch.
 if (( $+commands[fzf] ))
 then
   source <(fzf --zsh)
-  if (( $+commands[fd] )); then
-    export FZF_DEFAULT_COMMAND="fd --type f --hidden --exclude '.git'"
+  if [[ -n "$FD" ]]; then
+    export FZF_DEFAULT_COMMAND="$FD --type f --hidden --exclude '.git'"
     # following stolen from fzf README
     # Use fd instead of the default find command for listing path candidates.
     # - The first argument to the function ($1) is the base path to start traversal
     # - See the source code (completion.{bash,zsh}) for the details.
     _fzf_compgen_path() {
-      fd --hidden --follow --exclude ".git" . "$1"
+      $FD --hidden --follow --exclude ".git" . "$1"
     }
 
     # Use fd to generate the list for directory completion
     _fzf_compgen_dir() {
-      fd --type d --hidden --follow --exclude ".git" . "$1"
+      $FD --type d --hidden --follow --exclude ".git" . "$1"
     }
   else
     export FZF_DEFAULT_COMMAND="find . -type f -not -path '*git*'"
@@ -182,6 +201,11 @@ fi
 plugins=(
   "/opt/homebrew/opt/zsh-fast-syntax-highlighting/share/zsh-fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
   "/opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+  # debian derivatives; no fast-syntax-highlighting package, plain
+  # zsh-syntax-highlighting is the equivalent. It has to be sourced last,
+  # hence autosuggestions first.
+  "/usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+  "/usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
   # don't need this one anymore since I use fzf
   # "/opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh"
 )
