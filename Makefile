@@ -28,10 +28,6 @@ install-latex:
 install-sh:
 	brew install shellcheck
 
-install-markdown:
-	brew install --cask glow
-	brew install marksman
-
 stow:
 	$(STOW) -S $(PACKAGES)
 
@@ -50,8 +46,8 @@ llm-system-prompt:
 	llm -s "$(shell cat files/common/.local/share/llm/prompting.txt)" --save prompting
 	llm -s "$(shell cat files/common/.local/share/llm/python.txt)" --save python
 
-all: stow install-core install-python install-latex install-sh install-markdown
+all: stow install-core install-python install-latex install-sh
 
 .PHONY: all stow restow delete simulate llm-system-prompt \
 	install-core install-cask install-python install-latex \
-	install-sh install-markdown
+	install-sh
