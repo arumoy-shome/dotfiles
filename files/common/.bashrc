@@ -1,5 +1,9 @@
 # vim: foldmethod=marker
 
+# Shared with zsh. Must come first: it builds PATH, and everything below
+# gates on `command -v`.
+. "$HOME/.config/sh/rc"
+
 #  settings {{{
 HISTCONTROL=ignoreboth # no duplicates or lines starting with space in history
 HISTSIZE=1000
@@ -7,6 +11,7 @@ HISTFILESIZE=2000
 CDPATH="$HOME"
 [[ -d "$HOME/code" ]] && CDPATH+=":$HOME/code"
 [[ -d "$HOME/phd" ]] && CDPATH+=":$HOME/phd"
+[[ -d "$HOME/Documents/phd" ]] && CDPATH+=":$HOME/Documents/phd"
 
 shopt -s histappend   # append to history file, don't overwrite it.
 shopt -s checkwinsize # [default] check window size after each command
@@ -15,151 +20,25 @@ shopt -s cdspell      # check minor file spell errors
 shopt -s dirspell     # check minor dir spell errors
 shopt -s direxpand
 # }}}
-#  exports {{{
-
-# export neovim as EDITOR when available, fall back to vim
-
-if [[ -x "$(command -v nvim)" ]]
+# prompt {{{
+# starship is handled by the shared rc; this is the fallback when it is
+# absent.
+if ! [[ -x "$(command -v starship)" ]]
 then
-  export EDITOR=nvim
-  alias vim="nvim"
-else
-  export EDITOR=vim
+  if [ -n "$SSH_CONNECTION" ]
+  then
+    export PS1="\u@\h: \w \$ "
+  else
+    export PS1="\w \$ "
+  fi
 fi
-
-export PAGER=less
-# filename (if known), line number if known, falling back to percent if known,
-# falling back to byte offset, falling back to dash
-export LESSPROMPT='?f%f .?ltLine %lt:?pt%pt\%:?btByte %bt:-...'
-export MANPAGER=$PAGER
-export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_DATA_HOME="$HOME/.local/share"
-export XDG_DATA_BIN="$HOME/.local/bin"
-
-# i: search case insensitive
-# M: show detailed prompt
-# F: exit if output fits on one screen
-# R: ansi color support
-# X: suppress alternate screen
-export LESS=iFMRX
-
-# colour ls listings, do not have to use -G flag
-# and works across shells
-export CLICOLOR=true
-export RIPGREP_CONFIG_PATH="$HOME/.rgrc"
-
+export PS2="> "
 # }}}
-#  alias {{{
-
-# safer defaults for cp, mv and rm
-# verbose output and ask for confirmation if existing file is affected
-alias cp='cp -v'
-alias mv='mv -v'
-alias rm='rm -v'
-alias ln='ln -v'
-alias mkdir='mkdir -p'
-
-# F: append '/' after directory and '*' after executables
-# A: do not list '.' and '..'
-# h: with `l`, use unit siffixes for file size
-# T: with `l`, display complete time info
-# l: list format
-alias ls='ls -FA --color'
-alias ll='ls -FAlh --color'
-if [[ "$TERM" =~ 'kitty' ]]; then
-  alias ssh='kitty +kitten ssh'
-fi
-
-alias rsync='rsync -azvhP'
-
-# Debian derivatives ship these under different binary names, and neither is
-# guaranteed to be present. Resolve fd once into $FD so the fzf config below
-# can use it without caring, and degrade to the posix equivalents when
-# missing: bat becomes cat, fd falls back to find.
-if [[ -x "$(command -v fd)" ]]; then
-  FD=fd
-elif [[ -x "$(command -v fdfind)" ]]; then
-  FD=fdfind
-  alias fd=fdfind
-fi
-
-if [[ -x "$(command -v bat)" ]]; then
-  :
-elif [[ -x "$(command -v batcat)" ]]; then
-  alias bat=batcat
-else
-  alias bat=cat
-fi
-# }}}
-# path {{{
-# append to path
-paths=("$HOME/dotfiles/bin")
-paths+=("$HOME/.cargo/bin")
-paths+=("$HOME/.config/emacs/bin")
-paths+=("$HOME/.local/bin")
-
-for p in "${paths[@]}"; do
-  [[ -d "$p" ]] && PATH+=":$p"
-done
-
-## prepend to path
-## gnu coreutils ahead of the bsd ones on macos; absent elsewhere.
-prepends=("/usr/local/opt/coreutils/libexec/gnubin") # intel
-prepends+=("/opt/homebrew/opt/coreutils/libexec/gnubin") # arm
-
-for p in "${prepends[@]}"; do
-  [[ -d "$p" ]] && PATH="$p:$PATH"
-done
-
-## conda
+# conda {{{
 if [[ -x "$(command -v conda)" ]]
 then
   eval "$(conda "shell.$(basename "${SHELL}")" hook)"
 fi
 # }}}
-
-# simple prompt (stolen from protesilaos)
-if [ -n "$SSH_CONNECTION" ]
-then
-    export PS1="\u@\h: \w \$ "
-else
-    export PS1="\w \$ "
-fi
-export PS2="> "
-
-# Color man pages.
-export LESS_TERMCAP_mb=$'\E[01;31m'
-export LESS_TERMCAP_md=$'\E[01;38;5;208m'
-export LESS_TERMCAP_me=$'\E[0m'
-export LESS_TERMCAP_se=$'\E[0m'
-export LESS_TERMCAP_ue=$'\E[0m'
-export LESS_TERMCAP_us=$'\E[04;38;5;111m'
-
-# fzf
-if [[ -x "$(command -v fzf)" ]]; then
-
-    eval "$(fzf --bash)"
-
-    if [[ -n "$FD" ]]; then
-      export FZF_DEFAULT_COMMAND="$FD --type f --hidden --exclude '.git'"
-      # following stolen from fzf README
-      # Use fd instead of the default find command for listing path candidates.
-      # - The first argument to the function ($1) is the base path to start traversal
-      # - See the source code (completion.{bash,zsh}) for the details.
-      _fzf_compgen_path() {
-        $FD --hidden --follow --exclude ".git" . "$1"
-      }
-
-      # Use fd to generate the list for directory completion
-      _fzf_compgen_dir() {
-        $FD --type d --hidden --follow --exclude ".git" . "$1"
-      }
-    else
-      export FZF_DEFAULT_COMMAND="find . -type f -not -path '*git*'"
-    fi
-
-    export FZF_COMPLETION_OPTS="--border --info=inline"
-    export FZF_DEFAULT_OPTS="--reverse --height=~40% --no-scrollbar --color=gutter:-1"
-fi
 
 [[ -f $HOME/.bashrc.local  ]] && source $HOME/.bashrc.local

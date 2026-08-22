@@ -55,10 +55,10 @@ expected to migrate to their own repos over time.
 
 **Guard, don't branch.** Platform differences are handled with a candidate
 list plus an existence check, not with `uname`/`$OSTYPE` conditionals. Adding
-a platform means adding a path to an array, and absent paths are silently
-skipped. See the `paths`, `plugins` arrays in `.zshrc` and `completions` in
-`.bash_profile`. Explicit OS dispatch is confined to the `Makefile` and
-`bin/o`.
+a platform means adding a candidate, and absent paths are silently skipped.
+See the `__add_path` calls in `.config/sh/rc`, the `plugins` array in
+`.zshrc`, and `completions` in `.bash_profile`. Explicit OS dispatch is
+confined to the `Makefile` and `bin/o`.
 
 **Degrade, don't require.** Optional tools are gated on `command -v` /
 `(( $+commands[x] ))` and fall back: no starship → zsh's `walters` prompt, no
@@ -68,10 +68,25 @@ and `batcat`; the shells alias them back rather than creating symlinks in
 `FZF_DEFAULT_COMMAND` is executed by fzf via `sh -c`, where aliases do not
 apply.
 
-**zsh and bash are maintained in parallel.** The duplication between
-`.zshrc` and `.bashrc` is deliberate — bash is kept working for remote servers.
-A change to one usually needs the same change in the other, in that shell's
-idiom.
+**Shared shell config lives in `.config/sh/rc`.** Both `.zshrc` and
+`.bashrc` source it as their first statement, because it builds `PATH` and
+everything downstream gates on `command -v`. Anything that works in both
+shells belongs there; an rc file should only hold what is genuinely
+shell-specific — `setopt`/`shopt`, completion, keybindings, suffix aliases,
+the zsh plugin list.
+
+zsh is the daily driver; bash is kept working because the repo is
+occasionally stowed on remote servers.
+
+Two constraints on `.config/sh/rc`. It is sourced only by bash and zsh, so
+`[[ ]]` and `$'…'` are fine, but **arrays are not** — the two shells index
+them differently, and in zsh `path` is tied to `PATH`. Use the `__add_path`
+helper, which also dedupes. And it sets `XDG_CONFIG_HOME`, so the rc files
+must hardcode `$HOME/.config/sh/rc` rather than deriving the path from it.
+
+`fzf`, `starship` and `zoxide` each want the shell name as an argument; the
+file detects it once into `$__sh` so all three can be configured in one
+place.
 
 **High-churn config lives in untracked files.** Colours and fonts change often,
 so they sit in gitignored siblings — `ghostty/local`, `.vim/colors.vim` —

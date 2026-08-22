@@ -1,0 +1,159 @@
+# Configuration shared between zsh and bash.
+#
+# Sourced as the first statement of both .zshrc and .bashrc, because it
+# builds PATH and everything downstream gates on `command -v`.
+#
+# Only bash and zsh source this, so [[ ]] and $'...' are fine. Arrays are
+# NOT: bash and zsh index them differently, and in zsh `path` is tied to
+# PATH. Use __add_path instead.
+#
+# vim: foldmethod=marker ts=2 sw=2 et
+
+# {{{ shell detection
+# fzf, starship and zoxide each want the shell name as an argument; this is
+# the only reason their setup used to be duplicated per shell.
+if [ -n "$ZSH_VERSION" ]; then
+  __sh=zsh
+elif [ -n "$BASH_VERSION" ]; then
+  __sh=bash
+else
+  __sh=sh
+fi
+# End shell detection }}}
+# {{{ path
+# Prepend if the directory exists and is not already on PATH. The duplicate
+# guard matters because .zshenv sources ~/.cargo/env, which adds
+# ~/.cargo/bin before we get here.
+__add_path() {
+  case ":$PATH:" in
+    *":$1:"*) return ;;
+  esac
+  [ -d "$1" ] && PATH="$1:$PATH"
+}
+
+# Each call prepends, so the LAST call wins. Order below reproduces zsh's
+# previous precedence: ~/.local/bin, ~/dotfiles/bin, cargo, then gnubin.
+# gnu coreutils ahead of the bsd ones on macos; absent elsewhere.
+__add_path "/usr/local/opt/coreutils/libexec/gnubin" # intel
+__add_path "/opt/homebrew/opt/coreutils/libexec/gnubin" # arm
+__add_path "$HOME/.cargo/bin"
+__add_path "$HOME/.config/emacs/bin" # doom
+__add_path "$HOME/dotfiles/bin"
+__add_path "$HOME/.local/bin"
+export PATH
+# End path }}}
+# {{{ exports
+export PAGER=less
+export MANPAGER=$PAGER
+
+if command -v nvim >/dev/null 2>&1; then
+  export EDITOR=nvim
+  alias vim=nvim
+else
+  export EDITOR=vim
+fi
+
+# filename (if known), line number if known, falling back to percent if known,
+# falling back to byte offset, falling back to dash
+export LESSPROMPT='?f%f .?ltLine %lt:?pt%pt\%:?btByte %bt:-...'
+
+# i: search case insensitive
+# M: show detailed prompt
+# F: exit if output fits on one screen
+# R: ansi color support
+# X: suppress alternate screen
+export LESS=iFMRX
+
+# color in ls output without -G, works across shells
+export CLICOLOR=true
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_DATA_BIN="$HOME/.local/bin"
+
+export RIPGREP_CONFIG_PATH="$HOME/.rgrc"
+
+# color man pages.
+export LESS_TERMCAP_mb=$'\E[01;31m'
+export LESS_TERMCAP_md=$'\E[01;38;5;208m'
+export LESS_TERMCAP_me=$'\E[0m'
+export LESS_TERMCAP_se=$'\E[0m'
+export LESS_TERMCAP_ue=$'\E[0m'
+export LESS_TERMCAP_us=$'\E[04;38;5;111m'
+# End exports }}}
+# {{{ alias
+# safer defaults for cp, mv and rm; verbose output so it is obvious what
+# happened to an existing file.
+alias cp='cp -v'
+alias mv='mv -v'
+alias rm='rm -v'
+alias ln='ln -v'
+alias mkdir='mkdir -p'
+
+# F: append '/' after directory and '*' after executables
+# A: do not list '.' and '..'
+# h: with `l`, use unit suffixes for file size
+# l: list format
+alias ls='ls -FA --color'
+alias ll='ls -FAlh --color'
+
+alias rsync='rsync -azvhP'
+# End alias }}}
+# {{{ fd & bat
+# Debian derivatives ship these under different binary names, and neither is
+# guaranteed to be present. Resolve fd once into $FD so the fzf config below
+# can use it without caring, and degrade to the posix equivalents when
+# missing: bat becomes cat, fd falls back to find.
+if command -v fd >/dev/null 2>&1; then
+  FD=fd
+elif command -v fdfind >/dev/null 2>&1; then
+  FD=fdfind
+  alias fd=fdfind
+fi
+
+if command -v bat >/dev/null 2>&1; then
+  :
+elif command -v batcat >/dev/null 2>&1; then
+  alias bat=batcat
+else
+  alias bat=cat
+fi
+# End fd & bat }}}
+# {{{ fzf
+if command -v fzf >/dev/null 2>&1; then
+  eval "$(fzf --$__sh)"
+
+  if [ -n "$FD" ]; then
+    export FZF_DEFAULT_COMMAND="$FD --type f --hidden --exclude '.git'"
+    # following stolen from fzf README
+    # Use fd instead of the default find command for listing path candidates.
+    # - The first argument to the function ($1) is the base path to start traversal
+    # - See the source code (completion.{bash,zsh}) for the details.
+    _fzf_compgen_path() {
+      $FD --hidden --follow --exclude ".git" . "$1"
+    }
+
+    # Use fd to generate the list for directory completion
+    _fzf_compgen_dir() {
+      $FD --type d --hidden --follow --exclude ".git" . "$1"
+    }
+  else
+    export FZF_DEFAULT_COMMAND="find . -type f -not -path '*git*'"
+  fi
+
+  export FZF_COMPLETION_OPTS="--border --info=inline"
+  export FZF_DEFAULT_OPTS="--reverse --height=~40% --no-scrollbar --color=gutter:-1"
+fi
+# End fzf }}}
+# {{{ prompt
+# zsh falls back to the built-in walters prompt in .zshrc when starship is
+# missing; bash keeps its hand-rolled PS1.
+if command -v starship >/dev/null 2>&1; then
+  eval "$(starship init $__sh)"
+fi
+# End prompt }}}
+# {{{ zoxide
+if command -v zoxide >/dev/null 2>&1; then
+  eval "$(zoxide init $__sh)"
+  alias cd='z'
+fi
+# End zoxide }}}

@@ -1,3 +1,7 @@
+# Shared with bash. Must come first: it builds PATH, and everything below
+# gates on `command -v`.
+. "$HOME/.config/sh/rc"
+
 # {{{ history
 HISTFILE=~/.histfile
 HISTSIZE=1000
@@ -7,7 +11,18 @@ setopt HIST_VERIFY
 setopt HIST_IGNORE_DUPS
 setopt NO_HIST_IGNORE_ALL_DUPS
 # End history }}}
+# {{{ options
+setopt autocd
+unsetopt beep
+
+cdpath=($HOME)
+[[ -d "$HOME/code" ]] && cdpath+=("$HOME/code")
+[[ -d "$HOME/phd" ]] && cdpath+=("$HOME/phd")
+[[ -d "$HOME/Documents/phd" ]] && cdpath+=("$HOME/Documents/phd")
+# End options}}}
 # {{{ completion
+# NOTE: after the shared rc, so completions for anything it puts on PATH are
+# picked up.
 autoload -Uz compinit
 compinit -u
 
@@ -20,23 +35,11 @@ zstyle :compinstall filename "$HOME/.zshrc"
 # - Substring complete (ie. bar -> foobar).
 zstyle ':completion:*' matcher-list '' '+m:{[:lower:]}={[:upper:]}' '+m:{[:upper:]}={[:lower:]}' '+m:{_-}={-_}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 # end completion}}}
-# {{{ options
-setopt autocd
-unsetopt beep
-
-cdpath=($HOME)
-[[ -d "$HOME/code" ]] && cdpath+=("$HOME/code")
-[[ -d "$HOME/phd" ]] && cdpath+=("$HOME/phd")
-[[ -d "$HOME/Documents/phd" ]] && cdpath+=("$HOME/Documents/phd")
-# End options}}}
-# {{{ keybindings
-bindkey -e
-# End keybindings }}}
 # {{{ prompt
-if (( $+commands[starship] ))
+# starship is handled by the shared rc; this is the fallback when it is
+# absent, and has no bash equivalent.
+if ! (( $+commands[starship] ))
 then
-  eval "$(starship init zsh)"
-else
   autoload -Uz promptinit
   promptinit
   autoload -U colors
@@ -45,110 +48,10 @@ else
   prompt walters
 fi
 # End prompt }}}
-# {{{ exports
-export PAGER=less
-export MANPAGER=$PAGER
+# {{{ keybindings
+bindkey -e
 
-if (( $+commands[nvim] ))
-then
-  export EDITOR=nvim
-  alias vim=nvim
-else
-  export EDITOR=vim
-fi
-
-# filename (if known), line number if known, falling back to percent if known,
-# falling back to byte offset, falling back to dash
-export LESSPROMPT='?f%f .?ltLine %lt:?pt%pt\%:?btByte %bt:-...'
-
-# i: search case insensitive
-# M: show detailed prompt
-# F: exit if output fits on one screen
-# R: ansi color support
-# X: suppress alternate screen
-export LESS=iFMRX
-
-# color in ls output without -G, works across shells
-export CLICOLOR=true
-export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_DATA_HOME="$HOME/.local/share"
-export XDG_DATA_BIN="$HOME/.local/bin"
-
-export RIPGREP_CONFIG_PATH="$HOME/.rgrc"
-
-# color man pages.
-export LESS_TERMCAP_mb=$'\E[01;31m'
-export LESS_TERMCAP_md=$'\E[01;38;5;208m'
-export LESS_TERMCAP_me=$'\E[0m'
-export LESS_TERMCAP_se=$'\E[0m'
-export LESS_TERMCAP_ue=$'\E[0m'
-export LESS_TERMCAP_us=$'\E[04;38;5;111m'
-# End exports }}}
-# {{{ alias
-alias cp='cp -v'
-alias mv='mv -v'
-alias rm='rm -v'
-alias ls="ls -FA --color"
-alias ll="ls -FAlh --color"
-alias ln="ln -v"
-alias mkdir="mkdir -p"
-if (( $+commands[emacs] )); then
-  alias e="emacsclient -nw --alternate-editor '' --quiet"
-  alias E="emacsclient --alternate-editor ''  --no-wait --quiet --create-frame"
-fi
-alias grep='grep --ignore-case --line-number --extended-regexp --color'
-alias rgrep='grep --ignore-case --line-number --extended-regexp --color --exclude-dir ".git" --recursive'
-alias rsync='rsync -azvhP'
-
-alias -s pdf=o
-alias -s html=o
-
-if [[ "$TERM" =~ 'kitty' ]]; then
-  alias ssh='kitty +kitten ssh'
-fi
-
-if (( $+commands[docker] ))
-then
-  alias drun='docker run -it --rm --v "$(pwd):/app"'
-fi
-# End alias }}}
-# {{{ path
-paths=(
-  "/usr/local/opt/coreutils/libexec/gnubin" # intel
-  "/opt/homebrew/opt/coreutils/libexec/gnubin" # arm
-  "$HOME/dotfiles/bin"
-  "$HOME/.local/bin"
-)
-
-for p in $paths
-do
-  [[ -d $p ]] && path=($p $path)
-done
-
-# End path }}}
-# {{{ fd & bat
-# Debian derivatives ship these under different binary names, and neither is
-# guaranteed to be present. Resolve fd once into $FD so the fzf config below
-# can use it without caring, and degrade to the posix equivalents when
-# missing: bat becomes cat, fd falls back to find.
-if (( $+commands[fd] )); then
-  FD=fd
-elif (( $+commands[fdfind] )); then
-  FD=fdfind
-  alias fd=fdfind
-fi
-
-if (( $+commands[bat] )); then
-  :
-elif (( $+commands[batcat] )); then
-  alias bat=batcat
-else
-  alias bat=cat
-fi
-# End fd & bat }}}
-# {{{ plugins
-
-# NOTE: must come before zsh-history-substring-search & zsh-syntax-highlighting.
+# NOTE: must come before zsh-syntax-highlighting.
 autoload -U select-word-style
 select-word-style bash # only alphanumeric chars are considered WORDCHARS
 
@@ -159,43 +62,31 @@ bindkey ' ' magic-space # do history expansion on space
 bindkey "^r" history-incremental-pattern-search-backward
 bindkey "^s" history-incremental-pattern-search-forward
 
-# Mac-like wordwise movement (Opt/Super plus left/right) in Kitty.
+# Wordwise movement with Opt/Ctrl plus left/right.
 bindkey "^[[1;3C" forward-word # For macOS.
 bindkey "^[[1;3D" backward-word # For macOS.
 bindkey "^[[1;5C" forward-word # For Arch.
 bindkey "^[[1;5D" backward-word # For Arch.
+# End keybindings }}}
+# {{{ alias
+# Suffix aliases have no bash equivalent, so they stay here.
+alias -s pdf=o
+alias -s html=o
 
-if (( $+commands[fzf] ))
-then
-  source <(fzf --zsh)
-  if [[ -n "$FD" ]]; then
-    export FZF_DEFAULT_COMMAND="$FD --type f --hidden --exclude '.git'"
-    # following stolen from fzf README
-    # Use fd instead of the default find command for listing path candidates.
-    # - The first argument to the function ($1) is the base path to start traversal
-    # - See the source code (completion.{bash,zsh}) for the details.
-    _fzf_compgen_path() {
-      $FD --hidden --follow --exclude ".git" . "$1"
-    }
+alias grep='grep --ignore-case --line-number --extended-regexp --color'
+alias rgrep='grep --ignore-case --line-number --extended-regexp --color --exclude-dir ".git" --recursive'
 
-    # Use fd to generate the list for directory completion
-    _fzf_compgen_dir() {
-      $FD --type d --hidden --follow --exclude ".git" . "$1"
-    }
-  else
-    export FZF_DEFAULT_COMMAND="find . -type f -not -path '*git*'"
-  fi
-
-  export FZF_COMPLETION_OPTS="--border --info=inline"
-  export FZF_DEFAULT_OPTS="--reverse --height=~40% --no-scrollbar --color=gutter:-1"
+if (( $+commands[emacs] )); then
+  alias e="emacsclient -nw --alternate-editor '' --quiet"
+  alias E="emacsclient --alternate-editor ''  --no-wait --quiet --create-frame"
 fi
 
-if (( $+commands[zoxide]))
+if (( $+commands[docker] ))
 then
-  eval "$(zoxide init zsh)"
-  alias cd='z'
+  alias drun='docker run -it --rm --v "$(pwd):/app"'
 fi
-
+# End alias }}}
+# {{{ plugins
 plugins=(
   "/opt/homebrew/opt/zsh-fast-syntax-highlighting/share/zsh-fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
   "/opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
@@ -204,8 +95,6 @@ plugins=(
   # hence autosuggestions first.
   "/usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
   "/usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-  # don't need this one anymore since I use fzf
-  # "/opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh"
 )
 
 for plugin in $plugins
