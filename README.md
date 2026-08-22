@@ -92,19 +92,35 @@ using Homebrew Cask.
 # Installation
 
 I use [stow] to symlink the configuration files in their respective
-locations. The directory structure of this repo mimics that of $HOME
-such that files & folder in this repo will be mapped 1:1 under $HOME
-for instance:
+locations. `files/` holds three stow packages, and `make stow` installs
+`common` plus the one matching the current platform:
 
-    .
-    ├── .config	     ~> $HOME/.config
-    ├── .git
-    ├── .hammerspoon ~> $HOME/.hammerspoon
-    ├── .local	     ~> $HOME/.local
-    ├── .vim	     ~> $HOME/.vim
-    └── bin
+    files/
+    ├── common  always stowed
+    ├── macos   stowed on Darwin
+    └── linux   stowed everywhere else
 
-    6 directories
+Within a package the directory structure mimics that of $HOME, so files
+& folders map 1:1 under $HOME:
+
+    files/common/
+    ├── .config     ~> $HOME/.config
+    ├── .local      ~> $HOME/.local
+    ├── .vim        ~> $HOME/.vim
+    └── .zshrc      ~> $HOME/.zshrc
+
+`macos` holds the things that only exist there: hammerspoon, aerospace,
+and the terminal emulator configs (kitty, ghostty, alacritty) along with
+their font settings. Under WSL2 the terminal is a Windows-side
+application, so none of those apply.
+
+Stow folds the packages together, so `common` and `macos` can both
+contribute files to a shared directory such as `~/.vim`.
+
+    make stow      # symlink common + $platform
+    make restow    # after adding or moving files
+    make delete    # remove the symlinks
+    make simulate  # dry run
 
 [stow]: https://www.gnu.org/software/stow/
 

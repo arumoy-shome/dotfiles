@@ -1,0 +1,3 @@
+# Linux-only configuration. Nothing lives here yet: the WSL2 handling is
+# all feature detection inside the common package. This file keeps the
+# (otherwise empty) package tracked in git; stow never installs it.

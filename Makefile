@@ -1,3 +1,13 @@
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S),Darwin)
+  PLATFORM := macos
+else
+  PLATFORM := linux
+endif
+
+STOW := stow -v --adopt --dir=files --target=${HOME}
+PACKAGES := common $(PLATFORM)
+
 install-core:
 	brew install git zsh stow make fd ripgrep fzf pandoc tldr tmux tree coreutils aspell vim neovim universal-ctags
 
@@ -18,23 +28,22 @@ install-markdown:
 	brew install marksman
 
 stow:
-	stow -v --adopt --dir=files --target=${HOME} -S .
+	$(STOW) -S $(PACKAGES)
 
 restow:
-	stow -v --adopt --dir=files --target=${HOME} -R .
+	$(STOW) -R $(PACKAGES)
 
 delete:
-	stow -v --adopt --dir=files --target=${HOME} -D .
+	$(STOW) -D $(PACKAGES)
 
 simulate:
-	stow --no --adopt -v --dir=files --target=${HOME} -S .
+	$(STOW) --no -S $(PACKAGES)
 
 llm-system-prompt:
-	llm -s "$(shell cat files/.local/share/llm/git-commit.txt)" --save git-commit
-	llm -s "$(shell cat files/.local/share/llm/git.txt)" --save git
-	llm -s "$(shell cat files/.local/share/llm/prompting.txt)" --save prompting
-	llm -s "$(shell cat files/.local/share/llm/python.txt)" --save python
-	llm -s "$(shell cat files/.local/share/llm/social.txt)" --save social
+	llm -s "$(shell cat files/common/.local/share/llm/git-commit.txt)" --save git-commit
+	llm -s "$(shell cat files/common/.local/share/llm/git.txt)" --save git
+	llm -s "$(shell cat files/common/.local/share/llm/prompting.txt)" --save prompting
+	llm -s "$(shell cat files/common/.local/share/llm/python.txt)" --save python
 
 all:
 	stow
