@@ -4,7 +4,6 @@
 [github]
   user = arumoy-shome
 [init]
-  templatedir = ~/.config/git/template
   defaultBranch = master
 [push]
   default = upstream
@@ -26,7 +25,6 @@
   car = commit --amend --no-edit
   unstage = reset
   squash = rebase -i
-  ctags = !.git/hooks/ctags
   sidediff = difftool --no-symlinks --dir-diff
 [core]
   excludesfile = ~/.config/git/ignore

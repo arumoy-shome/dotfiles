@@ -102,7 +102,6 @@ alias rsync='rsync -azvhP'
 
 alias -s pdf=o
 alias -s html=o
-alias -s md='glow --pager --width 70'
 
 if [[ "$TERM" =~ 'kitty' ]]; then
   alias ssh='kitty +kitten ssh'
@@ -115,7 +114,6 @@ fi
 # End alias }}}
 # {{{ path
 paths=(
-  "$HOME/.emacs.d/bin"
   "/usr/local/opt/coreutils/libexec/gnubin" # intel
   "/opt/homebrew/opt/coreutils/libexec/gnubin" # arm
   "$HOME/dotfiles/bin"

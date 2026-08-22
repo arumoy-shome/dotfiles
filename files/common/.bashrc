@@ -27,11 +27,6 @@ else
   export EDITOR=vim
 fi
 
-if [[ -x "$(command -v tectonic)" ]]
-then
-  alias tectonic="tectonic -X" # always use the V2 API
-fi
-
 export PAGER=less
 # filename (if known), line number if known, falling back to percent if known,
 # falling back to byte offset, falling back to dash
