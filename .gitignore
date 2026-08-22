@@ -2,6 +2,4 @@
 .luarc.json
 files/common/.vim/.netrwhist
 files/common/.vim/colors.vim
-files/common/.vim/pack
-files/common/.vim/plugged
 /files/macos/.config/ghostty/local

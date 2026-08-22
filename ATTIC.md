@@ -33,6 +33,10 @@ no `^` arithmetic is needed. To see it before restoring:
 | `.local/share/llm/` + `make llm-system-prompt` | `llm` not installed; nothing else read the prompts | `045b3d4` |
 | `.vim/spell/en.utf-8.add` | topically stale — vimwiki, zettel, hadoop | `c7f8a56` |
 | `make install-markdown` | glow (a formula, not a cask) and marksman; neither installed | `e9ca427` |
+| `.vim/autoload/plug.vim` + all 24 `Plug` lines | vim is the fallback behind nvim, so a config needing `:PlugInstall` and a network isn't a fallback. plug.vim alone was 2,812 of the vim tree's 3,124 lines. `comment`, `editorconfig`, `matchit` and `netrw` are bundled with vim 9.1; `vim-markdown` and `vim-git` are tpope's files upstreamed into `$VIMRUNTIME` | `cf0f7e6` |
+| `.vim/after/plugin/abolish.vim` | 28 `Abolish` lines needing vim-abolish; the one plugin-free line, `cabbrev grpe grep`, moved into the vimrc | `cf0f7e6` |
+| `files/macos/.vim/gvimrc` | MacVim not installed, and its `color macvim` resolves only inside MacVim. Emptied `files/macos/.vim/` | `cf0f7e6` |
+| `aru#highlight_overrides()` in `.vim/autoload/aru.vim` | called `pinnacle#italicize`; went with the plugins | `cf0f7e6` |
 
 ## Earlier removals, before this file existed
 

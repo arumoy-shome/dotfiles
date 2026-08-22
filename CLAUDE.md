@@ -32,16 +32,16 @@ matching `uname -s`:
 | package | when            | holds                                              |
 |---------|-----------------|----------------------------------------------------|
 | common  | always          | shells, vim, tmux, git, and the CLI tool configs   |
-| macos   | Darwin          | ghostty, gvimrc                                    |
+| macos   | Darwin          | ghostty                                            |
 | linux   | everything else | nothing yet                                        |
 
 Inside a package the tree mirrors `$HOME`, so `files/common/.config/git/config`
 lands at `~/.config/git/config`.
 
 Stow *folds* packages together, so two packages can contribute to one
-directory — `~/.vim` gets `vimrc` from `common` and `gvimrc` from `macos`.
-Keep this in mind when moving a file between packages: the `$HOME` destination
-does not change, only which platform receives it.
+directory — `~/.config` gets git, sh and the rest from `common` and `ghostty`
+from `macos`. Keep this in mind when moving a file between packages: the
+`$HOME` destination does not change, only which platform receives it.
 
 `files/linux/.stow-local-ignore` is a placeholder that keeps the otherwise
 empty package tracked in git. Stow never installs `.stow-local-ignore`, so
@@ -67,6 +67,17 @@ and `batcat`; the shells alias them back rather than creating symlinks in
 `~/.local/bin`. `fd` is additionally resolved into `$FD` because
 `FZF_DEFAULT_COMMAND` is executed by fzf via `sh -c`, where aliases do not
 apply.
+
+**vim is a zero-plugin fallback.** nvim is the daily driver and `vim` is
+aliased to it, so `files/common/.vim/vimrc` is only reached as `vi` or
+`\vim` — usually on a machine where nothing has been set up. It therefore has
+no plugins and no plugin manager, and must stay that way: a config that needs
+`:PlugInstall` and a network connection is not a fallback. Reach for a
+`packadd` of something bundled with vim 9.1 instead —
+`comment`, `editorconfig`, `matchit`, `netrw`, `cfilter`, `hlyank` and
+`nohlsearch` are already in use, and `:h standard-plugin-list` has the rest.
+Note `netrw` is an *opt* package in 9.1: without its `packadd` there is no
+`:Explore` at all.
 
 **Shared shell config lives in `.config/sh/rc`.** Both `.zshrc` and
 `.bashrc` source it as their first statement, because it builds `PATH` and

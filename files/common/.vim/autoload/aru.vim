@@ -23,9 +23,3 @@ function! aru#statusline_fenc() abort
     return ''
   endif
 endfunction
-
-function! aru#highlight_overrides() abort
-  execute 'highlight Comment ' .. pinnacle#italicize('Comment')
-  " TODO make folds italic & bold
-  " execute 'highlight Folded' pinnacle#decorate('Folded', ['bold', 'italic'])
-endfunction

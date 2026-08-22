@@ -1,4 +1,24 @@
-" settings {{{
+" This is the fallback editor. nvim is the daily driver and `vim` is aliased
+" to it, so this config is only reached as `vi` or `\vim` — usually on a box
+" where nothing has been installed. It therefore has no plugins and no plugin
+" manager: everything below ships with vim itself.
+
+" defaults {{{1
+" Sourced first so every setting below wins. See :h defaults.vim
+unlet! skip_defaults_vim
+source $VIMRUNTIME/defaults.vim
+" }}}
+" packages {{{1
+" Bundled with vim 9.1; these replace what used to be plugins.
+packadd comment       " gc / gcc / gC, plus the ic / ac text objects
+packadd editorconfig  " honours ~/.editorconfig
+packadd matchit       " % across if/endif, tags, quotes
+packadd netrw         " no longer loaded by default in 9.1
+packadd cfilter       " :Cfilter / :Lfilter to narrow the quickfix list
+packadd hlyank        " brief highlight on yank, as in nvim
+packadd nohlsearch    " drops search highlight once idle or on insert
+" }}}
+" settings {{{1
 set laststatus=2
 
 set number
@@ -23,221 +43,99 @@ set autoindent
 set autowrite
 set autoread
 
-" XXX see :h fo-table for more details
-" I prefer to wrap the text automatically, but not comments
-set formatoptions=t
-set formatoptions+=r
-set formatoptions+=o
-set formatoptions+=/
-set formatoptions+=q
-set formatoptions+=n
-set formatoptions+=l
-set formatoptions+=1
-set formatoptions+=j
-" set textwidth=70
+" nohlsearch clears the highlight on CursorHold; the 4s default is too slow
+" to feel like anything happened.
+set updatetime=500
 
-" XXX see :help sortmess for more info
-set shortmess=a " short for shortmess=filmnrwx
-set shortmess+=o
-set shortmess+=O
-set shortmess+=s
-set shortmess+=t
-set shortmess+=T
-set shortmess+=W
-set shortmess+=I
+" XXX see :h fo-table for more details
+" Continue comment leaders and format lists, but never auto-wrap.
+set formatoptions=roq/nl1j
+
+" XXX see :help shortmess for more info
+set shortmess=aoOstTWI
 
 set wildmenu
-if has('popupwin')
-  set wildoptions=pum
-endif
-set wildmode=longest:full
-set wildmode+=full
+set wildoptions=pum
+set wildmode=longest:full,full
+set wildignore+=*/.git/*,*/node_modules/*,*/__pycache__/*,*.pyc
+
+" :find searches the whole tree, standing in for a fuzzy finder. Drop the **
+" if this ever feels slow in a large repo.
+set path=.,,**
 
 set list
-set listchars=nbsp:⦸
-set listchars+=extends:»
-set listchars+=precedes:«
-set listchars+=tab:▷⋯
-set listchars+=trail:•
+set listchars=nbsp:⦸,extends:»,precedes:«,tab:▷⋯,trail:•
 
-set fillchars=diff:∙
-set fillchars+=fold:∙
-set fillchars+=eob: 
-set fillchars+=vert:┃
+set fillchars=diff:∙,fold:∙,eob:\ ,vert:┃
 
 set spelllang=en,nl
 
 " start unfolded
 set foldlevelstart=99
-" end settings }}}
-" autocommands {{{
-function! AruWindowAutocmds() abort
-  augroup AruWindow
-    autocmd!
-    autocmd VimResized * wincmd =
-  augroup END
-endfunction
-call AruWindowAutocmds()
 
-function! AruHelptagsAutocmds() abort
-  augroup AruHelptags
-    autocmd!
-    autocmd VimEnter * helptags ALL
-  augroup END
-endfunction
-call AruHelptagsAutocmds()
-
-" end autocommands }}}
-" keybindings {{{
+" Baseline indentation. The editorconfig package overrides these per buffer
+" wherever an .editorconfig applies.
+set expandtab
+set tabstop=2
+set shiftwidth=2
+set smarttab
+" }}}
+" netrw {{{1
+let g:netrw_banner = 0
+" }}}
+" keybindings {{{1
 let mapleader = "\<Space>"
-nmap <leader>so :source $MYVIMRC<cr>
-" nmap j gj
-" nmap k gk
-if v:count == 0
-  nmap j gj
-  nmap k gk
-endif
-nmap <leader>q :quit<cr>
-nmap <esc> :noh<cr>
+nnoremap <leader>so :source $MYVIMRC<cr>
+nnoremap <leader>q :quit<cr>
 
-" end keybindings }}}
-" ftplugin {{{
-function! AruFiletypePlugins() abort
-  augroup AruFiletypePlugins
-    autocmd!
-    autocmd FileType gitcommit setlocal spell
-    autocmd FileType man,help let b:EditorConfig_disable = 1
-    autocmd FileType quarto setlocal filetype=markdown.quarto
-    autocmd FileType qf,help,git,fugitive nmap <buffer> q :close<CR>
-    autocmd FileType qf,fugitive setlocal nonumber norelativenumber
-  augroup END
-endfunction
-call AruFiletypePlugins()
-" end ftplugin }}}
+" Move by display line, but only when no count is given, so 5j still lands
+" five real lines down.
+nnoremap <expr> j v:count ? 'j' : 'gj'
+nnoremap <expr> k v:count ? 'k' : 'gk'
+xnoremap <expr> j v:count ? 'j' : 'gj'
+xnoremap <expr> k v:count ? 'k' : 'gk'
+
+" Open netrw on the containing directory.
+nnoremap - :Explore<cr>
+
+" These end in a space rather than <cr>: they open a prompt and lean on
+" wildmenu to complete, which is the native stand-in for a fuzzy finder.
+nnoremap <leader>sf :find<space>
+nnoremap <leader><leader> :buffer<space>
+nnoremap <leader>sh :help<space>
+nnoremap <leader>/ :g//#<left><left>
+
+cabbrev grpe grep
+" }}}
+" autocommands {{{1
+augroup AruWindow
+  autocmd!
+  autocmd VimResized * wincmd =
+augroup END
+
+augroup AruFiletypePlugins
+  autocmd!
+  autocmd FileType gitcommit setlocal spell
+  autocmd FileType man,help let b:EditorConfig_disable = 1
+  autocmd FileType qf,help,git nnoremap <buffer> q :close<cr>
+  autocmd FileType qf setlocal nonumber norelativenumber
+augroup END
+" }}}
 " statusline {{{1
-set statusline=\ 
-set statusline+=%<
-set statusline+=%{aru#statusline_fileprefix()}
-set statusline+=%t
-set statusline+=\ 
-set statusline+=%([%{aru#statusline_ft()}%{aru#statusline_fenc()}%R%M]%)
-set statusline+=%=
-set statusline+=\ 
-set statusline+=%l:%L:%P
-set statusline+=\ 
+" One quoted assignment rather than a stack of `set statusline+=\ ` lines: the
+" padding spaces are significant, and trailing whitespace does not survive
+" every editor.
+let &statusline = ' %<%{aru#statusline_fileprefix()}%t'
+      \ .. ' %([%{aru#statusline_ft()}%{aru#statusline_fenc()}%R%M]%)'
+      \ .. '%= %l:%L:%P '
 " }}}
-" spacing {{{1
-if v:version > 900
-  packadd editorconfig
-else
-  set expandtab
-  set tabstop=2
-  set shiftwidth=2
-  set smarttab
-endif
-" }}}
-" packages {{{1
-if v:version > 900
-  packadd matchit
-endif
-" vim-plug {{{2
-" XXX Use single quotes as per vim-plug README
-call plug#begin()
-Plug 'tpope/vim-eunuch'
-Plug 'tpope/vim-obsession'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-endwise'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-apathy'
-Plug 'tpope/vim-git'
-Plug 'tpope/vim-unimpaired'
-Plug 'tpope/vim-dispatch'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-markdown'
-Plug 'tpope/vim-abolish'
-Plug 'tpope/vim-vinegar'
-Plug 'tpope/vim-projectionist'
-Plug 'tpope/vim-rsi'
-Plug 'tpope/vim-sleuth'
-if v:version > 900
-  packadd comment
-else
-  Plug 'tpope/vim-commentary'
-endif
-if !has("nvim")
-  if v:version > 800
-    " see :h defaults.vim for more details
-    unlet! skip_default_vim
-    source $VIMRUNTIME/defaults.vim
-  else
-    Plug 'tpope/vim-sensible'
-  endif
-
-  Plug 'wincent/terminus'
-endif
-Plug 'wincent/loupe'
-Plug 'wincent/ferret'
-Plug 'wincent/pinnacle'
-Plug 'junegunn/vim-easy-align'
-if isdirectory('/opt/homebrew/opt/fzf')
-  Plug '/opt/homebrew/opt/fzf'
-elseif isdirectory('/usr/share/doc/fzf/examples/plugin')
-  " debian ships the vim plugin under the examples dir
-  Plug '/usr/share/doc/fzf/examples'
-else
-  " fzf does not exist on the device so install it
-  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-endif
-Plug 'junegunn/fzf.vim'
-Plug 'lervag/vimtex'
-Plug 'jpalardy/vim-slime'
-call plug#end()
-" end vim-plug}}}
-" vimtex {{{2
-let g:vimtex_fold_enabled = 1 " turn on folding in tex files
-let g:vimtex_bib_fold_enabled = 1 " turn on folding in bib files
-" end vimtex}}}
-" fzf {{{2
-nmap <leader>sf :Files<cr>
-nmap <leader><leader> :Buffers<cr>
-nmap <leader>sh :Helptags<cr>
-nmap <leader>/ :BLines<cr>
-nmap <leader>. :BTags<cr>
-
-" NOTE: stolen from fzf.vim README
-" Preview window is hidden by default. You can toggle it with ctrl-/.
-" It will show on the right with 50% width, but if the width is smaller
-" than 70 columns, it will show above the candidate list
-let g:fzf_vim = {}
-let g:fzf_vim.preview_window = []
-" end fzf}}}
-" markdown {{{2
-let g:markdown_folding = 1
-let g:markdown_fenced_languages = ["python", "sh", "bash"]
-" end markdown}}}
-" ferret {{{2
-let g:FerretMap = 0 " do not create keybindings
-" end ferret }}}
-" vim-easy-align {{{2
-vmap <Enter> <Plug>(EasyAlign)
-nmap ga <Plug>(EasyAlign)
-" end vim-easy-align }}}
-" vim-slime {{{2
-let g:slime_target = 'tmux'
-let g:slime_bracketed_paste = 1
-" end vim-slime}}}
-" end pack }}}
 " highlights {{{1
 if has('termguicolors')
   set termguicolors
 endif
-function! AruHighlights() abort
-  augroup AruHighlights
-    autocmd!
-    autocmd VimEnter,ColorScheme * call aru#highlight_overrides()
-  augroup END
-endfunction
-call AruHighlights()
-" end highlights }}}
+
+" High-churn colours live in an untracked sibling; absent is fine.
+silent! source ~/.vim/colors.vim
+" }}}
 
 " vim:foldmethod=marker foldlevelstart=99

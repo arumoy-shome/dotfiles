@@ -40,7 +40,10 @@ config aliases them back rather than relying on symlinks in
 on Ubuntu.
 
 + git: my preferred vcs
-+ vim: editor of choice
++ vim: fallback editor. neovim is the daily driver and `vim` is aliased
+  to it, so this config is only reached as `vi` or `\vim`. It is
+  deliberately plugin-free and leans on the packages bundled with vim
+  9.1, so it is useful the moment it is stowed
 + zsh: preferred shell of choice
 + bash: backup shell; I keep the config around for remote servers
 + pandoc: file format conversion cli; plays a cental role in my
@@ -48,7 +51,7 @@ on Ubuntu.
 + stow: symlink management cli; required to manage files in this repo
 + starship: cross-shell prompt; I additionally remove all the emojis
   and make it look like the pure prompt (optional)
-+ fzf: general purpose fuzzy finder; I also use it within vim (optional)
++ fzf: general purpose fuzzy finder (optional)
 + ripgrep: user-friendly alternative to grep; although I choose grep
   most of the time for its portability (optional)
 + fd: user-friendly alternative to find; this one I use more
@@ -95,11 +98,11 @@ Within a package the directory structure mimics that of $HOME, so files
     └── .zshrc      ~> $HOME/.zshrc
 
 `macos` holds the things that only exist there: the ghostty config
-along with its font settings, and gvimrc. Under WSL2 the terminal is a
-Windows-side application, so neither applies.
+along with its font settings. Under WSL2 the terminal is a
+Windows-side application, so it does not apply.
 
 Stow folds the packages together, so `common` and `macos` can both
-contribute files to a shared directory such as `~/.vim`.
+contribute files to a shared directory such as `~/.config`.
 
     make stow      # symlink common + $platform
     make restow    # after adding or moving files
