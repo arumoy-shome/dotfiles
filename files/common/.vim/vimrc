@@ -236,11 +236,6 @@ function! AruHighlights() abort
     autocmd!
     autocmd VimEnter,ColorScheme * call aru#highlight_overrides()
   augroup END
-
-  augroup AruColors
-    autocmd!
-    autocmd FocusGained,VimEnter * call aru#update_colors()
-  augroup END
 endfunction
 call AruHighlights()
 " end highlights }}}

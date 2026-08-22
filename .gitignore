@@ -4,7 +4,4 @@ files/common/.vim/.netrwhist
 files/common/.vim/colors.vim
 files/common/.vim/pack
 files/common/.vim/plugged
-/files/macos/.config/kitty/font.conf
-/files/macos/.config/kitty/dark-theme.auto.conf
-/files/macos/.config/kitty/local.conf
 /files/macos/.config/ghostty/local

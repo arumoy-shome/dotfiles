@@ -32,7 +32,7 @@ matching `uname -s`:
 | package | when            | holds                                              |
 |---------|-----------------|----------------------------------------------------|
 | common  | always          | shells, vim, tmux, git, and the CLI tool configs   |
-| macos   | Darwin          | hammerspoon, aerospace, kitty/ghostty/alacritty    |
+| macos   | Darwin          | hammerspoon, aerospace, ghostty                    |
 | linux   | everything else | nothing yet                                        |
 
 Inside a package the tree mirrors `$HOME`, so `files/common/.config/git/config`
@@ -74,8 +74,8 @@ A change to one usually needs the same change in the other, in that shell's
 idiom.
 
 **High-churn config lives in untracked files.** Colours and fonts change often,
-so they sit in gitignored siblings — `kitty/local.conf`, `ghostty/local`,
-`.vim/colors.vim` — plus the `~/.zshrc.local` / `~/.bashrc.local` escape
+so they sit in gitignored siblings — `ghostty/local`, `.vim/colors.vim` —
+plus the `~/.zshrc.local` / `~/.bashrc.local` escape
 hatches sourced at the end of each rc file. Put machine-specific settings
 there, not in the tracked files.
 
@@ -90,21 +90,11 @@ Because of this, verify shell edits by running the real thing:
 harmless `can't change option: zle` warnings from fzf's init under a non-tty;
 they are pre-existing and not a regression.
 
-## Theme switching
-
-`bin/yob` is the light/dark toggle and spans three components: it flips the
-`~/.config/kitty/current-theme.conf` symlink, live-reloads kitty via
-`kitten @ set-colors`, and writes `light`/`dark` to
-`~/.local/share/yob/background`. Vim reads that file in `aru#update_colors()`
-(`files/common/.vim/autoload/aru.vim`) on `FocusGained`/`VimEnter` to pick its
-colorscheme. Changing the file's location or contents breaks the vim side
-silently.
-
 ## Platform notes
 
 Ubuntu support targets WSL2, where the terminal emulator is a Windows-side
-application — that is why kitty, ghostty, and alacritty (and all font
-settings) live in the `macos` package. There is no display server, so vim's
+application — that is why ghostty (and all font settings) lives in the
+`macos` package. There is no display server, so vim's
 `clipboard=unnamedplus` cannot reach the Windows clipboard on its own; that
 gap is unresolved and needs OSC52 or `win32yank.exe`.
 
