@@ -100,8 +100,8 @@ alias grep='grep --ignore-case --line-number --extended-regexp --color'
 alias rgrep='grep --ignore-case --line-number --extended-regexp --color --exclude-dir ".git" --recursive'
 alias rsync='rsync -azvhP'
 
-alias -s pdf='open -a "PDF Expert.app"'
-alias -s html='open -a "Firefox.app"'
+alias -s pdf=o
+alias -s html=o
 alias -s md='glow --pager --width 70'
 
 if [[ "$TERM" =~ 'kitty' ]]; then

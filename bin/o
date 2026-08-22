@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+# o: open a file with the system handler
+#
+# wslview comes from the wslu package and translates linux paths for the
+# windows side; without it we fall through to xdg-open, which needs a
+# display server.
+
+if [[ "$OSTYPE" == darwin* ]]
+then
+  exec open "$@"
+elif [[ -x "$(command -v wslview)" ]]
+then
+  exec wslview "$@"
+else
+  exec xdg-open "$@"
+fi
