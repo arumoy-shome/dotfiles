@@ -17,7 +17,6 @@ no `^` arithmetic is needed. To see it before restoring:
 | `bin/yob` | light/dark toggle for kitty; guarded on `$TERM` matching kitty so it refused to run at all | `92445a1` |
 | `aru#update_colors()` in `.vim/autoload/aru.vim` | read the light/dark hint `yob` wrote; pinned vim to `darkblue` once that file went stale | `92445a1` |
 | `files/macos/.aerospace.toml` | uninstalled weeks after being added; was the stock upstream config verbatim | `ebdefa4` |
-| `files/macos/.hammerspoon/` | app still installed, but the config launched Kitty, Firefox and Emacs, none of which are on this machine | `ebdefa4` |
 | `files/common/.config/helix/` | not installed | `e9ca427` |
 | `files/common/.config/gitui/` | not installed; superseded by lazygit | `e9ca427` |
 | `files/common/.config/marksman/` | not installed | `e9ca427` |

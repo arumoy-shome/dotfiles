@@ -17,7 +17,7 @@ endif
 
 # GUI applications; macos only.
 install-cask:
-	brew install --cask karabiner-elements pdf-expert font-sauce-code-pro-nerd-font spotify transmission vlc
+	brew install --cask karabiner-elements pdf-expert font-sauce-code-pro-nerd-font spotify transmission hammerspoon vlc
 
 install-python:
 	brew install ruff python-language-server
