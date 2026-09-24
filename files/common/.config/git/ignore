@@ -41,7 +41,6 @@ GSYMS
 .vscode/
 *.code-workspace
 .history/
-.devcontainer/
 
 # direnv
 .direnv/
